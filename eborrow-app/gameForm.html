@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="de">
+
+<head>
+    <meta charset="UTF-8" />
+    <title>E-Borrow</title>
+    <link rel="stylesheet" href="gamestyle.css" </head>
+
+<body>
+    <header>
+        <div id="headerBar">
+            <img src="images/logo.png" height="50" width="50">
+            <nav id="navBar">
+                <a href="homepage.html"> Home</a>
+                <a href="#">Neues Spiel anlegen</a>
+                <a href="profil.html">Profil</a>
+                <a href="logout.html">Ausloggen</a>
+            </nav>
+        </div>
+    </header>
+    <main id="mainContainer">
+        <h1 id="headline">Spiel anlegen</h1>
+        <form id="gameForm">
+            <label for="title">Spieletitel</label>
+            <input id="title" type="text" name="title">
+            <label for="licence">Anzahl verfügbarer Lizenzen</label>
+            <select name="licence" id="licence">
+                <option value="1">1</option>
+                <option value="2">2</option>
+                <option value="3">3</option>
+                <option value="4">4</option>
+                <option value="5">5</option>
+            </select>
+            <label for="description">Beschreibung</label>
+            <textarea id="description" type="text" name="description"></textarea>
+            <label for="genre">Genre</label>
+            <input id="genre" type="text" name="genre">
+            <label for="publication">Veröffentlichung</label>
+            <input id="publication" type="date" name="publication">
+            <label for="developer">Entwickler</label>
+            <input id="developer" type="text" name="developer">
+            <label for="publisher">Publisher</label>
+            <input id="publisher" type="text" name="publisher">
+            <label for="age">Altersbeschränkung</label>
+            <select name="age" id="age">
+                <option value="0">0</option>
+                <option value="6">6</option>
+                <option value="12">12</option>
+                <option value="16">16</option>
+                <option value="18">18</option>
+            </select>
+            <label for="file">Bild hochladen</label>
+            <input id="file" type="file" name="file" accept="image/*">
+            <input id="submit" type="submit" value="Neues Spiel anlegen">
+        </form>
+    </main>
+</body>
+
+</html>
