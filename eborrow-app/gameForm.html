@@ -22,9 +22,9 @@
         <h1 id="headline">Spiel anlegen</h1>
         <form id="gameForm">
             <label for="title">Spieletitel</label>
-            <input id="title" type="text" name="title">
+            <input id="title" type="text" name="title" required>
             <label for="licence">Anzahl verfügbarer Lizenzen</label>
-            <select name="licence" id="licence">
+            <select name="licence" id="licence" required>
                 <option value="1">1</option>
                 <option value="2">2</option>
                 <option value="3">3</option>
@@ -32,17 +32,17 @@
                 <option value="5">5</option>
             </select>
             <label for="description">Beschreibung</label>
-            <textarea id="description" type="text" name="description"></textarea>
+            <textarea id="description" type="text" name="description" required></textarea>
             <label for="genre">Genre</label>
-            <input id="genre" type="text" name="genre">
+            <input id="genre" type="text" name="genre" required>
             <label for="publication">Veröffentlichung</label>
-            <input id="publication" type="date" name="publication">
+            <input id="publication" type="date" name="publication" required>
             <label for="developer">Entwickler</label>
-            <input id="developer" type="text" name="developer">
+            <input id="developer" type="text" name="developer" required>
             <label for="publisher">Publisher</label>
-            <input id="publisher" type="text" name="publisher">
+            <input id="publisher" type="text" name="publisher" required>
             <label for="age">Altersbeschränkung</label>
-            <select name="age" id="age">
+            <select name="age" id="age" required>
                 <option value="0">0</option>
                 <option value="6">6</option>
                 <option value="12">12</option>
