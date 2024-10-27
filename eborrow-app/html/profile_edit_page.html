@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="de">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Profil</title>
+    <link rel="stylesheet" href="../css/profile_edit_page.css">
+</head>
+
+<body>
+    <header>
+        <img class="logo" src="../images/logo.svg" alt="logo">
+        <nav class="navigation">
+            <ul class="nav-links">
+                <li><a href="#">Home</a></li>
+                <li><a href="#">Formular</a></li>
+                <li><a href="#">Profil</a></li>
+                <li><a href="#">Logout</a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        <div class="register-container">
+            <form class="register-form flex-col" action="#" method="post">
+                <fieldset>
+                    <legend>Persönliche Daten</legend>
+                    <div class="form-input">
+                        <label for="surname">Name</label>
+                        <input type="text" id="surname" name="surname">
+                    </div>
+                    <div class="form-input">
+                        <label for="prename">Vorname</label>
+                        <input type="text" id="prename" name="prename">
+                    </div>
+                    <div class="form-input">
+                        <label for="birthday">Geburtsdatum</label>
+                        <input type="date" id="birthday" name="birthday" value="2000-01-01">
+                        <div class="form-input">
+                            <label for="email">E-Mail Adresse</label>
+                            <input type="email" id="email" name="email">
+                        </div>
+                    </div>
+                </fieldset>
+                <fieldset>
+                    <legend>Anmeldeinformationen</legend>
+                    <div class="form-input">
+                        <label for="username">Benutzername</label>
+                        <input type="text" id="username" name="username">
+                    </div>
+                    <div class="form-input">
+                        <label for="password">Passwort</label>
+                        <input type="password" id="password" name="password">
+                    </div>
+                    <div class="form-input">
+                        <label for="password-confirm">Passwort wiederholen</label>
+                        <input type="password" id="password-confirm">
+                    </div>
+                </fieldset>
+                <fieldset>
+                    <figure>
+                        <img src="../images/profile_pic_default.svg" alt="Profilbild">
+                    </figure>
+                    <label for="profile-pic">Bild ändern</label>
+                    <input type="file" id="profile-pic" name="profile-pic" onclick="todo_alert()" >
+                </fieldset>
+                <fieldset>
+                    <legend>Zahlungsinformationen</legend>
+                    <!-- todo: ueberlegen, wie das mit der Uebertragung der Daten funktionieren wuerde -->
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Zahlungsmethode</th>
+                                <th>Aktiv</th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>PayPal</td>
+                                <td><input type="radio" checked name="payment-method" value="paypal"></td>
+                                <td><button onclick="todo_alert()">entfernen</button></td>
+                            </tr>
+                            <tr>
+                                <td>Überweisung</td>
+                                <td><input type="radio" name="payment-method" value="transfer"></td>
+                                <td><button onclick="todo_alert()">entfernen</button></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <button onclick="todo_alert()">Zahlungsmethode hinzufügen</button>
+                    <!-- todo: ueberlegen, wie man da jetzt neue zahlungsmethoden einfuegen koennte -->
+                </fieldset>
+                <div class="form-button flex-row flex-center"><button type="submit" onclick="todo_alert()">Änderungen speichern</button></div>
+            </form>
+            <a class="register-link" href="#" onclick="todo_alert()">Abbrechen</a>
+            <button onclick="todo_alert()">Profil löschen</button>
+        </div>
+        
+
+    </main>
+    <script>
+        function todo_alert() {
+            alert("Funktion wird noch implementiert!");
+        }
+    </script>
+</body>
+
+</html>

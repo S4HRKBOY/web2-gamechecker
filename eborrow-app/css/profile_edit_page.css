@@ -1,0 +1,60 @@
+/* #region Navigation Bar*/
+header{
+    display: grid;
+    
+    position: sticky;
+    top: 0;
+    grid-template-rows: auto;
+    grid-template-columns: 30% auto;
+    grid-template-areas: "logo links";
+    align-items: center;
+    background-color: rgb(192, 192, 192);
+}
+
+.logo{
+    grid-area: logo;
+    place-self: center;
+    cursor: pointer;
+}
+
+.navigation{
+    grid-area: links;
+}
+
+.nav-links{
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+    justify-items: center;
+    list-style: none;
+}
+
+.nav-links li {
+    display: inline-block;
+    border: 1px solid #2b2929;
+    border-radius: 5px; 
+    background-color: #2b2929;
+    padding: 5px;
+}
+
+.nav-links li:hover {
+    display: inline-block;
+    border: 1px solid #2b2929;
+    border-radius: 5px; 
+    background-color: rgb(192, 192, 192);
+    padding: 5px;
+}
+
+.nav-links li a{
+    display: all 0.3s ease 0s;
+    color: white;
+    font-style: italic;
+    text-decoration: none;
+}
+
+.nav-links li a:hover{
+    display: all 0.3s ease 0s;
+    font-style: italic;
+    text-decoration: none;
+}
+/* #endregion */
