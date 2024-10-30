@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="de">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registrierung</title>
+    <link rel="stylesheet" href="../css/register_page.css">
+</head>
+
+<body>
+    <main class="flex-row flex-center">
+        <div class="register-container">
+            <form class="register-form flex-col" action="#" method="post">
+                <fieldset>
+                    <div class="form-input">
+                        <label for="surname">Name</label>
+                        <input type="text" id="surname" name="surname">
+                    </div>
+                    <div class="form-input">
+                        <label for="prename">Vorname</label>
+                        <input type="text" id="prename" name="prename">
+                    </div>
+                    <div class="form-input">
+                        <label for="username">Benutzername</label>
+                        <input type="text" id="username" name="username">
+                    </div>
+                    <div class="form-input">
+                        <label for="birthday">Geburtsdatum</label>
+                        <input type="date" id="birthday" name="birthday" value="2000-01-01">
+                    </div>
+                </fieldset>
+                <fieldset>
+                    <div class="form-input">
+                        <label for="email">E-Mail Adresse</label>
+                        <input type="email" id="email" name="email">
+                    </div>
+                    <div class="form-input">
+                        <label for="password">Passwort</label>
+                        <input type="password" id="password" name="password">
+                    </div>
+                    <div class="form-input">
+                        <label for="password-confirm">Passwort wiederholen</label>
+                        <input type="password" id="password-confirm">
+                    </div>
+                </fieldset>
+                <div class="form-button flex-row flex-center"><button type="submit" onclick="todo_alert()">KOMM IN
+                        DIE GRUPPE!</button></div>
+            </form>
+            <a class="register-link" href="" onclick="todo_alert()">Ich habe bereits einen Account</a>
+        </div>
+    </main>
+    <script>
+        function todo_alert() {
+            alert("Funktion wird noch implementiert!");
+        }
+    </script>
+</body>
+
+</html>
