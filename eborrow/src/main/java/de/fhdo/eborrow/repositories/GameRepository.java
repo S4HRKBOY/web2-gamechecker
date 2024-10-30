@@ -1,5 +1,9 @@
 package de.fhdo.eborrow.repositories;
 
-public interface GameRepository {
+import org.springframework.data.repository.CrudRepository;
+
+import de.fhdo.eborrow.domain.Game;
+
+public interface GameRepository extends CrudRepository<Game, Long>{
 
 }

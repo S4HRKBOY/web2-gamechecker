@@ -1,0 +1,112 @@
+*
+{
+    font-family: calibri, sans-serif; 
+    box-sizing: border-box; 
+}
+#headerBar {
+    display: flex; 
+    padding: 0 20% 0 20%; 
+}
+
+#navBar {
+    display: flex; 
+    justify-content: space-around;
+    flex-grow: 1;
+}
+
+#headline {
+    padding-left: 30%; 
+}
+
+#gameForm {
+    display: grid;
+    gap: 10px; 
+    padding: 0 30% 0 30%; 
+    grid-template-columns: 25% 25% 25% 25%;
+    grid-template-rows: auto;
+    grid-template-areas: 
+    "title-label title-label title-label licence-label"
+    "title title title licence"
+    "description-label description-label description-label description-label"
+    "description description description description"
+    "genre-label genre-label publication-label age-label"
+    "genre genre publication age"
+    "developer-label developer-label publisher-label publisher-label"
+    "developer developer publisher publisher"
+    "file-label file-label file-label file-label"
+    "file file file file"
+    "submit submit submit submit"
+}
+
+#submit, #age, #publication, #licence {
+    width:fit-content; 
+}
+
+textarea {
+    overflow-y: scroll; 
+    height: 200px; 
+    resize:none; 
+    padding: 10px 20px 10px 10px;
+    text-align: justify;
+    overflow-x: hidden; 
+}
+
+label[for="title"] {
+    grid-area:title-label;
+}
+label[for="licence"] {
+    grid-area:licence-label;
+}
+label[for="description"] {
+    grid-area:description-label;
+}
+label[for="genre"] {
+    grid-area:genre-label;
+}
+label[for="publication"] {
+    grid-area:publication-label;
+}
+label[for="developer"] {
+    grid-area:developer-label;
+}
+label[for="publisher"] {
+    grid-area:publisher-label;
+}
+label[for="age"] {
+    grid-area:age-label;
+}
+label[for="file"] {
+    grid-area:file-label;
+}
+
+#title {
+    grid-area: title; 
+}
+#licence {
+    grid-area: licence; 
+}
+#description {
+    grid-area: description; 
+}
+#genre {
+    grid-area: genre; 
+}
+#publication {
+    grid-area: publication; 
+}
+#developer {
+    grid-area: developer; 
+}
+#publisher {
+    grid-area: publisher; 
+}
+#age {
+    grid-area: age; 
+}
+#file {
+    grid-area: file; 
+}
+#submit {
+    grid-area: submit;
+}
+
