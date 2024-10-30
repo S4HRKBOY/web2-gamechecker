@@ -1,0 +1,214 @@
+@import url(https://fonts.googleapis.com/css?family=Open+Sans);
+@import url('https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css');
+
+/* STARTSEITE START */
+
+header{
+    display: grid;
+    grid-template-areas: "logo links";
+    grid-template-columns: 30% auto;
+    grid-template-rows: auto;
+    align-items: center;
+    
+    position: sticky;
+    top: 0;
+    background-color: rgb(192, 192, 192);
+}
+
+.logo{
+    cursor: pointer;
+    grid-area: logo;
+    place-self: center;
+}
+
+.navigation{
+    grid-area: links;
+}
+
+.nav-links{
+    list-style: none;
+    display: flex;
+    align-items: center;
+    justify-items: center;
+    justify-content: space-evenly;
+}
+
+.nav-links li {
+    display: inline-block;
+    border: 1px solid #2b2929;
+    border-radius: 5px;
+    padding: 5px; 
+    background-color: #2b2929;
+}
+
+.nav-links li:hover {
+    display: inline-block;
+    border: 1px solid #2b2929;
+    border-radius: 5px;
+    padding: 5px; 
+    background-color: rgb(192, 192, 192);
+}
+
+.nav-links li a{
+    display: all 0.3s ease 0s;
+    color: white;
+    font-style: italic;
+    text-decoration: none;
+}
+
+.nav-links li a:hover{
+    display: all 0.3s ease 0s;
+    font-style: italic;
+    text-decoration: none;
+}
+
+
+.main-page-container {
+    display: grid;
+    font-family: 'Open Sans', sans-serif;
+    grid-template-areas: "search"
+                         "sort"
+                         "overview";
+    grid-template-columns: auto;
+    grid-template-rows: 100px 100px auto;
+    align-items: center;
+    justify-items: center;
+}
+
+.search{
+    grid-area: search;
+    width: 66%;
+    display: flex;
+}
+
+.searchBox{
+    border: 3px solid #2b2929;
+    border-right: none;
+    padding: 5px;
+    height: 20px;
+    width: 100%;
+    border-radius: 5px 0 0 5px;
+    outline: none;
+    color: #2b2929;
+}
+
+.searchButton{
+    width: 40px;
+    height: 36px;
+    border: 1px solid #2b2929;
+    background: #2b2929;
+    text-align: center;
+    color: #fff;
+    border-radius: 0 5px 5px 0;
+    cursor: pointer;
+    font-size: 20px;
+}
+
+.searchButton:hover{
+    width: 40px;
+    height: 36px;
+    border: 1px solid #2b2929;
+    background: #fff;
+    text-align: center;
+    color: #2b2929;
+    border-radius: 0 5px 5px 0;
+    cursor: pointer;
+    font-size: 20px;
+}
+
+.sort{
+    grid-area: sort;
+    width: 66%;
+}
+
+.filter-bar{
+    width: 100%;
+    height: 100px;
+    border: 3px solid #2b2929;
+    border-radius: 5px;
+    background-color: aliceblue;
+
+    display: grid;
+    grid-template-areas: "genre-filter date-filter apply-filter";
+    grid-template-columns: 40% 40% auto;
+    align-items: center;
+    justify-items: center;
+                        
+}
+
+.genre-filter{
+    grid-area: genre-filter; 
+}
+
+.date-filter{
+    grid-area: date-filter;
+}
+
+.apply-filter{
+    grid-area: apply-filter;
+    width: 35%;
+    height: 50%;
+    border: 1px solid #2b2929;
+    background: #2b2929;
+    border-radius: 15px;
+    cursor: pointer;
+    color: #fff;
+}
+
+.apply-filter:hover{
+    grid-area: apply-filter;
+    width: 35%;
+    height: 50%;
+    border: 1px solid #2b2929;
+    background: #fff;
+    border-radius: 15px;
+    cursor: pointer;
+    color: #2b2929;
+}
+
+.overview{
+    grid-area: overview;
+    width: 66%;
+    margin-top: 1%;
+}
+
+.overview-table-container{
+    width: 100%;
+    height: 100%;
+}
+
+.overview-entry{
+    width:  100%;
+    height: 10%;
+    margin: 5%;
+    display: grid;
+    grid-template-areas: "overview-image overview-description";
+    grid-template-columns: 50% 50%;
+    grid-template-rows: auto;
+    align-items: center;
+
+    justify-items: normal;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.overview-image{
+    grid-area: overview-image;
+    max-height: 250px;
+    display: block;
+}
+
+.overview-image img{
+    max-width: 100%;
+    max-height: 250px;
+    display: block;
+}
+
+.overview-description{
+    grid-area: overview-description;
+    place-self: center;
+    place-content: center;
+    display: block;
+}
+
+/* STARTSEITE ENDE */
