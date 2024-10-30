@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="de">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login</title>
+    <link rel="stylesheet" href="../css/login_page.css">
+</head>
+
+<body>
+    <main class="flex-row flex-center">
+        <div class="login-grid">
+            <figure class="logo">
+                <img src="../images/logo.svg" alt="Logo von E-Borrow">
+            </figure>
+            <form class="login-form flex-col" action="#" method="post">
+                <div class="form-input"><input type="text" name="username" placeholder="Benutzername"></div>
+                <div class="form-input"><input type="password" name="password" placeholder="Passwort"></div>
+                <div class="form-button flex-row flex-center"><button type="submit" onclick="todo_alert()">Login</button></div>
+            </form>
+            <a class="register-link" href="" onclick="todo_alert()">Neuen Account registrieren</a>
+        </div>
+    </main>
+    <script>
+        function todo_alert() {
+            alert("Funktion wird noch implementiert!");
+        }
+    </script>
+</body>
+
+</html>
