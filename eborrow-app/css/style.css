@@ -1,3 +1,9 @@
+*
+{
+    font-family: calibri, sans-serif; 
+    box-sizing: border-box; 
+}
+
 header{
     display: grid;
     grid-template-areas: "logo links";

@@ -1,8 +1,4 @@
-*
-{
-    font-family: calibri, sans-serif; 
-    box-sizing: border-box; 
-}
+
 #headerBar {
     display: flex; 
     padding: 0 20% 0 20%; 
