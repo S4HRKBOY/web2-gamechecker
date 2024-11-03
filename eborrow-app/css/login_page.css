@@ -22,6 +22,7 @@ main{
 
 .login-section {
     display: flex;
+    justify-content: center;
 }
 
 .logo{
@@ -40,7 +41,7 @@ main{
 }
 
 .login-form>*{
-    flex-grow: 1;
+    flex: 1;
 }
 
 .form-input>* {
@@ -61,6 +62,7 @@ main{
 }
 
 .register-link {
+    display: block;
     margin-top: 10px;
     font-size: smaller;
     text-align: center;

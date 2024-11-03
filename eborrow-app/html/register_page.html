@@ -10,45 +10,50 @@
 
 <body>
     <main>
-        <div class="register-container">
-            <form class="register-form" action="./login_page.html" method="post">
-                <fieldset>
-                    <div class="form-input">
-                        <label for="surname">Name</label>
-                        <input type="text" id="surname" name="surname">
-                    </div>
-                    <div class="form-input">
-                        <label for="prename">Vorname</label>
-                        <input type="text" id="prename" name="prename">
-                    </div>
-                    <div class="form-input">
-                        <label for="username">Benutzername</label>
-                        <input type="text" id="username" name="username">
-                    </div>
-                    <div class="form-input">
-                        <label for="birthday">Geburtsdatum</label>
-                        <input type="date" id="birthday" name="birthday" value="2000-01-01">
-                    </div>
-                </fieldset>
-                <fieldset>
-                    <div class="form-input">
-                        <label for="email">E-Mail Adresse</label>
-                        <input type="email" id="email" name="email">
-                    </div>
-                    <div class="form-input">
-                        <label for="password">Passwort</label>
-                        <input type="password" id="password" name="password">
-                    </div>
-                    <div class="form-input">
-                        <label for="password-confirm">Passwort wiederholen</label>
-                        <input type="password" id="password-confirm">
-                    </div>
-                </fieldset>
-                <div class="form-button"><button type="submit" onclick="todo_alert()">KOMM IN
-                        DIE GRUPPE!</button></div>
-            </form>
+        <article id="content">
+            <section class="register-section">
+                <figure class="logo">
+                    <img src="../images/logo.svg" alt="Logo von E-Borrow">
+                </figure>
+                <form class="register-form" action="./login_page.html" method="post">
+                    <fieldset>
+                        <div class="form-input">
+                            <label for="surname">Name</label>
+                            <input type="text" id="surname" name="surname">
+                        </div>
+                        <div class="form-input">
+                            <label for="prename">Vorname</label>
+                            <input type="text" id="prename" name="prename">
+                        </div>
+                        <div class="form-input">
+                            <label for="username">Benutzername</label>
+                            <input type="text" id="username" name="username">
+                        </div>
+                        <div class="form-input">
+                            <label for="birthday">Geburtsdatum</label>
+                            <input type="date" id="birthday" name="birthday" value="2000-01-01">
+                        </div>
+                    </fieldset>
+                    <fieldset>
+                        <div class="form-input">
+                            <label for="email">E-Mail Adresse</label>
+                            <input type="email" id="email" name="email">
+                        </div>
+                        <div class="form-input">
+                            <label for="password">Passwort</label>
+                            <input type="password" id="password" name="password">
+                        </div>
+                        <div class="form-input">
+                            <label for="password-confirm">Passwort wiederholen</label>
+                            <input type="password" id="password-confirm">
+                        </div>
+                    </fieldset>
+                    <div class="form-button"><button type="submit" onclick="todo_alert()">KOMM IN
+                            DIE GRUPPE!</button></div>
+                </form>
+            </section>
             <a class="register-link" href="./login_page.html" onclick="todo_alert()">Ich habe bereits einen Account</a>
-        </div>
+        </article>
     </main>
     <script>
         function todo_alert() {

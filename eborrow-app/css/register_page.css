@@ -15,28 +15,35 @@ main {
     align-items: center;
 }
 
-.register-container {
+#content {
     border: 1px solid hsl(0, 0%, 75%);
     border-radius: 5px;
     padding: 20px;
+    width: 50%;
 }
 
-.register-container .logo>img {
-    width: auto;
-    height: 10vh;
+.register-section{
+    display: flex;
+    align-items: center;
 }
 
-.register-container .register-link {
-    display: block;
-    margin-top: 10px;
-    font-size: smaller;
-    text-align: center;
+.logo{
+    flex: 2;
+}
+
+.logo>img {
+    width: 100%;
 }
 
 .register-form {
     display: flex;
     flex-direction: column;
+    flex: 3;
     gap: 10px;
+}
+
+.register-form>* {
+    flex: 1;
 }
 
 .register-form fieldset {
@@ -50,11 +57,18 @@ main {
 
 .form-input {
     display: flex;
-    flex-grow: 1;
-    justify-content: space-between;
+}
+
+.form-input>label{
+    flex: 1;
+}
+
+.form-input>input {
+    flex: 2;
 }
 
 .form-input>* {
+    display: block;
     width: 100%;
     height: 100%;
 }
@@ -63,10 +77,17 @@ main {
     display: flex;
     justify-content: center;
     align-items: center;
-    flex-grow: 2;
+    flex-grow: 3;
 }
 
 .form-button>* {
-    width: 60%;
-    height: 100%;
+    width: 62%;
+    height: 80%;
+}
+
+.register-link {
+    display: block;
+    margin-top: 10px;
+    font-size: smaller;
+    text-align: center;
 }
