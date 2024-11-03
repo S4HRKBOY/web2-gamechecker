@@ -9,23 +9,11 @@ main {
     height: 100%;
 }
 
-/* #region flex */
-.flex-row {
+main {
     display: flex;
-    flex-direction: row;
-}
-
-.flex-col {
-    display: flex;
-    flex-direction: column;
-}
-
-.flex-center {
     justify-content: center;
     align-items: center;
 }
-
-/* #endregion */
 
 .register-container {
     border: 1px solid hsl(0, 0%, 75%);
@@ -46,6 +34,8 @@ main {
 }
 
 .register-form {
+    display: flex;
+    flex-direction: column;
     gap: 10px;
 }
 
@@ -70,6 +60,9 @@ main {
 }
 
 .form-button {
+    display: flex;
+    justify-content: center;
+    align-items: center;
     flex-grow: 2;
 }
 
