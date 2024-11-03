@@ -1,7 +1,6 @@
 /* #region Navigation Bar*/
-header{
+header {
     display: grid;
-    
     position: sticky;
     top: 0;
     grid-template-rows: auto;
@@ -11,17 +10,17 @@ header{
     background-color: rgb(192, 192, 192);
 }
 
-.logo{
+.logo {
     grid-area: logo;
     place-self: center;
     cursor: pointer;
 }
 
-.navigation{
+.navigation {
     grid-area: links;
 }
 
-.nav-links{
+.nav-links {
     display: flex;
     justify-content: space-evenly;
     align-items: center;
@@ -32,7 +31,7 @@ header{
 .nav-links li {
     display: inline-block;
     border: 1px solid #2b2929;
-    border-radius: 5px; 
+    border-radius: 5px;
     background-color: #2b2929;
     padding: 5px;
 }
@@ -40,19 +39,19 @@ header{
 .nav-links li:hover {
     display: inline-block;
     border: 1px solid #2b2929;
-    border-radius: 5px; 
+    border-radius: 5px;
     background-color: rgb(192, 192, 192);
     padding: 5px;
 }
 
-.nav-links li a{
+.nav-links li a {
     display: all 0.3s ease 0s;
     color: white;
     font-style: italic;
     text-decoration: none;
 }
 
-.nav-links li a:hover{
+.nav-links li a:hover {
     display: all 0.3s ease 0s;
     font-style: italic;
     text-decoration: none;
@@ -60,13 +59,13 @@ header{
 /* #endregion */
 
 
-main{
+main {
     display: flex;
     flex-direction: column;
     align-items: center;
 }
 
-#infos{
+#infos {
     display: grid;
     grid-template-columns: 25vw 25vw;
     grid-template-areas: "profile-pic profile-info"
@@ -75,73 +74,72 @@ main{
     gap: 0 5vw;
 }
 
-#profile-pic{
+#profile-pic {
     grid-area: profile-pic;
     justify-self: center;
 }
 
-#profile-pic img{
+#profile-pic img {
     width: 15vw;
     min-width: 100px;
     height: auto;
 }
 
-#profile-info{
+#profile-info {
     grid-area: profile-info;
     place-self: center;
 }
 
 #profile-info #personal-data,
-#profile-info #payment-data{
+#profile-info #payment-data {
     margin: 1em;
     border: 1px solid black;
     border-radius: 10px;
     padding: 10px;
 }
 
-#profile-info h2{
+#profile-info h2 {
     margin: 0.2em 0;
 }
 
-#profile-info td{
+#profile-info td {
     vertical-align: top;
     padding: 5px 10px;
 }
 
-#profile-info ul{
+#profile-info ul {
     margin: 0;
     padding: 0;
 }
 
-#profile-info li{
+#profile-info li {
     list-style: none;
 }
 
-#edit-profile-btn{
+#edit-profile-btn {
     grid-area: edit-profile-btn;
     place-self: center;
     width: 40%;
     height: 150%;
 }
 
-#lending-info{
+#lending-info {
     grid-area: lending-info;
 }
 
-#lending-info table{
-    border-collapse: collapse; 
+#lending-info table {
+    border-collapse: collapse;
     width: 100%;
 }
 
 #lending-info th,
-#lending-info td
-{
+#lending-info td {
     padding: 10px;
     text-align: center;
 }
 
 
 #lending-info th,
-#lending-info tr:not(:last-child){
+#lending-info tr:not(:last-child) {
     border-bottom: 1px solid black;
 }
