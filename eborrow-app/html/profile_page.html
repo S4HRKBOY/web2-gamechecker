@@ -21,91 +21,92 @@
         </nav>
     </header>
     <main>
-        <h1>Mein Profil</h1>
-        <article id="infos">
-            <figure id="profile-pic">
-                <img src="../images/profile_pic_default.svg" alt="Profilbild">
-            </figure>
-
-            <section id="profile-info">
-                <section id="personal-data">
-                    <h2>Persönliche Daten</h2>
+        <article id="content">
+            <h1>Mein Profil</h1>
+            <article id="infos">
+                <figure id="profile-pic">
+                    <img src="../images/profile_pic_default.svg" alt="Profilbild">
+                </figure>
+                <section id="profile-info">
+                    <section id="personal-data">
+                        <h2>Persönliche Daten</h2>
+                        <table>
+                            <tr>
+                                <td>Benutzername</td>
+                                <td>mamus123</td>
+                            </tr>
+                            <tr>
+                                <td>Vorname</td>
+                                <td>Max</td>
+                            </tr>
+                            <tr>
+                                <td>Nachname</td>
+                                <td>Mustermann</td>
+                            </tr>
+                            <tr>
+                                <td>Geburtsdatum</td>
+                                <td>01.01.2000</td>
+                            </tr>
+                            <tr>
+                                <td>E-Mail</td>
+                                <td>max.mustermann@gmail.com</td>
+                            </tr>
+                        </table>
+                    </section>
+                    <section id="payment-data">
+                        <h2>Aktive Zahlungsmethode</h2>
+                        <table>
+                            <tr>
+                                <td>Kontonummer</td>
+                                <td>DE12 3456 7891 2345 6789 00</td>
+                            </tr>
+                            <tr>
+                                <td>Kontoinhaber</td>
+                                <td>
+                                    <ul>
+                                        <li>Max Mustermann</li>
+                                        <li>Musterstr. 1</li>
+                                        <li>12345 Musterstadt</li>
+                                    </ul>
+                                </td>
+                            </tr>
+                        </table>
+                    </section>
+                </section>
+                <form id="edit-profile-btn" action="./profile_edit_page.html">
+                    <button type="submit">Profil bearbeiten</button>
+                </form>
+                <section id="lending-info">
+                    <h2>Ausgeliehene Medien</h2>
                     <table>
-                        <tr>
-                            <td>Benutzername</td>
-                            <td>mamus123</td>
-                        </tr>
-                        <tr>
-                            <td>Vorname</td>
-                            <td>Max</td>
-                        </tr>
-                        <tr>
-                            <td>Nachname</td>
-                            <td>Mustermann</td>
-                        </tr>
-                        <tr>
-                            <td>Geburtsdatum</td>
-                            <td>01.01.2000</td>
-                        </tr>
-                        <tr>
-                            <td>E-Mail</td>
-                            <td>max.mustermann@gmail.com</td>
-                        </tr>
+                        <thead>
+                            <tr>
+                                <th>Titel</th>
+                                <th>Download-Link</th>
+                                <th>Ausleihdatum</th>
+                                <th>verfügbar bis</th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Titel 1</td>
+                                <td><a href="#">www.todo.de</a></td>
+                                <td>01.01.2024</td>
+                                <td>07.02.2024</td>
+                                <td><button>abbestellen</button></td>
+                            </tr>
+                            <tr>
+                                <td>Titel 2</td>
+                                <td><a href="#">www.todo.de</a></td>
+                                <td>01.02.2024</td>
+                                <td>07.03.2024</td>
+                                <td><button>abbestellen</button></td>
+                            </tr>
+                        </tbody>
                     </table>
                 </section>
-                <section id="payment-data">
-                    <h2>Aktive Zahlungsmethode</h2>
-                    <table>
-                        <tr>
-                            <td>Kontonummer</td>
-                            <td>DE12 3456 7891 2345 6789 00</td>
-                        </tr>
-                        <tr>
-                            <td>Kontoinhaber</td>
-                            <td>
-                                <ul>
-                                    <li>Max Mustermann</li>
-                                    <li>Musterstr. 1</li>
-                                    <li>12345 Musterstadt</li>
-                                </ul>
-                            </td>
-                        </tr>
-                    </table>
-                </section>
-            </section>
-            <form id="edit-profile-btn" action="./profile_edit_page.html">
-                <button type="submit">Profil bearbeiten</button>
-            </form>
-            <section id="lending-info">
-                <h2>Ausgeliehene Medien</h2>
-                <table>
-                    <thead>
-                        <tr>
-                            <th>Titel</th>
-                            <th>Download-Link</th>
-                            <th>Ausleihdatum</th>
-                            <th>verfügbar bis</th>
-                            <th></th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td>Titel 1</td>
-                            <td><a href="#">www.todo.de</a></td>
-                            <td>01.01.2024</td>
-                            <td>07.02.2024</td>
-                            <td><button>abbestellen</button></td>
-                        </tr>
-                        <tr>
-                            <td>Titel 2</td>
-                            <td><a href="#">www.todo.de</a></td>
-                            <td>01.02.2024</td>
-                            <td>07.03.2024</td>
-                            <td><button>abbestellen</button></td>
-                        </tr>
-                    </tbody>
-                </table>
-            </section>
+            </article>
         </article>
     </main>
 </body>

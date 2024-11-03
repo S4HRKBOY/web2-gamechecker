@@ -58,6 +58,12 @@ header {
 }
 /* #endregion */
 
+html,
+body,
+main {
+    margin: 0;
+    height: 100%;
+}
 
 main {
     display: flex;
@@ -65,9 +71,18 @@ main {
     align-items: center;
 }
 
+#content{
+    width: 50%;
+}
+
+h1{
+    font-size: xx-large;
+    text-align: center;
+}
+
 #infos {
     display: grid;
-    grid-template-columns: 25vw 25vw;
+    grid-template-columns: 1fr 1fr;
     grid-template-areas: "profile-pic profile-info"
                          "profile-pic edit-profile-btn"
                          "lending-info lending-info";

@@ -56,9 +56,10 @@ header {
     font-style: italic;
     text-decoration: none;
 }
+
 /* #endregion */
 html,
-body, 
+body,
 main {
     margin: 0;
     height: 100%;
@@ -102,14 +103,14 @@ fieldset {
 }
 
 .set-personal-infos {
-    grid-area: set-personal-infos;
     display: flex;
+    grid-area: set-personal-infos;
     flex-direction: column;
 }
 
 .set-personal-infos>fieldset {
-    flex: 1;
     display: flex;
+    flex: 1;
     flex-direction: column;
     justify-content: space-evenly;
 }
@@ -122,7 +123,7 @@ fieldset {
     grid-area: set-profile-pic;
 }
 
-.set-profile-pic .form-input>label{    
+.set-profile-pic .form-input>label {
     text-align: end;
 }
 
@@ -147,7 +148,7 @@ fieldset {
 }
 
 .set-account-data th:first-child,
-.set-account-data td:first-child{
+.set-account-data td:first-child {
     text-align: left;
 }
 
@@ -161,11 +162,11 @@ fieldset {
     text-align: end;
 }
 
-.send-form-options{
-    margin-top: 10px;
+.send-form-options {
     display: flex;
     justify-content: end;
     gap: 10px;
+    margin-top: 10px;
 }
 
 .delete-profile {
@@ -175,5 +176,5 @@ fieldset {
 }
 
 .delete-profile>* {
-    color: red;    
+    color: red;
 }
