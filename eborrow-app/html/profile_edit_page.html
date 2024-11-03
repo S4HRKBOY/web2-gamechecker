@@ -79,23 +79,24 @@
                             <tr>
                                 <td>PayPal</td>
                                 <td><input type="radio" checked name="payment-method" value="paypal"></td>
-                                <td><button onclick="todo_alert()">entfernen</button></td>
+                                <td><button type="button" onclick="todo_alert()">entfernen</button></td>
                             </tr>
                             <tr>
                                 <td>Überweisung</td>
                                 <td><input type="radio" name="payment-method" value="transfer"></td>
-                                <td><button onclick="todo_alert()">entfernen</button></td>
+                                <td><button type="button" onclick="todo_alert()">entfernen</button></td>
                             </tr>
                         </tbody>
                     </table>
-                    <button onclick="todo_alert()">Zahlungsmethode hinzufügen</button>
+                    <button type="button" onclick="todo_alert()">Zahlungsmethode hinzufügen</button>
                     <!-- todo: ueberlegen, wie man da jetzt neue zahlungsmethoden einfuegen koennte -->
                 </fieldset>
                 <div class="form-button flex-row flex-center"><button type="submit" onclick="todo_alert()">Änderungen speichern</button></div>
             </form>
-            <a class="register-link" href="#" onclick="todo_alert()">Abbrechen</a>
-            <button onclick="todo_alert()">Profil löschen</button>
             <a class="register-link" href="./profile_page.html" onclick="todo_alert()">Abbrechen</a>
+            <form action="./login_page.html">
+                <button type="submit" onclick="todo_alert()">Profil löschen</button>
+            </form>
         </div>
         
 
