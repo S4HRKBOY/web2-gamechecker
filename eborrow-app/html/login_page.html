@@ -9,19 +9,24 @@
 </head>
 
 <body>
-    <main class="flex-row flex-center">
-        <div class="login-grid">
-            <figure class="logo">
-                <img src="../images/logo.svg" alt="Logo von E-Borrow">
-            </figure>
-            <form class="login-form flex-col" action="./start_page.html" method="post">
-                <div class="form-input"><input type="text" name="username" placeholder="Benutzername"></div>
-                <div class="form-input"><input type="password" name="password" placeholder="Passwort"></div>
-                <div class="form-button flex-row flex-center"><button type="submit"
-                        onclick="todo_alert()">Login</button></div>
-            </form>
-            <a class="register-link" href="./register_page.html" onclick="todo_alert()">Neuen Account registrieren</a>
-        </div>
+    <main>
+        <article id="content">
+            <section class="login-section">
+                <figure class="logo">
+                    <img src="../images/logo.svg" alt="Logo von E-Borrow">
+                </figure>
+                <form class="login-form flex-col" action="./start_page.html" method="post">
+                    <div class="form-input"><input type="text" name="username" placeholder="Benutzername"></div>
+                    <div class="form-input"><input type="password" name="password" placeholder="Passwort"></div>
+                    <div class="form-button flex-row flex-center"><button type="submit"
+                            onclick="todo_alert()">Login</button></div>
+                </form>
+            </section>
+            <div class="register-link">
+                <a href="./register_page.html" onclick="todo_alert()">Neuen Account
+                    registrieren</a>
+            </div>
+        </article>
     </main>
     <script>
         function todo_alert() {
