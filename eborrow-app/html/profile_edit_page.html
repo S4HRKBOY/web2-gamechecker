@@ -21,84 +21,99 @@
         </nav>
     </header>
     <main>
-        <div class="register-container">
-            <form class="register-form flex-col" action="./profile_page.html" method="post">
-                <fieldset>
-                    <legend>Persönliche Daten</legend>
-                    <div class="form-input">
-                        <label for="surname">Name</label>
-                        <input type="text" id="surname" name="surname">
-                    </div>
-                    <div class="form-input">
-                        <label for="prename">Vorname</label>
-                        <input type="text" id="prename" name="prename">
-                    </div>
-                    <div class="form-input">
-                        <label for="birthday">Geburtsdatum</label>
-                        <input type="date" id="birthday" name="birthday" value="2000-01-01">
-                        <div class="form-input">
-                            <label for="email">E-Mail Adresse</label>
-                            <input type="email" id="email" name="email">
-                        </div>
-                    </div>
-                </fieldset>
-                <fieldset>
-                    <legend>Anmeldeinformationen</legend>
-                    <div class="form-input">
-                        <label for="username">Benutzername</label>
-                        <input type="text" id="username" name="username">
-                    </div>
-                    <div class="form-input">
-                        <label for="password">Passwort</label>
-                        <input type="password" id="password" name="password">
-                    </div>
-                    <div class="form-input">
-                        <label for="password-confirm">Passwort wiederholen</label>
-                        <input type="password" id="password-confirm">
-                    </div>
-                </fieldset>
-                <fieldset>
-                    <figure>
-                        <img src="../images/profile_pic_default.svg" alt="Profilbild">
-                    </figure>
-                    <label for="profile-pic">Bild ändern</label>
-                    <input type="file" id="profile-pic" name="profile-pic">
-                </fieldset>
-                <fieldset>
-                    <legend>Zahlungsinformationen</legend>
-                    <!-- todo: ueberlegen, wie das mit der Uebertragung der Daten funktionieren wuerde -->
-                    <table>
-                        <thead>
-                            <tr>
-                                <th>Zahlungsmethode</th>
-                                <th>Aktiv</th>
-                                <th></th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td>PayPal</td>
-                                <td><input type="radio" checked name="payment-method" value="paypal"></td>
-                                <td><button type="button">entfernen</button></td>
-                            </tr>
-                            <tr>
-                                <td>Überweisung</td>
-                                <td><input type="radio" name="payment-method" value="transfer"></td>
-                                <td><button type="button">entfernen</button></td>
-                            </tr>
-                        </tbody>
-                    </table>
-                    <button type="button">Zahlungsmethode hinzufügen</button>
-                    <!-- todo: ueberlegen, wie man da jetzt neue zahlungsmethoden einfuegen koennte -->
-                </fieldset>
-                <div class="form-button flex-row flex-center"><button type="submit">Änderungen
-                        speichern</button></div>
-            </form>
-            <a class="register-link" href="./profile_page.html">Abbrechen</a>
-            <form action="./login_page.html">
-                <button type="submit">Profil löschen</button>
-            </form>
-        </div>
+        <article id="content">
+            <section class="update-section">
+                <form class="update-form" action="./profile_page.html" method="post">
+                    <section class="form-content">
+                        <section class="set-personal-infos">
+                            <fieldset>
+                                <legend>Persönliche Daten</legend>
+                                <div class="form-input">
+                                    <label for="surname">Name</label>
+                                    <input type="text" id="surname" name="surname">
+                                </div>
+                                <div class="form-input">
+                                    <label for="prename">Vorname</label>
+                                    <input type="text" id="prename" name="prename">
+                                </div>
+                                <div class="form-input">
+                                    <label for="birthday">Geburtsdatum</label>
+                                    <input type="date" id="birthday" name="birthday" value="2000-01-01">
+                                </div>
+                                <div class="form-input">
+                                    <label for="email">E-Mail Adresse</label>
+                                    <input type="email" id="email" name="email">
+                                </div>
+                            </fieldset>
+                            <fieldset>
+                                <legend>Anmeldeinformationen</legend>
+                                <div class="form-input">
+                                    <label for="username">Benutzername</label>
+                                    <input type="text" id="username" name="username">
+                                </div>
+                                <div class="form-input">
+                                    <label for="password">Passwort</label>
+                                    <input type="password" id="password" name="password">
+                                </div>
+                                <div class="form-input">
+                                    <label for="password-confirm">Passwort wiederholen</label>
+                                    <input type="password" id="password-confirm">
+                                </div>
+                            </fieldset>
+                        </section>
+                        <section class="set-profile-pic">
+                            <fieldset>
+                                <figure class="profile-pic">
+                                    <img src="../images/profile_pic_default.svg" alt="Profilbild">
+                                </figure>
+                                <div class="form-input">
+                                    <label for="profile-pic-fileselect">Bild ändern</label>
+                                    <input type="file" id="profile-pic-fileselect" name="profile-pic-fpath">
+                                </div>
+                            </fieldset>
+                        </section>
+                        <section class="set-account-data">
+                            <fieldset>
+                                <legend>Zahlungsinformationen</legend>
+                                <!-- todo: ueberlegen, wie das mit der Uebertragung der Daten funktionieren wuerde -->
+                                <table>
+                                    <thead>
+                                        <tr>
+                                            <th>Zahlungsmethode</th>
+                                            <th>Aktiv</th>
+                                            <th></th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td><label for="payment-method-paypal">PayPal</label></td>
+                                            <td><input type="radio" id="payment-method-paypal" name="payment-method"
+                                                    value="paypal" checked></td>
+                                            <td><button type="button">entfernen</button></td>
+                                        </tr>
+                                        <tr>
+                                            <td><label for="payment-method-transfer">Überweisung</label></td>
+                                            <td><input type="radio" id="payment-method-transfer" name="payment-method"
+                                                    value="transfer"></td>
+                                            <td><button type="button">entfernen</button></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                                <button type="button">Zahlungsmethode hinzufügen</button>
+                                <!-- todo: ueberlegen, wie man da jetzt neue zahlungsmethoden einfuegen koennte -->
+                            </fieldset>
+                        </section>
+                    </section>
+                    <section class="send-form-options">
+                        <a class="cancel-link" href="./profile_page.html">Abbrechen</a>
+                        <button type="submit">Änderungen speichern</button>
+                    </section>
+                </form>
+                <form class="delete-profile" action="./login_page.html">
+                    <button type="submit">Profil löschen</button>
+                </form>
+            </section>
+        </article>
     </main>
 </body>
 
