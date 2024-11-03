@@ -76,31 +76,40 @@
                             <fieldset>
                                 <legend>Zahlungsinformationen</legend>
                                 <!-- todo: ueberlegen, wie das mit der Uebertragung der Daten funktionieren wuerde -->
-                                <table>
-                                    <thead>
-                                        <tr>
-                                            <th>Zahlungsmethode</th>
-                                            <th>Aktiv</th>
-                                            <th></th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <tr>
-                                            <td><label for="payment-method-paypal">PayPal</label></td>
-                                            <td><input type="radio" id="payment-method-paypal" name="payment-method"
-                                                    value="paypal" checked></td>
-                                            <td><button type="button">entfernen</button></td>
-                                        </tr>
-                                        <tr>
-                                            <td><label for="payment-method-transfer">Überweisung</label></td>
-                                            <td><input type="radio" id="payment-method-transfer" name="payment-method"
-                                                    value="transfer"></td>
-                                            <td><button type="button">entfernen</button></td>
-                                        </tr>
-                                    </tbody>
-                                </table>
-                                <button type="button">Zahlungsmethode hinzufügen</button>
-                                <!-- todo: ueberlegen, wie man da jetzt neue zahlungsmethoden einfuegen koennte -->
+                                <fieldset>
+                                    <legend>Kontoinhaber</legend>
+                                    <div class="form-input">
+                                        <label for="bankacc-surname">Name</label>
+                                        <input type="text" id="bankacc-surname" name="bankacc-surname">
+                                        <label for="bankacc-prename">Vorname</label>
+                                        <input type="text" id="bankacc-prename" name="bankacc-prename">
+                                    </div>
+                                    <div class="form-input">
+                                    </div>
+                                    <div class="form-input">
+                                        <label for="bankacc-street">Strasse</label>
+                                        <input type="text" id="bankacc-street" name="bankacc-street">
+                                        <label for="bankacc-housenumber">Hausnummer</label>
+                                        <input type="text" id="bankacc-housenumber" name="bankacc-housenumber">
+                                    </div>
+                                    <div class="form-input">
+                                        <label for="bankacc-zipcode">PLZ</label>
+                                        <input type="text" id="bankacc-zipcode" name="bankacc-zipcode">
+                                        <label for="bankacc-residence">Wohnort</label>
+                                        <input type="text" id="bankacc-residence" name="bankacc-residence">
+                                    </div>
+                                </fieldset>
+                                <fieldset class="bancacc-active-iban">
+                                    <div class="form-input">
+                                        <label for="bankacc-iban">IBAN</label>
+                                        <input type="text" id="bankacc-iban" name="bankacc-iban">
+                                    </div>
+                                    <div>
+                                        <label for="bankacc-active">Aktiv</label>
+                                        <input type="checkbox" id="bankacc-active" name="bankacc-active" value="true"
+                                            checked>
+                                    </div>
+                                </fieldset>
                             </fieldset>
                         </section>
                     </section>

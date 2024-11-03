@@ -141,25 +141,15 @@ fieldset {
     grid-area: set-account-data;
 }
 
-.set-account-data table {
-    padding: 10px 20%;
-    width: 100%;
-    table-layout: fixed;
+.set-account-data fieldset:not(.bancacc-active-iban) {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
 }
 
-.set-account-data th:first-child,
-.set-account-data td:first-child {
-    text-align: left;
-}
-
-.set-account-data th:nth-child(2),
-.set-account-data td:nth-child(2) {
-    text-align: center;
-}
-
-.set-account-data th:last-child,
-.set-account-data td:last-child {
-    text-align: end;
+.set-account-data fieldset.bancacc-active-iban{
+    display: flex;
+    justify-content: space-evenly;
 }
 
 .send-form-options {
