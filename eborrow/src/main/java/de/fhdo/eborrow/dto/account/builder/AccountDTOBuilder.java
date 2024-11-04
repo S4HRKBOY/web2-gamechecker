@@ -91,4 +91,6 @@ public abstract class AccountDTOBuilder<B extends AccountDTOBuilder<B, A>, A ext
     protected abstract B self();
     
     protected abstract A build();
+    
+    protected abstract void validateInputs();
 }

@@ -63,7 +63,7 @@ public class PaymentOptionDTOBuilder {
 
         return new PaymentOptionDTO(this);
     }
-
+    
     private void validateInputs() {
         // TODO Zak: Check each field and throw Exception if invalid
     }

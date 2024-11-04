@@ -29,7 +29,8 @@ public class UserDTOBuilder extends AccountDTOBuilder<UserDTOBuilder, UserDTO> {
         return this;
     }
     
-    private void validateInputs() {
+    @Override
+    protected void validateInputs() {
         // TODO Zak: Check each field and throw Exception if invalid
     }
 }
