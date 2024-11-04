@@ -1,5 +1,8 @@
 package de.fhdo.eborrow.services;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -26,6 +29,14 @@ public class GameService {
 
     public void deleteGame(Long id) {
         gameRepository.deleteById(id);
+    }
+
+    public List<Game> getAll(){
+        List<Game> games = new ArrayList<>(); 
+        for(Game game: gameRepository.findAll()) {
+            games.add(game); 
+        } 
+        return games; 
     }
 
     public void updateGame(Game game) {
