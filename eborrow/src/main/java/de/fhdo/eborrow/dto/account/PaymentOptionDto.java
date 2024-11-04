@@ -1,8 +1,8 @@
 package de.fhdo.eborrow.dto.account;
 
-import de.fhdo.eborrow.dto.account.builder.PaymentOptionDTOBuilder;
+import de.fhdo.eborrow.dto.account.builder.PaymentOptionDtoBuilder;
 
-public class PaymentOptionDTO {
+public class PaymentOptionDto {
     private Long id;
 
     private String iban;
@@ -12,7 +12,7 @@ public class PaymentOptionDTO {
     private String accountOwnerSurname;
     private String accountOwnerStreet;
 
-    private PaymentOptionDTO(Long id, String iban, boolean isActive, String accountOwnerPrename, String accountOwnerSurname, String accountOwnerStreet, byte accountOwnerHousenumber, byte accountOwnerZipCode, String accountOwnerResidence) {
+    private PaymentOptionDto(Long id, String iban, boolean isActive, String accountOwnerPrename, String accountOwnerSurname, String accountOwnerStreet, byte accountOwnerHousenumber, byte accountOwnerZipCode, String accountOwnerResidence) {
         this.id = id;
         this.iban = iban;
         this.isActive = isActive;
@@ -24,7 +24,7 @@ public class PaymentOptionDTO {
         this.accountOwnerResidence = accountOwnerResidence;
     }
     
-    public PaymentOptionDTO(PaymentOptionDTOBuilder builder) {
+    public PaymentOptionDto(PaymentOptionDtoBuilder builder) {
         this(builder.getId(), 
                 builder.getIban(), 
                 builder.isActive(), 

@@ -1,10 +1,10 @@
 package de.fhdo.eborrow.dto.account.builder;
 
-import de.fhdo.eborrow.dto.account.AccountDTO;
+import de.fhdo.eborrow.dto.account.AccountDto;
 
 import java.time.LocalDate;
 
-public abstract class AccountDTOBuilder<B extends AccountDTOBuilder<B, A>, A extends AccountDTO> {
+public abstract class AccountDtoBuilder<B extends AccountDtoBuilder<B, A>, A extends AccountDto> {
     protected Long id;
     protected String prename;
     protected String surname;

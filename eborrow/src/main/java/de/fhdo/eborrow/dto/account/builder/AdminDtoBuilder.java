@@ -1,20 +1,21 @@
 package de.fhdo.eborrow.dto.account.builder;
 
-import de.fhdo.eborrow.dto.account.PublisherDTO;
+import de.fhdo.eborrow.dto.account.AdminDto;
 
-public class PublisherDTOBuilder extends AccountDTOBuilder<PublisherDTOBuilder, PublisherDTO> {
+// region Builder
+public class AdminDtoBuilder extends AccountDtoBuilder<AdminDtoBuilder, AdminDto> {
     @Override
-    public PublisherDTO build() {
+    public AdminDto build() {
         validateInputs();
 
-        return new PublisherDTO(this);
+        return new AdminDto(this);
     }
 
     @Override
-    protected PublisherDTOBuilder self() {
+    protected AdminDtoBuilder self() {
         return this;
     }
-
+    
     @Override
     protected void validateInputs() {
         // TODO Zak: Check each field and throw Exception if invalid

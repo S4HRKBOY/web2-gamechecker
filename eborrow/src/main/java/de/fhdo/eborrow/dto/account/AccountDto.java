@@ -1,10 +1,10 @@
 package de.fhdo.eborrow.dto.account;
 
-import de.fhdo.eborrow.dto.account.builder.AccountDTOBuilder;
+import de.fhdo.eborrow.dto.account.builder.AccountDtoBuilder;
 
 import java.time.LocalDate;
 
-public abstract class AccountDTO {
+public abstract class AccountDto {
     private Long id;
 
     private String prename;
@@ -16,7 +16,7 @@ public abstract class AccountDTO {
     private String password;
     private byte[] profilePicture;
     
-    protected AccountDTO(Long id, String prename, String surname, LocalDate birthday, String username, String email, String password, byte[] profilePicture) {
+    protected AccountDto(Long id, String prename, String surname, LocalDate birthday, String username, String email, String password, byte[] profilePicture) {
         this.id = id;
         this.prename = prename;
         this.surname = surname;
@@ -27,7 +27,7 @@ public abstract class AccountDTO {
         this.profilePicture = profilePicture;
     }
 
-    public AccountDTO(AccountDTOBuilder<?,?> builder) {
+    public AccountDto(AccountDtoBuilder<?,?> builder) {
         this(builder.getId(), 
                 builder.getPrename(), 
                 builder.getSurname(), 
@@ -39,7 +39,7 @@ public abstract class AccountDTO {
     }
     
     public final boolean isAdmin() {
-        return this instanceof AdminDTO;
+        return this instanceof AdminDto;
     }
 
     // region getter and setter

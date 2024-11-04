@@ -1,8 +1,8 @@
 package de.fhdo.eborrow.dto.account.builder;
 
-import de.fhdo.eborrow.dto.account.PaymentOptionDTO;
+import de.fhdo.eborrow.dto.account.PaymentOptionDto;
 
-public class PaymentOptionDTOBuilder {
+public class PaymentOptionDtoBuilder {
     private Long id;
     private String iban;
     private String accountOwnerPrename;
@@ -13,55 +13,55 @@ public class PaymentOptionDTOBuilder {
     private String accountOwnerResidence;
     private boolean isActive = true;
 
-    public PaymentOptionDTOBuilder setId(Long id) {
+    public PaymentOptionDtoBuilder setId(Long id) {
         this.id = id;
         return this;
     }
 
-    public PaymentOptionDTOBuilder setIban(String iban) {
+    public PaymentOptionDtoBuilder setIban(String iban) {
         this.iban = iban;
         return this;
     }
 
-    public PaymentOptionDTOBuilder setAccountOwnerPrename(String accountOwnerPrename) {
+    public PaymentOptionDtoBuilder setAccountOwnerPrename(String accountOwnerPrename) {
         this.accountOwnerPrename = accountOwnerPrename;
         return this;
     }
 
-    public PaymentOptionDTOBuilder setAccountOwnerSurname(String accountOwnerSurname) {
+    public PaymentOptionDtoBuilder setAccountOwnerSurname(String accountOwnerSurname) {
         this.accountOwnerSurname = accountOwnerSurname;
         return this;
     }
 
-    public PaymentOptionDTOBuilder setAccountOwnerStreet(String accountOwnerStreet) {
+    public PaymentOptionDtoBuilder setAccountOwnerStreet(String accountOwnerStreet) {
         this.accountOwnerStreet = accountOwnerStreet;
         return this;
     }
 
-    public PaymentOptionDTOBuilder setAccountOwnerHousenumber(byte accountOwnerHousenumber) {
+    public PaymentOptionDtoBuilder setAccountOwnerHousenumber(byte accountOwnerHousenumber) {
         this.accountOwnerHousenumber = accountOwnerHousenumber;
         return this;
     }
 
-    public PaymentOptionDTOBuilder setAccountOwnerZipCode(byte accountOwnerZipCode) {
+    public PaymentOptionDtoBuilder setAccountOwnerZipCode(byte accountOwnerZipCode) {
         this.accountOwnerZipCode = accountOwnerZipCode;
         return this;
     }
 
-    public PaymentOptionDTOBuilder setAccountOwnerResidence(String accountOwnerResidence) {
+    public PaymentOptionDtoBuilder setAccountOwnerResidence(String accountOwnerResidence) {
         this.accountOwnerResidence = accountOwnerResidence;
         return this;
     }
 
-    public PaymentOptionDTOBuilder setIsActive(boolean isActive) {
+    public PaymentOptionDtoBuilder setIsActive(boolean isActive) {
         this.isActive = isActive;
         return this;
     }
 
-    public PaymentOptionDTO build() {
+    public PaymentOptionDto build() {
         validateInputs();
 
-        return new PaymentOptionDTO(this);
+        return new PaymentOptionDto(this);
     }
     
     private void validateInputs() {
