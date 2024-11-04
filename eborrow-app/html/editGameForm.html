@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="de">
+
+<head>
+    <meta charset="UTF-8">
+    <title>E-Borrow</title>
+    <link rel="stylesheet" href="../css/gamestyle.css">  
+    <link rel="stylesheet" href="../css/style.css">  
+</head>
+
+<body>
+    <header>
+        <a id="navbar_logo" href="start_page.html"><img class="logo" src="../images/logo.svg" alt="logo"></a>
+        <nav class="navigation">
+            <ul class="nav-links">
+                <li><a href="start_page.html">Home</a></li>
+                <li><a href="#">Neues Spiel anlegen</a></li>
+                <li><a href="profile_page.html">Profil</a></li>
+                <li><a href="login_page.html">Logout</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main id="mainContainer">
+        <h1 id="headline">Spiel bearbeiten</h1>
+        <form id="gameForm" action="./detail_page.html">
+            <label for="title">Spieletitel</label>
+            <input id="title" type="text" name="title" required value="Call of Duty: Modern Warfare 3">
+            <label for="licence">Anzahl verfügbarer Lizenzen</label>
+            <select name="licence" id="licence">
+                <option value="1">1</option>
+                <option value="2">2</option>
+                <option value="3" selected="selected">3</option>
+                <option value="4">4</option>
+                <option value="5">5</option>
+            </select>
+            <label for="description">Beschreibung</label>
+            <textarea id="description" name="description" required>Call of Duty ist eine weltweit bekannte Ego-Shooter-Spielreihe, die die Spieler in intensive und realistische Kriegsszenarien versetzt. Mit atemberaubender Grafik und fesselnden Storylines erleben Spieler historische und moderne Schlachten. Ob im Einzelspieler-Storymodus oder in actiongeladenen Multiplayer-Schlachten – Call of Duty bietet Adrenalin pur.
+            </textarea>
+            <label for="genre">Genre</label>
+            <input id="genre" type="text" name="genre"  value="Ego-Shooter" required>
+            <label for="publication">Veröffentlichung</label>
+            <input id="publication" type="date" name="publication" value="2011-11-08" required>
+            <label for="developer">Entwickler</label>
+            <input id="developer" type="text" name="developer" value="Infinity Ward, Sledgehammer Games" required>
+            <label for="publisher">Publisher</label>
+            <input id="publisher" type="text" name="publisher" value="Activision" required>
+            <label for="age">Altersbeschränkung</label>
+            <select name="age" id="age">
+                <option value="0">0</option>
+                <option value="6">6</option>
+                <option value="12">12</option>
+                <option value="16">16</option>
+                <option value="18" selected="selected">18</option>
+            </select>
+            <label for="file">Bild hochladen</label>
+            <input id="file" type="file" name="file" accept="image/*">
+            <input id="submit" type="submit" value="Neues Spiel anlegen">
+        </form>
+    </main>
+</body>
+
+</html>
