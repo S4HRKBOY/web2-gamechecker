@@ -107,4 +107,18 @@ public abstract class AccountDto {
         this.profilePicture = profilePicture;
     }
     // endregion
+
+    @Override
+    public String toString() {
+        return "AccountDto{" +
+                "id=" + id +
+                ", prename='" + prename + '\'' +
+                ", surname='" + surname + '\'' +
+                ", birthday=" + birthday +
+                ", username='" + username + '\'' +
+                ", email='" + email + '\'' +
+                ", password='" + password + '\'' +
+                ", profilePicture=" + profilePicture +
+                '}';
+    }
 }

@@ -113,4 +113,19 @@ public class PaymentOptionDto {
         this.accountOwnerResidence = accountOwnerResidence;
     }
     // endregion
+
+    @Override
+    public String toString() {
+        return "PaymentOptionDto{" +
+                "id=" + id +
+                ", iban='" + iban + '\'' +
+                ", isActive=" + isActive +
+                ", accountOwnerPrename='" + accountOwnerPrename + '\'' +
+                ", accountOwnerSurname='" + accountOwnerSurname + '\'' +
+                ", accountOwnerStreet='" + accountOwnerStreet + '\'' +
+                ", accountOwnerHousenumber=" + accountOwnerHousenumber +
+                ", accountOwnerZipCode=" + accountOwnerZipCode +
+                ", accountOwnerResidence='" + accountOwnerResidence + '\'' +
+                '}';
+    }
 }

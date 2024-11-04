@@ -121,4 +121,18 @@ public abstract class Account {
         this.profilePicture = profilePicture;
     }
     // endregion
+
+    @Override
+    public String toString() {
+        return "Account{" +
+                "id=" + id +
+                ", prename='" + prename + '\'' +
+                ", surname='" + surname + '\'' +
+                ", birthday=" + birthday +
+                ", username='" + username + '\'' +
+                ", email='" + email + '\'' +
+                ", password='" + password + '\'' +
+                ", profilePicture=" + profilePicture +
+                '}';
+    }
 }

@@ -19,4 +19,9 @@ public class Publisher extends Account {
     public Publisher(PublisherBuilder builder) {
         super(builder);
     }
+
+    @Override
+    public String toString() {
+        return "Publisher{} " + super.toString();
+    }
 }

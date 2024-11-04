@@ -19,4 +19,9 @@ public class PublisherDto extends AccountDto {
                               int age, String developer, String publisher, byte[] image) {
         return new GameDto(id, title, description, licence, genre, publication, age, developer, publisher, image);
     }
+
+    @Override
+    public String toString() {
+        return "PublisherDto{} " + super.toString();
+    }
 }

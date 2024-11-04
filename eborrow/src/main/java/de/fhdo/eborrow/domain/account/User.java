@@ -34,4 +34,11 @@ public class User extends Account {
         this.paymentOption = paymentOption;
     }
     // endregion
+
+    @Override
+    public String toString() {
+        return "User{" +
+                "paymentOption=" + paymentOption +
+                "} " + super.toString();
+    }
 }

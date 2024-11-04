@@ -27,4 +27,9 @@ public class AdminDto extends AccountDto {
                 .setProfilePicture(profilePicture)
                 .build();
     }
+
+    @Override
+    public String toString() {
+        return "AdminDto{} " + super.toString();
+    }
 }

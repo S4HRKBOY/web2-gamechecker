@@ -26,4 +26,11 @@ public class UserDto extends AccountDto {
         this.paymentOptionDto = paymentOptionDto;
     }
     // endregion
+
+    @Override
+    public String toString() {
+        return "UserDto{" +
+                "paymentOptionDto=" + paymentOptionDto +
+                "} " + super.toString();
+    }
 }

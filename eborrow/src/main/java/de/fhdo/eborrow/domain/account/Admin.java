@@ -20,4 +20,8 @@ public class Admin extends Account {
         super(builder);
     }
 
+    @Override
+    public String toString() {
+        return "Admin{} " + super.toString();
+    }
 }
