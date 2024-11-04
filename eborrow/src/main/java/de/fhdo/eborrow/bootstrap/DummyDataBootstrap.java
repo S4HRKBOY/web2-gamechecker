@@ -1,5 +1,14 @@
 package de.fhdo.eborrow.bootstrap;
 
+import de.fhdo.eborrow.domain.account.Admin;
+import de.fhdo.eborrow.domain.account.PaymentOption;
+import de.fhdo.eborrow.domain.account.Publisher;
+import de.fhdo.eborrow.domain.account.User;
+import de.fhdo.eborrow.domain.account.builder.AdminBuilder;
+import de.fhdo.eborrow.domain.account.builder.PaymentOptionBuilder;
+import de.fhdo.eborrow.domain.account.builder.PublisherBuilder;
+import de.fhdo.eborrow.domain.account.builder.UserBuilder;
+import de.fhdo.eborrow.repositories.AccountRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationListener;
 import org.springframework.context.event.ContextRefreshedEvent;
@@ -15,11 +24,13 @@ import de.fhdo.eborrow.repositories.GameRepository;
 @Component
 public class DummyDataBootstrap implements ApplicationListener<ContextRefreshedEvent> {
 
-    private GameRepository gameRepository;
+    private final AccountRepository accountRepository;
+    private final GameRepository gameRepository;
 
     @Autowired
-    public DummyDataBootstrap(GameRepository gameRepository) {
+    public DummyDataBootstrap(AccountRepository accountRepository, GameRepository gameRepository) {
         this.gameRepository = gameRepository;
+        this.accountRepository = accountRepository;
     }
 
     @Override
@@ -35,6 +46,53 @@ public class DummyDataBootstrap implements ApplicationListener<ContextRefreshedE
 
         gameRepository.save(game1);
 
+        initAccounts();
+    }
+
+    private void initAccounts() {
+        User user = new UserBuilder()
+                .setId(1L)
+                .setPrename("Max")
+                .setSurname("Mustermann")
+                .setUsername("mamus")
+                .setBirthday(LocalDate.of(2000, 1, 1))
+                .setEmail("max.mustermann@dummy.com")
+                .setPassword("password")
+                .setProfilePicture(readImage("where_image.png"))
+                .setPaymentOption(new PaymentOptionBuilder()
+                        .setId(1L)
+                        .setIban("DE00111122223333444455")
+                        .setAccountOwnerPrename("Max")
+                        .setAccountOwnerSurname("Mustermann")
+                        .setAccountOwnerStreet("Musterstraße")
+                        .setAccountOwnerHousenumber((byte) 1)
+                        .setAccountOwnerZipCode((byte) 12345)
+                        .setAccountOwnerResidence("Musterstadt")
+                        .setIsActive(true)
+                        .build())
+                .build();
+
+        Admin admin = new AdminBuilder()
+                .setId(1L)
+                .setPrename("Admin")
+                .setSurname("Admin")
+                .setUsername("admin")
+                .setEmail("admin@dummy.com")
+                .setPassword("admin")
+                .build();
+
+        Publisher publisher = new PublisherBuilder()
+                .setId(1L)
+                .setPrename("Publisher")
+                .setSurname("Publisher")
+                .setUsername("publisher")
+                .setEmail("publisher@dummy.com")
+                .setPassword("publisher")
+                .build();
+
+        accountRepository.save(user);
+        accountRepository.save(admin);
+        accountRepository.save(publisher);
     }
 
     /*
