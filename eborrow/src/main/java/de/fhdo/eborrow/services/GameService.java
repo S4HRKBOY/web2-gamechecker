@@ -12,15 +12,15 @@ import de.fhdo.eborrow.repositories.GameRepository;
 @Service
 public class GameService {
 
-    private GameRepository gameRepository; 
+    private GameRepository gameRepository;
 
     @Autowired
     public GameService(GameRepository gameRepository) {
-        this.gameRepository = gameRepository; 
+        this.gameRepository = gameRepository;
     }
 
     public Long addGame(Game game) {
-        return gameRepository.save(game).getId(); 
+        return gameRepository.save(game).getId();
     }
 
     public Game getGameById(Long id) {
@@ -31,45 +31,50 @@ public class GameService {
         gameRepository.deleteById(id);
     }
 
-    public List<Game> getAll(){
-        List<Game> games = new ArrayList<>(); 
-        for(Game game: gameRepository.findAll()) {
-            games.add(game); 
-        } 
-        return games; 
+    public List<Game> getAll() {
+        List<Game> games = new ArrayList<>();
+        for (Game game : gameRepository.findAll()) {
+            games.add(game);
+        }
+        return games;
     }
 
     public void updateGame(Game game) {
-        Game updatedGame = new Game(); 
-        if(game.getTitle() != null) {
+        Game updatedGame;
+        if (game.getId() != null) {
+            updatedGame = gameRepository.findById(game.getId()).get();
+        } else {
+            updatedGame = new Game();
+        }
+        if (game.getTitle() != null) {
             updatedGame.setTitle(game.getTitle());
         }
-        if(game.getDescription() != null) {
+        if (game.getDescription() != null) {
             updatedGame.setDescription(game.getDescription());
         }
-            
+
         updatedGame.setLicence(game.getLicence());
-        
-        if(game.getGenre() != null) {
+
+        if (game.getGenre() != null) {
             updatedGame.setGenre(game.getGenre());
         }
-        if(game.getPublication() != null) {
+        if (game.getPublication() != null) {
             updatedGame.setPublication(game.getPublication());
         }
 
         updatedGame.setAge(game.getAge());
 
-        if(game.getDeveloper() != null) {
+        if (game.getDeveloper() != null) {
             updatedGame.setDeveloper(game.getDeveloper());
         }
-        if(game.getPublisher() != null) {
+        if (game.getPublisher() != null) {
             updatedGame.setPublisher(game.getPublisher());
         }
-        if(game.getImage() != null) {
-            updatedGame.setImage(game.getImage()); 
+        if (game.getImage() != null) {
+            updatedGame.setImage(game.getImage());
         }
 
-        gameRepository.save(updatedGame).getId(); 
+        gameRepository.save(updatedGame).getId();
     }
 
 }
