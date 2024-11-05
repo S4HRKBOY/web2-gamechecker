@@ -14,6 +14,8 @@ import java.util.stream.StreamSupport;
 
 @Service
 public class UserService extends AccountService {
+	// TODO Zak: Methoden fuer Zahlungsoptionen anbieten? (wenn: hier oder eigener Service?)
+
 	@Autowired
 	public UserService(AccountMapper accountMapper, AccountRepository accountRepository) {
 		super(accountMapper, accountRepository);

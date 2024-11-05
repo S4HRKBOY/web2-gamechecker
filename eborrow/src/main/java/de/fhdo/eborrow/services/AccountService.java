@@ -57,6 +57,9 @@ public class AccountService {
 		return true;
 	}
 
+	// TODO Zak: Besser anders herum: oldAccountDto mit den Werten von newAccountDto befuellen, damit nicht eins versehentlich vergessen wird
+	// Zak: Alternativer Ansatz: Ein UpdateAccount Objekt erzeugen, in dem nur die zu aendernden Felder gesetzt sind
+	// und dann die Werte auf das existierende Objekt im Repository ueberfuehren
 	public boolean updateAccount(AccountDto newAccountDto, Long id) {
 		Account existingAccount = accountRepository.findById(id).orElse(null);
 		if (existingAccount == null) {
