@@ -1,76 +1,105 @@
 package de.fhdo.eborrow.services;
 
+import de.fhdo.eborrow.converters.AccountMapper;
 import de.fhdo.eborrow.domain.account.Account;
+import de.fhdo.eborrow.dto.account.AccountDto;
 import de.fhdo.eborrow.repositories.AccountRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.stream.StreamSupport;
+
 @Service
 public class AccountService {
-    protected AccountRepository accountRepository;
+	protected final AccountMapper accountMapper;
+	protected final AccountRepository accountRepository;
 
-    @Autowired
-    public AccountService(AccountRepository accountRepository) {
-        this.accountRepository = accountRepository;
-    }
+	@Autowired
+	public AccountService(AccountMapper accountMapper, AccountRepository accountRepository) {
+		this.accountMapper = accountMapper;
+		this.accountRepository = accountRepository;
+	}
 
-    // Zak: Spaeter DTO Objekt statt Domain Objekt verwenden
-    public Long addAccount(Account account) {
-        return accountRepository.save(account).getId();
-    }
+	public Long addAccount(AccountDto accountDto) {
+		Account account = accountMapper.dtoToAccount(accountDto);
 
-    public Iterable<Account> getAccounts() {
-        return accountRepository.findAll();
-    }
+		return accountRepository.save(account).getId();
+	}
 
-    public Account getAccountById(Long id) {
-        return accountRepository.findById(id).orElse(null);
-    }
+	public Iterable<AccountDto> getAccounts() {
+		Iterable<Account> all = accountRepository.findAll();
+		Iterable<AccountDto> allDto = StreamSupport.stream(all.spliterator(), false)
+				.map(accountMapper::accountToDto)  // Cast all accounts to DTOs
+				.toList();
 
-    public void deleteAccount(Long id) {
-        accountRepository.deleteById(id);
-    }
+		return allDto;
+	}
 
-    public boolean updateAccount(Account newAccount, Long id) {
-        Account existingAccount = accountRepository.findById(id).orElse(null);
-        if (existingAccount == null) {
-            return false;
-        }
+	public AccountDto getAccountById(Long id) {
+		Account account = accountRepository.findById(id).orElse(null);
+		if (account == null) {
+			return null;
+		}
 
-        newAccount.setId(id);
-        copyExistingFields(existingAccount, newAccount);
-        accountRepository.save(newAccount);
+		AccountDto accountDto = accountMapper.accountToDto(account);
 
-        return true;
-    }
+		return accountDto;
+	}
 
-    protected void copyExistingFields(Account existingAccount, Account newAccount) {
-        if (newAccount.getPrename() == null) {
-            newAccount.setPrename(existingAccount.getPrename());
-        }
+	public boolean deleteAccount(Long id) {
+		Account account = accountRepository.findById(id).orElse(null);
+		if (account == null) {
+			System.err.println("Delete failed: No Account found with id " + id);
+			return false;
+		}
 
-        if (newAccount.getSurname() == null) {
-            newAccount.setSurname(existingAccount.getSurname());
-        }
+		accountRepository.deleteById(id);
+		return true;
+	}
 
-        if (newAccount.getUsername() == null) {
-            newAccount.setUsername(existingAccount.getUsername());
-        }
+	public boolean updateAccount(AccountDto newAccountDto, Long id) {
+		Account existingAccount = accountRepository.findById(id).orElse(null);
+		if (existingAccount == null) {
+			System.err.println("Update failed: No Account found with id " + id);
+			return false;
+		}
 
-        if (newAccount.getBirthday() == null) {
-            newAccount.setBirthday(existingAccount.getBirthday());
-        }
+		newAccountDto.setId(id);
+		AccountDto existingAccountDto = accountMapper.accountToDto(existingAccount);
+		copyExistingFields(existingAccountDto, newAccountDto);
+		Account newAccount = accountMapper.dtoToAccount(newAccountDto);
+		accountRepository.save(newAccount);
 
-        if (newAccount.getEmail() == null) {
-            newAccount.setEmail(existingAccount.getEmail());
-        }
+		return true;
+	}
 
-        if (newAccount.getPassword() == null) {
-            newAccount.setPassword(existingAccount.getPassword());
-        }
+	protected void copyExistingFields(AccountDto existingAccountDto, AccountDto newAccountDto) {
+		if (newAccountDto.getPrename() == null) {
+			newAccountDto.setPrename(existingAccountDto.getPrename());
+		}
 
-        if (newAccount.getProfilePicture() == null) {
-            newAccount.setProfilePicture(existingAccount.getProfilePicture());
-        }
-    }
+		if (newAccountDto.getSurname() == null) {
+			newAccountDto.setSurname(existingAccountDto.getSurname());
+		}
+
+		if (newAccountDto.getUsername() == null) {
+			newAccountDto.setUsername(existingAccountDto.getUsername());
+		}
+
+		if (newAccountDto.getBirthday() == null) {
+			newAccountDto.setBirthday(existingAccountDto.getBirthday());
+		}
+
+		if (newAccountDto.getEmail() == null) {
+			newAccountDto.setEmail(existingAccountDto.getEmail());
+		}
+
+		if (newAccountDto.getPassword() == null) {
+			newAccountDto.setPassword(existingAccountDto.getPassword());
+		}
+
+		if (newAccountDto.getProfilePicture() == null) {
+			newAccountDto.setProfilePicture(existingAccountDto.getProfilePicture());
+		}
+	}
 }
