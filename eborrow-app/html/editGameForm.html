@@ -4,17 +4,17 @@
 <head>
     <meta charset="UTF-8">
     <title>E-Borrow</title>
-    <link rel="stylesheet" href="../css/gamestyle.css">  
-    <link rel="stylesheet" href="../css/style.css">  
+    <link rel="stylesheet" href="../css/gamestyle.css">
+    <link rel="stylesheet" href="../css/style.css">
 </head>
 
 <body>
     <header>
-        <a id="navbar_logo" href="start_page.html"><img class="logo" src="../images/logo.svg" alt="logo"></a>
+        <img class="logo" src="../images/logo.svg" alt="logo">
         <nav class="navigation">
             <ul class="nav-links">
                 <li><a href="start_page.html">Home</a></li>
-                <li><a href="#">Neues Spiel anlegen</a></li>
+                <li><a href="gameForm.html">Neues Spiel anlegen</a></li>
                 <li><a href="profile_page.html">Profil</a></li>
                 <li><a href="login_page.html">Logout</a></li>
             </ul>
@@ -35,10 +35,9 @@
                 <option value="5">5</option>
             </select>
             <label for="description">Beschreibung</label>
-            <textarea id="description" name="description" required>Call of Duty ist eine weltweit bekannte Ego-Shooter-Spielreihe, die die Spieler in intensive und realistische Kriegsszenarien versetzt. Mit atemberaubender Grafik und fesselnden Storylines erleben Spieler historische und moderne Schlachten. Ob im Einzelspieler-Storymodus oder in actiongeladenen Multiplayer-Schlachten – Call of Duty bietet Adrenalin pur.
-            </textarea>
+            <textarea id="description" name="description" required>Call of Duty ist eine weltweit bekannte Ego-Shooter-Spielreihe, die die Spieler in intensive und realistische Kriegsszenarien versetzt. Mit atemberaubender Grafik und fesselnden Storylines erleben Spieler historische und moderne Schlachten. Ob im Einzelspieler-Storymodus oder in actiongeladenen Multiplayer-Schlachten – Call of Duty bietet Adrenalin pur.</textarea>
             <label for="genre">Genre</label>
-            <input id="genre" type="text" name="genre"  value="Ego-Shooter" required>
+            <input id="genre" type="text" name="genre" value="Ego-Shooter" required>
             <label for="publication">Veröffentlichung</label>
             <input id="publication" type="date" name="publication" value="2011-11-08" required>
             <label for="developer">Entwickler</label>
@@ -55,6 +54,10 @@
             </select>
             <label for="file">Bild hochladen</label>
             <input id="file" type="file" name="file" accept="image/*">
+            <fieldset id="imagearea">
+                <legend>Vorschaubild</legend>
+                <img src="../images/call-of-duty.png" height="300">
+            </fieldset>
             <input id="submit" type="submit" value="Neues Spiel anlegen">
         </form>
     </main>

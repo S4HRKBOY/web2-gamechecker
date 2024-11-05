@@ -21,21 +21,31 @@
     "developer-label developer-label publisher-label publisher-label"
     "developer developer publisher publisher"
     "file-label file-label file-label file-label"
-    "file file file file"
+    "file file preview-image preview-image"
     "submit submit submit submit"
 }
 
 #submit, #age, #publication, #licence {
-    width:fit-content; 
+   height: fit-content; 
+   width: fit-content
 }
 
 textarea {
     overflow-y: scroll; 
-    height: 200px; 
+    height: 100px; 
     resize:none; 
     padding: 10px 20px 10px 10px;
     text-align: justify;
     overflow-x: hidden; 
+}
+
+#imagearea {
+    grid-area:preview-image; 
+    border: 1px solid hsl(0, 0%, 75%);
+    border-radius: 10px;
+    padding: 10px;
+    height: 350px; 
+    text-align: center;
 }
 
 label[for="title"] {
