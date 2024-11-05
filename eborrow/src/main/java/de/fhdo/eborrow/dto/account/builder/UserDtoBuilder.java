@@ -6,14 +6,14 @@ import de.fhdo.eborrow.dto.account.UserDto;
 public class UserDtoBuilder extends AccountDtoBuilder<UserDtoBuilder, UserDto> {
     private PaymentOptionDto paymentOptionDto;
 
-    public UserDtoBuilder setPaymentOptionDto(PaymentOptionDto paymentOptionDto) {
-        this.paymentOptionDto = paymentOptionDto;
-        return this;
-    }
-
     // region getter
     public PaymentOptionDto getPaymentOptionDto() {
         return paymentOptionDto;
+    }
+
+    public UserDtoBuilder setPaymentOptionDto(PaymentOptionDto paymentOptionDto) {
+        this.paymentOptionDto = paymentOptionDto;
+        return this;
     }
     // endregion
 
@@ -28,7 +28,7 @@ public class UserDtoBuilder extends AccountDtoBuilder<UserDtoBuilder, UserDto> {
     protected UserDtoBuilder self() {
         return this;
     }
-    
+
     @Override
     protected void validateInputs() {
         // TODO Zak: Check each field and throw Exception if invalid

@@ -11,7 +11,9 @@ public class PaymentOptionDto {
     private String accountOwnerPrename;
     private String accountOwnerSurname;
     private String accountOwnerStreet;
-
+    private byte accountOwnerHousenumber;
+    private byte accountOwnerZipCode;
+    private String accountOwnerResidence;
     private PaymentOptionDto(Long id, String iban, boolean isActive, String accountOwnerPrename, String accountOwnerSurname, String accountOwnerStreet, byte accountOwnerHousenumber, byte accountOwnerZipCode, String accountOwnerResidence) {
         this.id = id;
         this.iban = iban;
@@ -23,22 +25,17 @@ public class PaymentOptionDto {
         this.accountOwnerZipCode = accountOwnerZipCode;
         this.accountOwnerResidence = accountOwnerResidence;
     }
-    
     public PaymentOptionDto(PaymentOptionDtoBuilder builder) {
-        this(builder.getId(), 
-                builder.getIban(), 
-                builder.isActive(), 
-                builder.getAccountOwnerPrename(), 
+        this(builder.getId(),
+                builder.getIban(),
+                builder.isActive(),
+                builder.getAccountOwnerPrename(),
                 builder.getAccountOwnerSurname(),
-                builder.getAccountOwnerStreet(), 
-                builder.getAccountOwnerHousenumber(), 
-                builder.getAccountOwnerZipCode(), 
+                builder.getAccountOwnerStreet(),
+                builder.getAccountOwnerHousenumber(),
+                builder.getAccountOwnerZipCode(),
                 builder.getAccountOwnerResidence());
     }
-
-    private byte accountOwnerHousenumber;
-    private byte accountOwnerZipCode;
-    private String accountOwnerResidence;
 
     // region getter and setter
     public Long getId() {

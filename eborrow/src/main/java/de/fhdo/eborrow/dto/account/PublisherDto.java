@@ -13,7 +13,7 @@ public class PublisherDto extends AccountDto {
     public PublisherDto(PublisherDtoBuilder builder) {
         super(builder);
     }
-    
+
     // Zak: Ueberlegen, ob das PublisherDto Objekt diese Aufgabe uebernehmen soll und nicht eher eine Service-Klassen
     public GameDto createGame(Long id, String title, String description, int licence, String genre, LocalDate publication,
                               int age, String developer, String publisher, byte[] image) {

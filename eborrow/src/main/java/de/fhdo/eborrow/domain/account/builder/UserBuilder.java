@@ -6,14 +6,14 @@ import de.fhdo.eborrow.domain.account.User;
 public class UserBuilder extends AccountBuilder<UserBuilder, User> {
     private PaymentOption paymentOption;
 
-    public UserBuilder setPaymentOption(PaymentOption paymentOption) {
-        this.paymentOption = paymentOption;
-        return this;
-    }
-
     // region getter
     public PaymentOption getPaymentOption() {
         return paymentOption;
+    }
+
+    public UserBuilder setPaymentOption(PaymentOption paymentOption) {
+        this.paymentOption = paymentOption;
+        return this;
     }
     // endregion
 
@@ -28,7 +28,7 @@ public class UserBuilder extends AccountBuilder<UserBuilder, User> {
     protected UserBuilder self() {
         return this;
     }
-    
+
     @Override
     void validateInputs() {
         // TODO Zak: Check each field and throw Exception if invalid

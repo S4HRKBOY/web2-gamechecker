@@ -15,7 +15,7 @@ public class User extends Account {
 
     protected User() {
     }
-    
+
     protected User(Long id, String prename, String surname, LocalDate birthday, String username, String email, String password, byte[] profilePicture) {
         super(id, prename, surname, birthday, username, email, password, profilePicture);
     }
@@ -24,7 +24,7 @@ public class User extends Account {
         super(builder);
         this.paymentOption = builder.getPaymentOption();
     }
-    
+
     // region getter and setter
     public PaymentOption getPaymentOption() {
         return paymentOption;

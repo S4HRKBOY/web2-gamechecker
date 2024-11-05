@@ -7,7 +7,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 
 @Service
@@ -49,11 +48,10 @@ public class UserService extends AccountService {
 
     public boolean updateUser(User newUser, Long id) {
         Account existingAccount = accountRepository.findById(id).orElse(null);
-        if (!(existingAccount instanceof User)) {
+        if (!(existingAccount instanceof User existingUser)) {
             return false;
         }
 
-        User existingUser = (User) existingAccount;
         newUser.setId(id);
         copyExistingFields(existingUser, newUser);
         accountRepository.save(newUser);

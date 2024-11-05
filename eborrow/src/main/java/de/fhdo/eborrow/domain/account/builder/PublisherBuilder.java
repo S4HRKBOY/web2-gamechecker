@@ -19,5 +19,4 @@ public class PublisherBuilder extends AccountBuilder<PublisherBuilder, Publisher
     protected PublisherBuilder self() {
         return this;
     }
-
 }

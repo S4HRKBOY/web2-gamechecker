@@ -7,7 +7,7 @@ public class AdminBuilder extends AccountBuilder<AdminBuilder, Admin> {
     @Override
     public Admin build() {
         validateInputs();
-        
+
         return new Admin(this);
     }
 

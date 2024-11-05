@@ -10,12 +10,12 @@ public abstract class AccountDto {
     private String prename;
     private String surname;
     private LocalDate birthday;
-    
+
     private String username;
     private String email;
     private String password;
     private byte[] profilePicture;
-    
+
     protected AccountDto(Long id, String prename, String surname, LocalDate birthday, String username, String email, String password, byte[] profilePicture) {
         this.id = id;
         this.prename = prename;
@@ -27,17 +27,17 @@ public abstract class AccountDto {
         this.profilePicture = profilePicture;
     }
 
-    public AccountDto(AccountDtoBuilder<?,?> builder) {
-        this(builder.getId(), 
-                builder.getPrename(), 
-                builder.getSurname(), 
+    public AccountDto(AccountDtoBuilder<?, ?> builder) {
+        this(builder.getId(),
+                builder.getPrename(),
+                builder.getSurname(),
                 builder.getBirthday(),
                 builder.getUsername(),
-                builder.getEmail(), 
-                builder.getPassword(), 
+                builder.getEmail(),
+                builder.getPassword(),
                 builder.getProfilePicture());
     }
-    
+
     public final boolean isAdmin() {
         return this instanceof AdminDto;
     }

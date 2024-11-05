@@ -87,7 +87,6 @@ public class AccountMapper {
                         .setEmail(userDto.getEmail())
                         .setPassword(userDto.getPassword())
                         .setProfilePicture(userDto.getProfilePicture());
-                
                 userBuilder.setPaymentOption(paymentOptionMapper.dtoToPaymentOption(userDto.getPaymentOptionDto()));
 
                 return userBuilder.build();
@@ -102,7 +101,7 @@ public class AccountMapper {
                         .setEmail(adminDto.getEmail())
                         .setPassword(adminDto.getPassword())
                         .setProfilePicture(adminDto.getProfilePicture());
-                
+
                 return adminBuilder.build();
             }
             case PublisherDto publisherDto -> {
@@ -115,7 +114,7 @@ public class AccountMapper {
                         .setEmail(publisherDto.getEmail())
                         .setPassword(publisherDto.getPassword())
                         .setProfilePicture(publisherDto.getProfilePicture());
-                
+
                 return publisherBuilder.build();
             }
             default -> {

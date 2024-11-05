@@ -11,7 +11,7 @@ import java.time.LocalDate;
 public class Publisher extends Account {
     protected Publisher() {
     }
-    
+
     protected Publisher(Long id, String prename, String surname, LocalDate birthday, String username, String email, String password, byte[] profilePicture) {
         super(id, prename, surname, birthday, username, email, password, profilePicture);
     }

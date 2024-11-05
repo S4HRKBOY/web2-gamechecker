@@ -18,10 +18,12 @@ public class PaymentOption {
     private String accountOwnerPrename;
     private String accountOwnerSurname;
     private String accountOwnerStreet;
+    private byte accountOwnerHousenumber;
+    private byte accountOwnerZipCode;
+    private String accountOwnerResidence;
 
     protected PaymentOption() {
     }
-    
     protected PaymentOption(Long id, String iban, boolean isActive, String accountOwnerPrename, String accountOwnerSurname, String accountOwnerStreet, byte accountOwnerHousenumber, byte accountOwnerZipCode, String accountOwnerResidence) {
         this.id = id;
         this.iban = iban;
@@ -33,22 +35,17 @@ public class PaymentOption {
         this.accountOwnerZipCode = accountOwnerZipCode;
         this.accountOwnerResidence = accountOwnerResidence;
     }
-    
     public PaymentOption(PaymentOptionBuilder builder) {
-        this(builder.getId(), 
-                builder.getIban(), 
-                builder.isActive(), 
-                builder.getAccountOwnerPrename(), 
+        this(builder.getId(),
+                builder.getIban(),
+                builder.isActive(),
+                builder.getAccountOwnerPrename(),
                 builder.getAccountOwnerSurname(),
-                builder.getAccountOwnerStreet(), 
-                builder.getAccountOwnerHousenumber(), 
-                builder.getAccountOwnerZipCode(), 
+                builder.getAccountOwnerStreet(),
+                builder.getAccountOwnerHousenumber(),
+                builder.getAccountOwnerZipCode(),
                 builder.getAccountOwnerResidence());
     }
-
-    private byte accountOwnerHousenumber;
-    private byte accountOwnerZipCode;
-    private String accountOwnerResidence;
 
     // region getter and setter
     public Long getId() {

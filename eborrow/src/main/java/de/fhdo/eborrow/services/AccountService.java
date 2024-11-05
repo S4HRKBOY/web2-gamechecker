@@ -1,16 +1,9 @@
 package de.fhdo.eborrow.services;
 
-import de.fhdo.eborrow.domain.Game;
 import de.fhdo.eborrow.domain.account.Account;
-import de.fhdo.eborrow.domain.account.Admin;
-import de.fhdo.eborrow.domain.account.builder.AdminBuilder;
 import de.fhdo.eborrow.repositories.AccountRepository;
-import jakarta.persistence.Id;
-import org.aspectj.apache.bcel.generic.RET;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
-import java.util.List;
 
 @Service
 public class AccountService {

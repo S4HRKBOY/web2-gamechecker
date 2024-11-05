@@ -15,7 +15,7 @@ public class AdminDtoBuilder extends AccountDtoBuilder<AdminDtoBuilder, AdminDto
     protected AdminDtoBuilder self() {
         return this;
     }
-    
+
     @Override
     protected void validateInputs() {
         // TODO Zak: Check each field and throw Exception if invalid

@@ -26,7 +26,7 @@ public abstract class Account {
     @Lob
     @Column(columnDefinition = "MEDIUMBLOB")
     private byte[] profilePicture;
-    
+
     protected Account() {
     }
 
@@ -41,17 +41,17 @@ public abstract class Account {
         this.profilePicture = profilePicture;
     }
 
-    public Account(AccountBuilder<?,?> builder) {
-        this(builder.getId(), 
-                builder.getPrename(), 
-                builder.getSurname(), 
+    public Account(AccountBuilder<?, ?> builder) {
+        this(builder.getId(),
+                builder.getPrename(),
+                builder.getSurname(),
                 builder.getBirthday(),
                 builder.getUsername(),
-                builder.getEmail(), 
-                builder.getPassword(), 
+                builder.getEmail(),
+                builder.getPassword(),
                 builder.getProfilePicture());
     }
-    
+
     public final boolean isAdmin() {
         return this instanceof Admin;
     }
