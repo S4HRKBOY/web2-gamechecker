@@ -46,7 +46,7 @@ public class GameMapper {
         game.setPublication(dto.getPublication());
         game.setAge(dto.getAge());
         game.setDeveloper(dto.getDeveloper());
-        game.setPublication(dto.getPublication());
+        game.setPublisher(dto.getPublisher());
         game.setImage(dto.getImage());
 
         return game; 
