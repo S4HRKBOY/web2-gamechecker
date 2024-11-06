@@ -7,7 +7,8 @@ public class GameDto {
 
     private String title; 
     private String description; 
-    private int licence; 
+    private int licences; 
+    private int remainingLicences;
     private String genre; 
     private LocalDate publication; 
     private int age; 
@@ -15,12 +16,13 @@ public class GameDto {
     private String publisher; 
     private byte[] image;
 
-    public GameDto(Long id, String title, String description, int licence, String genre, LocalDate publication,
+    public GameDto(Long id, String title, String description, int licences, int remainingLicences, String genre, LocalDate publication,
             int age, String developer, String publisher, byte[] image) {
         this.id = id;
         this.title = title;
         this.description = description;
-        this.licence = licence;
+        this.licences = licences;
+        this.remainingLicences = remainingLicences; 
         this.genre = genre;
         this.publication = publication;
         this.age = age;
@@ -57,12 +59,20 @@ public class GameDto {
         this.description = description;
     }
 
-    public int getLicence() {
-        return licence;
+    public int getLicences() {
+        return licences;
     }
 
-    public void setLicence(int licence) {
-        this.licence = licence;
+    public void setLicences(int licences) {
+        this.licences = licences;
+    }
+
+    public int getRemainingLicences() {
+        return remainingLicences;
+    }
+
+    public void setRemainingLicences(int remainingLicences) {
+        this.remainingLicences = remainingLicences;
     }
 
     public String getGenre() {

@@ -30,7 +30,7 @@ public class DummyDataBootstrap implements ApplicationListener<ContextRefreshedE
     private void initData() {
         Game game1 = new Game(1L, "Baldurs Gate 3",
                 "Stelle deine Gruppe zusammen und kehre in die Vergessenen Reiche zurück. Erlebe eine Geschichte von Freundschaft und Verrat, von Opfer und Überleben – und die Verlockung absoluter Macht.",
-                1, "Rollenspiel",
+                1, 1, "Rollenspiel",
                 LocalDate.of(2023, 8, 3), 18, "Larian Studios", "Larian Studios", readImage("BaldursGate3.jpg"));
 
         gameRepository.save(game1);

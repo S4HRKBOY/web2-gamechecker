@@ -10,26 +10,27 @@ import jakarta.persistence.Table;
 
 import java.time.LocalDate;
 
-import org.springframework.format.annotation.DateTimeFormat; 
+import org.springframework.format.annotation.DateTimeFormat;
 
 @Entity
 @Table(name = "game")
 public class Game {
-    
+
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long id; 
+    private Long id;
 
-    private String title; 
-    private String description; 
-    private int licence; 
-    private String genre; 
+    private String title;
+    private String description;
+    private int licences;
+    private int remainingLicences;
+    private String genre;
 
     @DateTimeFormat
-    private LocalDate publication; 
-    private int age; 
-    private String developer; 
-    private String publisher; 
+    private LocalDate publication;
+    private int age;
+    private String developer;
+    private String publisher;
 
     @Lob
     @Column(columnDefinition = "MEDIUMBLOB")
@@ -39,12 +40,13 @@ public class Game {
 
     }
 
-    public Game(Long id, String title, String description, int licence, String genre, LocalDate publication,
+    public Game(Long id, String title, String description, int licences, int remainingLicences, String genre, LocalDate publication,
             int age, String developer, String publisher, byte[] image) {
         this.id = id;
         this.title = title;
         this.description = description;
-        this.licence = licence;
+        this.licences = licences;
+        this.remainingLicences = remainingLicences; 
         this.genre = genre;
         this.publication = publication;
         this.age = age;
@@ -77,12 +79,20 @@ public class Game {
         this.description = description;
     }
 
-    public int getLicence() {
-        return licence;
+    public int getLicences() {
+        return licences;
     }
 
-    public void setLicence(int licence) {
-        this.licence = licence;
+    public void setLicences(int licences) {
+        this.licences = licences;
+    }
+
+    public int getRemainingLicences() {
+        return remainingLicences;
+    }
+
+    public void setRemainingLicences(int remainingLicences) {
+        this.remainingLicences = remainingLicences;
     }
 
     public String getGenre() {
@@ -131,6 +141,18 @@ public class Game {
 
     public void setImage(byte[] image) {
         this.image = image;
-    } 
+    }
+
+    public void increase() {
+        if (remainingLicences < licences) {
+            this.remainingLicences++;
+        }
+    }
+
+    public void decrease() {
+        if (remainingLicences > 0) {
+            this.remainingLicences--;
+        }
+    }
 
 }

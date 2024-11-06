@@ -39,7 +39,7 @@ public class GameService {
         return games;
     }
 
-    public void updateGame(Game game) {
+    public Long updateGame(Game game) {
         Game updatedGame;
         if (game.getId() != null) {
             updatedGame = gameRepository.findById(game.getId()).get();
@@ -53,7 +53,23 @@ public class GameService {
             updatedGame.setDescription(game.getDescription());
         }
 
-        updatedGame.setLicence(game.getLicence());
+        updatedGame.setLicences(game.getLicences());
+        if(game.getId() != null) {
+            if(game.getLicences() > updatedGame.getLicences()) { 
+                int increase = game.getLicences() - updatedGame.getLicences(); 
+                updatedGame.setRemainingLicences(updatedGame.getRemainingLicences() + increase);
+            }
+            if(game.getLicences() < updatedGame.getLicences()) {
+                int decrease = updatedGame.getLicences() - game.getLicences(); 
+                int newRemainingLicences = updatedGame.getRemainingLicences() - decrease; 
+                if(newRemainingLicences <= 0) {
+                    updatedGame.setRemainingLicences(0);
+                }
+                else {
+                    updatedGame.setRemainingLicences(newRemainingLicences);
+                }
+            }
+        }
 
         if (game.getGenre() != null) {
             updatedGame.setGenre(game.getGenre());
@@ -74,7 +90,7 @@ public class GameService {
             updatedGame.setImage(game.getImage());
         }
 
-        gameRepository.save(updatedGame).getId();
+        return gameRepository.save(updatedGame).getId();
     }
 
 }
