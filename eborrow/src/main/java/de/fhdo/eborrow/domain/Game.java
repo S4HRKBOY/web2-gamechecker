@@ -6,9 +6,12 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Lob;
+import jakarta.persistence.ManyToMany;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 
 import java.time.LocalDate;
+import java.util.HashSet;
 import java.util.List;
 
 import org.springframework.format.annotation.DateTimeFormat;
@@ -35,6 +38,13 @@ public class Game {
     @Lob
     @Column(columnDefinition = "MEDIUMBLOB")
     private byte[] image;
+
+    /*@OneToMany(mappedBy = "game", cascade = CascadeType.ALL, orphanRemoval = true)
+    private Set<Review> reviews = new HashSet<>();*/
+
+    // TODO Überflüssig? Sollte ein Spiel wissen, welcher Spieler es auf die Liste gepackt hat? 
+    /*@ManyToMany(mappedBy = "games")
+    private Set<User> users = new HashSet<>();*/
 
     public Game() {
 
@@ -133,5 +143,23 @@ public class Game {
     public void setImage(byte[] image) {
         this.image = image;
     }
+
+    /*public Set<Review> getReviews() {
+        return reviews; 
+    }
+
+    public void getReviews(Set<Review> reviews) {
+        this.reviews = reviews; 
+    }
+       
+    //TODO Überflüssig? 
+    public Set<User> getUsers() {
+        return users; 
+    }
+
+    public void getUsers(Set<User> users) {
+        this.users = users; 
+    }
+    */
 
 }
