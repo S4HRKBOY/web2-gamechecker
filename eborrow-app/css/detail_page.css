@@ -1,150 +1,110 @@
-/* #region Navigation Bar*/
-header{
-    display: grid;
-    
-    position: sticky;
-    top: 0;
-    grid-template-rows: auto;
-    grid-template-columns: 30% auto;
-    grid-template-areas: "logo links";
-    align-items: center;
-    background-color: rgb(192, 192, 192);
+.headline {
+  padding-left: 25%;
 }
 
-.logo{
-    grid-area: logo;
-    place-self: center;
-    cursor: pointer;
+.detailContainer, .reviewForm, .reviewContainer {
+  display: grid;
+  margin: 1% 25% 1% 25%;
+  border: 1px solid black;
+  border-radius: 10px;
+  padding: 10px;
+  gap: 10px;
 }
 
-.navigation{
-    grid-area: links;
+.detailContainer {
+  grid-template-columns: auto 60%;
+  grid-template-rows: auto;
+  grid-template-areas:
+    "editButton editButton"
+    "detailImage detailInfo"
+    "detailDescription detailDescription"
 }
 
-.nav-links{
-    display: flex;
-    justify-content: space-evenly;
-    align-items: center;
-    justify-items: center;
-    list-style: none;
+#editButton {
+  justify-self: end;
+  grid-area: editButton;
 }
 
-.nav-links li {
-    display: inline-block;
-    border: 1px solid #2b2929;
-    border-radius: 5px; 
-    background-color: #2b2929;
-    padding: 5px;
+th,
+td {
+  padding: 5px;
+  vertical-align: top;
 }
 
-.nav-links li:hover {
-    display: inline-block;
-    border: 1px solid #2b2929;
-    border-radius: 5px; 
-    background-color: rgb(192, 192, 192);
-    padding: 5px;
+#detailInfo {
+  grid-area: detailInfo;
 }
 
-.nav-links li a{
-    display: all 0.3s ease 0s;
-    color: white;
-    font-style: italic;
-    text-decoration: none;
+#detailImage {
+  max-width: 100%;
+  max-height: 100%;
+  grid-area: detailImage;
 }
 
-.nav-links li a:hover{
-    display: all 0.3s ease 0s;
-    font-style: italic;
-    text-decoration: none;
+#detailDescription {
+  grid-area: detailDescription;
 }
-/* #endregion */
 
-
-/* main */
-
-#container { 
-    display: grid;
-    grid-template-columns: 50% 50%;
-    grid-template-rows: auto auto auto auto auto auto auto auto;
-    grid-template-areas: "area0 area0"
-                         "area1 area1"
-                         "area2 area3"
-                         "area2 area4"
-                         "area2 area5"
-                         "area2 area6"
-                         "area7 area7"
-                         "area8 area8";
-    padding: 10px;
-    margin: 5px;
-    height: 200px;
-  }
-
-  
-  #container > div {
-    border: 2px solid;
-    margin: 5px;
-  }
-
-  #item0 { grid-area: area0;
-           display: flex;
-           justify-content: flex-end;
- }
-
- #item0 button{
-    margin: 10px;
- } 
-  #item1 { 
-    grid-area: area1;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    font-family: "Impact", sans-serif;
-    font-size: 24px; 
-}    
-  #item2 { 
-    grid-area: area2;
-    display: flex;
-    justify-content: center;
-    align-items: center; 
+.reviewForm {
+  grid-template-columns: auto auto 15%;
+  grid-template-rows: auto;
+  grid-template-areas:
+    "reviewText reviewText recommendation-label"
+    "reviewText reviewText recommendation"
+    "reviewText reviewText ."
+    ". . submit"
 }
-#item2 img{ 
-    max-width: 100%;
-    max-height: 100%;
-    object-fit: contain; 
-}    
-  #item3 { 
-    grid-area: area3;
-    display: flex;
-    justify-content: center;
-    align-items: center; 
-}
-  #item4 { 
-    grid-area: area4;
-    display: flex;
-    justify-content: center;
-    align-items: center; 
-}
-  #item5 { 
-    grid-area: area5;
-    display: flex;
-    justify-content: center;
-    align-items: center; 
-} 
-  #item6 {
-    grid-area: area6;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-} 
-  #item7 {
-     grid-area: area7; 
-    } 
-  #item8 { 
-    grid-area: area8;
-    display: flex;
-    justify-content: center;
-    align-items: center; 
-} 
 
+label[for="recommendation"] {
+  grid-area: recommendation-label;
+}
 
-/* #endregion */
+#reviewText {
+  grid-area: reviewText;
+}
+
+#recommendation {
+  grid-area: recommendation;
+}
+
+#submit {
+  grid-area: submit;
+}
+
+textarea {
+  overflow-y: scroll;
+  height: 100px;
+  resize: none;
+  padding: 10px 20px 10px 10px;
+  text-align: justify;
+  overflow-x: hidden;
+}
+
+.reviewContainer {
+  grid-template-columns: 3% auto auto auto;
+  grid-template-rows: auto;
+  grid-template-areas:
+    "reviewImage reviewUsername reviewDate reviewRating"
+    "reviewContent reviewContent reviewContent reviewContent"
+}
+
+.reviewImage {
+  width: 20px;
+  grid-area: reviewImage;
+}
+
+.reviewUsername {
+  grid-area: reviewUsername;
+}
+
+.reviewDate {
+  grid-area: reviewDate;
+}
+
+.reviewRating {
+  grid-area: reviewRating;
+}
+
+.reviewContent {
+  grid-area: reviewContent;
+}
