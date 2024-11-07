@@ -60,21 +60,8 @@ public class GameService {
             updatedGame.setDescription(gameDto.getDescription());
         }
 
-        updatedGame.setLicences(gameDto.getLicences());
-        if (gameDto.getId() != null) {
-            if (gameDto.getLicences() > updatedGame.getLicences()) {
-                int increase = gameDto.getLicences() - updatedGame.getLicences();
-                updatedGame.setRemainingLicences(updatedGame.getRemainingLicences() + increase);
-            }
-            if (gameDto.getLicences() < updatedGame.getLicences()) {
-                int decrease = updatedGame.getLicences() - gameDto.getLicences();
-                int newRemainingLicences = updatedGame.getRemainingLicences() - decrease;
-                if (newRemainingLicences <= 0) {
-                    updatedGame.setRemainingLicences(0);
-                } else {
-                    updatedGame.setRemainingLicences(newRemainingLicences);
-                }
-            }
+        if (!gameDto.getPlatforms().isEmpty()) {
+            updatedGame.setPlatforms(gameDto.getPlatforms());
         }
 
         if (gameDto.getGenre() != null) {

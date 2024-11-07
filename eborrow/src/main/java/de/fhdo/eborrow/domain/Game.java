@@ -9,6 +9,7 @@ import jakarta.persistence.Lob;
 import jakarta.persistence.Table;
 
 import java.time.LocalDate;
+import java.util.List;
 
 import org.springframework.format.annotation.DateTimeFormat;
 
@@ -22,8 +23,7 @@ public class Game {
 
     private String title;
     private String description;
-    private int licences;
-    private int remainingLicences;
+    private List<String> platforms; 
     private String genre;
 
     @DateTimeFormat
@@ -40,13 +40,12 @@ public class Game {
 
     }
 
-    public Game(Long id, String title, String description, int licences, int remainingLicences, String genre, LocalDate publication,
+    public Game(Long id, String title, String description, List<String> platforms, String genre, LocalDate publication,
             int age, String developer, String publisher, byte[] image) {
         this.id = id;
         this.title = title;
         this.description = description;
-        this.licences = licences;
-        this.remainingLicences = remainingLicences; 
+        this.platforms = platforms; 
         this.genre = genre;
         this.publication = publication;
         this.age = age;
@@ -79,20 +78,12 @@ public class Game {
         this.description = description;
     }
 
-    public int getLicences() {
-        return licences;
+    public List<String> getPlatforms() {
+        return platforms; 
     }
 
-    public void setLicences(int licences) {
-        this.licences = licences;
-    }
-
-    public int getRemainingLicences() {
-        return remainingLicences;
-    }
-
-    public void setRemainingLicences(int remainingLicences) {
-        this.remainingLicences = remainingLicences;
+    public void setPlatforms(List<String> platforms) {
+        this.platforms = platforms; 
     }
 
     public String getGenre() {
@@ -141,18 +132,6 @@ public class Game {
 
     public void setImage(byte[] image) {
         this.image = image;
-    }
-
-    public void increase() {
-        if (remainingLicences < licences) {
-            this.remainingLicences++;
-        }
-    }
-
-    public void decrease() {
-        if (remainingLicences > 0) {
-            this.remainingLicences--;
-        }
     }
 
 }

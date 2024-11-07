@@ -7,6 +7,7 @@ import org.springframework.stereotype.Component;
 
 import java.time.LocalDate;
 import java.io.*;
+import java.util.Arrays;
 import java.util.Objects;
 
 import de.fhdo.eborrow.domain.Game;
@@ -30,7 +31,7 @@ public class DummyDataBootstrap implements ApplicationListener<ContextRefreshedE
     private void initData() {
         Game game1 = new Game(1L, "Baldurs Gate 3",
                 "Stelle deine Gruppe zusammen und kehre in die Vergessenen Reiche zurück. Erlebe eine Geschichte von Freundschaft und Verrat, von Opfer und Überleben – und die Verlockung absoluter Macht.",
-                1, 1, "Rollenspiel",
+                Arrays.asList("Windwos", "macOS", "Playstation 5", "Xbox Series" ), "Rollenspiel",
                 LocalDate.of(2023, 8, 3), 18, "Larian Studios", "Larian Studios", readImage("BaldursGate3.jpg"));
 
         gameRepository.save(game1);

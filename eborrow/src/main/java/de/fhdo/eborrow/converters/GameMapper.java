@@ -18,8 +18,7 @@ public class GameMapper {
         gameDto.setId(game.getId()); 
         gameDto.setTitle(game.getTitle());
         gameDto.setDescription(game.getDescription());
-        gameDto.setLicences(game.getLicences());
-        gameDto.setRemainingLicences(game.getRemainingLicences());
+        gameDto.setPlatforms(game.getPlatforms());
         gameDto.setGenre(game.getGenre());
         gameDto.setPublication(game.getPublication());
         gameDto.setAge(game.getAge());
@@ -40,8 +39,7 @@ public class GameMapper {
         game.setId(dto.getId()); 
         game.setTitle(dto.getTitle());
         game.setDescription(dto.getDescription());
-        game.setLicences(dto.getLicences());
-        game.setRemainingLicences(dto.getRemainingLicences());
+        game.setPlatforms(dto.getPlatforms());
         game.setGenre(dto.getGenre());
         game.setPublication(dto.getPublication());
         game.setAge(dto.getAge());
