@@ -32,7 +32,7 @@
 
 textarea {
     overflow-y: scroll; 
-    height: 100px; 
+    height: 150px; 
     resize:none; 
     padding: 10px 20px 10px 10px;
     text-align: justify;
@@ -49,7 +49,7 @@ textarea {
     border: 1px solid hsl(0, 0%, 75%);
     border-radius: 10px;
     padding: 10px;
-    height: 350px; 
+    height: 300px; 
     text-align: center;
 }
 
