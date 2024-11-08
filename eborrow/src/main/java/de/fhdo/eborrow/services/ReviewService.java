@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 @Service
 public class ReviewService {
@@ -47,6 +48,16 @@ public class ReviewService {
 	public List<ReviewDto> getAll() {
 		List<ReviewDto> reviewDtos = new ArrayList<>();
 		reviewRepository.findAll().forEach(review -> reviewDtos.add(reviewMapper.convertReviewToDto(review)));
+		return reviewDtos;
+	}
+
+	public List<ReviewDto> getAllReviewsToGame(Long id){
+		List<ReviewDto> reviewDtos = new ArrayList<>();
+		reviewRepository.findAll().forEach(review -> {
+			if(Objects.equals(review.getGame().getId(), id)){
+				reviewDtos.add(reviewMapper.convertReviewToDto(review));
+			}
+		});
 		return reviewDtos;
 	}
 

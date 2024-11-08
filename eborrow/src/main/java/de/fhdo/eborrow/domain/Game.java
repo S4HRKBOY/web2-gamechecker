@@ -35,7 +35,7 @@ public class Game {
     private byte[] image;
 
     @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    @JoinColumn(name = "review_id")
+    @JoinColumn(name = "game_id")
     private List<Review> reviews;
 
     public Game() {
