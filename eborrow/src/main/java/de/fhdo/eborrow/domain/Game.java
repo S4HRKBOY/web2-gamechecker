@@ -1,23 +1,21 @@
 package de.fhdo.eborrow.domain;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.Lob;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.springframework.format.annotation.DateTimeFormat;
 
+//TODO Genre als Enum?
 @Entity
 @Table(name = "game")
 public class Game {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name = "id")
     private Long id;
 
     private String title;
@@ -35,6 +33,10 @@ public class Game {
     @Lob
     @Column(columnDefinition = "MEDIUMBLOB")
     private byte[] image;
+
+    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JoinColumn(name = "review_id")
+    private List<Review> reviews;
 
     public Game() {
 
@@ -141,6 +143,22 @@ public class Game {
 
     public void setImage(byte[] image) {
         this.image = image;
+    }
+
+    public void addReview(Review review){
+        if(reviews == null){
+            reviews = new ArrayList<>();
+        }
+        review.setGame(this);
+        reviews.add(review);
+    }
+
+    public List<Review> getReviews() {
+        return reviews;
+    }
+
+    public void setReviews(List<Review> reviews) {
+        this.reviews = reviews;
     }
 
     public void increase() {
