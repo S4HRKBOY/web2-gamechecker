@@ -46,7 +46,7 @@ td {
 }
 
 .reviewForm {
-  grid-template-columns: auto auto 15%;
+  grid-template-columns: auto auto 200px;
   grid-template-rows: auto;
   grid-template-areas:
     "reviewText reviewText recommendation-label"
