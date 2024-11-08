@@ -23,9 +23,9 @@
 
     <main>
         <h1 class="headline">Call of Duty: Modern Warfare III</h1>
-        <section class="container">
+        <div class="container">
             <div class="detailContainer">
-                <img id="detailImage" src="../images/callOfDuty3.jpg">
+                <img id="detailImage" src="../images/callOfDuty3.jpg" alt="Game Image">
                 <form id="editButton" action="editgameForm.html">
                     <input type="submit" value="Bearbeiten">
                 </form>
@@ -63,13 +63,12 @@
                         erleben Spieler historische und moderne Schlachten. Ob im Einzelspieler-Storymodus oder in
                         actiongeladenen Multiplayer-Schlachten – Call of Duty bietet Adrenalin pur.</p>
                 </div>
-
             </div>
+        </div>
 
-        </section>
         <section class="container">
             <h2 class="headline">Reviews</h2>
-            <article id="addReview">
+            <div id="addReview">
                 <form class="reviewForm" action="./detail_page.html">
                     <textarea id="reviewText" name="reviewText" required></textarea>
                     <label for="recommendation">Deine Bewertung?</label>
@@ -80,18 +79,19 @@
                     </select>
                     <input id="submit" type="submit" value="Review veröffentlichen">
                 </form>
-            </article>
-            <article class="reviewContainer">
+            </div>
+            <div class="reviewContainer">
                 <img class="reviewImage" src="../images/profile_pic_default.svg" alt="Profilbild">
                 <div class="reviewUsername">codfan#1</div>
                 <div class="reviewDate">07.11.2024</div>
                 <div class="reviewRating">Empohlen</div>
-                <div class="reviewContent">"Call of Duty: Modern Warfare 3 bietet eine spannende Kampagne mit packender Story
+                <div class="reviewContent">"Call of Duty: Modern Warfare 3 bietet eine spannende Kampagne mit packender
+                    Story
                     und intensiven Action-Momenten. Der Mehrspieler-Modus überzeugt mit gutem Waffenbalancing, neuen
                     Maps und abwechslungsreichen Spielmodi. Ein großartiger Shooter, der die Reihe gelungen fortsetzt."
                 </div>
-            </article>
-            <article class="reviewContainer">
+            </div>
+            <div class="reviewContainer">
                 <img class="reviewImage" src="../images/profile_pic_default.svg" alt="Profilbild">
                 <div class="reviewUsername">gamer89</div>
                 <div class="reviewDate">07.11.2024</div>
@@ -100,7 +100,7 @@
                     Wiederholung
                     der Vorgänger an, ohne neue frische Ideen. Der Mehrspieler-Modus hat noch immer Balance-Probleme,
                     und die Karten wirken uninspiriert. Insgesamt solide, aber nicht bahnbrechend."</div>
-            </article>
+            </div>
         </section>
     </main>
 
