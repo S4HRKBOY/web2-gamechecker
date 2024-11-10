@@ -2,6 +2,7 @@ package de.fhdo.eborrow.dto;
 import java.time.LocalDate;
 import java.util.List;
 
+import de.fhdo.eborrow.domain.AgeRating;
 import de.fhdo.eborrow.domain.Genre;
 import de.fhdo.eborrow.domain.Platform; 
 
@@ -14,13 +15,13 @@ public class GameDto {
     private List<Platform> platforms; 
     private List<Genre> genres; 
     private LocalDate publicationDate; 
-    private int ageRating; 
+    private AgeRating ageRating; 
     private String developer; 
     private String publisher; 
     private String gameImage;
 
     public GameDto(Long id, String title, String description, List<Platform> platforms, int licences, int remainingLicences, List<Genre> genres, LocalDate publicationDate,
-            int ageRating, String developer, String publisher, String gameImage) {
+            AgeRating ageRating, String developer, String publisher, String gameImage) {
         this.id = id;
         this.title = title;
         this.description = description;
@@ -85,11 +86,11 @@ public class GameDto {
         this.publicationDate = publicationDate;
     }
 
-    public int getAgeRating() {
+    public AgeRating getAgeRating() {
         return ageRating;
     }
 
-    public void setAge(int ageRating) {
+    public void setAge(AgeRating ageRating) {
         this.ageRating = ageRating;
     }
 

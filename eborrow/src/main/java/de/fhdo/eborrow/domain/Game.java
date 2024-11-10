@@ -25,7 +25,7 @@ public class Game {
 
     @DateTimeFormat
     private LocalDate publicationDate;
-    private int ageRating;
+    private AgeRating ageRating;
     private String developer;
     private String publisher;
 
@@ -46,7 +46,7 @@ public class Game {
     }
 
     public Game(Long id, String title, String description, List<Platform> platforms, List<Genre> genres, LocalDate publicationDate,
-            int ageRating, String developer, String publisher, byte[] gameImage) {
+            AgeRating ageRating, String developer, String publisher, byte[] gameImage) {
         this.id = id;
         this.title = title;
         this.description = description;
@@ -107,11 +107,11 @@ public class Game {
         this.publicationDate = publicationDate;
     }
 
-    public int getAgeRating() {
+    public AgeRating getAgeRating() {
         return ageRating;
     }
 
-    public void setAgeRating(int ageRating) {
+    public void setAgeRating(AgeRating ageRating) {
         this.ageRating = ageRating;
     }
 
