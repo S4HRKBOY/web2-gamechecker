@@ -11,6 +11,8 @@ import java.util.stream.StreamSupport;
 
 @Service
 public class AccountService {
+	// TODO Zak: Gehoeren hier auch Funktionen fuer AddGame, GetGames, GetGameById, DeleteGame hin?
+	// TODO Zak: Gehoeren hier auch Funktionen fuer AddReview, GetReviews, GetReviewId und DeleteReview?
 	private final AccountMapper accountMapper;
 	private final AccountRepository accountRepository;
 
@@ -101,6 +103,10 @@ public class AccountService {
 
 		if (accountChanges.getProfilePicture() == null) {
 			existingAccountDto.setProfilePicture(accountChanges.getProfilePicture());
+		}
+
+		if (accountChanges.getTaggedGames() == null) {
+			existingAccountDto.setTaggedGames(accountChanges.getTaggedGames());
 		}
 		
 		return existingAccountDto;

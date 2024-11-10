@@ -9,6 +9,7 @@ import org.springframework.stereotype.Component;
 
 import java.time.LocalDate;
 import java.io.*;
+import java.util.LinkedList;
 import java.util.Objects;
 
 import de.fhdo.eborrow.domain.Game;
@@ -44,6 +45,8 @@ public class DummyDataBootstrap implements ApplicationListener<ContextRefreshedE
 
     private void initAccounts(Game game) {
         long id = 1L;
+		LinkedList<Game> gameList = new LinkedList<>();
+        gameList.add(game);
 
         var account = new AccountBuilder()
                 .setId(id++)
@@ -54,7 +57,7 @@ public class DummyDataBootstrap implements ApplicationListener<ContextRefreshedE
                 .setEmail("max.mustermann@dummy.com")
                 .setPassword("password")
                 .setProfilePicture(readImage("where_image.png"))
-                .addTaggedGame(game)
+                .setTaggedGames(gameList)
                 .build();
 
         var publisher = new AccountBuilder()

@@ -20,10 +20,6 @@ public class AccountDtoBuilder{
     // TODO Zak: Reviews hinzufuegen
     // private List<Review> writtenReviews;
 
-    public AccountDtoBuilder() {
-        taggedGames = new LinkedList<>(); 
-    }
-    
     // region getter
     public Long getId() {
         return id;
@@ -110,12 +106,8 @@ public class AccountDtoBuilder{
         return taggedGames;
     }
 
-    public void setTaggedGames(List<GameDto> taggedGames) {
+    public AccountDtoBuilder setTaggedGames(List<GameDto> taggedGames) {
         this.taggedGames = taggedGames;
-    }
-
-    public AccountDtoBuilder addTaggedGame(GameDto... gameDtos) {
-		Collections.addAll(taggedGames, gameDtos);
         return this;
     }
     // endregion

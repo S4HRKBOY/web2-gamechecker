@@ -19,13 +19,8 @@ public class AccountDto {
     private List<GameDto> taggedGames;
     // TODO Zak: Reviews hinzufuegen
     // private List<ReviewDto> writtenReviews;
-    
-    private AccountDto() {
-        this.taggedGames = new LinkedList<>();
-    }
-    
+
     private AccountDto(Long id, String prename, String surname, LocalDate birthday, String username, String email, String password, byte[] profilePicture) {
-        this();
         this.id = id;
         this.prename = prename;
         this.surname = surname;
@@ -129,10 +124,6 @@ public class AccountDto {
 
     public void setTaggedGames(List<GameDto> taggedGames) {
         this.taggedGames = taggedGames;
-    }
-
-    public void addTaggedGame(GameDto... gameDtos) {
-		Collections.addAll(this.taggedGames, gameDtos);
     }
     // endregion
 

@@ -4,8 +4,6 @@ import jakarta.persistence.*;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import java.time.LocalDate;
-import java.util.Collections;
-import java.util.LinkedList;
 import java.util.List;
 
 @Entity
@@ -28,7 +26,7 @@ public class Account {
     private byte[] profilePicture;
 
     private boolean isPublisher;
-	
+
 	@ManyToMany
 	@JoinTable(
 			name = "account_game",
@@ -42,7 +40,6 @@ public class Account {
 	// private List<Review> writtenReviews;
 	
     protected Account() {
-		this.taggedGames = new LinkedList<>();
     }
 
     private Account(Long id, String prename, String surname, LocalDate birthday, String username, String email, String password, byte[] profilePicture) {
@@ -150,10 +147,6 @@ public class Account {
 
 	public void setTaggedGames(List<Game> taggedGames) {
 		this.taggedGames = taggedGames;
-	}
-
-	public void addTaggedGame(Game... games) {
-		Collections.addAll(this.taggedGames, games);
 	}
 	// endregion
 

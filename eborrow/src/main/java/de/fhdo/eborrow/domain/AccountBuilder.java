@@ -21,7 +21,6 @@ public class AccountBuilder {
     // private List<Review> writtenReviews;
 
     public AccountBuilder() {
-        taggedGames = new LinkedList<>();
     }
     
     // region getter
@@ -110,12 +109,8 @@ public class AccountBuilder {
         return taggedGames;
     }
 
-    public void setTaggedGames(List<Game> taggedGames) {
+    public AccountBuilder setTaggedGames(List<Game> taggedGames) {
         this.taggedGames = taggedGames;
-    }
-
-    public AccountBuilder addTaggedGame(Game... games) {
-		Collections.addAll(taggedGames, games);
         return this;
     }
     // endregion
