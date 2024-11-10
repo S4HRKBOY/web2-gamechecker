@@ -60,49 +60,50 @@ public class AccountService {
 	// TODO Zak: Besser anders herum: oldAccountDto mit den Werten von newAccountDto befuellen, damit nicht eins versehentlich vergessen wird
 	// Zak: Alternativer Ansatz: Ein UpdateAccount Objekt erzeugen, in dem nur die zu aendernden Felder gesetzt sind
 	// und dann die Werte auf das existierende Objekt im Repository ueberfuehren
-	public boolean updateAccount(AccountDto newAccountDto, Long id) {
+	public boolean updateAccount(AccountDto accountChanges, Long id) {
 		Account existingAccount = accountRepository.findById(id).orElse(null);
 		if (existingAccount == null) {
 			System.err.println("Update failed: No Account found with id " + id);
 			return false;
 		}
 
-		newAccountDto.setId(id);
 		AccountDto existingAccountDto = accountMapper.accountToDto(existingAccount);
-		copyExistingFields(existingAccountDto, newAccountDto);
-		Account newAccount = accountMapper.dtoToAccount(newAccountDto);
-		accountRepository.save(newAccount);
+		transferChanges(existingAccountDto, accountChanges);
+		Account updatedAccount = accountMapper.dtoToAccount(existingAccountDto);
+		accountRepository.save(updatedAccount);
 
 		return true;
 	}
 
-	private void copyExistingFields(AccountDto existingAccountDto, AccountDto newAccountDto) {
-		if (newAccountDto.getPrename() == null) {
-			newAccountDto.setPrename(existingAccountDto.getPrename());
+	private AccountDto transferChanges(AccountDto existingAccountDto, AccountDto accountChanges) {
+		if (accountChanges.getPrename() == null) {
+			existingAccountDto.setPrename(accountChanges.getPrename());
 		}
 
-		if (newAccountDto.getSurname() == null) {
-			newAccountDto.setSurname(existingAccountDto.getSurname());
+		if (accountChanges.getSurname() == null) {
+			existingAccountDto.setSurname(accountChanges.getSurname());
 		}
 
-		if (newAccountDto.getUsername() == null) {
-			newAccountDto.setUsername(existingAccountDto.getUsername());
+		if (accountChanges.getUsername() == null) {
+			existingAccountDto.setUsername(accountChanges.getUsername());
 		}
 
-		if (newAccountDto.getBirthday() == null) {
-			newAccountDto.setBirthday(existingAccountDto.getBirthday());
+		if (accountChanges.getBirthday() == null) {
+			existingAccountDto.setBirthday(accountChanges.getBirthday());
 		}
 
-		if (newAccountDto.getEmail() == null) {
-			newAccountDto.setEmail(existingAccountDto.getEmail());
+		if (accountChanges.getEmail() == null) {
+			existingAccountDto.setEmail(accountChanges.getEmail());
 		}
 
-		if (newAccountDto.getPassword() == null) {
-			newAccountDto.setPassword(existingAccountDto.getPassword());
+		if (accountChanges.getPassword() == null) {
+			existingAccountDto.setPassword(accountChanges.getPassword());
 		}
 
-		if (newAccountDto.getProfilePicture() == null) {
-			newAccountDto.setProfilePicture(existingAccountDto.getProfilePicture());
+		if (accountChanges.getProfilePicture() == null) {
+			existingAccountDto.setProfilePicture(accountChanges.getProfilePicture());
 		}
+		
+		return existingAccountDto;
 	}
 }
