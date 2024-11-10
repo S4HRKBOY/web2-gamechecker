@@ -17,7 +17,8 @@ public class AccountMapper {
 					.setUsername(account.getUsername())
 					.setEmail(account.getEmail())
 					.setPassword(account.getPassword())
-					.setProfilePicture(account.getProfilePicture());
+					.setProfilePicture(account.getProfilePicture())
+					.setPublisher(account.isPublisher());
 
 			return accountDtoBuilder.build();
 	}
@@ -31,9 +32,9 @@ public class AccountMapper {
 					.setUsername(accountDto.getUsername())
 					.setEmail(accountDto.getEmail())
 					.setPassword(accountDto.getPassword())
-					.setProfilePicture(accountDto.getProfilePicture());
+					.setProfilePicture(accountDto.getProfilePicture())
+					.setPublisher(accountDto.isPublisher());
 
 			return accountBuilder.build();
-
 	}
 }
