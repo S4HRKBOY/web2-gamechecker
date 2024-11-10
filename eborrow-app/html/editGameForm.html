@@ -14,7 +14,7 @@
         <nav class="navigation">
             <ul class="nav-links">
                 <li><a href="start_page.html">Home</a></li>
-                <li><a href="#">Neues Spiel anlegen</a></li>
+                <li><a href="gameForm.html">Neues Spiel anlegen</a></li>
                 <li><a href="profile_page.html">Profil</a></li>
                 <li><a href="login_page.html">Logout</a></li>
             </ul>
@@ -22,36 +22,38 @@
     </header>
 
     <main id="mainContainer">
-        <h1 id="headline">Spiel anlegen</h1>
+        <h1 id="headline">Spiel bearbeiten</h1>
         <form id="gameForm" action="./detail_page.html">
             <label for="title">Spieletitel</label>
-            <input id="title" type="text" name="title" required>
+            <input id="title" type="text" name="title" required value="Call of Duty: Modern Warfare III">
             <label for="platform">Plattform</label>
-            <input id="platform" type="text" name="platform" required>
+            <input id="platform" type="text" name="platform" required value="Windows, PlayStation 4, Playstation 5, Xbox One, Xbox Series">
             <label for="description">Beschreibung</label>
-            <textarea id="description" name="description" required></textarea>
+            <textarea id="description" name="description" required>Call of Duty ist eine weltweit bekannte Ego-Shooter-Spielreihe, die die Spieler in intensive und realistische Kriegsszenarien versetzt. Mit atemberaubender Grafik und fesselnden Storylines erleben Spieler historische und moderne Schlachten. Ob im Einzelspieler-Storymodus oder in actiongeladenen Multiplayer-Schlachten – Call of Duty bietet Adrenalin pur.</textarea>
             <label for="genre">Genre</label>
-            <input id="genre" type="text" name="genre" required>
+            <input id="genre" type="text" name="genre" value="Ego-Shooter" required>
             <label for="publication">Veröffentlichung</label>
-            <input id="publication" type="date" name="publication" required>
+            <input id="publication" type="date" name="publication" value="2023-11-10" required>
             <label for="developer">Entwickler</label>
-            <input id="developer" type="text" name="developer" required>
+            <input id="developer" type="text" name="developer" value="Sledgehammer Games, Treyarch, Infinity Ward" required>
             <label for="publisher">Publisher</label>
-            <input id="publisher" type="text" name="publisher" required>
+            <input id="publisher" type="text" name="publisher" value="Activision" required>
             <label for="age">Altersfreigabe</label>
             <select name="age" id="age">
                 <option value="0">0</option>
                 <option value="6">6</option>
                 <option value="12">12</option>
                 <option value="16">16</option>
-                <option value="18">18</option>
+                <option value="18" selected="selected">18</option>
             </select>
             <label for="file">Bild hochladen</label>
             <input id="file" type="file" name="file" accept="image/*">
             <fieldset id="imagearea">
                 <legend>Vorschaubild</legend>
+                <img id="gameImage" src="../images/callOfDuty3.jpg" alt="Game Image">
             </fieldset>
-            <input id="submit" type="submit" value="Neues Spiel anlegen">
+            <input id="submit" type="submit" value="Änderungen speichern">
+            <input id="delete" type="submit" value="Spiel löschen">
         </form>
     </main>
 </body>

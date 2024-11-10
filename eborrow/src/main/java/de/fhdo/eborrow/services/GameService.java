@@ -1,64 +1,90 @@
 package de.fhdo.eborrow.services;
 
+import java.util.ArrayList;
+import java.util.Base64;
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import de.fhdo.eborrow.converters.GameMapper;
 import de.fhdo.eborrow.domain.Game;
+import de.fhdo.eborrow.dto.GameDto;
 import de.fhdo.eborrow.repositories.GameRepository;
 
 @Service
 public class GameService {
 
-    private GameRepository gameRepository; 
+    private GameRepository gameRepository;
+    private GameMapper gameMapper;
 
     @Autowired
-    public GameService(GameRepository gameRepository) {
-        this.gameRepository = gameRepository; 
+    public GameService(GameRepository gameRepository, GameMapper gameMapper) {
+        this.gameRepository = gameRepository;
+        this.gameMapper = gameMapper;
     }
 
-    public Long addGame(Game game) {
-        return gameRepository.save(game).getId(); 
+    public Long addGame(GameDto gameDto) {
+        Game game = gameMapper.dtoToGame(gameDto);
+        return gameRepository.save(game).getId();
     }
 
-    public Game getGameById(Long id) {
-        return gameRepository.findById(id).get();
+    public GameDto getGameById(Long id) {
+        Game game = gameRepository.findById(id).get();
+        return gameMapper.gameToDto(game);
     }
 
     public void deleteGame(Long id) {
         gameRepository.deleteById(id);
     }
 
-    public void updateGame(Game game) {
-        Game updatedGame = new Game(); 
-        if(game.getTitle() != null) {
-            updatedGame.setTitle(game.getTitle());
+    public List<GameDto> getAll() {
+        List<GameDto> games = new ArrayList<>();
+        for (Game game : gameRepository.findAll()) {
+            games.add(gameMapper.gameToDto(game));
         }
-        if(game.getDescription() != null) {
-            updatedGame.setDescription(game.getDescription());
-        }
-            
-        updatedGame.setLicence(game.getLicence());
-        
-        if(game.getGenre() != null) {
-            updatedGame.setGenre(game.getGenre());
-        }
-        if(game.getPublication() != null) {
-            updatedGame.setPublication(game.getPublication());
+        return games;
+    }
+
+    public Long updateGame(GameDto gameDto) {
+        Game updatedGame;
+        if (gameDto.getId() != null) {
+            updatedGame = gameRepository.findById(gameDto.getId()).get();
+        } else {
+            updatedGame = new Game();
         }
 
-        updatedGame.setAge(game.getAge());
-
-        if(game.getDeveloper() != null) {
-            updatedGame.setDeveloper(game.getDeveloper());
+        if (gameDto.getTitle() != null) {
+            updatedGame.setTitle(gameDto.getTitle());
         }
-        if(game.getPublisher() != null) {
-            updatedGame.setPublisher(game.getPublisher());
-        }
-        if(game.getImage() != null) {
-            updatedGame.setImage(game.getImage()); 
+        if (gameDto.getDescription() != null) {
+            updatedGame.setDescription(gameDto.getDescription());
         }
 
-        gameRepository.save(updatedGame).getId(); 
+        if (!gameDto.getPlatforms().isEmpty()) {
+            updatedGame.setPlatforms(gameDto.getPlatforms());
+        }
+
+        if (gameDto.getGenres() != null) {
+            updatedGame.setGenres(gameDto.getGenres());
+        }
+        if (gameDto.getPublicationDate() != null) {
+            updatedGame.setPublicationDate(gameDto.getPublicationDate());
+        }
+
+        updatedGame.setAgeRating(gameDto.getAgeRating());
+
+        if (gameDto.getDeveloper() != null) {
+            updatedGame.setDeveloper(gameDto.getDeveloper());
+        }
+        if (gameDto.getPublisher() != null) {
+            updatedGame.setPublisher(gameDto.getPublisher());
+        }
+        if (gameDto.getGameImage() != null) {
+            updatedGame.setGameImage(Base64.getDecoder().decode(gameDto.getGameImage().split(",")[1]));
+        }
+
+        return gameRepository.save(updatedGame).getId();
     }
 
 }

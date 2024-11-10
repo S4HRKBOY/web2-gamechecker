@@ -1,55 +1,60 @@
 package de.fhdo.eborrow.domain;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.Lob;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 
-import org.springframework.format.annotation.DateTimeFormat; 
+import org.springframework.format.annotation.DateTimeFormat;
 
 @Entity
 @Table(name = "game")
 public class Game {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long id; 
+    private Long id;
 
-    private String title; 
-    private String description; 
-    private int licence; 
-    private String genre; 
+    private String title;
+    @Lob
+    private String description;
+    private List<Platform> platforms; 
+    private List<Genre> genres;
 
     @DateTimeFormat
-    private LocalDate publication; 
-    private int age; 
-    private String developer; 
-    private String publisher; 
+    private LocalDate publicationDate;
+    private AgeRating ageRating;
+    private String developer;
+    private String publisher;
 
     @Lob
     @Column(columnDefinition = "MEDIUMBLOB")
-    private byte[] image;
+    private byte[] gameImage;
+
+    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JoinColumn(name = "game_id")
+    private List<Review> reviews;
+
+    // TODO Überflüssig? Sollte ein Spiel wissen, welcher Spieler es auf die Liste gepackt hat? 
+    /*@ManyToMany(mappedBy = "games")
+    private Set<User> users = new HashSet<>();*/
 
     public Game() {
 
     }
 
-    public Game(Long id, String title, String description, int licence, String genre, LocalDate publication,
-            int age, String developer, String publisher, byte[] image) {
+    public Game(Long id, String title, String description, List<Platform> platforms, List<Genre> genres, LocalDate publicationDate,
+            AgeRating ageRating, String developer, String publisher, byte[] gameImage) {
         this.id = id;
         this.title = title;
         this.description = description;
-        this.licence = licence;
-        this.genre = genre;
-        this.publication = publication;
-        this.age = age;
+        this.platforms = platforms; 
+        this.genres = genres;
+        this.publicationDate = publicationDate;
+        this.ageRating = ageRating;
         this.developer = developer;
         this.publisher = publisher;
-        this.image = image;
+        this.gameImage = gameImage;
     }
 
     public Long getId() {
@@ -76,36 +81,36 @@ public class Game {
         this.description = description;
     }
 
-    public int getLicence() {
-        return licence;
+    public List<Platform> getPlatforms() {
+        return platforms; 
     }
 
-    public void setLicence(int licence) {
-        this.licence = licence;
+    public void setPlatforms(List<Platform> platforms) {
+        this.platforms = platforms; 
     }
 
-    public String getGenre() {
-        return genre;
+    public List<Genre> getGenres() {
+        return genres;
     }
 
-    public void setGenre(String genre) {
-        this.genre = genre;
+    public void setGenres(List<Genre> genres) {
+        this.genres = genres;
     }
 
-    public LocalDate getPublication() {
-        return publication;
+    public LocalDate getPublicationDate() {
+        return publicationDate;
     }
 
-    public void setPublication(LocalDate publication) {
-        this.publication = publication;
+    public void setPublicationDate(LocalDate publicationDate) {
+        this.publicationDate = publicationDate;
     }
 
-    public int getAge() {
-        return age;
+    public AgeRating getAgeRating() {
+        return ageRating;
     }
 
-    public void setAge(int age) {
-        this.age = age;
+    public void setAgeRating(AgeRating ageRating) {
+        this.ageRating = ageRating;
     }
 
     public String getDeveloper() {
@@ -124,12 +129,39 @@ public class Game {
         this.publisher = publisher;
     }
 
-    public byte[] getImage() {
-        return image;
+    public byte[] getGameImage() {
+        return gameImage;
     }
 
-    public void setImage(byte[] image) {
-        this.image = image;
-    } 
+    public void setGameImage(byte[] gameImage) {
+        this.gameImage = gameImage;
+    }
+
+    public void addReview(Review review){
+        if(reviews == null){
+            reviews = new ArrayList<>();
+        }
+        review.setGame(this);
+        reviews.add(review);
+    }
+
+    public List<Review> getReviews() {
+        return reviews;
+    }
+
+    public void setReviews(List<Review> reviews) {
+        this.reviews = reviews;
+    }
+
+    /*
+    //TODO Überflüssig? 
+    public Set<User> getUsers() {
+        return users; 
+    }
+
+    public void getUsers(Set<User> users) {
+        this.users = users; 
+    }
+    */
 
 }

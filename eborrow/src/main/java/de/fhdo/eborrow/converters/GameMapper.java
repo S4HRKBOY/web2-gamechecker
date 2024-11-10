@@ -1,5 +1,7 @@
 package de.fhdo.eborrow.converters;
 
+import java.util.Base64;
+
 import org.springframework.stereotype.Component;
 
 import de.fhdo.eborrow.domain.Game;
@@ -18,13 +20,13 @@ public class GameMapper {
         gameDto.setId(game.getId()); 
         gameDto.setTitle(game.getTitle());
         gameDto.setDescription(game.getDescription());
-        gameDto.setLicence(game.getLicence());
-        gameDto.setGenre(game.getGenre());
-        gameDto.setPublication(game.getPublication());
-        gameDto.setAge(game.getAge());
+        gameDto.setPlatforms(game.getPlatforms());
+        gameDto.setGenres(game.getGenres());
+        gameDto.setPublicationDate(game.getPublicationDate());
+        gameDto.setAge(game.getAgeRating());
         gameDto.setDeveloper(game.getDeveloper());
         gameDto.setPublisher(game.getPublisher());
-        gameDto.setImage(game.getImage());
+        gameDto.setGameImage(Base64.getEncoder().encodeToString(game.getGameImage()));
 
         return gameDto; 
     }
@@ -39,13 +41,13 @@ public class GameMapper {
         game.setId(dto.getId()); 
         game.setTitle(dto.getTitle());
         game.setDescription(dto.getDescription());
-        game.setLicence(dto.getLicence());
-        game.setGenre(dto.getGenre());
-        game.setPublication(dto.getPublication());
-        game.setAge(dto.getAge());
+        game.setPlatforms(dto.getPlatforms());
+        game.setGenres(dto.getGenres());
+        game.setPublicationDate(dto.getPublicationDate());
+        game.setAgeRating(dto.getAgeRating());
         game.setDeveloper(dto.getDeveloper());
-        game.setPublication(dto.getPublication());
-        game.setImage(dto.getImage());
+        game.setPublisher(dto.getPublisher());
+        game.setGameImage(Base64.getDecoder().decode(dto.getGameImage().split(",")[1]));
 
         return game; 
     }

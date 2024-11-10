@@ -1,28 +1,19 @@
-
-#headerBar {
-    display: flex; 
-    padding: 0 20% 0 20%; 
-}
-
-#navBar {
-    display: flex; 
-    justify-content: space-around;
-    flex-grow: 1;
-}
-
 #headline {
-    padding-left: 30%; 
+    padding-left: 25%; 
 }
 
 #gameForm {
     display: grid;
-    gap: 10px; 
-    padding: 0 30% 0 30%; 
-    grid-template-columns: 25% 25% 25% 25%;
+    margin: 0 25% 0 25%;
+    border: 1px solid black;
+    border-radius: 10px;
+    padding: 10px; 
+    gap: 10px;
+    grid-template-columns: 24% 24% 24% 24%;
     grid-template-rows: auto;
     grid-template-areas: 
-    "title-label title-label title-label licence-label"
-    "title title title licence"
+    "title-label title-label platform-label platform-label"
+    "title title platform platform"
     "description-label description-label description-label description-label"
     "description description description description"
     "genre-label genre-label publication-label age-label"
@@ -30,28 +21,43 @@
     "developer-label developer-label publisher-label publisher-label"
     "developer developer publisher publisher"
     "file-label file-label file-label file-label"
-    "file file file file"
-    "submit submit submit submit"
+    "file file preview-image preview-image"
+    "submit submit delete delete"
 }
 
-#submit, #age, #publication, #licence {
-    width:fit-content; 
+#submit, #age, #publication, #delete {
+   height: fit-content; 
+   width: fit-content
 }
 
 textarea {
     overflow-y: scroll; 
-    height: 200px; 
+    height: 150px; 
     resize:none; 
     padding: 10px 20px 10px 10px;
     text-align: justify;
     overflow-x: hidden; 
 }
 
+#gameImage {
+    max-width: 100%; 
+    max-height: 100%;
+}
+
+#imagearea {
+    grid-area:preview-image; 
+    border: 1px solid hsl(0, 0%, 75%);
+    border-radius: 10px;
+    padding: 10px;
+    height: 300px; 
+    text-align: center;
+}
+
 label[for="title"] {
     grid-area:title-label;
 }
-label[for="licence"] {
-    grid-area:licence-label;
+label[for="platform"] {
+    grid-area:platform-label;
 }
 label[for="description"] {
     grid-area:description-label;
@@ -78,8 +84,8 @@ label[for="file"] {
 #title {
     grid-area: title; 
 }
-#licence {
-    grid-area: licence; 
+#platform {
+    grid-area: platform; 
 }
 #description {
     grid-area: description; 
@@ -104,5 +110,10 @@ label[for="file"] {
 }
 #submit {
     grid-area: submit;
+}
+
+#delete {
+    justify-self: end;
+    grid-area: delete;
 }
 
