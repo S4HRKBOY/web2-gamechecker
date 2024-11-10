@@ -1,10 +1,7 @@
 package de.fhdo.eborrow.bootstrap;
 
-import de.fhdo.eborrow.domain.account.Admin;
-import de.fhdo.eborrow.domain.account.PaymentOption;
 import de.fhdo.eborrow.domain.account.Publisher;
 import de.fhdo.eborrow.domain.account.User;
-import de.fhdo.eborrow.domain.account.builder.AdminBuilder;
 import de.fhdo.eborrow.domain.account.builder.PaymentOptionBuilder;
 import de.fhdo.eborrow.domain.account.builder.PublisherBuilder;
 import de.fhdo.eborrow.domain.account.builder.UserBuilder;
@@ -72,15 +69,6 @@ public class DummyDataBootstrap implements ApplicationListener<ContextRefreshedE
                         .build())
                 .build();
 
-        Admin admin = new AdminBuilder()
-                .setId(1L)
-                .setPrename("Admin")
-                .setSurname("Admin")
-                .setUsername("admin")
-                .setEmail("admin@dummy.com")
-                .setPassword("admin")
-                .build();
-
         Publisher publisher = new PublisherBuilder()
                 .setId(1L)
                 .setPrename("Publisher")
@@ -91,7 +79,6 @@ public class DummyDataBootstrap implements ApplicationListener<ContextRefreshedE
                 .build();
 
         accountRepository.save(user);
-        accountRepository.save(admin);
         accountRepository.save(publisher);
     }
 

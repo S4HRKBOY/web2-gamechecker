@@ -38,10 +38,6 @@ public abstract class AccountDto {
                 builder.getProfilePicture());
     }
 
-    public final boolean isAdmin() {
-        return this instanceof AdminDto;
-    }
-
     // region getter and setter
     public Long getId() {
         return id;

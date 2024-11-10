@@ -52,10 +52,6 @@ public abstract class Account {
                 builder.getProfilePicture());
     }
 
-    public final boolean isAdmin() {
-        return this instanceof Admin;
-    }
-
     // region getter and setter
     public Long getId() {
         return id;
