@@ -77,24 +77,40 @@ public class DummyDataBootstrap implements ApplicationListener<ContextRefreshedE
         gameRepository.save(game2);
         gameRepository.save(game3);
 
-        initAccounts(game1);
+        initAccounts(game1, game2, game3);
     }
 
-    private void initAccounts(Game game) {
+    private void initAccounts(Game... game) {
         long id = 1L;
-		LinkedList<Game> gameList = new LinkedList<>();
-        gameList.add(game);
+		LinkedList<Game> acc1GameList = new LinkedList<>();
+        acc1GameList.add(game[0]);
+        acc1GameList.add(game[2]);
+        LinkedList<Game> acc2GameList = new LinkedList<>();
+        acc2GameList.add(game[1]);
+        acc2GameList.add(game[0]);
 
-        var account = new AccountBuilder()
+        var acc1 = new AccountBuilder()
                 .setId(id++)
                 .setPrename("Max")
                 .setSurname("Mustermann")
                 .setUsername("mamus")
                 .setBirthday(LocalDate.of(2000, 1, 1))
                 .setEmail("max.mustermann@dummy.com")
-                .setPassword("password")
+                .setPassword("maxpassword")
                 .setProfilePicture(readImage("where_image.png"))
-                .setTaggedGames(gameList)
+                .setTaggedGames(acc1GameList)
+                .build();
+
+        var acc2 = new AccountBuilder()
+                .setId(id++)
+                .setPrename("John")
+                .setSurname("Doe")
+                .setUsername("jodoe")
+                .setBirthday(LocalDate.of(2023, 12, 31))
+                .setEmail("john.doe@dummy.com")
+                .setPassword("johnpassword")
+                .setProfilePicture(readImage("where_image.png"))
+                .setTaggedGames(acc2GameList)
                 .build();
 
         var publisher = new AccountBuilder()
@@ -109,7 +125,8 @@ public class DummyDataBootstrap implements ApplicationListener<ContextRefreshedE
                 .setPublisher(true)
                 .build();
 
-        accountRepository.save(account);
+        accountRepository.save(acc1);
+        accountRepository.save(acc2); 
         accountRepository.save(publisher);
     }
 
