@@ -14,10 +14,10 @@ import de.fhdo.eborrow.dto.GameDto;
 import de.fhdo.eborrow.services.GameService;
 
 @Controller
-@RequestMapping("/game")
+@RequestMapping("/thymeleaf/game")
 public class GameController {
 
-    GameService gameService; 
+    private GameService gameService; 
 
     @Autowired
     public GameController(GameService gameService) {
