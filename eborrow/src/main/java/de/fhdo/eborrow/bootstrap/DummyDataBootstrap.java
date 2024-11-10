@@ -56,6 +56,11 @@ public class DummyDataBootstrap implements ApplicationListener<ContextRefreshedE
 		reviewRepository.save(game2Review1);
 		reviewRepository.save(game2Review2);
 
+		game1.addReview(game1Review1);
+		game1.addReview(game1Review2);
+		game2.addReview(game2Review1);
+		game2.addReview(game2Review2);
+
         gameRepository.save(game1);
 		gameRepository.save(game2);
 		gameRepository.save(game3);
