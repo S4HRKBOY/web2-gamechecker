@@ -8,9 +8,6 @@ import java.time.LocalDate;
 @Entity
 @DiscriminatorValue("User")
 public class User extends Account {
-    @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "payment_option_id", referencedColumnName = "id")
-    private PaymentOption paymentOption;
     // TODO Zak: Ausleihe Feld hinzufügen
 
     protected User() {
@@ -22,23 +19,11 @@ public class User extends Account {
 
     public User(UserBuilder builder) {
         super(builder);
-        this.paymentOption = builder.getPaymentOption();
     }
-
-    // region getter and setter
-    public PaymentOption getPaymentOption() {
-        return paymentOption;
-    }
-
-    public void setPaymentOption(PaymentOption paymentOption) {
-        this.paymentOption = paymentOption;
-    }
-    // endregion
 
     @Override
     public String toString() {
         return "User{" +
-                "paymentOption=" + paymentOption +
                 "} " + super.toString();
     }
 }

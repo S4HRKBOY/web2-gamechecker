@@ -89,14 +89,6 @@ public class UserService extends AccountService {
 	@Override
 	protected void copyExistingFields(AccountDto existingAccountDto, AccountDto newAccountDto) {
 		super.copyExistingFields(existingAccountDto, newAccountDto);
-
-		UserDto existingUser = (UserDto) existingAccountDto;
-		UserDto newUser = (UserDto) newAccountDto;
-
-		if (newUser.getPaymentOptionDto() == null) {
-			// Zak: Reicht es hier, die Referenz zu kopieren, oder muss eine neue PaymentOption Kopie erstellt werden?
-			newUser.setPaymentOptionDto(existingUser.getPaymentOptionDto());
-		}
 	}
 
 }

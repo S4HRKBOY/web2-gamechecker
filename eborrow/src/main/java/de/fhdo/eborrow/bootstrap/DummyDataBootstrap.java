@@ -1,7 +1,6 @@
 package de.fhdo.eborrow.bootstrap;
 
 import de.fhdo.eborrow.domain.account.User;
-import de.fhdo.eborrow.domain.account.builder.PaymentOptionBuilder;
 import de.fhdo.eborrow.domain.account.builder.UserBuilder;
 import de.fhdo.eborrow.repositories.AccountRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -54,17 +53,6 @@ public class DummyDataBootstrap implements ApplicationListener<ContextRefreshedE
                 .setEmail("max.mustermann@dummy.com")
                 .setPassword("password")
                 .setProfilePicture(readImage("where_image.png"))
-                .setPaymentOption(new PaymentOptionBuilder()
-                        .setId(1L)
-                        .setIban("DE00111122223333444455")
-                        .setAccountOwnerPrename("Max")
-                        .setAccountOwnerSurname("Mustermann")
-                        .setAccountOwnerStreet("Musterstraße")
-                        .setAccountOwnerHousenumber((byte) 1)
-                        .setAccountOwnerZipCode((byte) 12345)
-                        .setAccountOwnerResidence("Musterstadt")
-                        .setIsActive(true)
-                        .build())
                 .build();
 
         accountRepository.save(user);

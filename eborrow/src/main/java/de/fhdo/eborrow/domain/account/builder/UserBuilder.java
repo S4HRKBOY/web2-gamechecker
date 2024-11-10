@@ -1,21 +1,8 @@
 package de.fhdo.eborrow.domain.account.builder;
 
-import de.fhdo.eborrow.domain.account.PaymentOption;
 import de.fhdo.eborrow.domain.account.User;
 
 public class UserBuilder extends AccountBuilder<UserBuilder, User> {
-    private PaymentOption paymentOption;
-
-    // region getter
-    public PaymentOption getPaymentOption() {
-        return paymentOption;
-    }
-
-    public UserBuilder setPaymentOption(PaymentOption paymentOption) {
-        this.paymentOption = paymentOption;
-        return this;
-    }
-    // endregion
 
     @Override
     public User build() {
