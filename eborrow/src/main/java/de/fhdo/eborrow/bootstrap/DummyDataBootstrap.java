@@ -1,7 +1,7 @@
 package de.fhdo.eborrow.bootstrap;
 
-import de.fhdo.eborrow.domain.account.User;
-import de.fhdo.eborrow.domain.account.builder.UserBuilder;
+import de.fhdo.eborrow.domain.account.Account;
+import de.fhdo.eborrow.domain.account.builder.AccountBuilder;
 import de.fhdo.eborrow.repositories.AccountRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationListener;
@@ -44,7 +44,7 @@ public class DummyDataBootstrap implements ApplicationListener<ContextRefreshedE
     }
 
     private void initAccounts() {
-        User user = new UserBuilder()
+        Account account = new AccountBuilder()
                 .setId(1L)
                 .setPrename("Max")
                 .setSurname("Mustermann")
@@ -55,7 +55,7 @@ public class DummyDataBootstrap implements ApplicationListener<ContextRefreshedE
                 .setProfilePicture(readImage("where_image.png"))
                 .build();
 
-        accountRepository.save(user);
+        accountRepository.save(account);
     }
 
     /*

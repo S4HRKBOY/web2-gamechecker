@@ -1,49 +1,39 @@
 package de.fhdo.eborrow.converters;
 
 import de.fhdo.eborrow.domain.account.Account;
-import de.fhdo.eborrow.domain.account.User;
-import de.fhdo.eborrow.domain.account.builder.UserBuilder;
+import de.fhdo.eborrow.domain.account.builder.AccountBuilder;
 import de.fhdo.eborrow.dto.account.AccountDto;
-import de.fhdo.eborrow.dto.account.UserDto;
-import de.fhdo.eborrow.dto.account.builder.UserDtoBuilder;
-import org.springframework.beans.factory.annotation.Autowired;
+import de.fhdo.eborrow.dto.account.builder.AccountDtoBuilder;
 import org.springframework.stereotype.Component;
-
-import java.util.Objects;
 
 @Component
 public class AccountMapper {
     public AccountDto accountToDto(Account account) {
-		if (Objects.requireNonNull(account) instanceof User user) {
-			UserDtoBuilder userDtoBuilder = new UserDtoBuilder()
-					.setId(user.getId())
-					.setPrename(user.getPrename())
-					.setSurname(user.getSurname())
-					.setBirthday(user.getBirthday())
-					.setUsername(user.getUsername())
-					.setEmail(user.getEmail())
-					.setPassword(user.getPassword())
-					.setProfilePicture(user.getProfilePicture());
+			AccountDtoBuilder accountDtoBuilder = new AccountDtoBuilder()
+					.setId(account.getId())
+					.setPrename(account.getPrename())
+					.setSurname(account.getSurname())
+					.setBirthday(account.getBirthday())
+					.setUsername(account.getUsername())
+					.setEmail(account.getEmail())
+					.setPassword(account.getPassword())
+					.setProfilePicture(account.getProfilePicture());
 
-			return userDtoBuilder.build();
-		}
-		return null;
+			return accountDtoBuilder.build();
 	}
 
     public Account dtoToAccount(AccountDto accountDto) {
-		if (Objects.requireNonNull(accountDto) instanceof UserDto userDto) {
-			UserBuilder userBuilder = new UserBuilder()
-					.setId(userDto.getId())
-					.setPrename(userDto.getPrename())
-					.setSurname(userDto.getSurname())
-					.setBirthday(userDto.getBirthday())
-					.setUsername(userDto.getUsername())
-					.setEmail(userDto.getEmail())
-					.setPassword(userDto.getPassword())
-					.setProfilePicture(userDto.getProfilePicture());
+			AccountBuilder accountBuilder = new AccountBuilder()
+					.setId(accountDto.getId())
+					.setPrename(accountDto.getPrename())
+					.setSurname(accountDto.getSurname())
+					.setBirthday(accountDto.getBirthday())
+					.setUsername(accountDto.getUsername())
+					.setEmail(accountDto.getEmail())
+					.setPassword(accountDto.getPassword())
+					.setProfilePicture(accountDto.getProfilePicture());
 
-			return userBuilder.build();
-		}
-		return null;
+			return accountBuilder.build();
+
 	}
 }

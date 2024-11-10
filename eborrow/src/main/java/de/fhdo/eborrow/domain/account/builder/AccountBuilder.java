@@ -4,7 +4,7 @@ import de.fhdo.eborrow.domain.account.Account;
 
 import java.time.LocalDate;
 
-public abstract class AccountBuilder<B extends AccountBuilder<B, A>, A extends Account> {
+public class AccountBuilder {
     protected Long id;
     protected String prename;
     protected String surname;
@@ -19,78 +19,82 @@ public abstract class AccountBuilder<B extends AccountBuilder<B, A>, A extends A
         return id;
     }
 
-    public B setId(Long id) {
+    public AccountBuilder setId(Long id) {
         this.id = id;
-        return self();
+        return this;
     }
 
     public String getPrename() {
         return prename;
     }
 
-    public B setPrename(String prename) {
+    public AccountBuilder setPrename(String prename) {
         this.prename = prename;
-        return self();
+        return this;
     }
 
     public String getSurname() {
         return surname;
     }
 
-    public B setSurname(String surname) {
+    public AccountBuilder setSurname(String surname) {
         this.surname = surname;
-        return self();
+        return this;
     }
 
     public LocalDate getBirthday() {
         return birthday;
     }
 
-    public B setBirthday(LocalDate birthday) {
+    public AccountBuilder setBirthday(LocalDate birthday) {
         this.birthday = birthday;
-        return self();
+        return this;
     }
 
     public String getUsername() {
         return username;
     }
 
-    public B setUsername(String username) {
+    public AccountBuilder setUsername(String username) {
         this.username = username;
-        return self();
+        return this;
     }
 
     public String getEmail() {
         return email;
     }
 
-    public B setEmail(String email) {
+    public AccountBuilder setEmail(String email) {
         this.email = email;
-        return self();
+        return this;
     }
 
     public String getPassword() {
         return password;
     }
 
-    public B setPassword(String password) {
+    public AccountBuilder setPassword(String password) {
         this.password = password;
-        return self();
+        return this;
     }
 
     public byte[] getProfilePicture() {
         return profilePicture;
     }
 
-    public B setProfilePicture(byte[] profilePicture) {
+    public AccountBuilder setProfilePicture(byte[] profilePicture) {
         this.profilePicture = profilePicture;
-        return self();
+        return this;
     }
     // endregion
 
-    protected abstract B self();
+    public Account build() {
+        validateInputs();
 
-    protected abstract A build();
+        return new Account(this);
+    }
 
-    abstract void validateInputs();
+    void validateInputs() {
+        // TODO Zak: Check each field and throw Exception if invalid
+    }
 }

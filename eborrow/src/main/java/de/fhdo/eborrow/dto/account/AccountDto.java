@@ -4,7 +4,7 @@ import de.fhdo.eborrow.dto.account.builder.AccountDtoBuilder;
 
 import java.time.LocalDate;
 
-public abstract class AccountDto {
+public class AccountDto {
     private Long id;
 
     private String prename;
@@ -27,7 +27,7 @@ public abstract class AccountDto {
         this.profilePicture = profilePicture;
     }
 
-    public AccountDto(AccountDtoBuilder<?, ?> builder) {
+    public AccountDto(AccountDtoBuilder builder) {
         this(builder.getId(),
                 builder.getPrename(),
                 builder.getSurname(),

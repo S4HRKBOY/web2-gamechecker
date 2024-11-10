@@ -7,9 +7,7 @@ import org.springframework.format.annotation.DateTimeFormat;
 import java.time.LocalDate;
 
 @Entity
-@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
-@DiscriminatorColumn(name = "account_type", discriminatorType = DiscriminatorType.STRING)
-public abstract class Account {
+public class Account {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
@@ -41,7 +39,7 @@ public abstract class Account {
         this.profilePicture = profilePicture;
     }
 
-    public Account(AccountBuilder<?, ?> builder) {
+    public Account(AccountBuilder builder) {
         this(builder.getId(),
                 builder.getPrename(),
                 builder.getSurname(),
