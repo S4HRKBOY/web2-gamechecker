@@ -39,10 +39,10 @@ public class DummyDataBootstrap implements ApplicationListener<ContextRefreshedE
 
         gameRepository.save(game1);
 
-        initAccounts();
+        initAccounts(game1);
     }
 
-    private void initAccounts() {
+    private void initAccounts(Game game) {
         long id = 1L;
 
         var account = new AccountBuilder()
@@ -54,6 +54,7 @@ public class DummyDataBootstrap implements ApplicationListener<ContextRefreshedE
                 .setEmail("max.mustermann@dummy.com")
                 .setPassword("password")
                 .setProfilePicture(readImage("where_image.png"))
+                .addTaggedGame(game)
                 .build();
 
         var publisher = new AccountBuilder()

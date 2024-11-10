@@ -1,6 +1,9 @@
 package de.fhdo.eborrow.dto;
 
 import java.time.LocalDate;
+import java.util.Collections;
+import java.util.LinkedList;
+import java.util.List;
 
 public class AccountDtoBuilder{
     private Long id;
@@ -13,6 +16,14 @@ public class AccountDtoBuilder{
     private byte[] profilePicture;
     private boolean isPublisher;
 
+    private List<GameDto> taggedGames;
+    // TODO Zak: Reviews hinzufuegen
+    // private List<Review> writtenReviews;
+
+    public AccountDtoBuilder() {
+        taggedGames = new LinkedList<>(); 
+    }
+    
     // region getter
     public Long getId() {
         return id;
@@ -92,6 +103,19 @@ public class AccountDtoBuilder{
 
     public AccountDtoBuilder setPublisher(boolean publisher) {
         isPublisher = publisher;
+        return this;
+    }
+
+    public List<GameDto> getTaggedGames() {
+        return taggedGames;
+    }
+
+    public void setTaggedGames(List<GameDto> taggedGames) {
+        this.taggedGames = taggedGames;
+    }
+
+    public AccountDtoBuilder addTaggedGame(GameDto... gameDtos) {
+		Collections.addAll(taggedGames, gameDtos);
         return this;
     }
     // endregion

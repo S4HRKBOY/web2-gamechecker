@@ -1,22 +1,31 @@
 package de.fhdo.eborrow.dto;
 
 import java.time.LocalDate;
+import java.util.Collections;
+import java.util.LinkedList;
+import java.util.List;
 
 public class AccountDto {
     private Long id;
-
     private String prename;
     private String surname;
     private LocalDate birthday;
-
     private String username;
     private String email;
     private String password;
     private byte[] profilePicture;  // TODO Zak: Aendern auf String und konvertieren in Base64 von AccountMapper aus
-    
     private boolean isPublisher;
-
-    private AccountDto(Long id, String prename, String surname, LocalDate birthday, String username, String email, String password, byte[] profilePicture, boolean publisher) {
+    
+    private List<GameDto> taggedGames;
+    // TODO Zak: Reviews hinzufuegen
+    // private List<ReviewDto> writtenReviews;
+    
+    private AccountDto() {
+        this.taggedGames = new LinkedList<>();
+    }
+    
+    private AccountDto(Long id, String prename, String surname, LocalDate birthday, String username, String email, String password, byte[] profilePicture) {
+        this();
         this.id = id;
         this.prename = prename;
         this.surname = surname;
@@ -25,7 +34,6 @@ public class AccountDto {
         this.email = email;
         this.password = password;
         this.profilePicture = profilePicture;
-        this.isPublisher = publisher;
     }
 
     public AccountDto(AccountDtoBuilder builder) {
@@ -36,8 +44,10 @@ public class AccountDto {
                 builder.getUsername(),
                 builder.getEmail(),
                 builder.getPassword(),
-                builder.getProfilePicture(),
-                builder.isPublisher());
+                builder.getProfilePicture());
+
+        this.isPublisher = builder.isPublisher();
+        this.taggedGames = builder.getTaggedGames();
     }
 
     // region getter and setter
@@ -112,7 +122,19 @@ public class AccountDto {
     public void setPublisher(boolean publisher) {
         isPublisher = publisher;
     }
-// endregion
+
+    public List<GameDto> getTaggedGames() {
+        return taggedGames;
+    }
+
+    public void setTaggedGames(List<GameDto> taggedGames) {
+        this.taggedGames = taggedGames;
+    }
+
+    public void addTaggedGame(GameDto... gameDtos) {
+		Collections.addAll(this.taggedGames, gameDtos);
+    }
+    // endregion
 
     @Override
     public String toString() {

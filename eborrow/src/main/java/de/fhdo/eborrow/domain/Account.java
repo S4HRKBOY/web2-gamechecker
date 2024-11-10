@@ -4,6 +4,9 @@ import jakarta.persistence.*;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import java.time.LocalDate;
+import java.util.Collections;
+import java.util.LinkedList;
+import java.util.List;
 
 @Entity
 public class Account {
@@ -25,12 +28,26 @@ public class Account {
     private byte[] profilePicture;
 
     private boolean isPublisher;
-
+	
+	@ManyToMany
+	@JoinTable(
+			name = "account_game",
+			joinColumns = @JoinColumn(name = "account_id"),
+			inverseJoinColumns = @JoinColumn(name = "game_id")
+	)
+	private List<Game> taggedGames;
+	// TODO Zak: Reviews hinzufuegen
+	// @OneToMany(cascade = CascadeType.ALL)	
+	// Zak: Auf der anderen Seite dann @ManyToOne(fetch = FetchType.LAZY) und @JoinColumn(name = "game_id", nullable = false)
+	// private List<Review> writtenReviews;
+	
     protected Account() {
+		this.taggedGames = new LinkedList<>();
     }
 
-    private Account(Long id, String prename, String surname, LocalDate birthday, String username, String email, String password, byte[] profilePicture, boolean isPublisher) {
-        this.id = id;
+    private Account(Long id, String prename, String surname, LocalDate birthday, String username, String email, String password, byte[] profilePicture) {
+        this();
+		this.id = id;
         this.prename = prename;
         this.surname = surname;
         this.birthday = birthday;
@@ -38,7 +55,6 @@ public class Account {
         this.email = email;
         this.password = password;
         this.profilePicture = profilePicture;
-        this.isPublisher = isPublisher;
     }
 
     public Account(AccountBuilder builder) {
@@ -49,9 +65,11 @@ public class Account {
                 builder.getUsername(),
                 builder.getEmail(),
                 builder.getPassword(),
-                builder.getProfilePicture(),
-                builder.isPublisher());
-    }
+                builder.getProfilePicture());
+
+		this.isPublisher = builder.isPublisher();
+		this.taggedGames = builder.getTaggedGames();
+	}
 
     // region getter and setter
     public Long getId() {
@@ -125,7 +143,19 @@ public class Account {
     public void setPublisher(boolean publisher) {
         isPublisher = publisher;
     }
-    // endregion
+
+	public List<Game> getTaggedGames() {
+		return taggedGames;
+	}
+
+	public void setTaggedGames(List<Game> taggedGames) {
+		this.taggedGames = taggedGames;
+	}
+
+	public void addTaggedGame(Game... games) {
+		Collections.addAll(this.taggedGames, games);
+	}
+	// endregion
 
     @Override
     public String toString() {

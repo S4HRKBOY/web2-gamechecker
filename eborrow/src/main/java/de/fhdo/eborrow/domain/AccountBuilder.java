@@ -1,6 +1,9 @@
 package de.fhdo.eborrow.domain;
 
 import java.time.LocalDate;
+import java.util.Collections;
+import java.util.LinkedList;
+import java.util.List;
 
 public class AccountBuilder {
     private Long id;
@@ -13,6 +16,14 @@ public class AccountBuilder {
     private byte[] profilePicture;
     private boolean isPublisher;
 
+    private List<Game> taggedGames;
+    // TODO Zak: Reviews hinzufuegen
+    // private List<Review> writtenReviews;
+
+    public AccountBuilder() {
+        taggedGames = new LinkedList<>();
+    }
+    
     // region getter
     public Long getId() {
         return id;
@@ -92,6 +103,19 @@ public class AccountBuilder {
 
     public AccountBuilder setPublisher(boolean publisher) {
         isPublisher = publisher;
+        return this;
+    }
+
+    public List<Game> getTaggedGames() {
+        return taggedGames;
+    }
+
+    public void setTaggedGames(List<Game> taggedGames) {
+        this.taggedGames = taggedGames;
+    }
+
+    public AccountBuilder addTaggedGame(Game... games) {
+		Collections.addAll(taggedGames, games);
         return this;
     }
     // endregion
