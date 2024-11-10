@@ -24,11 +24,13 @@ public class Account {
     @Lob
     @Column(columnDefinition = "MEDIUMBLOB")
     private byte[] profilePicture;
+    
+    private boolean isPublisher;
 
     protected Account() {
     }
 
-    protected Account(Long id, String prename, String surname, LocalDate birthday, String username, String email, String password, byte[] profilePicture) {
+    private Account(Long id, String prename, String surname, LocalDate birthday, String username, String email, String password, byte[] profilePicture, boolean isPublisher) {
         this.id = id;
         this.prename = prename;
         this.surname = surname;
@@ -37,6 +39,7 @@ public class Account {
         this.email = email;
         this.password = password;
         this.profilePicture = profilePicture;
+        this.isPublisher = isPublisher;
     }
 
     public Account(AccountBuilder builder) {
@@ -47,7 +50,8 @@ public class Account {
                 builder.getUsername(),
                 builder.getEmail(),
                 builder.getPassword(),
-                builder.getProfilePicture());
+                builder.getProfilePicture(),
+                builder.isPublisher());
     }
 
     // region getter and setter
@@ -114,6 +118,14 @@ public class Account {
     public void setProfilePicture(byte[] profilePicture) {
         this.profilePicture = profilePicture;
     }
+
+    public boolean isPublisher() {
+        return isPublisher;
+    }
+
+    public void setPublisher(boolean publisher) {
+        isPublisher = publisher;
+    }
     // endregion
 
     @Override
@@ -126,7 +138,8 @@ public class Account {
                 ", username='" + username + '\'' +
                 ", email='" + email + '\'' +
                 ", password='" + password + '\'' +
-                ", profilePicture=" + profilePicture +
+                ", profilePicture=" + (profilePicture != null ? "yes" : "no") +
+                ", isPublisher=" + isPublisher +
                 '}';
     }
 }

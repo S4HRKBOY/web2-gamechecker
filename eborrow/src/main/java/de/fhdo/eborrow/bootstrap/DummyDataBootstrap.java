@@ -1,6 +1,5 @@
 package de.fhdo.eborrow.bootstrap;
 
-import de.fhdo.eborrow.domain.account.Account;
 import de.fhdo.eborrow.domain.account.builder.AccountBuilder;
 import de.fhdo.eborrow.repositories.AccountRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -44,8 +43,10 @@ public class DummyDataBootstrap implements ApplicationListener<ContextRefreshedE
     }
 
     private void initAccounts() {
-        Account account = new AccountBuilder()
-                .setId(1L)
+        long id = 1L;
+
+        var account = new AccountBuilder()
+                .setId(id++)
                 .setPrename("Max")
                 .setSurname("Mustermann")
                 .setUsername("mamus")
@@ -55,7 +56,20 @@ public class DummyDataBootstrap implements ApplicationListener<ContextRefreshedE
                 .setProfilePicture(readImage("where_image.png"))
                 .build();
 
+        var publisher = new AccountBuilder()
+                .setId(id++)
+                .setPrename("Publisher")
+                .setSurname("Publisher")
+                .setUsername("publisher")
+                .setBirthday(LocalDate.of(2000, 1, 1))
+                .setEmail("publisher@dummy.com")
+                .setPassword("publisher")
+                .setProfilePicture(readImage("where_image.png"))
+                .setPublisher(true)
+                .build();
+
         accountRepository.save(account);
+        accountRepository.save(publisher);
     }
 
     /*

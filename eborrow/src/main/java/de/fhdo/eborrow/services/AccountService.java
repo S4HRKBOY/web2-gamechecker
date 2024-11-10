@@ -11,8 +11,8 @@ import java.util.stream.StreamSupport;
 
 @Service
 public class AccountService {
-	protected final AccountMapper accountMapper;
-	protected final AccountRepository accountRepository;
+	private final AccountMapper accountMapper;
+	private final AccountRepository accountRepository;
 
 	@Autowired
 	public AccountService(AccountMapper accountMapper, AccountRepository accountRepository) {
@@ -76,7 +76,7 @@ public class AccountService {
 		return true;
 	}
 
-	protected void copyExistingFields(AccountDto existingAccountDto, AccountDto newAccountDto) {
+	private void copyExistingFields(AccountDto existingAccountDto, AccountDto newAccountDto) {
 		if (newAccountDto.getPrename() == null) {
 			newAccountDto.setPrename(existingAccountDto.getPrename());
 		}

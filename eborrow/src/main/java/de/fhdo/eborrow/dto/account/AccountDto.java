@@ -3,6 +3,7 @@ package de.fhdo.eborrow.dto.account;
 import de.fhdo.eborrow.dto.account.builder.AccountDtoBuilder;
 
 import java.time.LocalDate;
+import java.util.Arrays;
 
 public class AccountDto {
     private Long id;
@@ -14,9 +15,11 @@ public class AccountDto {
     private String username;
     private String email;
     private String password;
-    private byte[] profilePicture;
+    private byte[] profilePicture;  // TODO Zak: Aendern auf String und konvertieren in Base64 von AccountMapper aus
+    
+    private boolean isPublisher;
 
-    protected AccountDto(Long id, String prename, String surname, LocalDate birthday, String username, String email, String password, byte[] profilePicture) {
+    private AccountDto(Long id, String prename, String surname, LocalDate birthday, String username, String email, String password, byte[] profilePicture, boolean publisher) {
         this.id = id;
         this.prename = prename;
         this.surname = surname;
@@ -25,6 +28,7 @@ public class AccountDto {
         this.email = email;
         this.password = password;
         this.profilePicture = profilePicture;
+        this.isPublisher = publisher;
     }
 
     public AccountDto(AccountDtoBuilder builder) {
@@ -35,7 +39,8 @@ public class AccountDto {
                 builder.getUsername(),
                 builder.getEmail(),
                 builder.getPassword(),
-                builder.getProfilePicture());
+                builder.getProfilePicture(),
+                builder.isPublisher());
     }
 
     // region getter and setter
@@ -102,7 +107,15 @@ public class AccountDto {
     public void setProfilePicture(byte[] profilePicture) {
         this.profilePicture = profilePicture;
     }
-    // endregion
+
+    public boolean isPublisher() {
+        return isPublisher;
+    }
+
+    public void setPublisher(boolean publisher) {
+        isPublisher = publisher;
+    }
+// endregion
 
     @Override
     public String toString() {
@@ -114,7 +127,8 @@ public class AccountDto {
                 ", username='" + username + '\'' +
                 ", email='" + email + '\'' +
                 ", password='" + password + '\'' +
-                ", profilePicture=" + profilePicture +
+                ", profilePicture=" + (profilePicture != null ? "yes" : "no") +
+                ", isPublisher=" + isPublisher +
                 '}';
     }
 }

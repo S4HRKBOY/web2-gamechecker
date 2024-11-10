@@ -5,14 +5,15 @@ import de.fhdo.eborrow.domain.account.Account;
 import java.time.LocalDate;
 
 public class AccountBuilder {
-    protected Long id;
-    protected String prename;
-    protected String surname;
-    protected LocalDate birthday;
-    protected String username;
-    protected String email;
-    protected String password;
-    protected byte[] profilePicture;
+    private Long id;
+    private String prename;
+    private String surname;
+    private LocalDate birthday;
+    private String username;
+    private String email;
+    private String password;
+    private byte[] profilePicture;
+    private boolean isPublisher;
 
     // region getter
     public Long getId() {
@@ -84,6 +85,15 @@ public class AccountBuilder {
 
     public AccountBuilder setProfilePicture(byte[] profilePicture) {
         this.profilePicture = profilePicture;
+        return this;
+    }
+
+    public boolean isPublisher() {
+        return isPublisher;
+    }
+
+    public AccountBuilder setPublisher(boolean publisher) {
+        isPublisher = publisher;
         return this;
     }
     // endregion

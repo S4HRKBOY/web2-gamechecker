@@ -15,7 +15,6 @@ import org.springframework.format.annotation.DateTimeFormat;
 @Entity
 @Table(name = "game")
 public class Game {
-    
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id; 

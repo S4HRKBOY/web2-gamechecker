@@ -5,14 +5,15 @@ import de.fhdo.eborrow.dto.account.AccountDto;
 import java.time.LocalDate;
 
 public class AccountDtoBuilder{
-    protected Long id;
-    protected String prename;
-    protected String surname;
-    protected LocalDate birthday;
-    protected String username;
-    protected String email;
-    protected String password;
-    protected byte[] profilePicture;
+    private Long id;
+    private String prename;
+    private String surname;
+    private LocalDate birthday;
+    private String username;
+    private String email;
+    private String password;
+    private byte[] profilePicture;
+    private boolean isPublisher;
 
     // region getter
     public Long getId() {
@@ -86,6 +87,15 @@ public class AccountDtoBuilder{
         this.profilePicture = profilePicture;
         return this;
     }
+
+    public boolean isPublisher() {
+        return isPublisher;
+    }
+
+    public AccountDtoBuilder setPublisher(boolean publisher) {
+        isPublisher = publisher;
+        return this;
+    }
     // endregion
 
     public AccountDto build() {
@@ -94,7 +104,7 @@ public class AccountDtoBuilder{
         return new AccountDto(this);
     }
 
-    protected void validateInputs() {
+    private void validateInputs() {
         // TODO Zak: Check each field and throw Exception if invalid
     }
 }
