@@ -7,6 +7,8 @@ public class ReviewDto {
 
 	private Long id;
 
+	private String reviewHeadline;
+
 	private String reviewText;
 
 	private int rating;
@@ -17,8 +19,9 @@ public class ReviewDto {
 
 	public ReviewDto(){}
 
-	public ReviewDto(Long id, String reviewText, int rating, LocalDate reviewDate) {
+	public ReviewDto(Long id, String reviewHeadline, String reviewText, int rating, LocalDate reviewDate) {
 		this.id = id;
+		this.reviewHeadline = reviewHeadline;
 		this.reviewText = reviewText;
 		this.rating = rating;
 		this.reviewDate = reviewDate;
@@ -62,5 +65,13 @@ public class ReviewDto {
 
 	public void setGameId(Long gameId) {
 		this.gameId = gameId;
+	}
+
+	public String getReviewHeadline() {
+		return reviewHeadline;
+	}
+
+	public void setReviewHeadline(String reviewHeadline) {
+		this.reviewHeadline = reviewHeadline;
 	}
 }

@@ -46,10 +46,10 @@ public class DummyDataBootstrap implements ApplicationListener<ContextRefreshedE
 		Game game3 = new Game(2L, "Elden Ring", "Set in the Lands Between, players control a customizable player character on a quest to repair the Elden Ring and become the new Elden Lord.",
 				Arrays.asList("Windows", "PlayStation 4", "Playstation 5", "Xbox One", "Xbox Series"), "Rollenspiel", LocalDate.of(2022, 2, 25), 16, "From Software", "Bandai Namco", readImage("EldenRing.jpg"));
 
-		Review game1Review1 = new Review(1L, "Voll gut.", 10, LocalDate.now());
-		Review game1Review2 = new Review(2L, "Echt edel", 8, LocalDate.now());
-		Review game2Review1 = new Review(3L, "10 von 10", 9, LocalDate.now());
-		Review game2Review2 = new Review(4L, "Kacke viel zu schwer.", 2, LocalDate.now());
+		Review game1Review1 = new Review(1L, "Gut", "Voll gut.", 10, LocalDate.now());
+		Review game1Review2 = new Review(2L, "Edel","Echt edel", 8, LocalDate.now());
+		Review game2Review1 = new Review(3L, "Voll gut","10 von 10", 9, LocalDate.now());
+		Review game2Review2 = new Review(4L, "Doof","Kacke viel zu schwer.", 2, LocalDate.now());
 
 		reviewRepository.save(game1Review1);
 		reviewRepository.save(game1Review2);

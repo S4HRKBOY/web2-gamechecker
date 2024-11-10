@@ -25,6 +25,7 @@ public class ReviewMapper {
 
 		ReviewDto reviewDto = new ReviewDto();
 		reviewDto.setId(review.getId());
+		reviewDto.setReviewHeadline(review.getReviewHeadline());
 		reviewDto.setReviewText(review.getReviewText());
 		reviewDto.setReviewDate(review.getReviewDate());
 		reviewDto.setRating(review.getRating());
@@ -40,6 +41,7 @@ public class ReviewMapper {
 
 		Review review = new Review();
 		review.setId(reviewDto.getId());
+		review.setReviewHeadline(reviewDto.getReviewHeadline());
 		review.setReviewText(reviewDto.getReviewText());
 		review.setRating(reviewDto.getRating());
 		review.setReviewDate(reviewDto.getReviewDate());
