@@ -12,8 +12,8 @@
     grid-template-columns: 24% 24% 24% 24%;
     grid-template-rows: auto;
     grid-template-areas: 
-    "title-label title-label title-label licence-label"
-    "title title title licence"
+    "title-label title-label platform-label platform-label"
+    "title title platform platform"
     "description-label description-label description-label description-label"
     "description description description description"
     "genre-label genre-label publication-label age-label"
@@ -22,21 +22,26 @@
     "developer developer publisher publisher"
     "file-label file-label file-label file-label"
     "file file preview-image preview-image"
-    "submit submit submit submit"
+    "submit submit delete delete"
 }
 
-#submit, #age, #publication, #licence {
+#submit, #age, #publication, #delete {
    height: fit-content; 
    width: fit-content
 }
 
 textarea {
     overflow-y: scroll; 
-    height: 100px; 
+    height: 150px; 
     resize:none; 
     padding: 10px 20px 10px 10px;
     text-align: justify;
     overflow-x: hidden; 
+}
+
+#gameImage {
+    max-width: 100%; 
+    max-height: 100%;
 }
 
 #imagearea {
@@ -44,15 +49,15 @@ textarea {
     border: 1px solid hsl(0, 0%, 75%);
     border-radius: 10px;
     padding: 10px;
-    height: 350px; 
+    height: 300px; 
     text-align: center;
 }
 
 label[for="title"] {
     grid-area:title-label;
 }
-label[for="licence"] {
-    grid-area:licence-label;
+label[for="platform"] {
+    grid-area:platform-label;
 }
 label[for="description"] {
     grid-area:description-label;
@@ -79,8 +84,8 @@ label[for="file"] {
 #title {
     grid-area: title; 
 }
-#licence {
-    grid-area: licence; 
+#platform {
+    grid-area: platform; 
 }
 #description {
     grid-area: description; 
@@ -105,5 +110,10 @@ label[for="file"] {
 }
 #submit {
     grid-area: submit;
+}
+
+#delete {
+    justify-self: end;
+    grid-area: delete;
 }
 

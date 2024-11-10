@@ -25,26 +25,20 @@
         <h1 id="headline">Spiel bearbeiten</h1>
         <form id="gameForm" action="./detail_page.html">
             <label for="title">Spieletitel</label>
-            <input id="title" type="text" name="title" required value="Call of Duty: Modern Warfare 3">
-            <label for="licence">Anzahl verfügbarer Lizenzen</label>
-            <select name="licence" id="licence">
-                <option value="1">1</option>
-                <option value="2">2</option>
-                <option value="3" selected="selected">3</option>
-                <option value="4">4</option>
-                <option value="5">5</option>
-            </select>
+            <input id="title" type="text" name="title" required value="Call of Duty: Modern Warfare III">
+            <label for="platform">Plattform</label>
+            <input id="platform" type="text" name="platform" required value="Windows, PlayStation 4, Playstation 5, Xbox One, Xbox Series">
             <label for="description">Beschreibung</label>
             <textarea id="description" name="description" required>Call of Duty ist eine weltweit bekannte Ego-Shooter-Spielreihe, die die Spieler in intensive und realistische Kriegsszenarien versetzt. Mit atemberaubender Grafik und fesselnden Storylines erleben Spieler historische und moderne Schlachten. Ob im Einzelspieler-Storymodus oder in actiongeladenen Multiplayer-Schlachten – Call of Duty bietet Adrenalin pur.</textarea>
             <label for="genre">Genre</label>
             <input id="genre" type="text" name="genre" value="Ego-Shooter" required>
             <label for="publication">Veröffentlichung</label>
-            <input id="publication" type="date" name="publication" value="2011-11-08" required>
+            <input id="publication" type="date" name="publication" value="2023-11-10" required>
             <label for="developer">Entwickler</label>
-            <input id="developer" type="text" name="developer" value="Infinity Ward, Sledgehammer Games" required>
+            <input id="developer" type="text" name="developer" value="Sledgehammer Games, Treyarch, Infinity Ward" required>
             <label for="publisher">Publisher</label>
             <input id="publisher" type="text" name="publisher" value="Activision" required>
-            <label for="age">Altersbeschränkung</label>
+            <label for="age">Altersfreigabe</label>
             <select name="age" id="age">
                 <option value="0">0</option>
                 <option value="6">6</option>
@@ -56,9 +50,10 @@
             <input id="file" type="file" name="file" accept="image/*">
             <fieldset id="imagearea">
                 <legend>Vorschaubild</legend>
-                <img src="../images/call-of-duty.png" height="300">
+                <img id="gameImage" src="../images/callOfDuty3.jpg" alt="Game Image">
             </fieldset>
             <input id="submit" type="submit" value="Änderungen speichern">
+            <input id="delete" type="submit" value="Spiel löschen">
         </form>
     </main>
 </body>

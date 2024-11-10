@@ -1,5 +1,6 @@
 package de.fhdo.eborrow.dto;
-import java.time.LocalDate; 
+import java.time.LocalDate;
+import java.util.List; 
 
 public class GameDto {
 
@@ -7,22 +8,20 @@ public class GameDto {
 
     private String title; 
     private String description; 
-    private int licences; 
-    private int remainingLicences;
+    private List<String> platforms; 
     private String genre; 
     private LocalDate publication; 
     private int age; 
     private String developer; 
     private String publisher; 
-    private byte[] image;
+    private String image;
 
-    public GameDto(Long id, String title, String description, int licences, int remainingLicences, String genre, LocalDate publication,
-            int age, String developer, String publisher, byte[] image) {
+    public GameDto(Long id, String title, String description, List<String> platforms, int licences, int remainingLicences, String genre, LocalDate publication,
+            int age, String developer, String publisher, String image) {
         this.id = id;
         this.title = title;
         this.description = description;
-        this.licences = licences;
-        this.remainingLicences = remainingLicences; 
+        this.platforms = platforms; 
         this.genre = genre;
         this.publication = publication;
         this.age = age;
@@ -59,20 +58,12 @@ public class GameDto {
         this.description = description;
     }
 
-    public int getLicences() {
-        return licences;
+    public List<String> getPlatforms() {
+        return platforms; 
     }
 
-    public void setLicences(int licences) {
-        this.licences = licences;
-    }
-
-    public int getRemainingLicences() {
-        return remainingLicences;
-    }
-
-    public void setRemainingLicences(int remainingLicences) {
-        this.remainingLicences = remainingLicences;
+    public void setPlatforms(List<String> platforms) {
+        this.platforms = platforms; 
     }
 
     public String getGenre() {
@@ -115,11 +106,11 @@ public class GameDto {
         this.publisher = publisher;
     }
 
-    public byte[] getImage() {
+    public String getImage() {
         return image;
     }
 
-    public void setImage(byte[] image) {
+    public void setImage(String image) {
         this.image = image;
     }
 
