@@ -43,7 +43,7 @@ public class DummyDataBootstrap implements ApplicationListener<ContextRefreshedE
 				Arrays.asList("Windows", "PlayStation 4", "Playstation 5", "Xbox One", "Xbox Series"), "Ego-Shooter",
 				LocalDate.of(2023, 11, 10), 18, "Sledgehammer Games, Treyarch, Infinity Ward", "Activision",
 				readImage("callOfDuty3.jpg"));
-		Game game3 = new Game(2L, "Elden Ring", "Set in the Lands Between, players control a customizable player character on a quest to repair the Elden Ring and become the new Elden Lord.",
+		Game game3 = new Game(3L, "Elden Ring", "Set in the Lands Between, players control a customizable player character on a quest to repair the Elden Ring and become the new Elden Lord.",
 				Arrays.asList("Windows", "PlayStation 4", "Playstation 5", "Xbox One", "Xbox Series"), "Rollenspiel", LocalDate.of(2022, 2, 25), 16, "From Software", "Bandai Namco", readImage("EldenRing.jpg"));
 
 		Review game1Review1 = new Review(1L, "Voll gut.", 10, LocalDate.now());
