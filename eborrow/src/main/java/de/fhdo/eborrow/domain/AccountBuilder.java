@@ -1,6 +1,4 @@
-package de.fhdo.eborrow.domain.account.builder;
-
-import de.fhdo.eborrow.domain.account.Account;
+package de.fhdo.eborrow.domain;
 
 import java.time.LocalDate;
 

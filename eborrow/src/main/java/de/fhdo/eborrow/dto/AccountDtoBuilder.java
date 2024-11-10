@@ -1,6 +1,4 @@
-package de.fhdo.eborrow.dto.account.builder;
-
-import de.fhdo.eborrow.dto.account.AccountDto;
+package de.fhdo.eborrow.dto;
 
 import java.time.LocalDate;
 

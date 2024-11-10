@@ -1,6 +1,6 @@
 package de.fhdo.eborrow.bootstrap;
 
-import de.fhdo.eborrow.domain.account.builder.AccountBuilder;
+import de.fhdo.eborrow.domain.AccountBuilder;
 import de.fhdo.eborrow.repositories.AccountRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationListener;

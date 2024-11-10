@@ -1,9 +1,9 @@
 package de.fhdo.eborrow.converters;
 
-import de.fhdo.eborrow.domain.account.Account;
-import de.fhdo.eborrow.domain.account.builder.AccountBuilder;
-import de.fhdo.eborrow.dto.account.AccountDto;
-import de.fhdo.eborrow.dto.account.builder.AccountDtoBuilder;
+import de.fhdo.eborrow.domain.Account;
+import de.fhdo.eborrow.domain.AccountBuilder;
+import de.fhdo.eborrow.dto.AccountDto;
+import de.fhdo.eborrow.dto.AccountDtoBuilder;
 import org.springframework.stereotype.Component;
 
 @Component

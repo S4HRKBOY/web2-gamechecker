@@ -1,36 +1,22 @@
-package de.fhdo.eborrow.domain.account;
-
-import de.fhdo.eborrow.domain.account.builder.AccountBuilder;
-import jakarta.persistence.*;
-import org.springframework.format.annotation.DateTimeFormat;
+package de.fhdo.eborrow.dto;
 
 import java.time.LocalDate;
 
-@Entity
-public class Account {
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+public class AccountDto {
     private Long id;
 
     private String prename;
     private String surname;
-    @DateTimeFormat
     private LocalDate birthday;
 
     private String username;
     private String email;
     private String password;
-
-    @Lob
-    @Column(columnDefinition = "MEDIUMBLOB")
-    private byte[] profilePicture;
+    private byte[] profilePicture;  // TODO Zak: Aendern auf String und konvertieren in Base64 von AccountMapper aus
     
     private boolean isPublisher;
 
-    protected Account() {
-    }
-
-    private Account(Long id, String prename, String surname, LocalDate birthday, String username, String email, String password, byte[] profilePicture, boolean isPublisher) {
+    private AccountDto(Long id, String prename, String surname, LocalDate birthday, String username, String email, String password, byte[] profilePicture, boolean publisher) {
         this.id = id;
         this.prename = prename;
         this.surname = surname;
@@ -39,10 +25,10 @@ public class Account {
         this.email = email;
         this.password = password;
         this.profilePicture = profilePicture;
-        this.isPublisher = isPublisher;
+        this.isPublisher = publisher;
     }
 
-    public Account(AccountBuilder builder) {
+    public AccountDto(AccountDtoBuilder builder) {
         this(builder.getId(),
                 builder.getPrename(),
                 builder.getSurname(),
@@ -126,11 +112,11 @@ public class Account {
     public void setPublisher(boolean publisher) {
         isPublisher = publisher;
     }
-    // endregion
+// endregion
 
     @Override
     public String toString() {
-        return "Account{" +
+        return "AccountDto{" +
                 "id=" + id +
                 ", prename='" + prename + '\'' +
                 ", surname='" + surname + '\'' +

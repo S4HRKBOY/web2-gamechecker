@@ -1,8 +1,8 @@
 package de.fhdo.eborrow.services;
 
 import de.fhdo.eborrow.converters.AccountMapper;
-import de.fhdo.eborrow.domain.account.Account;
-import de.fhdo.eborrow.dto.account.AccountDto;
+import de.fhdo.eborrow.domain.Account;
+import de.fhdo.eborrow.dto.AccountDto;
 import de.fhdo.eborrow.repositories.AccountRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
