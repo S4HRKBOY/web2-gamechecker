@@ -15,6 +15,8 @@ public class Review {
 	@Column(name = "id")
 	private Long id;
 
+	private String reviewHeadline;
+
 	private String reviewText;
 
 	private int rating;
@@ -28,8 +30,9 @@ public class Review {
 
 	public Review(){}
 
-	public Review(Long id, String reviewText, int rating, LocalDate reviewDate) {
+	public Review(Long id, String reviewHeadline ,String reviewText, int rating, LocalDate reviewDate) {
 		this.id = id;
+		this.reviewHeadline = reviewHeadline;
 		this.reviewText = reviewText;
 		this.rating = rating;
 		this.reviewDate = reviewDate;
@@ -73,5 +76,13 @@ public class Review {
 
 	public void setGame(Game game) {
 		this.game = game;
+	}
+
+	public String getReviewHeadline() {
+		return reviewHeadline;
+	}
+
+	public void setReviewHeadline(String reviewHeadline) {
+		this.reviewHeadline = reviewHeadline;
 	}
 }

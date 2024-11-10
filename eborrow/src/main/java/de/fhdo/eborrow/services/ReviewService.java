@@ -71,8 +71,12 @@ public class ReviewService {
 			reviewToUpdate.setGame(gameMapper.dtoToGame(gameService.getGameById(reviewDto.getGameId())));
 		}
 
+		if(reviewDto.getReviewHeadline() != null){
+			reviewToUpdate.setReviewHeadline(reviewDto.getReviewHeadline());
+		}
+
 		if (reviewDto.getReviewText() != null) {
-			reviewToUpdate.setReviewText(reviewToUpdate.getReviewText());
+			reviewToUpdate.setReviewText(reviewDto.getReviewText());
 		}
 
 		reviewToUpdate.setRating(reviewDto.getRating());
