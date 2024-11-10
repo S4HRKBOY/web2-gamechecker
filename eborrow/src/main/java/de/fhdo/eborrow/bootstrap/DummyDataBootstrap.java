@@ -1,9 +1,7 @@
 package de.fhdo.eborrow.bootstrap;
 
-import de.fhdo.eborrow.domain.account.Publisher;
 import de.fhdo.eborrow.domain.account.User;
 import de.fhdo.eborrow.domain.account.builder.PaymentOptionBuilder;
-import de.fhdo.eborrow.domain.account.builder.PublisherBuilder;
 import de.fhdo.eborrow.domain.account.builder.UserBuilder;
 import de.fhdo.eborrow.repositories.AccountRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -69,17 +67,7 @@ public class DummyDataBootstrap implements ApplicationListener<ContextRefreshedE
                         .build())
                 .build();
 
-        Publisher publisher = new PublisherBuilder()
-                .setId(1L)
-                .setPrename("Publisher")
-                .setSurname("Publisher")
-                .setUsername("publisher")
-                .setEmail("publisher@dummy.com")
-                .setPassword("publisher")
-                .build();
-
         accountRepository.save(user);
-        accountRepository.save(publisher);
     }
 
     /*

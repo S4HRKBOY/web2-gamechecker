@@ -1,14 +1,10 @@
 package de.fhdo.eborrow.converters;
 
 import de.fhdo.eborrow.domain.account.Account;
-import de.fhdo.eborrow.domain.account.Publisher;
 import de.fhdo.eborrow.domain.account.User;
-import de.fhdo.eborrow.domain.account.builder.PublisherBuilder;
 import de.fhdo.eborrow.domain.account.builder.UserBuilder;
 import de.fhdo.eborrow.dto.account.AccountDto;
-import de.fhdo.eborrow.dto.account.PublisherDto;
 import de.fhdo.eborrow.dto.account.UserDto;
-import de.fhdo.eborrow.dto.account.builder.PublisherDtoBuilder;
 import de.fhdo.eborrow.dto.account.builder.UserDtoBuilder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -39,19 +35,6 @@ public class AccountMapper {
 
                 return userDtoBuilder.build();
             }
-            case Publisher publisher -> {
-                PublisherDtoBuilder publisherDtoBuilder = new PublisherDtoBuilder()
-                        .setId(publisher.getId())
-                        .setPrename(publisher.getPrename())
-                        .setSurname(publisher.getSurname())
-                        .setBirthday(publisher.getBirthday())
-                        .setUsername(publisher.getUsername())
-                        .setEmail(publisher.getEmail())
-                        .setPassword(publisher.getPassword())
-                        .setProfilePicture(publisher.getProfilePicture());
-
-                return publisherDtoBuilder.build();
-            }
             default -> {
                 return null;
             }
@@ -73,19 +56,6 @@ public class AccountMapper {
                 userBuilder.setPaymentOption(paymentOptionMapper.dtoToPaymentOption(userDto.getPaymentOptionDto()));
 
                 return userBuilder.build();
-            }
-            case PublisherDto publisherDto -> {
-                PublisherBuilder publisherBuilder = new PublisherBuilder()
-                        .setId(publisherDto.getId())
-                        .setPrename(publisherDto.getPrename())
-                        .setSurname(publisherDto.getSurname())
-                        .setBirthday(publisherDto.getBirthday())
-                        .setUsername(publisherDto.getUsername())
-                        .setEmail(publisherDto.getEmail())
-                        .setPassword(publisherDto.getPassword())
-                        .setProfilePicture(publisherDto.getProfilePicture());
-
-                return publisherBuilder.build();
             }
             default -> {
                 return null;
