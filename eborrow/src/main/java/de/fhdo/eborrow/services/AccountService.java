@@ -57,8 +57,7 @@ public class AccountService {
 		return true;
 	}
 
-	// TODO Zak: Besser anders herum: oldAccountDto mit den Werten von newAccountDto befuellen, damit nicht eins versehentlich vergessen wird
-	// Zak: Alternativer Ansatz: Ein UpdateAccount Objekt erzeugen, in dem nur die zu aendernden Felder gesetzt sind
+	// Zak: Alternativer Ansatz fuer saubere Trennung: Ein UpdateAccount Objekt erzeugen, in dem nur die zu aendernden Felder gesetzt sind
 	// und dann die Werte auf das existierende Objekt im Repository ueberfuehren
 	public boolean updateAccount(AccountDto accountChanges, Long id) {
 		Account existingAccount = accountRepository.findById(id).orElse(null);
@@ -68,8 +67,8 @@ public class AccountService {
 		}
 
 		AccountDto existingAccountDto = accountMapper.accountToDto(existingAccount);
-		transferChanges(existingAccountDto, accountChanges);
-		Account updatedAccount = accountMapper.dtoToAccount(existingAccountDto);
+		AccountDto updatedAccountDTO = transferChanges(existingAccountDto, accountChanges);
+		Account updatedAccount = accountMapper.dtoToAccount(updatedAccountDTO);
 		accountRepository.save(updatedAccount);
 
 		return true;
