@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import java.time.LocalDate;
+import java.util.Arrays;
 import java.util.List;
 
 @Entity
@@ -162,6 +163,7 @@ public class Account {
                 ", password='" + password + '\'' +
                 ", profilePicture=" + (profilePicture != null ? "yes" : "no") +
                 ", isPublisher=" + isPublisher +
+                ", taggedGames=" + taggedGames +
                 '}';
     }
 }

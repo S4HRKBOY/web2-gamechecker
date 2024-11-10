@@ -1,6 +1,7 @@
 package de.fhdo.eborrow.dto;
 
 import java.time.LocalDate;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
@@ -139,6 +140,7 @@ public class AccountDto {
                 ", password='" + password + '\'' +
                 ", profilePicture=" + (profilePicture != null ? "yes" : "no") +
                 ", isPublisher=" + isPublisher +
+                ", taggedGames=" + taggedGames +
                 '}';
     }
 }
