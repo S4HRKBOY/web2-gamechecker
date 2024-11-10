@@ -21,12 +21,12 @@ public class GameMapper {
         gameDto.setTitle(game.getTitle());
         gameDto.setDescription(game.getDescription());
         gameDto.setPlatforms(game.getPlatforms());
-        gameDto.setGenre(game.getGenre());
-        gameDto.setPublication(game.getPublication());
-        gameDto.setAge(game.getAge());
+        gameDto.setGenres(game.getGenres());
+        gameDto.setPublicationDate(game.getPublicationDate());
+        gameDto.setAge(game.getAgeRating());
         gameDto.setDeveloper(game.getDeveloper());
         gameDto.setPublisher(game.getPublisher());
-        gameDto.setImage(Base64.getEncoder().encodeToString(game.getImage()));
+        gameDto.setGameImage(Base64.getEncoder().encodeToString(game.getGameImage()));
 
         return gameDto; 
     }
@@ -42,12 +42,12 @@ public class GameMapper {
         game.setTitle(dto.getTitle());
         game.setDescription(dto.getDescription());
         game.setPlatforms(dto.getPlatforms());
-        game.setGenre(dto.getGenre());
-        game.setPublication(dto.getPublication());
-        game.setAge(dto.getAge());
+        game.setGenres(dto.getGenres());
+        game.setPublicationDate(dto.getPublicationDate());
+        game.setAgeRating(dto.getAgeRating());
         game.setDeveloper(dto.getDeveloper());
         game.setPublisher(dto.getPublisher());
-        game.setImage(Base64.getDecoder().decode(dto.getImage().split(",")[1]));
+        game.setGameImage(Base64.getDecoder().decode(dto.getGameImage().split(",")[1]));
 
         return game; 
     }

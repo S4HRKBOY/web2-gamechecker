@@ -20,18 +20,18 @@ public class Game {
     private String title;
     @Lob
     private String description;
-    private List<String> platforms; 
-    private String genre;
+    private List<Platform> platforms; 
+    private List<Genre> genres;
 
     @DateTimeFormat
-    private LocalDate publication;
-    private int age;
+    private LocalDate publicationDate;
+    private int ageRating;
     private String developer;
     private String publisher;
 
     @Lob
     @Column(columnDefinition = "MEDIUMBLOB")
-    private byte[] image;
+    private byte[] gameImage;
 
     @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name = "game_id")
@@ -45,18 +45,18 @@ public class Game {
 
     }
 
-    public Game(Long id, String title, String description, List<String> platforms, String genre, LocalDate publication,
-            int age, String developer, String publisher, byte[] image) {
+    public Game(Long id, String title, String description, List<Platform> platforms, List<Genre> genres, LocalDate publicationDate,
+            int ageRating, String developer, String publisher, byte[] gameImage) {
         this.id = id;
         this.title = title;
         this.description = description;
         this.platforms = platforms; 
-        this.genre = genre;
-        this.publication = publication;
-        this.age = age;
+        this.genres = genres;
+        this.publicationDate = publicationDate;
+        this.ageRating = ageRating;
         this.developer = developer;
         this.publisher = publisher;
-        this.image = image;
+        this.gameImage = gameImage;
     }
 
     public Long getId() {
@@ -83,36 +83,36 @@ public class Game {
         this.description = description;
     }
 
-    public List<String> getPlatforms() {
+    public List<Platform> getPlatforms() {
         return platforms; 
     }
 
-    public void setPlatforms(List<String> platforms) {
+    public void setPlatforms(List<Platform> platforms) {
         this.platforms = platforms; 
     }
 
-    public String getGenre() {
-        return genre;
+    public List<Genre> getGenres() {
+        return genres;
     }
 
-    public void setGenre(String genre) {
-        this.genre = genre;
+    public void setGenres(List<Genre> genres) {
+        this.genres = genres;
     }
 
-    public LocalDate getPublication() {
-        return publication;
+    public LocalDate getPublicationDate() {
+        return publicationDate;
     }
 
-    public void setPublication(LocalDate publication) {
-        this.publication = publication;
+    public void setPublicationDate(LocalDate publicationDate) {
+        this.publicationDate = publicationDate;
     }
 
-    public int getAge() {
-        return age;
+    public int getAgeRating() {
+        return ageRating;
     }
 
-    public void setAge(int age) {
-        this.age = age;
+    public void setAgeRating(int ageRating) {
+        this.ageRating = ageRating;
     }
 
     public String getDeveloper() {
@@ -131,12 +131,12 @@ public class Game {
         this.publisher = publisher;
     }
 
-    public byte[] getImage() {
-        return image;
+    public byte[] getGameImage() {
+        return gameImage;
     }
 
-    public void setImage(byte[] image) {
-        this.image = image;
+    public void setGameImage(byte[] gameImage) {
+        this.gameImage = gameImage;
     }
 
     public void addReview(Review review){
