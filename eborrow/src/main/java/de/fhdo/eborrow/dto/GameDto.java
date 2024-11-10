@@ -14,10 +14,10 @@ public class GameDto {
     private int age; 
     private String developer; 
     private String publisher; 
-    private byte[] image;
+    private String image;
 
     public GameDto(Long id, String title, String description, List<String> platforms, int licences, int remainingLicences, String genre, LocalDate publication,
-            int age, String developer, String publisher, byte[] image) {
+            int age, String developer, String publisher, String image) {
         this.id = id;
         this.title = title;
         this.description = description;
@@ -106,11 +106,11 @@ public class GameDto {
         this.publisher = publisher;
     }
 
-    public byte[] getImage() {
+    public String getImage() {
         return image;
     }
 
-    public void setImage(byte[] image) {
+    public void setImage(String image) {
         this.image = image;
     }
 

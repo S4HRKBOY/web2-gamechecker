@@ -1,6 +1,7 @@
 package de.fhdo.eborrow.services;
 
 import java.util.ArrayList;
+import java.util.Base64;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -80,7 +81,7 @@ public class GameService {
             updatedGame.setPublisher(gameDto.getPublisher());
         }
         if (gameDto.getImage() != null) {
-            updatedGame.setImage(gameDto.getImage());
+            updatedGame.setImage(Base64.getDecoder().decode(gameDto.getImage().split(",")[1]));
         }
 
         return gameRepository.save(updatedGame).getId();

@@ -1,0 +1,110 @@
+.headline {
+  padding-left: 25%;
+}
+
+.detailContainer, .reviewForm, .reviewContainer {
+  display: grid;
+  margin: 1% 25% 1% 25%;
+  border: 1px solid black;
+  border-radius: 10px;
+  padding: 10px;
+  gap: 10px;
+}
+
+.detailContainer {
+  grid-template-columns: auto 60%;
+  grid-template-rows: auto;
+  grid-template-areas:
+    "editButton editButton"
+    "detailImage detailInfo"
+    "detailDescription detailDescription"
+}
+
+#editButton {
+  justify-self: end;
+  grid-area: editButton;
+}
+
+th,
+td {
+  padding: 5px;
+  vertical-align: top;
+}
+
+#detailInfo {
+  grid-area: detailInfo;
+}
+
+#detailImage {
+  max-width: 100%;
+  max-height: 100%;
+  grid-area: detailImage;
+}
+
+#detailDescription {
+  grid-area: detailDescription;
+}
+
+.reviewForm {
+  grid-template-columns: auto auto 200px;
+  grid-template-rows: auto;
+  grid-template-areas:
+    "reviewText reviewText recommendation-label"
+    "reviewText reviewText recommendation"
+    "reviewText reviewText ."
+    ". . submit"
+}
+
+label[for="recommendation"] {
+  grid-area: recommendation-label;
+}
+
+#reviewText {
+  grid-area: reviewText;
+}
+
+#recommendation {
+  grid-area: recommendation;
+}
+
+#submit {
+  grid-area: submit;
+}
+
+textarea {
+  overflow-y: scroll;
+  height: 100px;
+  resize: none;
+  padding: 10px 20px 10px 10px;
+  text-align: justify;
+  overflow-x: hidden;
+}
+
+.reviewContainer {
+  grid-template-columns: 3% auto auto auto;
+  grid-template-rows: auto;
+  grid-template-areas:
+    "reviewImage reviewUsername reviewDate reviewRating"
+    "reviewContent reviewContent reviewContent reviewContent"
+}
+
+.reviewImage {
+  width: 20px;
+  grid-area: reviewImage;
+}
+
+.reviewUsername {
+  grid-area: reviewUsername;
+}
+
+.reviewDate {
+  grid-area: reviewDate;
+}
+
+.reviewRating {
+  grid-area: reviewRating;
+}
+
+.reviewContent {
+  grid-area: reviewContent;
+}
