@@ -3,10 +3,6 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
-import de.fhdo.eborrow.domain.AgeRating;
-import de.fhdo.eborrow.domain.Genre;
-import de.fhdo.eborrow.domain.Platform; 
-
 public class GameDto {
 
     private Long id; 

@@ -35,7 +35,7 @@ public class GameService {
         return gameMapper.gameToDto(game);
     }
 
-    public void deleteGame(Long id) {
+    public void deleteGameById(Long id) {
         gameRepository.deleteById(id);
     }
 
