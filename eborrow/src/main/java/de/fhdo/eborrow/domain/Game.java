@@ -4,7 +4,6 @@ import jakarta.persistence.*;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
 
 import org.springframework.format.annotation.DateTimeFormat;
@@ -12,7 +11,6 @@ import org.springframework.format.annotation.DateTimeFormat;
 @Entity
 @Table(name = "game")
 public class Game {
-
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
