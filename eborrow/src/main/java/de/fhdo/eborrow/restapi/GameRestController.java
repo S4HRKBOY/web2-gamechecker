@@ -1,7 +1,6 @@
 package de.fhdo.eborrow.restapi;
 
 import java.util.List;
-import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -15,7 +14,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
-import de.fhdo.eborrow.domain.Review;
 import de.fhdo.eborrow.dto.GameDto;
 import de.fhdo.eborrow.dto.ReviewDto;
 import de.fhdo.eborrow.services.GameService;
@@ -34,7 +32,7 @@ public class GameRestController {
         this.reviewService = reviewService; 
     }
 
-    @GetMapping("/allGames")
+    @GetMapping("/getGames")
     @ResponseStatus(HttpStatus.OK)
     public List<GameDto> getAll() {
         return gameService.getAll(); 
@@ -46,19 +44,19 @@ public class GameRestController {
         return gameService.getGameById(id); 
     }
 
-    @DeleteMapping("/deleteOne/{id}")
+    @DeleteMapping("/deleteGameById/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void deleteGameById(@PathVariable Long id) {
-        gameService.deleteGame(id);
+        gameService.deleteGameById(id);
     }
 
-    @PutMapping("/createOne")
+    @PutMapping("/createGame")
     @ResponseStatus(HttpStatus.CREATED)
     public void createGame(@RequestBody GameDto gameDto) {
         gameService.addGame(gameDto); 
     }
 
-    @PostMapping("/updateOne")
+    @PostMapping("/updateGame")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void updateGame(@RequestBody GameDto gameDto) {
         gameService.updateGame(gameDto); 
