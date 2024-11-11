@@ -35,8 +35,7 @@ public class GameMapper {
         gameDto.setDeveloper(game.getDeveloper());
         gameDto.setPublisher(game.getPublisher());
         gameDto.setGameImage(Base64.getEncoder().encodeToString(game.getGameImage()));
-        //TODO rausschmeißen? 
-        //gameDto.setReviews(reviewMapper.reviewSetToDtoList(game.getReviews())); 
+        gameDto.setReviews(reviewMapper.reviewSetToDtoList(game.getReviews())); 
 
         return gameDto;
     }
@@ -60,8 +59,7 @@ public class GameMapper {
         if (dto.getGameImage() != null) {
             game.setGameImage(Base64.getDecoder().decode(dto.getGameImage().split(",")[1]));
         }
-        //TODO rausschmeißen? 
-        //game.setReviews(reviewMapper.dtoListToReviewSet(dto.getReviews())); 
+        game.setReviews(reviewMapper.dtoListToReviewSet(dto.getReviews())); 
 
         return game;
     }
