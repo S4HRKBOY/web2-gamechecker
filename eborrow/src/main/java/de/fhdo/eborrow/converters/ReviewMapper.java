@@ -48,25 +48,25 @@ public class ReviewMapper {
 		return review;
 	}
 
-	protected List<ReviewDto> reviewListToDtoList(List<Review> list) {
-		if (list == null) {
+	protected List<ReviewDto> reviewSetToDtoList(Set<Review> set) {
+		if (set == null) {
 			return null;
 		}
 
-		List<ReviewDto> result = new ArrayList<ReviewDto>(Math.max((int) (list.size() / .75f) + 1, 16)); 
-		for (Review review : list) {
+		List<ReviewDto> result = new ArrayList<ReviewDto>(Math.max((int) (set.size() / .75f) + 1, 16)); 
+		for (Review review : set) {
 			result.add(convertReviewToDto(review));
 		}
 
 		return result;
 	}
 
-	protected List<Review> dtoListToReviewList(List<ReviewDto> list) {
+	protected Set<Review> dtoListToReviewSet(List<ReviewDto> list) {
 		if (list == null) {
 			return null;
 		}
 
-		List<Review> result = new ArrayList<Review>(Math.max((int) (list.size() / .75f) + 1, 16));
+		Set<Review> result = new HashSet<Review>(Math.max((int) (list.size() / .75f) + 1, 16));
 		for (ReviewDto reviewDto : list) {
 			result.add(convertDtoToReview(reviewDto));
 		}
