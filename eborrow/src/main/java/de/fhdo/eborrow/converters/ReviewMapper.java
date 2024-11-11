@@ -3,20 +3,18 @@ package de.fhdo.eborrow.converters;
 import de.fhdo.eborrow.domain.Review;
 import de.fhdo.eborrow.dto.ReviewDto;
 import de.fhdo.eborrow.services.GameService;
+
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 @Component
 public class ReviewMapper {
 
-	private GameService gameService;
-	private GameMapper gameMapper;
-
-	@Autowired
-	public ReviewMapper(GameService gameService, GameMapper gameMapper){
-		this.gameService = gameService;
-		this.gameMapper = gameMapper;
-	}
 
 	public ReviewDto convertReviewToDto(Review review){
 		if(review == null){
@@ -29,7 +27,7 @@ public class ReviewMapper {
 		reviewDto.setReviewText(review.getReviewText());
 		reviewDto.setReviewDate(review.getReviewDate());
 		reviewDto.setRating(review.getRating());
-		reviewDto.setGameId(review.getGame().getId());
+		reviewDto.setGame(review.getGame());
 
 		return reviewDto;
 	}
@@ -45,9 +43,35 @@ public class ReviewMapper {
 		review.setReviewText(reviewDto.getReviewText());
 		review.setRating(reviewDto.getRating());
 		review.setReviewDate(reviewDto.getReviewDate());
-		review.setGame(gameMapper.dtoToGame(gameService.getGameById(reviewDto.getGameId())));
+		review.setGame(reviewDto.getGame());
 
 		return review;
+	}
+
+	protected List<ReviewDto> reviewListToDtoList(List<Review> list) {
+		if (list == null) {
+			return null;
+		}
+
+		List<ReviewDto> result = new ArrayList<ReviewDto>(Math.max((int) (list.size() / .75f) + 1, 16)); 
+		for (Review review : list) {
+			result.add(convertReviewToDto(review));
+		}
+
+		return result;
+	}
+
+	protected List<Review> dtoListToReviewList(List<ReviewDto> list) {
+		if (list == null) {
+			return null;
+		}
+
+		List<Review> result = new ArrayList<Review>(Math.max((int) (list.size() / .75f) + 1, 16));
+		for (ReviewDto reviewDto : list) {
+			result.add(convertDtoToReview(reviewDto));
+		}
+
+		return result;
 	}
 
 }

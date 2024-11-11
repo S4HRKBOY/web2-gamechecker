@@ -6,8 +6,11 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import org.springframework.format.annotation.DateTimeFormat;
+
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 @Entity
 @Table(name = "game")
@@ -33,9 +36,10 @@ public class Game {
     @Column(columnDefinition = "MEDIUMBLOB")
     private byte[] gameImage;
 
-    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    @JoinColumn(name = "game_id")
-    private List<Review> reviews;
+    @OneToMany(mappedBy = "game", orphanRemoval = true, cascade = CascadeType.ALL)
+    @JsonManagedReference
+    private List<Review> reviews = new ArrayList<>();
+
 
     // TODO Überflüssig? Sollte ein Spiel wissen, welcher Spieler es auf die Liste gepackt hat? 
     /*@ManyToMany(mappedBy = "games")
@@ -139,25 +143,16 @@ public class Game {
         this.gameImage = gameImage;
     }
 
-    public void addReview(Review review){
-        if(reviews == null){
-            reviews = new ArrayList<>();
-        }
-        review.setGame(this);
-        reviews.add(review);
-    }
-
     public List<Review> getReviews() {
-        return reviews;
+        return reviews; 
     }
 
     public void setReviews(List<Review> reviews) {
-        this.reviews = reviews;
+        this.reviews = reviews; 
     }
 
-    /*
     //TODO Überflüssig? 
-    public Set<User> getUsers() {
+    /*public Set<User> getUsers() {
         return users; 
     }
 

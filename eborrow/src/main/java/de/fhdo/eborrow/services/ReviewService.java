@@ -68,7 +68,7 @@ public class ReviewService {
 			reviewToUpdate = reviewRepository.findById(reviewDto.getId()).get();
 		} else {
 			reviewToUpdate = new Review();
-			reviewToUpdate.setGame(gameMapper.dtoToGame(gameService.getGameById(reviewDto.getGameId())));
+			reviewToUpdate.setGame(gameMapper.dtoToGame(gameService.getGameById(reviewDto.getGame().getId())));
 		}
 
 		if(reviewDto.getReviewHeadline() != null){

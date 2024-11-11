@@ -1,5 +1,6 @@
 package de.fhdo.eborrow.dto;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 
 import de.fhdo.eborrow.domain.AgeRating;
@@ -19,6 +20,8 @@ public class GameDto {
     private String developer; 
     private String publisher; 
     private String gameImage;
+
+    private List<ReviewDto> reviews = new ArrayList<>();
 
     public GameDto(Long id, String title, String description, List<Platform> platforms, int licences, int remainingLicences, List<Genre> genres, LocalDate publicationDate,
             AgeRating ageRating, String developer, String publisher, String gameImage) {
@@ -117,6 +120,15 @@ public class GameDto {
     public void setGameImage(String gameImage) {
         this.gameImage = gameImage;
     }
+
+    public List<ReviewDto> getReviews() {
+		return reviews;
+	}
+
+	public void setReviews(List<ReviewDto> reviews) {
+		this.reviews = reviews;
+	}
+
 
     
 }

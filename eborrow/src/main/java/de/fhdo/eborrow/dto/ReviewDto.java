@@ -2,6 +2,8 @@ package de.fhdo.eborrow.dto;
 
 import java.time.LocalDate;
 
+import de.fhdo.eborrow.domain.Game;
+
 //TODO: GameID oder game?!
 public class ReviewDto {
 
@@ -15,7 +17,7 @@ public class ReviewDto {
 
 	private LocalDate reviewDate;
 
-	private Long gameId;
+	private Game game;
 
 	public ReviewDto(){}
 
@@ -59,12 +61,12 @@ public class ReviewDto {
 		this.reviewDate = reviewDate;
 	}
 
-	public Long getGameId() {
-		return gameId;
+	public Game getGame() {
+		return game;
 	}
 
-	public void setGameId(Long gameId) {
-		this.gameId = gameId;
+	public void setGame(Game game) {
+		this.game = game;
 	}
 
 	public String getReviewHeadline() {

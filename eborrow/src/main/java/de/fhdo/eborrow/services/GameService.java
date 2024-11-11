@@ -3,12 +3,14 @@ package de.fhdo.eborrow.services;
 import java.util.ArrayList;
 import java.util.Base64;
 import java.util.List;
+import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import de.fhdo.eborrow.converters.GameMapper;
 import de.fhdo.eborrow.domain.Game;
+import de.fhdo.eborrow.domain.Review;
 import de.fhdo.eborrow.dto.GameDto;
 import de.fhdo.eborrow.repositories.GameRepository;
 
@@ -85,6 +87,11 @@ public class GameService {
         }
 
         return gameRepository.save(updatedGame).getId();
+    }
+
+    public List<Review> getReviewsByGameId(Long id) {
+        Game game = gameRepository.findById(id).get();
+        return game.getReviews(); 
     }
 
 }
