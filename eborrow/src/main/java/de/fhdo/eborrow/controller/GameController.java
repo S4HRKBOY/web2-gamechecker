@@ -6,21 +6,27 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import de.fhdo.eborrow.domain.Review;
 import de.fhdo.eborrow.dto.GameDto;
+import de.fhdo.eborrow.dto.ReviewDto;
 import de.fhdo.eborrow.services.GameService;
+import de.fhdo.eborrow.services.ReviewService;
 
 @Controller
 @RequestMapping("/thymeleaf/game")
 public class GameController {
 
     private GameService gameService; 
+    private ReviewService reviewService; 
 
     @Autowired
-    public GameController(GameService gameService) {
+    public GameController(GameService gameService, ReviewService reviewService) {
         this.gameService = gameService; 
     }
 
@@ -35,7 +41,9 @@ public class GameController {
     public String getGameById(@PathVariable Long id, Model model) {
         GameDto gameDto = gameService.getGameById(id); 
         model.addAttribute("game", gameDto);
+        model.addAttribute("reviews", gameDto.getReviews()); 
         return "detail_page";
     }
+
 
 }

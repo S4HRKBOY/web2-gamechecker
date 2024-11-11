@@ -2,7 +2,9 @@
   padding-left: 25%;
 }
 
-.detailContainer, .reviewForm, .reviewContainer {
+.detailContainer,
+.reviewForm,
+.reviewContainer {
   display: grid;
   margin: 1% 25% 1% 25%;
   border: 1px solid black;
@@ -46,25 +48,31 @@ td {
 }
 
 .reviewForm {
-  grid-template-columns: auto auto 200px;
+  grid-template-columns: auto auto 150px;
   grid-template-rows: auto;
   grid-template-areas:
-    "reviewText reviewText recommendation-label"
+    "reviewFormHeadline reviewFormHeadline recommendation-label"
     "reviewText reviewText recommendation"
     "reviewText reviewText ."
     ". . submit"
 }
 
-label[for="recommendation"] {
-  grid-area: recommendation-label;
+#reviewFormHeadline {
+  grid-area: reviewFormHeadline;
 }
 
 #reviewText {
   grid-area: reviewText;
 }
 
+label[for="recommendation"] {
+  grid-area: recommendation-label;
+  justify-self: end;
+}
+
 #recommendation {
   grid-area: recommendation;
+  justify-self: end;
 }
 
 #submit {
@@ -81,11 +89,12 @@ textarea {
 }
 
 .reviewContainer {
-  grid-template-columns: 3% auto auto auto;
+  grid-template-columns: 3% auto auto;
   grid-template-rows: auto;
   grid-template-areas:
-    "reviewImage reviewUsername reviewDate reviewRating"
-    "reviewContent reviewContent reviewContent reviewContent"
+    "reviewImage reviewUsername reviewDate"
+    "reviewHeadline reviewHeadline reviewRating"
+    "reviewContent reviewContent reviewContent"
 }
 
 .reviewImage {
@@ -99,10 +108,17 @@ textarea {
 
 .reviewDate {
   grid-area: reviewDate;
+  justify-self: end;
+}
+
+.reviewHeadline {
+  grid-area: reviewHeadline;
+
 }
 
 .reviewRating {
   grid-area: reviewRating;
+  justify-self: end;
 }
 
 .reviewContent {

@@ -3,15 +3,14 @@ package de.fhdo.eborrow.services;
 import java.util.ArrayList;
 import java.util.Base64;
 import java.util.List;
-import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import de.fhdo.eborrow.converters.GameMapper;
 import de.fhdo.eborrow.domain.Game;
-import de.fhdo.eborrow.domain.Review;
 import de.fhdo.eborrow.dto.GameDto;
+import de.fhdo.eborrow.dto.ReviewDto;
 import de.fhdo.eborrow.repositories.GameRepository;
 
 @Service
@@ -32,7 +31,7 @@ public class GameService {
     }
 
     public GameDto getGameById(Long id) {
-        Game game = gameRepository.findById(id).get();
+        Game game = gameRepository.findById(id).orElseThrow(() -> new RuntimeException("Spiel nicht gefunden"));
         return gameMapper.gameToDto(game);
     }
 
@@ -51,7 +50,7 @@ public class GameService {
     public Long updateGame(GameDto gameDto) {
         Game updatedGame;
         if (gameDto.getId() != null) {
-            updatedGame = gameRepository.findById(gameDto.getId()).get();
+            updatedGame = gameRepository.findById(gameDto.getId()).orElseThrow(() -> new RuntimeException("Spiel nicht gefunden"));
         } else {
             updatedGame = new Game();
         }
@@ -89,9 +88,12 @@ public class GameService {
         return gameRepository.save(updatedGame).getId();
     }
 
-    public List<Review> getReviewsByGameId(Long id) {
-        Game game = gameRepository.findById(id).get();
-        return game.getReviews(); 
+    public List<ReviewDto> getReviewsByGameId(Long id) {
+        Game game = gameRepository.findById(id).orElseThrow(() -> new RuntimeException("Spiel nicht gefunden"));
+        GameDto dto = gameMapper.gameToDto(game); 
+        return dto.getReviews(); 
     }
+
+
 
 }

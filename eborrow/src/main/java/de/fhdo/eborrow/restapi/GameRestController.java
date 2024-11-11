@@ -66,7 +66,7 @@ public class GameRestController {
 
     @GetMapping("/getReviewsByGameId/{id}")
     @ResponseStatus(HttpStatus.OK)
-    public List<Review> getReviewsByGameId(@PathVariable Long id) {
+    public List<ReviewDto> getReviewsByGameId(@PathVariable Long id) {
         return gameService.getReviewsByGameId(id); 
     }
 
