@@ -48,11 +48,11 @@ public class GameService {
     }
 
     public Long updateGame(GameDto gameDto) {
-        Game updatedGame;
+        GameDto updatedGame;
         if (gameDto.getId() != null) {
-            updatedGame = gameRepository.findById(gameDto.getId()).orElseThrow(() -> new RuntimeException("Spiel nicht gefunden"));
+            updatedGame = gameMapper.gameToDto(gameRepository.findById(gameDto.getId()).orElseThrow(() -> new RuntimeException("Spiel nicht gefunden")));
         } else {
-            updatedGame = new Game();
+            updatedGame = new GameDto();
         }
 
         if (gameDto.getTitle() != null) {
@@ -82,10 +82,11 @@ public class GameService {
             updatedGame.setPublisher(gameDto.getPublisher());
         }
         if (gameDto.getGameImage() != null) {
-            updatedGame.setGameImage(Base64.getDecoder().decode(gameDto.getGameImage().split(",")[1]));
+            updatedGame.setGameImage(gameDto.getGameImage());
         }
 
-        return gameRepository.save(updatedGame).getId();
+        
+        return gameRepository.save(gameMapper.dtoToGame(updatedGame)).getId();
     }
 
     public List<ReviewDto> getReviewsByGameId(Long id) {
