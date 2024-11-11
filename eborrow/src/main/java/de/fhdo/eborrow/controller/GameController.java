@@ -28,6 +28,7 @@ public class GameController {
     @Autowired
     public GameController(GameService gameService, ReviewService reviewService) {
         this.gameService = gameService; 
+        this.reviewService = reviewService; 
     }
 
     @GetMapping("/allGames")
@@ -40,10 +41,10 @@ public class GameController {
     @GetMapping("/{id}")
     public String getGameById(@PathVariable Long id, Model model) {
         GameDto gameDto = gameService.getGameById(id); 
+        List<ReviewDto> reviewDto = reviewService.getAllReviewsToGame(id); 
         model.addAttribute("game", gameDto);
-        model.addAttribute("reviews", gameDto.getReviews()); 
+        model.addAttribute("reviews", reviewDto); 
         return "detail_page";
     }
-
 
 }

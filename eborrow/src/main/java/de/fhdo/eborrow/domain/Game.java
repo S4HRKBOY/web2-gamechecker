@@ -36,14 +36,10 @@ public class Game {
     @Column(columnDefinition = "MEDIUMBLOB")
     private byte[] gameImage;
 
+    /*TODO rausschmeißen? 
     @OneToMany(mappedBy = "game", orphanRemoval = true, cascade = CascadeType.ALL)
     @JsonManagedReference
-    private Set<Review> reviews = new HashSet<>();
-
-
-    // TODO Überflüssig? Sollte ein Spiel wissen, welcher Spieler es auf die Liste gepackt hat? 
-    /*@ManyToMany(mappedBy = "games")
-    private Set<User> users = new HashSet<>();*/
+    private Set<Review> reviews = new HashSet<>();*/
 
     public Game() {
 
@@ -143,22 +139,13 @@ public class Game {
         this.gameImage = gameImage;
     }
 
+    /* TODO rausschmeißen? 
     public Set<Review> getReviews() {
         return reviews; 
     }
 
     public void setReviews(Set<Review> reviews) {
         this.reviews = reviews; 
-    }
-
-    //TODO Überflüssig? 
-    /*public Set<User> getUsers() {
-        return users; 
-    }
-
-    public void getUsers(Set<User> users) {
-        this.users = users; 
-    }
-    */
+    }*/
 
 }

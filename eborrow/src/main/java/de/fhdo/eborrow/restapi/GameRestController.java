@@ -64,15 +64,10 @@ public class GameRestController {
         gameService.updateGame(gameDto); 
     }
 
+    //TODO in reviewRestController verschieben 
     @GetMapping("/getReviewsByGameId/{id}")
     @ResponseStatus(HttpStatus.OK)
-    public List<ReviewDto> getReviewsByGameId(@PathVariable Long id) {
-        return gameService.getReviewsByGameId(id); 
+    public List<ReviewDto> getAllReviewsToGame(@PathVariable Long id) {
+        return reviewService.getAllReviewsToGame(id); 
     }
-
-    @GetMapping("/getReviewById/{id}")
-    public ReviewDto getReviewById(@PathVariable Long id) {
-        return reviewService.getReviewById(id); 
-    }
-
 }
