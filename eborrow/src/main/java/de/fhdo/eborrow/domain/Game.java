@@ -23,11 +23,19 @@ public class Game {
     private String title;
     @Lob
     private String description;
+
+    @ElementCollection 
+    @Enumerated(EnumType.STRING)
     private List<Platform> platforms; 
+
+    @ElementCollection 
+    @Enumerated(EnumType.STRING)
     private List<Genre> genres;
 
     @DateTimeFormat
     private LocalDate publicationDate;
+
+    @Enumerated(EnumType.STRING)
     private AgeRating ageRating;
     private String developer;
     private String publisher;
