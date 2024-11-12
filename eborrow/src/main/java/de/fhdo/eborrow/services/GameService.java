@@ -65,14 +65,14 @@ public class GameService {
             updatedGame.setPlatforms(gameDto.getPlatforms());
         }
 
-        if (gameDto.getGenre() != null) {
-            updatedGame.setGenre(gameDto.getGenre());
+        if (gameDto.getGenres() != null) {
+            updatedGame.setGenres(gameDto.getGenres());
         }
-        if (gameDto.getPublication() != null) {
-            updatedGame.setPublication(gameDto.getPublication());
+        if (gameDto.getPublicationDate() != null) {
+            updatedGame.setPublicationDate(gameDto.getPublicationDate());
         }
 
-        updatedGame.setAge(gameDto.getAge());
+        updatedGame.setAgeRating(gameDto.getAgeRating());
 
         if (gameDto.getDeveloper() != null) {
             updatedGame.setDeveloper(gameDto.getDeveloper());
@@ -80,8 +80,8 @@ public class GameService {
         if (gameDto.getPublisher() != null) {
             updatedGame.setPublisher(gameDto.getPublisher());
         }
-        if (gameDto.getImage() != null) {
-            updatedGame.setImage(Base64.getDecoder().decode(gameDto.getImage().split(",")[1]));
+        if (gameDto.getGameImage() != null) {
+            updatedGame.setGameImage(Base64.getDecoder().decode(gameDto.getGameImage().split(",")[1]));
         }
 
         return gameRepository.save(updatedGame).getId();
