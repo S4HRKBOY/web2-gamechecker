@@ -60,15 +60,15 @@ public class GameMapper {
         game.setTitle(dto.getTitle());
         game.setDescription(dto.getDescription());
         game.setPlatforms(this.dtoPlatformToPlatform(dto.getPlatforms()));
-        game.setGenres(this.dtoGenreToGenre(dto.getPlatforms()));
+        game.setGenres(this.dtoGenreToGenre(dto.getGenres()));
         game.setPublicationDate(dto.getPublicationDate());
         if (dto.getAgeRating() != null) {
-            game.setAgeRating(AgeRating.valueOf(dto.getAgeRating()));
+            game.setAgeRating(AgeRating.fromDisplayName(dto.getAgeRating()));
         }
         game.setDeveloper(dto.getDeveloper());
         game.setPublisher(dto.getPublisher());
         if (dto.getGameImage() != null) {
-            game.setGameImage(Base64.getDecoder().decode(dto.getGameImage().split(",")[1]));
+            game.setGameImage(Base64.getDecoder().decode(dto.getGameImage()));
         }
         game.setReviews(reviewMapper.dtoListToReviewSet(dto.getReviews()));
 
@@ -95,7 +95,7 @@ public class GameMapper {
         if (list == null) {
             return null;
         }
-        List<Platform> platforms = list.stream().map(Platform::valueOf).collect(Collectors.toList());
+        List<Platform> platforms = list.stream().map(Platform::fromDisplayName).collect(Collectors.toList());
         return platforms;
     }
 
@@ -103,7 +103,7 @@ public class GameMapper {
         if (list == null) {
             return null;
         }
-        List<Genre> genres = list.stream().map(Genre::valueOf).collect(Collectors.toList());
+        List<Genre> genres = list.stream().map(Genre::fromDisplayName).collect(Collectors.toList());
         return genres;
     }
 

@@ -1,7 +1,6 @@
 package de.fhdo.eborrow.services;
 
 import java.util.ArrayList;
-import java.util.Base64;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -50,7 +49,8 @@ public class GameService {
     public Long updateGame(GameDto gameDto) {
         GameDto updatedGame;
         if (gameDto.getId() != null) {
-            updatedGame = gameMapper.gameToDto(gameRepository.findById(gameDto.getId()).orElseThrow(() -> new RuntimeException("Spiel nicht gefunden")));
+            updatedGame = gameMapper.gameToDto(gameRepository.findById(gameDto.getId())
+                    .orElseThrow(() -> new RuntimeException("Spiel nicht gefunden")));
         } else {
             updatedGame = new GameDto();
         }
@@ -62,18 +62,19 @@ public class GameService {
             updatedGame.setDescription(gameDto.getDescription());
         }
 
-        if (!gameDto.getPlatforms().isEmpty()) {
+        if (gameDto.getPlatforms() != null && !gameDto.getPlatforms().isEmpty()) {
             updatedGame.setPlatforms(gameDto.getPlatforms());
         }
 
-        if (gameDto.getGenres() != null) {
+        if (gameDto.getGenres() != null && gameDto.getGenres().isEmpty()) {
             updatedGame.setGenres(gameDto.getGenres());
         }
         if (gameDto.getPublicationDate() != null) {
             updatedGame.setPublicationDate(gameDto.getPublicationDate());
         }
-
-        updatedGame.setAgeRating(gameDto.getAgeRating());
+        if (gameDto.getAgeRating() != null) {
+            updatedGame.setAgeRating(gameDto.getAgeRating());
+        }
 
         if (gameDto.getDeveloper() != null) {
             updatedGame.setDeveloper(gameDto.getDeveloper());
@@ -84,17 +85,14 @@ public class GameService {
         if (gameDto.getGameImage() != null) {
             updatedGame.setGameImage(gameDto.getGameImage());
         }
-
-        
-        return gameRepository.save(gameMapper.dtoToGame(updatedGame)).getId();
+        Game game = gameMapper.dtoToGame(updatedGame); 
+        return gameRepository.save(game).getId();
     }
 
     public List<ReviewDto> getReviewsByGameId(Long id) {
         Game game = gameRepository.findById(id).orElseThrow(() -> new RuntimeException("Spiel nicht gefunden"));
-        GameDto dto = gameMapper.gameToDto(game); 
-        return dto.getReviews(); 
+        GameDto dto = gameMapper.gameToDto(game);
+        return dto.getReviews();
     }
-
-
 
 }

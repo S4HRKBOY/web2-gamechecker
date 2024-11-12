@@ -68,6 +68,7 @@ public class GameRestController {
         return gameService.getReviewsByGameId(id); 
     }
 
+    //TODO später löschen
     @GetMapping("/getReviewById/{id}")
     public ReviewDto getReviewById(@PathVariable Long id) {
         return reviewService.getReviewById(id); 
