@@ -2,6 +2,7 @@ package de.fhdo.eborrow.controller;
 
 import java.util.List;
 
+import de.fhdo.eborrow.services.GameSearchService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -18,9 +19,12 @@ public class GameController {
 
     GameService gameService; 
 
+    GameSearchService gameSearchService;
+
     @Autowired
-    public GameController(GameService gameService) {
-        this.gameService = gameService; 
+    public GameController(GameService gameService, GameSearchService gameSearchService) {
+        this.gameService = gameService;
+        this.gameSearchService = gameSearchService;
     }
 
     @GetMapping("/allGames")

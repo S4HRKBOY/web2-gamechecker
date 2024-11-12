@@ -24,9 +24,13 @@ public class Review {
 	@DateTimeFormat
 	private LocalDate reviewDate;
 
-	@ManyToOne
+	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "game_id")
 	private Game game;
+
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "account_id")
+	private Account account;
 
 	public Review(){}
 
@@ -76,6 +80,14 @@ public class Review {
 
 	public void setGame(Game game) {
 		this.game = game;
+	}
+
+	public Account getAccount() {
+		return account;
+	}
+
+	public void setAccount(Account account) {
+		this.account = account;
 	}
 
 	public String getReviewHeadline() {

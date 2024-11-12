@@ -38,7 +38,9 @@ public class Account {
 	// TODO Zak: Reviews hinzufuegen
 	// @OneToMany(cascade = CascadeType.ALL)	
 	// Zak: Auf der anderen Seite dann @ManyToOne(fetch = FetchType.LAZY) und @JoinColumn(name = "game_id", nullable = false)
-	// private List<Review> writtenReviews;
+    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JoinColumn(name = "review_id")
+    private List<Review> writtenReviews;
 	
     protected Account() {
     }

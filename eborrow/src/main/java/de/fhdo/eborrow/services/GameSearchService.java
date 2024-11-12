@@ -1,7 +1,10 @@
 package de.fhdo.eborrow.services;
 
+import de.fhdo.eborrow.domain.Genre;
+import de.fhdo.eborrow.domain.Platform;
 import de.fhdo.eborrow.dto.GameDto;
 import de.fhdo.eborrow.repositories.GameRepository;
+import org.apache.commons.text.similarity.LevenshteinDistance;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -19,6 +22,8 @@ public class GameSearchService {
 	private GameService gameService;
 
 	private DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+
+	private final int maxAllowedLevenshteinDistance = 5;
 
 	@Autowired
 	public GameSearchService(GameService gameService){
@@ -46,9 +51,9 @@ public class GameSearchService {
 
 		results = gameDtos.stream().filter(gameDto -> {
 				if(after){
-					return gameDto.getPublication().isAfter(date);
+					return gameDto.getPublicationDate().isAfter(date);
 				}else{
-					return gameDto.getPublication().isBefore(date);
+					return gameDto.getPublicationDate().isBefore(date);
 				}
 			}
 		).toList();
@@ -56,6 +61,51 @@ public class GameSearchService {
 		return results;
 	}
 
+	public List<GameDto> gamesByGenre(String genre){
+		List<GameDto> gameDtos = gameService.getAll();
+		List<GameDto> results;
+
+		results = gameDtos.stream().filter(gameDto -> {
+			List<Genre> genres = gameDto.getGenres();
+			return genres.contains(Genre.valueOf(genre));
+		}).toList();
+
+		return results;
+	}
+
+	public List<GameDto> gamesByPlatform(String platform){
+		List<GameDto> gameDtos = gameService.getAll();
+		List<GameDto> results;
+
+		results = gameDtos.stream().filter(gameDto -> {
+			List<Platform> platforms = gameDto.getPlatforms();
+			return platforms.contains(Platform.valueOf(platform));
+		}).toList();
+
+		return results;
+	}
+
+	public List<GameDto> gamesByDeveloper(String developer){
+		List<GameDto> gameDtos = gameService.getAll();
+		List<GameDto> results;
+
+		results = gameDtos.stream().filter(gameDto -> gameDto.getDeveloper().equals(developer)).toList();
+		return results;
+	}
+
+	public List<GameDto> getGamesBySearchQuery(String query){
+		List<GameDto> gameDtos = gameService.getAll();
+		List<GameDto> results;
+
+		results = gameDtos.stream().filter(gameDto -> {
+			LevenshteinDistance levenshteinDistance = new LevenshteinDistance();
+			int distance = levenshteinDistance.apply(gameDto.getTitle(), query);
+			System.out.println(distance);
+			return distance <= maxAllowedLevenshteinDistance;
+		}).toList();
+
+		return results;
+	}
 
 
 }
