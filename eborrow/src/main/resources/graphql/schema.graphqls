@@ -1,0 +1,59 @@
+schema {
+    query: Query
+    mutation: Mutation
+}
+
+type Query {
+    games: [Game!]!
+    game(id: ID!): Game
+    reviews(id: ID!): [Review!]!
+}
+    
+type Game {
+    id: ID!
+    title: String!
+    description: String
+    platforms: [String]
+    genres: [String]
+    publicationDate: String
+    ageRating: String
+    developer: String
+    publisher: String
+}
+
+type Review {
+  id: ID
+  reviewHeadline: String
+  reviewText: String
+  rating: String
+  reviewDate: String
+}
+
+type Mutation {
+  createGame(game: createGameInput!): Game!
+  deleteGame(id: ID!): Boolean!
+  updateGame(game: updateGameInput!): Game!
+}
+
+input createGameInput {
+  title: String!
+  description: String
+  platforms: [String]
+  genres: [String]
+  publicationDate: String
+  ageRating: String
+  developer: String
+  publisher: String
+}
+
+input updateGameInput {
+  id:ID!
+  title: String
+  description: String
+  platforms: [String]
+  genres: [String]
+  publicationDate: String
+  ageRating: String
+  developer: String
+  publisher: String
+}
