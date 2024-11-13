@@ -1,5 +1,7 @@
 package de.fhdo.eborrow.bootstrap;
 
+import de.fhdo.eborrow.domain.AccountBuilder;
+import de.fhdo.eborrow.repositories.AccountRepository;
 import de.fhdo.eborrow.domain.Review;
 import de.fhdo.eborrow.repositories.ReviewRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,6 +13,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.time.LocalDate;
 import java.io.*;
 import java.util.Arrays;
+import java.util.LinkedList;
 import java.util.Objects;
 
 import de.fhdo.eborrow.domain.AgeRating;
@@ -22,12 +25,14 @@ import de.fhdo.eborrow.repositories.GameRepository;
 @Component
 public class DummyDataBootstrap implements ApplicationListener<ContextRefreshedEvent> {
 
-    private GameRepository gameRepository;
-    private ReviewRepository reviewRepository;
+    private final AccountRepository accountRepository;
+    private final GameRepository gameRepository;
+    private final ReviewRepository reviewRepository;
 
     @Autowired
-    public DummyDataBootstrap(GameRepository gameRepository, ReviewRepository reviewRepository) {
+    public DummyDataBootstrap(AccountRepository accountRepository, GameRepository gameRepository, ReviewRepository reviewRepository) {
         this.gameRepository = gameRepository;
+        this.accountRepository = accountRepository;
         this.reviewRepository = reviewRepository;
     }
 
@@ -80,6 +85,57 @@ public class DummyDataBootstrap implements ApplicationListener<ContextRefreshedE
         reviewRepository.save(game2Review1);
         reviewRepository.save(game2Review2);
 
+        initAccounts(game1, game2, game3);
+    }
+
+    private void initAccounts(Game... game) {
+        long id = 1L;
+		LinkedList<Game> acc1GameList = new LinkedList<>();
+        acc1GameList.add(game[0]);
+        acc1GameList.add(game[2]);
+        LinkedList<Game> acc2GameList = new LinkedList<>();
+        acc2GameList.add(game[1]);
+        acc2GameList.add(game[0]);
+
+        var acc1 = new AccountBuilder()
+                .setId(id++)
+                .setPrename("Max")
+                .setSurname("Mustermann")
+                .setUsername("mamus")
+                .setBirthday(LocalDate.of(2000, 1, 1))
+                .setEmail("max.mustermann@dummy.com")
+                .setPassword("maxpassword")
+                .setProfilePicture(readImage("where_image.png"))
+                .setTaggedGames(acc1GameList)
+                .build();
+
+        var acc2 = new AccountBuilder()
+                .setId(id++)
+                .setPrename("John")
+                .setSurname("Doe")
+                .setUsername("jodoe")
+                .setBirthday(LocalDate.of(2023, 12, 31))
+                .setEmail("john.doe@dummy.com")
+                .setPassword("johnpassword")
+                .setProfilePicture(readImage("where_image.png"))
+                .setTaggedGames(acc2GameList)
+                .build();
+
+        var publisher = new AccountBuilder()
+                .setId(id++)
+                .setPrename("Publisher")
+                .setSurname("Publisher")
+                .setUsername("publisher")
+                .setBirthday(LocalDate.of(2000, 1, 1))
+                .setEmail("publisher@dummy.com")
+                .setPassword("publisher")
+                .setProfilePicture(readImage("where_image.png"))
+                .setPublisher(true)
+                .build();
+
+        accountRepository.save(acc1);
+        accountRepository.save(acc2); 
+        accountRepository.save(publisher);
     }
 
     /*
