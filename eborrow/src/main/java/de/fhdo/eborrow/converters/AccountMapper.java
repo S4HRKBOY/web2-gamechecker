@@ -27,7 +27,7 @@ public class AccountMapper {
 				.setPublisher(account.isPublisher());
 
 		List<GameDto> gameDTOs = account.getTaggedGames().stream()
-				.map(game -> GameMapper.gameToDto(game, true))
+				.map(game -> GameMapper.gameToDto(game, false))
 				.toList();
 		accountDtoBuilder.setTaggedGames(gameDTOs);
 
