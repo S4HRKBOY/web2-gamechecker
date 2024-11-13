@@ -43,7 +43,7 @@ public class Game {
     @Column(columnDefinition = "MEDIUMBLOB")
     private byte[] gameImage;
 
-    @OneToMany(mappedBy = "game", orphanRemoval = true, cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "game", orphanRemoval = true, cascade = CascadeType.REMOVE)
     private Set<Review> reviews = new HashSet<>();
 
     public Game() {

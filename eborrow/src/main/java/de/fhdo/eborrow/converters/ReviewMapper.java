@@ -2,15 +2,12 @@ package de.fhdo.eborrow.converters;
 
 import de.fhdo.eborrow.domain.Review;
 import de.fhdo.eborrow.dto.ReviewDto;
-import de.fhdo.eborrow.services.GameService;
 
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
 
 public class ReviewMapper {
 

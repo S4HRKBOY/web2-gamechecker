@@ -6,6 +6,7 @@ import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import de.fhdo.eborrow.converters.GameMapper;
 import de.fhdo.eborrow.converters.ReviewMapper;
@@ -35,8 +36,9 @@ public class GameService {
         return GameMapper.gameToDto(game, true);
     }
 
+    @Transactional
     public void deleteGameById(Long id) {
-        System.out.println("ID: " + id);
+        gameRepository.removeGameAssociations(id); 
         gameRepository.deleteById(id);
     }
 

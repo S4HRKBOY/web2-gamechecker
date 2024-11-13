@@ -13,8 +13,10 @@ import org.springframework.transaction.annotation.Transactional;
 import java.time.LocalDate;
 import java.io.*;
 import java.util.Arrays;
+import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.Objects;
+import java.util.Set;
 
 import de.fhdo.eborrow.domain.AgeRating;
 import de.fhdo.eborrow.domain.Game;
@@ -90,10 +92,10 @@ public class DummyDataBootstrap implements ApplicationListener<ContextRefreshedE
 
     private void initAccounts(Game... game) {
         long id = 1L;
-		LinkedList<Game> acc1GameList = new LinkedList<>();
+		Set<Game> acc1GameList = new HashSet<>();
         acc1GameList.add(game[0]);
         acc1GameList.add(game[2]);
-        LinkedList<Game> acc2GameList = new LinkedList<>();
+        Set<Game> acc2GameList = new HashSet<>();
         acc2GameList.add(game[1]);
         acc2GameList.add(game[0]);
 
