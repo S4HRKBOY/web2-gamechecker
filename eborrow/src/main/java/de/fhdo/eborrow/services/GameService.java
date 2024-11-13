@@ -51,46 +51,46 @@ public class GameService {
     }
 
     public Long updateGame(GameDto gameDto) {
-        GameDto updatedGame;
-        if (gameDto.getId() != null) {
-            updatedGame = GameMapper.gameToDto(gameRepository.findById(gameDto.getId())
-                    .orElseThrow(() -> new RuntimeException("Spiel nicht gefunden")), true);
+        Game game = GameMapper.dtoToGame(gameDto); 
+        Game updatedGame;
+        if (game.getId() != null) {
+            updatedGame = gameRepository.findById(game.getId())
+                    .orElseThrow(() -> new RuntimeException("Spiel nicht gefunden"));
         } else {
-            updatedGame = new GameDto();
+            updatedGame = new Game();
         }
 
-        if (gameDto.getTitle() != null) {
-            updatedGame.setTitle(gameDto.getTitle());
+        if (game.getTitle() != null) {
+            updatedGame.setTitle(game.getTitle());
         }
-        if (gameDto.getDescription() != null) {
-            updatedGame.setDescription(gameDto.getDescription());
-        }
-
-        if (gameDto.getPlatforms() != null && !gameDto.getPlatforms().isEmpty()) {
-            updatedGame.setPlatforms(gameDto.getPlatforms());
+        if (game.getDescription() != null) {
+            updatedGame.setDescription(game.getDescription());
         }
 
-        if (gameDto.getGenres() != null && gameDto.getGenres().isEmpty()) {
-            updatedGame.setGenres(gameDto.getGenres());
-        }
-        if (gameDto.getPublicationDate() != null) {
-            updatedGame.setPublicationDate(gameDto.getPublicationDate());
-        }
-        if (gameDto.getAgeRating() != null) {
-            updatedGame.setAgeRating(gameDto.getAgeRating());
+        if (game.getPlatforms() != null && !game.getPlatforms().isEmpty()) {
+            updatedGame.setPlatforms(game.getPlatforms());
         }
 
-        if (gameDto.getDeveloper() != null) {
-            updatedGame.setDeveloper(gameDto.getDeveloper());
+        if (game.getGenres() != null && !game.getGenres().isEmpty()) {
+            updatedGame.setGenres(game.getGenres());
         }
-        if (gameDto.getPublisher() != null) {
-            updatedGame.setPublisher(gameDto.getPublisher());
+        if (game.getPublicationDate() != null) {
+            updatedGame.setPublicationDate(game.getPublicationDate());
         }
-        if (gameDto.getGameImage() != null) {
-            updatedGame.setGameImage(gameDto.getGameImage());
+        if (game.getAgeRating() != null) {
+            updatedGame.setAgeRating(game.getAgeRating());
         }
-        Game game = GameMapper.dtoToGame(updatedGame); 
-        return gameRepository.save(game).getId();
+
+        if (game.getDeveloper() != null) {
+            updatedGame.setDeveloper(game.getDeveloper());
+        }
+        if (game.getPublisher() != null) {
+            updatedGame.setPublisher(game.getPublisher());
+        }
+        if (game.getGameImage() != null) {
+            updatedGame.setGameImage(game.getGameImage());
+        }
+        return gameRepository.save(updatedGame).getId();
     }
 
     public List<ReviewDto> getReviewsByGameId(Long id) {
