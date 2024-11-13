@@ -17,7 +17,7 @@ public class AccountBuilder {
     private byte[] profilePicture;
     private boolean isPublisher;
 
-    private Set<Game> taggedGames;
+    private List<Game> taggedGames;
     // TODO Zak: Reviews hinzufuegen
     // private List<Review> writtenReviews;
 
@@ -106,11 +106,11 @@ public class AccountBuilder {
         return this;
     }
 
-    public Set<Game> getTaggedGames() {
+    public List<Game> getTaggedGames() {
         return taggedGames;
     }
 
-    public AccountBuilder setTaggedGames(Set<Game> taggedGames) {
+    public AccountBuilder setTaggedGames(List<Game> taggedGames) {
         this.taggedGames = taggedGames;
         return this;
     }

@@ -14,8 +14,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
+import de.fhdo.eborrow.dto.AccountDto;
 import de.fhdo.eborrow.dto.GameDto;
 import de.fhdo.eborrow.dto.ReviewDto;
+import de.fhdo.eborrow.services.AccountService;
 import de.fhdo.eborrow.services.GameService;
 import de.fhdo.eborrow.services.ReviewService;
 
@@ -25,11 +27,13 @@ public class GameRestController {
 
     private GameService gameService; 
     private ReviewService reviewService; 
+    private AccountService accountService; 
 
     @Autowired
-    public GameRestController(GameService gameService, ReviewService reviewService) {
+    public GameRestController(GameService gameService, ReviewService reviewService, AccountService accountService) {
         this.gameService = gameService; 
         this.reviewService = reviewService; 
+        this.accountService = accountService; 
     }
 
     @GetMapping("/getGames")
@@ -74,4 +78,8 @@ public class GameRestController {
         return reviewService.getReviewById(id); 
     }
 
+    @GetMapping("/getAccountById/{id}")
+    public AccountDto getAccountById(@PathVariable Long id) {
+        return accountService.getAccountById(id); 
+    }
 }
