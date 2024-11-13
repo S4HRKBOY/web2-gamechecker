@@ -16,29 +16,23 @@ import java.util.Objects;
 
 @Service
 public class ReviewService {
-
-	private ReviewMapper reviewMapper;
 	private ReviewRepository reviewRepository;
-	private GameMapper gameMapper;
 	private GameService gameService;
 
 	@Autowired
-	public ReviewService(ReviewMapper reviewMapper, ReviewRepository reviewRepository, GameService gameService,
-			GameMapper gameMapper){
-		this.reviewMapper = reviewMapper;
+	public ReviewService(ReviewRepository reviewRepository, GameService gameService){
 		this.reviewRepository = reviewRepository;
-		this.gameMapper = gameMapper;
 		this.gameService = gameService;
 	}
 
 	public Long addReview(ReviewDto reviewDto){
-		Review review = reviewMapper.convertDtoToReview(reviewDto);
+		Review review = ReviewMapper.convertDtoToReview(reviewDto);
 		return reviewRepository.save(review).getId();
 	}
 
 	public ReviewDto getReviewById(Long id){
 		Review review = reviewRepository.findById(id).get();
-		return reviewMapper.convertReviewToDto(review);
+		return ReviewMapper.convertReviewToDto(review, true);
 	}
 
 	public void deleteReviewById(Long id){
@@ -47,7 +41,7 @@ public class ReviewService {
 
 	public List<ReviewDto> getAll() {
 		List<ReviewDto> reviewDtos = new ArrayList<>();
-		reviewRepository.findAll().forEach(review -> reviewDtos.add(reviewMapper.convertReviewToDto(review)));
+		reviewRepository.findAll().forEach(review -> reviewDtos.add(ReviewMapper.convertReviewToDto(review, true)));
 		return reviewDtos;
 	}
 
@@ -55,7 +49,7 @@ public class ReviewService {
 		List<ReviewDto> reviewDtos = new ArrayList<>();
 		reviewRepository.findAll().forEach(review -> {
 			if(Objects.equals(review.getGame().getId(), id)){
-				reviewDtos.add(reviewMapper.convertReviewToDto(review));
+				reviewDtos.add(ReviewMapper.convertReviewToDto(review, true));
 			}
 		});
 		return reviewDtos;
@@ -68,7 +62,7 @@ public class ReviewService {
 			reviewToUpdate = reviewRepository.findById(reviewDto.getId()).get();
 		} else {
 			reviewToUpdate = new Review();
-			reviewToUpdate.setGame(gameMapper.dtoToGame(gameService.getGameById(reviewDto.getGame().getId())));
+			//reviewToUpdate.setGame(gameMapper.dtoToGame(gameService.getGameById(reviewDto.getGame().getId())));
 		}
 
 		if(reviewDto.getReviewHeadline() != null){

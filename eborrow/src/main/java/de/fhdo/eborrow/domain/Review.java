@@ -28,7 +28,6 @@ public class Review {
 
 	@ManyToOne
     @JoinColumn(name = "game_id")
-	@JsonBackReference
 	private Game game;
 
 	public Review(){}

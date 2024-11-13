@@ -44,13 +44,7 @@ public class Game {
     private byte[] gameImage;
 
     @OneToMany(mappedBy = "game", orphanRemoval = true, cascade = CascadeType.ALL)
-    @JsonManagedReference
     private Set<Review> reviews = new HashSet<>();
-
-
-    // TODO Überflüssig? Sollte ein Spiel wissen, welcher Spieler es auf die Liste gepackt hat? 
-    /*@ManyToMany(mappedBy = "games")
-    private Set<User> users = new HashSet<>();*/
 
     public Game() {
 

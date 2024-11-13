@@ -17,7 +17,7 @@ public class GameDto {
     private String publisher; 
     private String gameImage;
 
-    private List<ReviewDto> reviews = new ArrayList<>();
+    private List<ReviewDto> reviewsDto = new ArrayList<>();
 
     public GameDto(Long id, String title, String description, List<String> platforms, int licences, int remainingLicences, List<String> genres, LocalDate publicationDate,
             String ageRating, String developer, String publisher, String gameImage) {
@@ -117,12 +117,12 @@ public class GameDto {
         this.gameImage = gameImage;
     }
 
-    public List<ReviewDto> getReviews() {
-		return reviews;
+    public List<ReviewDto> getReviewsDto() {
+		return reviewsDto;
 	}
 
-	public void setReviews(List<ReviewDto> reviews) {
-		this.reviews = reviews;
+	public void setReviewsDto(List<ReviewDto> reviewsDto) {
+		this.reviewsDto = reviewsDto;
 	}
 
 

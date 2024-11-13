@@ -2,12 +2,15 @@ package de.fhdo.eborrow.services;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import de.fhdo.eborrow.converters.GameMapper;
+import de.fhdo.eborrow.converters.ReviewMapper;
 import de.fhdo.eborrow.domain.Game;
+import de.fhdo.eborrow.domain.Review;
 import de.fhdo.eborrow.dto.GameDto;
 import de.fhdo.eborrow.dto.ReviewDto;
 import de.fhdo.eborrow.repositories.GameRepository;
@@ -16,32 +19,31 @@ import de.fhdo.eborrow.repositories.GameRepository;
 public class GameService {
 
     private GameRepository gameRepository;
-    private GameMapper gameMapper;
 
     @Autowired
-    public GameService(GameRepository gameRepository, GameMapper gameMapper) {
+    public GameService(GameRepository gameRepository) {
         this.gameRepository = gameRepository;
-        this.gameMapper = gameMapper;
     }
 
     public Long addGame(GameDto gameDto) {
-        Game game = gameMapper.dtoToGame(gameDto);
+        Game game = GameMapper.dtoToGame(gameDto);
         return gameRepository.save(game).getId();
     }
 
     public GameDto getGameById(Long id) {
         Game game = gameRepository.findById(id).orElseThrow(() -> new RuntimeException("Spiel nicht gefunden"));
-        return gameMapper.gameToDto(game);
+        return GameMapper.gameToDto(game, true);
     }
 
     public void deleteGameById(Long id) {
+        System.out.println("ID: " + id);
         gameRepository.deleteById(id);
     }
 
     public List<GameDto> getAll() {
         List<GameDto> games = new ArrayList<>();
         for (Game game : gameRepository.findAll()) {
-            games.add(gameMapper.gameToDto(game));
+            games.add(GameMapper.gameToDto(game, true));
         }
         return games;
     }
@@ -49,8 +51,8 @@ public class GameService {
     public Long updateGame(GameDto gameDto) {
         GameDto updatedGame;
         if (gameDto.getId() != null) {
-            updatedGame = gameMapper.gameToDto(gameRepository.findById(gameDto.getId())
-                    .orElseThrow(() -> new RuntimeException("Spiel nicht gefunden")));
+            updatedGame = GameMapper.gameToDto(gameRepository.findById(gameDto.getId())
+                    .orElseThrow(() -> new RuntimeException("Spiel nicht gefunden")), true);
         } else {
             updatedGame = new GameDto();
         }
@@ -85,14 +87,14 @@ public class GameService {
         if (gameDto.getGameImage() != null) {
             updatedGame.setGameImage(gameDto.getGameImage());
         }
-        Game game = gameMapper.dtoToGame(updatedGame); 
+        Game game = GameMapper.dtoToGame(updatedGame); 
         return gameRepository.save(game).getId();
     }
 
     public List<ReviewDto> getReviewsByGameId(Long id) {
         Game game = gameRepository.findById(id).orElseThrow(() -> new RuntimeException("Spiel nicht gefunden"));
-        GameDto dto = gameMapper.gameToDto(game);
-        return dto.getReviews();
+        Set<Review> reviews = game.getReviews();
+        return reviews.stream().map(review -> ReviewMapper.convertReviewToDto(review, true)).toList();
     }
 
 }

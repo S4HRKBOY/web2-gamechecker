@@ -12,12 +12,10 @@ import java.util.Set;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-@Component
 public class ReviewMapper {
 
-
-	public ReviewDto convertReviewToDto(Review review){
-		if(review == null){
+	public static ReviewDto convertReviewToDto(Review review, boolean convertReferences) {
+		if (review == null) {
 			return null;
 		}
 
@@ -27,13 +25,15 @@ public class ReviewMapper {
 		reviewDto.setReviewText(review.getReviewText());
 		reviewDto.setReviewDate(review.getReviewDate());
 		reviewDto.setRating(review.getRating());
-		reviewDto.setGame(review.getGame());
+		if (convertReferences) {
+			reviewDto.setGameDto(GameMapper.gameToDto(review.getGame() , false));
+		}
 
 		return reviewDto;
 	}
 
-	public Review convertDtoToReview(ReviewDto reviewDto){
-		if(reviewDto == null){
+	public static Review convertDtoToReview(ReviewDto reviewDto) {
+		if (reviewDto == null) {
 			return null;
 		}
 
@@ -43,25 +43,25 @@ public class ReviewMapper {
 		review.setReviewText(reviewDto.getReviewText());
 		review.setRating(reviewDto.getRating());
 		review.setReviewDate(reviewDto.getReviewDate());
-		review.setGame(reviewDto.getGame());
+		review.setGame(GameMapper.dtoToGame(reviewDto.getGameDto()));
 
 		return review;
 	}
 
-	protected List<ReviewDto> reviewSetToDtoList(Set<Review> set) {
+	protected static List<ReviewDto> reviewSetToDtoList(Set<Review> set, boolean convertReferences) {
 		if (set == null) {
 			return null;
 		}
 
-		List<ReviewDto> result = new ArrayList<ReviewDto>(Math.max((int) (set.size() / .75f) + 1, 16)); 
+		List<ReviewDto> result = new ArrayList<ReviewDto>(Math.max((int) (set.size() / .75f) + 1, 16));
 		for (Review review : set) {
-			result.add(convertReviewToDto(review));
+			result.add(convertReviewToDto(review, convertReferences));
 		}
 
 		return result;
 	}
 
-	protected Set<Review> dtoListToReviewSet(List<ReviewDto> list) {
+	protected static Set<Review> dtoListToReviewSet(List<ReviewDto> list) {
 		if (list == null) {
 			return null;
 		}

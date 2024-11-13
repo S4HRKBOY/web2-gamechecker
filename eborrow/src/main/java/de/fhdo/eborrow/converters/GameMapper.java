@@ -13,17 +13,9 @@ import de.fhdo.eborrow.domain.Genre;
 import de.fhdo.eborrow.domain.Platform;
 import de.fhdo.eborrow.dto.GameDto;
 
-@Component
 public class GameMapper {
 
-    private ReviewMapper reviewMapper;
-
-    @Autowired
-    public GameMapper(ReviewMapper reviewMapper) {
-        this.reviewMapper = reviewMapper;
-    }
-
-    public GameDto gameToDto(Game game) {
+    public static GameDto gameToDto(Game game, boolean convertReferences) {
         if (game == null) {
             return null;
         }
@@ -33,8 +25,8 @@ public class GameMapper {
         gameDto.setId(game.getId());
         gameDto.setTitle(game.getTitle());
         gameDto.setDescription(game.getDescription());
-        gameDto.setPlatforms(this.platformToDtoPlatform(game.getPlatforms()));
-        gameDto.setGenres(this.genreToDtoGenre(game.getGenres()));
+        gameDto.setPlatforms(platformToDtoPlatform(game.getPlatforms()));
+        gameDto.setGenres(genreToDtoGenre(game.getGenres()));
         gameDto.setPublicationDate(game.getPublicationDate());
         if (game.getAgeRating() != null) {
             gameDto.setAgeRating(game.getAgeRating().getAgeRating());
@@ -44,12 +36,14 @@ public class GameMapper {
         if (game.getGameImage() != null) {
             gameDto.setGameImage(Base64.getEncoder().encodeToString(game.getGameImage()));
         }
-        gameDto.setReviews(reviewMapper.reviewSetToDtoList(game.getReviews()));
+        if (convertReferences) {
+            gameDto.setReviewsDto(ReviewMapper.reviewSetToDtoList(game.getReviews(), false));
+        }
 
         return gameDto;
     }
 
-    public Game dtoToGame(GameDto dto) {
+    public static Game dtoToGame(GameDto dto) {
         if (dto == null) {
             return null;
         }
@@ -59,8 +53,8 @@ public class GameMapper {
         game.setId(dto.getId());
         game.setTitle(dto.getTitle());
         game.setDescription(dto.getDescription());
-        game.setPlatforms(this.dtoPlatformToPlatform(dto.getPlatforms()));
-        game.setGenres(this.dtoGenreToGenre(dto.getGenres()));
+        game.setPlatforms(dtoPlatformToPlatform(dto.getPlatforms()));
+        game.setGenres(dtoGenreToGenre(dto.getGenres()));
         game.setPublicationDate(dto.getPublicationDate());
         if (dto.getAgeRating() != null) {
             game.setAgeRating(AgeRating.fromDisplayName(dto.getAgeRating()));
@@ -70,12 +64,12 @@ public class GameMapper {
         if (dto.getGameImage() != null) {
             game.setGameImage(Base64.getDecoder().decode(dto.getGameImage()));
         }
-        game.setReviews(reviewMapper.dtoListToReviewSet(dto.getReviews()));
+        game.setReviews(ReviewMapper.dtoListToReviewSet(dto.getReviewsDto()));
 
         return game;
     }
 
-    protected List<String> platformToDtoPlatform(List<Platform> list) {
+    protected static List<String> platformToDtoPlatform(List<Platform> list) {
         if (list == null) {
             return null;
         }
@@ -83,7 +77,7 @@ public class GameMapper {
         return platforms;
     }
 
-    protected List<String> genreToDtoGenre(List<Genre> list) {
+    protected static List<String> genreToDtoGenre(List<Genre> list) {
         if (list == null) {
             return null;
         }
@@ -91,7 +85,7 @@ public class GameMapper {
         return genres;
     }
 
-    protected List<Platform> dtoPlatformToPlatform(List<String> list) {
+    protected static List<Platform> dtoPlatformToPlatform(List<String> list) {
         if (list == null) {
             return null;
         }
@@ -99,7 +93,7 @@ public class GameMapper {
         return platforms;
     }
 
-    protected List<Genre> dtoGenreToGenre(List<String> list) {
+    protected static List<Genre> dtoGenreToGenre(List<String> list) {
         if (list == null) {
             return null;
         }
