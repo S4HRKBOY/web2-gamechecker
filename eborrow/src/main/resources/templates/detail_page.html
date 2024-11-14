@@ -98,7 +98,7 @@
                 </form>
             </div>
 
-            <div class="reviewContainer" th:each="review: ${reviews}">
+            <div class="reviewContainer" th:each="review: ${game.getReviewsDto}">
                 <img class="reviewImage" src="/images/profile_pic_default.svg" alt="Profilbild">
                 <div class="reviewUsername">kein Username verfügbar</div>
                 <div class="reviewDate" th:text="${#temporals.format(review.reviewDate, 'dd.MM.yyyy')}">Kein Datum verfügbar</div>
