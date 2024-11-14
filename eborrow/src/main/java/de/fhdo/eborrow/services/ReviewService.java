@@ -2,9 +2,7 @@ package de.fhdo.eborrow.services;
 
 import de.fhdo.eborrow.converters.GameMapper;
 import de.fhdo.eborrow.converters.ReviewMapper;
-import de.fhdo.eborrow.domain.Game;
 import de.fhdo.eborrow.domain.Review;
-import de.fhdo.eborrow.dto.GameDto;
 import de.fhdo.eborrow.dto.ReviewDto;
 import de.fhdo.eborrow.repositories.ReviewRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -62,7 +60,7 @@ public class ReviewService {
 			reviewToUpdate = reviewRepository.findById(reviewDto.getId()).get();
 		} else {
 			reviewToUpdate = new Review();
-			//reviewToUpdate.setGame(gameMapper.dtoToGame(gameService.getGameById(reviewDto.getGame().getId())));
+			reviewToUpdate.setGame(GameMapper.dtoToGame(gameService.getGameById(reviewDto.getGameDto().getId())));
 		}
 
 		if(reviewDto.getReviewHeadline() != null){
