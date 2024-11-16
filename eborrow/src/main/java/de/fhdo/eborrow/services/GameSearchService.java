@@ -3,18 +3,14 @@ package de.fhdo.eborrow.services;
 import de.fhdo.eborrow.domain.Genre;
 import de.fhdo.eborrow.domain.Platform;
 import de.fhdo.eborrow.dto.GameDto;
-import de.fhdo.eborrow.repositories.GameRepository;
 import org.apache.commons.text.similarity.LevenshteinDistance;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Service
 public class GameSearchService {
@@ -66,8 +62,8 @@ public class GameSearchService {
 		List<GameDto> results;
 
 		results = gameDtos.stream().filter(gameDto -> {
-			List<Genre> genres = gameDto.getGenres();
-			return genres.contains(Genre.valueOf(genre));
+			List<String> genres = gameDto.getGenres();
+			return genres.contains(genre);
 		}).toList();
 
 		return results;
@@ -78,8 +74,8 @@ public class GameSearchService {
 		List<GameDto> results;
 
 		results = gameDtos.stream().filter(gameDto -> {
-			List<Platform> platforms = gameDto.getPlatforms();
-			return platforms.contains(Platform.valueOf(platform));
+			List<String> platforms = gameDto.getPlatforms();
+			return platforms.contains(platform);
 		}).toList();
 
 		return results;
