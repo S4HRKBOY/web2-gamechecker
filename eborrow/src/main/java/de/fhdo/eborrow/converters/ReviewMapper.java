@@ -2,24 +2,17 @@ package de.fhdo.eborrow.converters;
 
 import de.fhdo.eborrow.domain.Review;
 import de.fhdo.eborrow.dto.ReviewDto;
-import de.fhdo.eborrow.services.GameService;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
 
-@Component
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+
+
 public class ReviewMapper {
 
-	private GameService gameService;
-	private GameMapper gameMapper;
-
-	@Autowired
-	public ReviewMapper(GameService gameService, GameMapper gameMapper){
-		this.gameService = gameService;
-		this.gameMapper = gameMapper;
-	}
-
-	public ReviewDto convertReviewToDto(Review review){
-		if(review == null){
+	public static ReviewDto convertReviewToDto(Review review, boolean convertReferences) {
+		if (review == null) {
 			return null;
 		}
 
@@ -29,13 +22,15 @@ public class ReviewMapper {
 		reviewDto.setReviewText(review.getReviewText());
 		reviewDto.setReviewDate(review.getReviewDate());
 		reviewDto.setRating(review.getRating());
-		reviewDto.setGameId(review.getGame().getId());
+		if (convertReferences) {
+			reviewDto.setGameDto(GameMapper.gameToDto(review.getGame() , false));
+		}
 
 		return reviewDto;
 	}
 
-	public Review convertDtoToReview(ReviewDto reviewDto){
-		if(reviewDto == null){
+	public static Review convertDtoToReview(ReviewDto reviewDto) {
+		if (reviewDto == null) {
 			return null;
 		}
 
@@ -45,9 +40,35 @@ public class ReviewMapper {
 		review.setReviewText(reviewDto.getReviewText());
 		review.setRating(reviewDto.getRating());
 		review.setReviewDate(reviewDto.getReviewDate());
-		review.setGame(gameMapper.dtoToGame(gameService.getGameById(reviewDto.getGameId())));
+		review.setGame(GameMapper.dtoToGame(reviewDto.getGameDto()));
 
 		return review;
+	}
+
+	protected static List<ReviewDto> reviewSetToDtoList(Set<Review> set, boolean convertReferences) {
+		if (set == null) {
+			return null;
+		}
+
+		List<ReviewDto> result = new ArrayList<ReviewDto>(Math.max((int) (set.size() / .75f) + 1, 16));
+		for (Review review : set) {
+			result.add(convertReviewToDto(review, convertReferences));
+		}
+
+		return result;
+	}
+
+	protected static Set<Review> dtoListToReviewSet(List<ReviewDto> list) {
+		if (list == null) {
+			return null;
+		}
+
+		Set<Review> result = new HashSet<Review>(Math.max((int) (list.size() / .75f) + 1, 16));
+		for (ReviewDto reviewDto : list) {
+			result.add(convertDtoToReview(reviewDto));
+		}
+
+		return result;
 	}
 
 }

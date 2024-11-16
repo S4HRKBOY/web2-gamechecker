@@ -3,6 +3,8 @@ package de.fhdo.eborrow.domain;
 import jakarta.persistence.*;
 import org.springframework.format.annotation.DateTimeFormat;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 import java.time.LocalDate;
 
 //TODO: Rating Bounds
@@ -24,13 +26,9 @@ public class Review {
 	@DateTimeFormat
 	private LocalDate reviewDate;
 
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "game_id")
+	@ManyToOne
+    @JoinColumn(name = "game_id")
 	private Game game;
-
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "account_id")
-	private Account account;
 
 	public Review(){}
 
@@ -80,14 +78,6 @@ public class Review {
 
 	public void setGame(Game game) {
 		this.game = game;
-	}
-
-	public Account getAccount() {
-		return account;
-	}
-
-	public void setAccount(Account account) {
-		this.account = account;
 	}
 
 	public String getReviewHeadline() {

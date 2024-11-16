@@ -6,23 +6,15 @@ import de.fhdo.eborrow.domain.Game;
 import de.fhdo.eborrow.dto.AccountDto;
 import de.fhdo.eborrow.dto.AccountDtoBuilder;
 import de.fhdo.eborrow.dto.GameDto;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
 
-@Component
 public class AccountMapper {
-	private final GameMapper gameMapper;
-
-	@Autowired
-	public AccountMapper(GameMapper gameMapper) {
-		this.gameMapper = gameMapper;
-	}
 
 	// Zak: mir gefaellt die jetzige Implementierung nicht, da man bei Aenderungen von DTO oder Domain-Klasse schnell
 	// vergisst, den Mapper mit anzupassen
-	public AccountDto accountToDto(Account account) {
+	public static AccountDto accountToDto(Account account) {
 		AccountDtoBuilder accountDtoBuilder = new AccountDtoBuilder()
 				.setId(account.getId())
 				.setPrename(account.getPrename())
@@ -35,14 +27,14 @@ public class AccountMapper {
 				.setPublisher(account.isPublisher());
 
 		List<GameDto> gameDTOs = account.getTaggedGames().stream()
-				.map(gameMapper::gameToDto)
+				.map(game -> GameMapper.gameToDto(game, false))
 				.toList();
 		accountDtoBuilder.setTaggedGames(gameDTOs);
 
 		return accountDtoBuilder.build();
 	}
 
-	public Account dtoToAccount(AccountDto accountDto) {
+	public static Account dtoToAccount(AccountDto accountDto) {
 		AccountBuilder accountBuilder = new AccountBuilder()
 				.setId(accountDto.getId())
 				.setPrename(accountDto.getPrename())
@@ -55,7 +47,7 @@ public class AccountMapper {
 				.setPublisher(accountDto.isPublisher());
 
 		List<Game> games = accountDto.getTaggedGames().stream()
-				.map(gameMapper::dtoToGame)
+				.map(GameMapper::dtoToGame)
 				.toList();
 		accountBuilder.setTaggedGames(games);
 

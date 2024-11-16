@@ -4,10 +4,10 @@ import jakarta.persistence.*;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import java.time.LocalDate;
-import java.util.Arrays;
 import java.util.List;
 
 @Entity
+@Table(name = "account")
 public class Account {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)

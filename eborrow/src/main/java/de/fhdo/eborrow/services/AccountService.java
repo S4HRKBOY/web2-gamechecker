@@ -13,17 +13,15 @@ import java.util.stream.StreamSupport;
 public class AccountService {
 	// TODO Zak: Gehoeren hier auch Funktionen fuer AddGame, GetGames, GetGameById, DeleteGame hin?
 	// TODO Zak: Gehoeren hier auch Funktionen fuer AddReview, GetReviews, GetReviewId und DeleteReview?
-	private final AccountMapper accountMapper;
 	private final AccountRepository accountRepository;
 
 	@Autowired
-	public AccountService(AccountMapper accountMapper, AccountRepository accountRepository) {
-		this.accountMapper = accountMapper;
+	public AccountService(AccountRepository accountRepository) {
 		this.accountRepository = accountRepository;
 	}
 
 	public Long addAccount(AccountDto accountDto) {
-		Account account = accountMapper.dtoToAccount(accountDto);
+		Account account = AccountMapper.dtoToAccount(accountDto);
 
 		return accountRepository.save(account).getId();
 	}
@@ -31,7 +29,7 @@ public class AccountService {
 	public Iterable<AccountDto> getAccounts() {
 		Iterable<Account> all = accountRepository.findAll();
 		Iterable<AccountDto> allDto = StreamSupport.stream(all.spliterator(), false)
-				.map(accountMapper::accountToDto)  // Cast all accounts to DTOs
+				.map(AccountMapper::accountToDto)  // Cast all accounts to DTOs
 				.toList();
 
 		return allDto;
@@ -43,7 +41,7 @@ public class AccountService {
 			return null;
 		}
 
-		AccountDto accountDto = accountMapper.accountToDto(account);
+		AccountDto accountDto = AccountMapper.accountToDto(account);
 
 		return accountDto;
 	}
@@ -68,9 +66,9 @@ public class AccountService {
 			return false;
 		}
 
-		AccountDto existingAccountDto = accountMapper.accountToDto(existingAccount);
+		AccountDto existingAccountDto = AccountMapper.accountToDto(existingAccount);
 		AccountDto updatedAccountDTO = transferChanges(existingAccountDto, accountChanges);
-		Account updatedAccount = accountMapper.dtoToAccount(updatedAccountDTO);
+		Account updatedAccount = AccountMapper.dtoToAccount(updatedAccountDTO);
 		accountRepository.save(updatedAccount);
 
 		return true;

@@ -1,10 +1,7 @@
 package de.fhdo.eborrow.dto;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
-
-import de.fhdo.eborrow.domain.AgeRating;
-import de.fhdo.eborrow.domain.Genre;
-import de.fhdo.eborrow.domain.Platform; 
 
 public class GameDto {
 
@@ -12,16 +9,18 @@ public class GameDto {
 
     private String title; 
     private String description; 
-    private List<Platform> platforms; 
-    private List<Genre> genres; 
+    private List<String> platforms; 
+    private List<String> genres; 
     private LocalDate publicationDate; 
-    private AgeRating ageRating; 
+    private String ageRating; 
     private String developer; 
     private String publisher; 
     private String gameImage;
 
-    public GameDto(Long id, String title, String description, List<Platform> platforms, int licences, int remainingLicences, List<Genre> genres, LocalDate publicationDate,
-            AgeRating ageRating, String developer, String publisher, String gameImage) {
+    private List<ReviewDto> reviewsDto = new ArrayList<>();
+
+    public GameDto(Long id, String title, String description, List<String> platforms, int licences, int remainingLicences, List<String> genres, LocalDate publicationDate,
+            String ageRating, String developer, String publisher, String gameImage) {
         this.id = id;
         this.title = title;
         this.description = description;
@@ -62,19 +61,19 @@ public class GameDto {
         this.description = description;
     }
 
-    public List<Platform> getPlatforms() {
+    public List<String> getPlatforms() {
         return platforms; 
     }
 
-    public void setPlatforms(List<Platform> platforms) {
+    public void setPlatforms(List<String> platforms) {
         this.platforms = platforms; 
     }
 
-    public List<Genre> getGenres() {
+    public List<String> getGenres() {
         return genres;
     }
 
-    public void setGenres(List<Genre> genres) {
+    public void setGenres(List<String> genres) {
         this.genres = genres;
     }
 
@@ -86,11 +85,11 @@ public class GameDto {
         this.publicationDate = publicationDate;
     }
 
-    public AgeRating getAgeRating() {
+    public String getAgeRating() {
         return ageRating;
     }
 
-    public void setAge(AgeRating ageRating) {
+    public void setAgeRating(String ageRating) {
         this.ageRating = ageRating;
     }
 
@@ -117,6 +116,15 @@ public class GameDto {
     public void setGameImage(String gameImage) {
         this.gameImage = gameImage;
     }
+
+    public List<ReviewDto> getReviewsDto() {
+		return reviewsDto;
+	}
+
+	public void setReviewsDto(List<ReviewDto> reviewsDto) {
+		this.reviewsDto = reviewsDto;
+	}
+
 
     
 }

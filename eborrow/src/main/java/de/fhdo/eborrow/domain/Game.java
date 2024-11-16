@@ -4,9 +4,13 @@ import jakarta.persistence.*;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import org.springframework.format.annotation.DateTimeFormat;
+
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 @Entity
 @Table(name = "game")
@@ -18,11 +22,19 @@ public class Game {
     private String title;
     @Lob
     private String description;
+
+    @ElementCollection 
+    @Enumerated(EnumType.STRING)
     private List<Platform> platforms; 
+
+    @ElementCollection 
+    @Enumerated(EnumType.STRING)
     private List<Genre> genres;
 
     @DateTimeFormat
     private LocalDate publicationDate;
+
+    @Enumerated(EnumType.STRING)
     private AgeRating ageRating;
     private String developer;
     private String publisher;
@@ -31,13 +43,8 @@ public class Game {
     @Column(columnDefinition = "MEDIUMBLOB")
     private byte[] gameImage;
 
-    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    @JoinColumn(name = "game_id")
-    private List<Review> reviews;
-
-    // TODO Überflüssig? Sollte ein Spiel wissen, welcher Spieler es auf die Liste gepackt hat? 
-    /*@ManyToMany(mappedBy = "games")
-    private Set<User> users = new HashSet<>();*/
+    @OneToMany(mappedBy = "game", orphanRemoval = true, cascade = CascadeType.REMOVE)
+    private Set<Review> reviews = new HashSet<>();
 
     public Game() {
 
@@ -137,25 +144,16 @@ public class Game {
         this.gameImage = gameImage;
     }
 
-    public void addReview(Review review){
-        if(reviews == null){
-            reviews = new ArrayList<>();
-        }
-        review.setGame(this);
-        reviews.add(review);
+    public Set<Review> getReviews() {
+        return reviews; 
     }
 
-    public List<Review> getReviews() {
-        return reviews;
+    public void setReviews(Set<Review> reviews) {
+        this.reviews = reviews; 
     }
 
-    public void setReviews(List<Review> reviews) {
-        this.reviews = reviews;
-    }
-
-    /*
     //TODO Überflüssig? 
-    public Set<User> getUsers() {
+    /*public Set<User> getUsers() {
         return users; 
     }
 

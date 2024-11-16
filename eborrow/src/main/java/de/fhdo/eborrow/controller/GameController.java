@@ -10,14 +10,16 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import de.fhdo.eborrow.converters.GameMapper;
+import de.fhdo.eborrow.domain.Game;
 import de.fhdo.eborrow.dto.GameDto;
 import de.fhdo.eborrow.services.GameService;
 
 @Controller
-@RequestMapping("/game")
+@RequestMapping("/thymeleaf/game")
 public class GameController {
 
-    GameService gameService; 
+    private GameService gameService; 
 
     GameSearchService gameSearchService;
 
@@ -37,8 +39,9 @@ public class GameController {
     @GetMapping("/{id}")
     public String getGameById(@PathVariable Long id, Model model) {
         GameDto gameDto = gameService.getGameById(id); 
-        model.addAttribute("game", gameDto);
+        model.addAttribute("game", gameDto); 
         return "detail_page";
     }
+
 
 }

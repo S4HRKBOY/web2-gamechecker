@@ -70,12 +70,21 @@
             <h2 class="headline">Reviews</h2>
             <div id="addReview">
                 <form class="reviewForm" action="./detail_page.html">
+                    <input type="text" id="reviewFormHeadline" name="reviewFormHeadline" placeholder="Titel" required>
                     <textarea id="reviewText" name="reviewText" required></textarea>
                     <label for="recommendation">Deine Bewertung?</label>
-                    <select name="recommendation" id="recommendation">
+                    <select name="recommendation" id="recommendation" required>
                         <option value="">--</option>
-                        <option value="recommended">Empfohlen</option>
-                        <option value="notRecommended">Nicht empfohlen</option>
+                        <option value="1">1</option>
+                        <option value="2">2</option>
+                        <option value="3">3</option>
+                        <option value="4">4</option>
+                        <option value="5">5</option>
+                        <option value="6">6</option>
+                        <option value="7">7</option>
+                        <option value="8">8</option>
+                        <option value="9">9</option>
+                        <option value="10">10</option>
                     </select>
                     <input id="submit" type="submit" value="Review veröffentlichen">
                 </form>
@@ -84,22 +93,27 @@
                 <img class="reviewImage" src="../images/profile_pic_default.svg" alt="Profilbild">
                 <div class="reviewUsername">codfan#1</div>
                 <div class="reviewDate">07.11.2024</div>
-                <div class="reviewRating">Empfohlen</div>
-                <div class="reviewContent">"Call of Duty: Modern Warfare 3 bietet eine spannende Kampagne mit packender
-                    Story
-                    und intensiven Action-Momenten. Der Mehrspieler-Modus überzeugt mit gutem Waffenbalancing, neuen
-                    Maps und abwechslungsreichen Spielmodi. Ein großartiger Shooter, der die Reihe gelungen fortsetzt."
-                </div>
+                <h3 class="reviewHeadline">Mega Game</h3>
+                    <div class="reviewRating">Bewertung: 9/10</div>
+                    <div class="reviewContent">"Call of Duty: Modern Warfare 3 bietet eine spannende Kampagne mit
+                        packender
+                        Story
+                        und intensiven Action-Momenten. Der Mehrspieler-Modus überzeugt mit gutem Waffenbalancing, neuen
+                        Maps und abwechslungsreichen Spielmodi. Ein großartiger Shooter, der die Reihe gelungen
+                        fortsetzt."
+                    </div>
             </div>
             <div class="reviewContainer">
                 <img class="reviewImage" src="../images/profile_pic_default.svg" alt="Profilbild">
                 <div class="reviewUsername">gamer89</div>
                 <div class="reviewDate">07.11.2024</div>
-                <div class="reviewRating">Nicht empfohlen</div>
-                <div class="reviewContent">"Call of Duty: Modern Warfare 3 fühlt sich in der Kampagne oft wie eine
-                    Wiederholung
-                    der Vorgänger an, ohne neue frische Ideen. Der Mehrspieler-Modus hat noch immer Balance-Probleme,
-                    und die Karten wirken uninspiriert. Insgesamt solide, aber nicht bahnbrechend."</div>
+                <h3 class="reviewHeadline">Könnte besser sein</h3>
+                    <div class="reviewRating">Bewertung: 3/10</div>
+                    <div class="reviewContent">"Call of Duty: Modern Warfare 3 fühlt sich in der Kampagne oft wie eine
+                        Wiederholung
+                        der Vorgänger an, ohne neue frische Ideen. Der Mehrspieler-Modus hat noch immer
+                        Balance-Probleme,
+                        und die Karten wirken uninspiriert. Insgesamt solide, aber nicht bahnbrechend."</div>
             </div>
         </section>
     </main>
