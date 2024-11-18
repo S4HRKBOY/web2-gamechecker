@@ -1,6 +1,9 @@
 package de.fhdo.eborrow.domain;
 
 import jakarta.persistence.*;
+
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
@@ -27,19 +30,13 @@ public class Review {
 	private LocalDate reviewDate;
 
 	@ManyToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "game_id", 
-        nullable = false,
-        foreignKey = @ForeignKey(
-            name = "FK_GAME_ID",
-            foreignKeyDefinition = "FOREIGN KEY (game_id) REFERENCES game(id) ON DELETE CASCADE"))
+	@OnDelete(action = OnDeleteAction.CASCADE)
+    @JoinColumn(name = "game_id", nullable = false)
 	private Game game;
 
 	@ManyToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "account_id", 
-		nullable = false,
-        foreignKey = @ForeignKey(
-            name = "FK_ACCOUNT_ID",
-            foreignKeyDefinition = "FOREIGN KEY (account_id) REFERENCES account(id) ON DELETE CASCADE"))
+	@OnDelete(action = OnDeleteAction.CASCADE)
+    @JoinColumn(name = "account_id", nullable = false)
 	private Account account;
 
 
