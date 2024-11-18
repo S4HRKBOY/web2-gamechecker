@@ -6,7 +6,6 @@ import de.fhdo.eborrow.domain.Game;
 import de.fhdo.eborrow.dto.AccountDto;
 import de.fhdo.eborrow.dto.AccountDtoBuilder;
 import de.fhdo.eborrow.dto.GameDto;
-import org.springframework.stereotype.Component;
 
 import java.util.List;
 
@@ -27,7 +26,7 @@ public class AccountMapper {
 				.setPublisher(account.isPublisher());
 
 		List<GameDto> gameDTOs = account.getTaggedGames().stream()
-				.map(game -> GameMapper.gameToDto(game, false))
+				.map(game -> GameMapper.gameToDto(game))
 				.toList();
 		accountDtoBuilder.setTaggedGames(gameDTOs);
 

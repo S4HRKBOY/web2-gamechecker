@@ -6,7 +6,6 @@ schema {
 type Query {
     games: [Game!]!
     game(id: ID!): Game
-    reviews(id: ID!): [Review!]!
 }
     
 type Game {

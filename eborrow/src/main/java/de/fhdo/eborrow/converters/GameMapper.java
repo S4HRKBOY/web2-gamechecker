@@ -15,7 +15,7 @@ import de.fhdo.eborrow.dto.GameDto;
 
 public class GameMapper {
 
-    public static GameDto gameToDto(Game game, boolean convertReferences) {
+    public static GameDto gameToDto(Game game) {
         if (game == null) {
             return null;
         }
@@ -35,9 +35,6 @@ public class GameMapper {
         gameDto.setPublisher(game.getPublisher());
         if (game.getGameImage() != null) {
             gameDto.setGameImage(Base64.getEncoder().encodeToString(game.getGameImage()));
-        }
-        if (convertReferences) {
-            gameDto.setReviewsDto(ReviewMapper.reviewSetToDtoList(game.getReviews(), false));
         }
 
         return gameDto;
@@ -64,7 +61,6 @@ public class GameMapper {
         if (dto.getGameImage() != null) {
             game.setGameImage(Base64.getDecoder().decode(dto.getGameImage()));
         }
-        game.setReviews(ReviewMapper.dtoListToReviewSet(dto.getReviewsDto()));
 
         return game;
     }

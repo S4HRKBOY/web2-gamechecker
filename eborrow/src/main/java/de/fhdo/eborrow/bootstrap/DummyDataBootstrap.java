@@ -76,6 +76,13 @@ public class DummyDataBootstrap implements ApplicationListener<ContextRefreshedE
         Review game2Review1 = new Review(3L, "Voll gut", "10 von 10", 9, LocalDate.now());
         Review game2Review2 = new Review(4L, "Doof", "Kacke viel zu schwer.", 2, LocalDate.now());
 
+        initAccounts(game1, game2, game3);
+
+        game1Review1.setAccount(accountRepository.findById(1L).get());
+        game1Review2.setAccount(accountRepository.findById(1L).get());
+        game2Review1.setAccount(accountRepository.findById(1L).get());
+        game2Review2.setAccount(accountRepository.findById(1L).get());
+
         game1Review1.setGame(savedGame1);
         game1Review2.setGame(savedGame1);
         game2Review1.setGame(savedGame2);
@@ -86,7 +93,6 @@ public class DummyDataBootstrap implements ApplicationListener<ContextRefreshedE
         reviewRepository.save(game2Review1);
         reviewRepository.save(game2Review2);
 
-        initAccounts(game1, game2, game3);
     }
 
     private void initAccounts(Game... game) {
