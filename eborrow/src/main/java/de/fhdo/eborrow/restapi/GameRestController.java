@@ -66,11 +66,11 @@ public class GameRestController {
         gameService.updateGame(gameDto); 
     }
 
-    @GetMapping("/getReviewsByGameId/{id}")
-    @ResponseStatus(HttpStatus.OK)
-    public List<ReviewDto> getReviewsByGameId(@PathVariable Long id) {
-        return reviewService.getAllReviewsToGame(id); 
-    }
+    // @GetMapping("/getReviewsByGameId/{id}")
+    // @ResponseStatus(HttpStatus.OK)
+    // public List<ReviewDto> getReviewsByGameId(@PathVariable Long id) {
+    //     return reviewService.getAllReviewsToGame(id); 
+    // }
 
     //TODO später löschen
     @GetMapping("/getReviewById/{id}")

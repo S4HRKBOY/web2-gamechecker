@@ -35,6 +35,7 @@ public class Account {
 			inverseJoinColumns = @JoinColumn(name = "game_id")
 	)
 	private List<Game> taggedGames;
+    
 	// TODO Zak: Reviews hinzufuegen
 	// @OneToMany(cascade = CascadeType.ALL)	
 	// Zak: Auf der anderen Seite dann @ManyToOne(fetch = FetchType.LAZY) und @JoinColumn(name = "game_id", nullable = false)

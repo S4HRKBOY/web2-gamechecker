@@ -43,15 +43,15 @@ public class ReviewService {
 		return reviewDtos;
 	}
 
-	public List<ReviewDto> getAllReviewsToGame(Long id){
-		List<ReviewDto> reviewDtos = new ArrayList<>();
-		reviewRepository.findAll().forEach(review -> {
-			if(Objects.equals(review.getGame().getId(), id)){
-				reviewDtos.add(ReviewMapper.convertReviewToDto(review));
-			}
-		});
-		return reviewDtos;
-	}
+	// public List<ReviewDto> getAllReviewsToGame(Long id){
+	// 	List<ReviewDto> reviewDtos = new ArrayList<>();
+	// 	reviewRepository.findAll().forEach(review -> {
+	// 		if(Objects.equals(review.getGame().getId(), id)){
+	// 			reviewDtos.add(ReviewMapper.convertReviewToDto(review));
+	// 		}
+	// 	});
+	// 	return reviewDtos;
+	// }
 
 	public Long updateReview(ReviewDto reviewDto) {
 		Review reviewToUpdate;
@@ -60,7 +60,7 @@ public class ReviewService {
 			reviewToUpdate = reviewRepository.findById(reviewDto.getId()).get();
 		} else {
 			reviewToUpdate = new Review();
-			reviewToUpdate.setGame(GameMapper.dtoToGame(gameService.getGameById(reviewDto.getGameDto().getId())));
+			// reviewToUpdate.setGame(GameMapper.dtoToGame(gameService.getGameById(reviewDto.getGameDto().getId())));
 		}
 
 		if(reviewDto.getReviewHeadline() != null){

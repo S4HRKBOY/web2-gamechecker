@@ -39,9 +39,9 @@ public class GameController {
     @GetMapping("/{id}")
     public String getGameById(@PathVariable Long id, Model model) {
         GameDto gameDto = gameService.getGameById(id); 
-        List<ReviewDto> reviewDto = reviewService.getAllReviewsToGame(id); 
+        //List<ReviewDto> reviewDto = reviewService.getAllReviewsToGame(id); 
         model.addAttribute("game", gameDto); 
-        model.addAttribute("reviews", reviewDto); 
+        //model.addAttribute("reviews", reviewDto); 
         return "detail_page";
     }
 

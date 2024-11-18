@@ -21,7 +21,7 @@ public class ReviewMapper {
 		reviewDto.setReviewText(review.getReviewText());
 		reviewDto.setReviewDate(review.getReviewDate());
 		reviewDto.setRating(review.getRating());
-		reviewDto.setGameDto(GameMapper.gameToDto(review.getGame()));
+		//reviewDto.setGameDto(GameMapper.gameToDto(review.getGame()));
 		reviewDto.setAccountDto(AccountMapper.accountToDto(review.getAccount()));
 
 		return reviewDto;
@@ -38,13 +38,13 @@ public class ReviewMapper {
 		review.setReviewText(reviewDto.getReviewText());
 		review.setRating(reviewDto.getRating());
 		review.setReviewDate(reviewDto.getReviewDate());
-		review.setGame(GameMapper.dtoToGame(reviewDto.getGameDto()));
+		//review.setGame(GameMapper.dtoToGame(reviewDto.getGameDto()));
 		review.setAccount(AccountMapper.dtoToAccount(reviewDto.getAccountDto()));
 
 		return review;
 	}
 
-	protected static List<ReviewDto> reviewSetToDtoList(Set<Review> set, boolean convertReferences) {
+	protected static List<ReviewDto> reviewSetToDtoList(Set<Review> set) {
 		if (set == null) {
 			return null;
 		}

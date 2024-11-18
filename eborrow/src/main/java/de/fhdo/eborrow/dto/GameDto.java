@@ -3,6 +3,8 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
+import de.fhdo.eborrow.domain.Review;
+
 public class GameDto {
 
     private Long id; 
@@ -16,6 +18,7 @@ public class GameDto {
     private String developer; 
     private String publisher; 
     private String gameImage;
+    private List<ReviewDto> reviewsDto; 
 
     public GameDto(Long id, String title, String description, List<String> platforms, int licences, int remainingLicences, List<String> genres, LocalDate publicationDate,
             String ageRating, String developer, String publisher, String gameImage) {
@@ -115,6 +118,13 @@ public class GameDto {
         this.gameImage = gameImage;
     }
 
+    public List<ReviewDto> getReviewsDto() {
+        return reviewsDto; 
+    }
+
+    public void setReviewsDto(List<ReviewDto> reviewsDto) {
+        this.reviewsDto = reviewsDto; 
+    }
 
     
 }

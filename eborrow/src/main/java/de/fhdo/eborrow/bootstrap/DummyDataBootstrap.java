@@ -67,10 +67,6 @@ public class DummyDataBootstrap implements ApplicationListener<ContextRefreshedE
                 LocalDate.of(2022, 2, 25), AgeRating.USK_16, "From Software", "Bandai Namco",
                 readImage("EldenRing.jpg"));
 
-        Game savedGame1 = gameRepository.save(game1);
-        Game savedGame2 = gameRepository.save(game2);
-        Game savedGame3 = gameRepository.save(game3);
-
         Review game1Review1 = new Review(1L, "Gut", "Voll gut.", 10, LocalDate.now());
         Review game1Review2 = new Review(2L, "Edel", "Echt edel", 8, LocalDate.now());
         Review game2Review1 = new Review(3L, "Voll gut", "10 von 10", 9, LocalDate.now());
@@ -83,26 +79,35 @@ public class DummyDataBootstrap implements ApplicationListener<ContextRefreshedE
         game2Review1.setAccount(accountRepository.findById(1L).get());
         game2Review2.setAccount(accountRepository.findById(1L).get());
 
-        game1Review1.setGame(savedGame1);
-        game1Review2.setGame(savedGame1);
-        game2Review1.setGame(savedGame2);
-        game2Review2.setGame(savedGame2);
+        // game1Review1.setGame(savedGame1);
+        // game1Review2.setGame(savedGame1);
+        // game2Review1.setGame(savedGame2);
+        // game2Review2.setGame(savedGame2);
 
         reviewRepository.save(game1Review1);
         reviewRepository.save(game1Review2);
         reviewRepository.save(game2Review1);
         reviewRepository.save(game2Review2);
 
+        game1.getReviews().add(game1Review1); 
+        game1.getReviews().add(game1Review2); 
+        game2.getReviews().add(game2Review1); 
+        game2.getReviews().add(game2Review2); 
+
+        gameRepository.save(game1);
+        gameRepository.save(game2);
+        gameRepository.save(game3);
+
     }
 
     private void initAccounts(Game... game) {
         long id = 1L;
 		List<Game> acc1GameList = new LinkedList<>();
-        acc1GameList.add(game[0]);
-        acc1GameList.add(game[2]);
-        List<Game> acc2GameList = new LinkedList<>();
-        acc2GameList.add(game[1]);
-        acc2GameList.add(game[0]);
+        // acc1GameList.add(game[0]);
+        // acc1GameList.add(game[2]);
+        // List<Game> acc2GameList = new LinkedList<>();
+        // acc2GameList.add(game[1]);
+        // acc2GameList.add(game[0]);
 
         var acc1 = new AccountBuilder()
                 .setId(id++)
@@ -113,7 +118,7 @@ public class DummyDataBootstrap implements ApplicationListener<ContextRefreshedE
                 .setEmail("max.mustermann@dummy.com")
                 .setPassword("maxpassword")
                 .setProfilePicture(readImage("where_image.png"))
-                .setTaggedGames(acc1GameList)
+                //.setTaggedGames(acc1GameList)
                 .build();
 
         var acc2 = new AccountBuilder()
@@ -125,7 +130,7 @@ public class DummyDataBootstrap implements ApplicationListener<ContextRefreshedE
                 .setEmail("john.doe@dummy.com")
                 .setPassword("johnpassword")
                 .setProfilePicture(readImage("where_image.png"))
-                .setTaggedGames(acc2GameList)
+                //.setTaggedGames(acc2GameList)
                 .build();
 
         var publisher = new AccountBuilder()

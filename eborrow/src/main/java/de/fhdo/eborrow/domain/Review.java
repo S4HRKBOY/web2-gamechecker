@@ -29,14 +29,14 @@ public class Review {
 	@DateTimeFormat
 	private LocalDate reviewDate;
 
-	@ManyToOne(cascade = CascadeType.ALL)
-	@OnDelete(action = OnDeleteAction.CASCADE)
-    @JoinColumn(name = "game_id", nullable = false)
-	private Game game;
+	//@ManyToOne
+	//@OnDelete(action = OnDeleteAction.CASCADE)
+    //@JoinColumn(name = "game_id", nullable = false)
+	//private Game game;
 
-	@ManyToOne(cascade = CascadeType.ALL)
+	@ManyToOne
 	@OnDelete(action = OnDeleteAction.CASCADE)
-    @JoinColumn(name = "account_id", nullable = false)
+    @JoinColumn(name = "account_id")
 	private Account account;
 
 
@@ -82,13 +82,13 @@ public class Review {
 		this.reviewDate = reviewDate;
 	}
 
-	public Game getGame() {
-		return game;
-	}
+	// public Game getGame() {
+	// 	return game;
+	// }
 
-	public void setGame(Game game) {
-		this.game = game;
-	}
+	// public void setGame(Game game) {
+	// 	this.game = game;
+	// }
 
 	public Account getAccount() {
 		return account;

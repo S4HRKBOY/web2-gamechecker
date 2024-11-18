@@ -19,7 +19,7 @@ public class ReviewDto {
 
 	private LocalDate reviewDate;
 
-	private GameDto gameDto;
+	//private GameDto gameDto;
 
 	private AccountDto accountDto;
 
@@ -65,13 +65,13 @@ public class ReviewDto {
 		this.reviewDate = reviewDate;
 	}
 
-	public GameDto getGameDto() {
-		return gameDto;
-	}
+	// public GameDto getGameDto() {
+	// 	return gameDto;
+	// }
 
-	public void setGameDto(GameDto gameDto) {
-		this.gameDto = gameDto;
-	}
+	// public void setGameDto(GameDto gameDto) {
+	// 	this.gameDto = gameDto;
+	// }
 
 	public AccountDto getAccountDto() {
 		return accountDto;

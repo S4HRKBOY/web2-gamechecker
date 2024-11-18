@@ -7,6 +7,8 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 import org.springframework.format.annotation.DateTimeFormat;
 
 @Entity
@@ -39,6 +41,10 @@ public class Game {
     @Lob
     @Column(columnDefinition = "MEDIUMBLOB")
     private byte[] gameImage;
+
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+    @JoinColumn(name = "game_id")
+	private Set<Review> reviews = new HashSet<>();
 
     public Game() {
 
@@ -138,14 +144,13 @@ public class Game {
         this.gameImage = gameImage;
     }
 
-    //TODO Überflüssig? 
-    /*public Set<User> getUsers() {
-        return users; 
+    public Set<Review> getReviews() {
+        return reviews; 
     }
 
-    public void getUsers(Set<User> users) {
-        this.users = users; 
+    public void setReviews(Set<Review> reviews) {
+        this.reviews = reviews; 
     }
-    */
+    
 
 }

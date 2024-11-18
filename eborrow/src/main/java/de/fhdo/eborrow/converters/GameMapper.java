@@ -36,7 +36,7 @@ public class GameMapper {
         if (game.getGameImage() != null) {
             gameDto.setGameImage(Base64.getEncoder().encodeToString(game.getGameImage()));
         }
-
+        gameDto.setReviewsDto(ReviewMapper.reviewSetToDtoList(game.getReviews())); 
         return gameDto;
     }
 
@@ -61,7 +61,7 @@ public class GameMapper {
         if (dto.getGameImage() != null) {
             game.setGameImage(Base64.getDecoder().decode(dto.getGameImage()));
         }
-
+        game.setReviews(ReviewMapper.dtoListToReviewSet(dto.getReviewsDto()));
         return game;
     }
 
