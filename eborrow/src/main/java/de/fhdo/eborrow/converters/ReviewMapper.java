@@ -8,10 +8,9 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-
 public class ReviewMapper {
 
-	public static ReviewDto convertReviewToDto(Review review, boolean convertReferences) {
+	public static ReviewDto convertReviewToDto(Review review) {
 		if (review == null) {
 			return null;
 		}
@@ -22,9 +21,8 @@ public class ReviewMapper {
 		reviewDto.setReviewText(review.getReviewText());
 		reviewDto.setReviewDate(review.getReviewDate());
 		reviewDto.setRating(review.getRating());
-		if (convertReferences) {
-			reviewDto.setGameDto(GameMapper.gameToDto(review.getGame() , false));
-		}
+		reviewDto.setGameDto(GameMapper.gameToDto(review.getGame()));
+		reviewDto.setAccountDto(AccountMapper.accountToDto(review.getAccount()));
 
 		return reviewDto;
 	}
@@ -41,6 +39,7 @@ public class ReviewMapper {
 		review.setRating(reviewDto.getRating());
 		review.setReviewDate(reviewDto.getReviewDate());
 		review.setGame(GameMapper.dtoToGame(reviewDto.getGameDto()));
+		review.setAccount(AccountMapper.dtoToAccount(reviewDto.getAccountDto()));
 
 		return review;
 	}
@@ -52,7 +51,7 @@ public class ReviewMapper {
 
 		List<ReviewDto> result = new ArrayList<ReviewDto>(Math.max((int) (set.size() / .75f) + 1, 16));
 		for (Review review : set) {
-			result.add(convertReviewToDto(review, convertReferences));
+			result.add(convertReviewToDto(review));
 		}
 
 		return result;

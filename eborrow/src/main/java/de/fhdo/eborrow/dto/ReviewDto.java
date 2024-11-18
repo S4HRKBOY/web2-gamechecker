@@ -21,6 +21,8 @@ public class ReviewDto {
 
 	private GameDto gameDto;
 
+	private AccountDto accountDto;
+
 	public ReviewDto(){}
 
 	public ReviewDto(Long id, String reviewHeadline, String reviewText, int rating, LocalDate reviewDate) {
@@ -69,6 +71,14 @@ public class ReviewDto {
 
 	public void setGameDto(GameDto gameDto) {
 		this.gameDto = gameDto;
+	}
+
+	public AccountDto getAccountDto() {
+		return accountDto;
+	}
+
+	public void setAccountDto(AccountDto accountDto) {
+		this.accountDto = accountDto;
 	}
 
 	public String getReviewHeadline() {

@@ -26,9 +26,22 @@ public class Review {
 	@DateTimeFormat
 	private LocalDate reviewDate;
 
-	@ManyToOne
-    @JoinColumn(name = "game_id")
+	@ManyToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "game_id", 
+        nullable = false,
+        foreignKey = @ForeignKey(
+            name = "FK_GAME_ID",
+            foreignKeyDefinition = "FOREIGN KEY (game_id) REFERENCES game(id) ON DELETE CASCADE"))
 	private Game game;
+
+	@ManyToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "account_id", 
+		nullable = false,
+        foreignKey = @ForeignKey(
+            name = "FK_ACCOUNT_ID",
+            foreignKeyDefinition = "FOREIGN KEY (account_id) REFERENCES account(id) ON DELETE CASCADE"))
+	private Account account;
+
 
 	public Review(){}
 
@@ -78,6 +91,14 @@ public class Review {
 
 	public void setGame(Game game) {
 		this.game = game;
+	}
+
+	public Account getAccount() {
+		return account;
+	}
+
+	public void setAccount(Account account) {
+		this.account = account;
 	}
 
 	public String getReviewHeadline() {

@@ -53,8 +53,8 @@ public class GameGraphQlController {
         return gameService.getGameById(id);
     }
 
-    @QueryMapping("gameReviews")
+    /*@QueryMapping("reviews")
     public List<ReviewDto> getReviewsByGameId(@Argument Long id) {
         return gameService.getReviewsByGameId(id); 
-    }
+    }*/
 }

@@ -30,7 +30,7 @@ public class ReviewService {
 
 	public ReviewDto getReviewById(Long id){
 		Review review = reviewRepository.findById(id).get();
-		return ReviewMapper.convertReviewToDto(review, true);
+		return ReviewMapper.convertReviewToDto(review);
 	}
 
 	public void deleteReviewById(Long id){
@@ -39,7 +39,7 @@ public class ReviewService {
 
 	public List<ReviewDto> getAll() {
 		List<ReviewDto> reviewDtos = new ArrayList<>();
-		reviewRepository.findAll().forEach(review -> reviewDtos.add(ReviewMapper.convertReviewToDto(review, true)));
+		reviewRepository.findAll().forEach(review -> reviewDtos.add(ReviewMapper.convertReviewToDto(review)));
 		return reviewDtos;
 	}
 
@@ -47,7 +47,7 @@ public class ReviewService {
 		List<ReviewDto> reviewDtos = new ArrayList<>();
 		reviewRepository.findAll().forEach(review -> {
 			if(Objects.equals(review.getGame().getId(), id)){
-				reviewDtos.add(ReviewMapper.convertReviewToDto(review, true));
+				reviewDtos.add(ReviewMapper.convertReviewToDto(review));
 			}
 		});
 		return reviewDtos;

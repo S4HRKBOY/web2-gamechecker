@@ -33,7 +33,7 @@ public class GameService {
 
     public GameDto getGameById(Long id) {
         Game game = gameRepository.findById(id).orElseThrow(() -> new RuntimeException("Spiel nicht gefunden"));
-        return GameMapper.gameToDto(game, true);
+        return GameMapper.gameToDto(game);
     }
 
     @Transactional
@@ -45,7 +45,7 @@ public class GameService {
     public List<GameDto> getAll() {
         List<GameDto> games = new ArrayList<>();
         for (Game game : gameRepository.findAll()) {
-            games.add(GameMapper.gameToDto(game, true));
+            games.add(GameMapper.gameToDto(game));
         }
         return games;
     }
@@ -93,10 +93,10 @@ public class GameService {
         return gameRepository.save(updatedGame).getId();
     }
 
-    public List<ReviewDto> getReviewsByGameId(Long id) {
+    /*public List<ReviewDto> getReviewsByGameId(Long id) {
         Game game = gameRepository.findById(id).orElseThrow(() -> new RuntimeException("Spiel nicht gefunden"));
         Set<Review> reviews = game.getReviews();
-        return reviews.stream().map(review -> ReviewMapper.convertReviewToDto(review, true)).toList();
-    }
+        return reviews.stream().map(review -> ReviewMapper.convertReviewToDto(review)).toList();
+    }*/
 
 }

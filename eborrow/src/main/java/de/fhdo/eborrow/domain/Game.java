@@ -3,14 +3,11 @@ package de.fhdo.eborrow.domain;
 import jakarta.persistence.*;
 
 import java.time.LocalDate;
-import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
 import org.springframework.format.annotation.DateTimeFormat;
-
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 @Entity
 @Table(name = "game")
@@ -42,9 +39,6 @@ public class Game {
     @Lob
     @Column(columnDefinition = "MEDIUMBLOB")
     private byte[] gameImage;
-
-    @OneToMany(mappedBy = "game", orphanRemoval = true, cascade = CascadeType.REMOVE)
-    private Set<Review> reviews = new HashSet<>();
 
     public Game() {
 
@@ -142,14 +136,6 @@ public class Game {
 
     public void setGameImage(byte[] gameImage) {
         this.gameImage = gameImage;
-    }
-
-    public Set<Review> getReviews() {
-        return reviews; 
-    }
-
-    public void setReviews(Set<Review> reviews) {
-        this.reviews = reviews; 
     }
 
     //TODO Überflüssig? 
