@@ -1,12 +1,14 @@
 package de.fhdo.eborrow.graphqlapi;
 
+import java.time.LocalDate;
+
 public class ReviewGraphql {
 
-	String reviewHeadline;
-	String reviewText;
-	String rating;
-	String reviewDate;
-	String game;
+	String    reviewHeadline;
+	String    reviewText;
+	String    rating;
+	String    reviewDate;
+	String    game;
 
 	public ReviewGraphql() {
 	}

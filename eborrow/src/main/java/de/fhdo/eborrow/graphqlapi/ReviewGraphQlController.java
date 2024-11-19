@@ -43,16 +43,28 @@ public class ReviewGraphQlController {
 		}
 	}
 
+	//TODO: Ändern
 	@MutationMapping("createReview")
 	public ReviewDto addReview(@Argument ReviewGraphql review){
-		//Long id = reviewService.addReview(review);
-		return getReviewByid((long)1);
+		ReviewDto reviewDto = new ReviewDto();
+
+		reviewDto.setRating(Integer.parseInt(review.getRating()));
+		reviewDto.setReviewHeadline(review.getReviewHeadline());
+		reviewDto.setReviewText(review.getReviewText());
+
+		Long id = reviewService.addReview(reviewDto);
+		return getReviewByid(id);
 	}
 
 	@MutationMapping("updateReview")
 	public ReviewDto updateReview(@Argument ReviewGraphql review){
-		//Long id = reviewService.updateReview(review);
-		return getReviewByid((long)1);
+		ReviewDto reviewDto = new ReviewDto();
+
+		reviewDto.setRating(Integer.parseInt(review.getRating()));
+		reviewDto.setReviewHeadline(review.getReviewHeadline());
+		reviewDto.setReviewText(review.getReviewText());
+		Long id = reviewService.updateReview(reviewDto);
+		return getReviewByid(id);
 	}
 
 }
