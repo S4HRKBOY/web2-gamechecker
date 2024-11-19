@@ -41,6 +41,7 @@ type Review {
   reviewText: String
   rating: String
   reviewDate: String
+  game: String
 }
 
 type Mutation {
@@ -80,7 +81,7 @@ input createReviewInput{
   reviewText: String
   rating: String
   reviewDate: String
-  game: GameInput!
+  game: String
 }
 
 input updateReviewInput{
@@ -88,5 +89,5 @@ input updateReviewInput{
   reviewText: String
   rating: String
   reviewDate: String
-  game: GameInput!
+  game: String
 }

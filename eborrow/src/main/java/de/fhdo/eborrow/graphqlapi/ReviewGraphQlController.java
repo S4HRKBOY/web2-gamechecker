@@ -44,15 +44,15 @@ public class ReviewGraphQlController {
 	}
 
 	@MutationMapping("createReview")
-	public ReviewDto addReview(@Argument ReviewDto reviewDto){
-		Long id = reviewService.addReview(reviewDto);
-		return getReviewByid(id);
+	public ReviewDto addReview(@Argument ReviewGraphql review){
+		//Long id = reviewService.addReview(review);
+		return getReviewByid((long)1);
 	}
 
 	@MutationMapping("updateReview")
-	public ReviewDto updateReview(@Argument ReviewDto reviewDto){
-		Long id = reviewService.updateReview(reviewDto);
-		return getReviewByid(id);
+	public ReviewDto updateReview(@Argument ReviewGraphql review){
+		//Long id = reviewService.updateReview(review);
+		return getReviewByid((long)1);
 	}
 
 }
