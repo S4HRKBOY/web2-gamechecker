@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="de" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <title>E-Burrow</title>
+    <link rel="stylesheet" href="/style/startpage_style.css">
+    <link rel="stylesheet" href="/style/style.css">
+</head>
+
+<body>
+    <header>
+        <img class="logo" src="../images/logo.svg" alt="logo">
+        <nav class="navigation">
+            <ul class="nav-links">
+                <li><a href="#">Home</a></li>
+                <li><a href="gameForm.html">Neues Spiel anlegen</a></li>
+                <li><a href="profile_page.html">Profil</a></li>
+                <li><a href="login_page.html">Logout</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <div class="main-page-container">
+        <div class="search">
+            <input type="text" class="searchBox" placeholder="Search for games!">
+            <button type="submit" class="searchButton">
+                <i class="fa fa-search"></i>
+            </button>
+        </div>
+        <div class="sort">
+            <div class="filter-bar">     
+                <select name="genres" id="genres" class="genre-filter">
+                    <option value="fantasy">Fantasy</option>
+                    <option value="horror">Horror</option>
+                    <option value="strategy">Strategy</option>
+                    <option value="story">Story</option>
+                </select>
+                <input type="date" class="date-filter"/>
+                <button type="submit" class="apply-filter">
+                    <i class="fa fa-filter"></i>
+                </button>
+            </div>
+        </div>
+        <div class="overview">
+            <table class="overview-table-container">
+                <tr th:each="game: ${games}" class="overview-entry">
+                    <td class="overview-image"><a href="detail_page.html"><img th:src="'data:image/jpg;base64,' + ${game.gameImage}" alt="logo"></a></td>
+                    <td class="overview-description" th:text="${game.description}"></td>
+                </tr>
+            </table>
+        </div>
+    </div>
+</body>
+
+</html>
