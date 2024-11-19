@@ -3,10 +3,12 @@ package de.fhdo.eborrow.services;
 import de.fhdo.eborrow.converters.AccountMapper;
 import de.fhdo.eborrow.domain.Account;
 import de.fhdo.eborrow.dto.AccountDto;
+import de.fhdo.eborrow.dto.RichAccountDto;
 import de.fhdo.eborrow.repositories.AccountRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.stream.StreamSupport;
 
 @Service
@@ -30,6 +32,15 @@ public class AccountService {
 		Iterable<Account> all = accountRepository.findAll();
 		Iterable<AccountDto> allDto = StreamSupport.stream(all.spliterator(), false)
 				.map(AccountMapper::accountToDto)  // Cast all accounts to DTOs
+				.toList();
+
+		return allDto;
+	}
+
+	public List<RichAccountDto> getRichAccounts() {
+		Iterable<Account> all = accountRepository.findAll();
+		List<RichAccountDto> allDto = StreamSupport.stream(all.spliterator(), false)
+				.map(AccountMapper::accountToRichDto)  // Cast all accounts to DTOs
 				.toList();
 
 		return allDto;
@@ -59,22 +70,22 @@ public class AccountService {
 
 	// Zak: Alternativer Ansatz fuer saubere Trennung: Ein UpdateAccount Objekt erzeugen, in dem nur die zu aendernden Felder gesetzt sind
 	// und dann die Werte auf das existierende Objekt im Repository ueberfuehren
-	public boolean updateAccount(AccountDto accountChanges, Long id) {
+	public boolean updateAccount(RichAccountDto accountChanges, Long id) {
 		Account existingAccount = accountRepository.findById(id).orElse(null);
 		if (existingAccount == null) {
 			System.err.println("Update failed: No Account found with id " + id);
 			return false;
 		}
 
-		AccountDto existingAccountDto = AccountMapper.accountToDto(existingAccount);
-		AccountDto updatedAccountDTO = transferChanges(existingAccountDto, accountChanges);
-		Account updatedAccount = AccountMapper.dtoToAccount(updatedAccountDTO);
+		RichAccountDto existingAccountDto = AccountMapper.accountToRichDto(existingAccount);
+		RichAccountDto updatedAccountDTO = transferChanges(existingAccountDto, accountChanges);
+		Account updatedAccount = AccountMapper.richDtoToAccount(updatedAccountDTO);
 		accountRepository.save(updatedAccount);
 
 		return true;
 	}
 
-	private AccountDto transferChanges(AccountDto existingAccountDto, AccountDto accountChanges) {
+	private RichAccountDto transferChanges(RichAccountDto existingAccountDto, RichAccountDto accountChanges) {
 		if (accountChanges.getPrename() != null) {
 			existingAccountDto.setPrename(accountChanges.getPrename());
 		}

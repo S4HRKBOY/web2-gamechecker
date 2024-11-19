@@ -1,6 +1,6 @@
 package de.fhdo.eborrow.graphqlapi;
 
-import de.fhdo.eborrow.dto.GameDto;
+import de.fhdo.eborrow.dto.RichGameDto;
 import de.fhdo.eborrow.dto.ReviewDto;
 import de.fhdo.eborrow.services.GameService;
 import de.fhdo.eborrow.services.ReviewService;

@@ -1,5 +1,6 @@
 package de.fhdo.eborrow.bootstrap;
 
+import de.fhdo.eborrow.domain.Account;
 import de.fhdo.eborrow.domain.AccountBuilder;
 import de.fhdo.eborrow.repositories.AccountRepository;
 import de.fhdo.eborrow.domain.Review;
@@ -72,7 +73,7 @@ public class DummyDataBootstrap implements ApplicationListener<ContextRefreshedE
         Review game2Review1 = new Review(null, "Voll gut", "10 von 10", 9, LocalDate.now());
         Review game2Review2 = new Review(null, "Doof", "Kacke viel zu schwer.", 2, LocalDate.now());
 
-        initAccounts(game1, game2, game3);
+        initAccounts();
 
         game1Review1.setAccount(accountRepository.findById(1L).get());
         game1Review2.setAccount(accountRepository.findById(2L).get());
@@ -94,15 +95,32 @@ public class DummyDataBootstrap implements ApplicationListener<ContextRefreshedE
         game2.getReviews().add(game2Review1); 
         game2.getReviews().add(game2Review2); 
 
-        gameRepository.save(game1);
-        gameRepository.save(game2);
-        gameRepository.save(game3);
+        Game savedGame1 =gameRepository.save(game1);
+        Game savedGame2 =gameRepository.save(game2);
+        Game savedGame3 = gameRepository.save(game3);
+
+        List<Game> acc1GameList = new LinkedList<>();
+        acc1GameList.add(savedGame1);
+        acc1GameList.add(savedGame3);
+        List<Game> acc2GameList = new LinkedList<>();
+        acc2GameList.add(savedGame2);
+        acc2GameList.add(savedGame3);
+
+        Account acc1 = accountRepository.findById(1L).get(); 
+        Account acc2 = accountRepository.findById(2L).get(); 
+
+        acc1.setTaggedGames(acc1GameList); 
+        acc2.setTaggedGames(acc2GameList); 
+
+        accountRepository.save(acc1); 
+        accountRepository.save(acc2); 
+
 
     }
 
-    private void initAccounts(Game... game) {
+    private void initAccounts() {
         long id = 1L;
-		List<Game> acc1GameList = new LinkedList<>();
+		// List<Game> acc1GameList = new LinkedList<>();
         // acc1GameList.add(game[0]);
         // acc1GameList.add(game[2]);
         // List<Game> acc2GameList = new LinkedList<>();

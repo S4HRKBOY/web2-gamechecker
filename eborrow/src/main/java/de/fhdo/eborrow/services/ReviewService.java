@@ -5,7 +5,7 @@ import de.fhdo.eborrow.converters.GameMapper;
 import de.fhdo.eborrow.converters.ReviewMapper;
 import de.fhdo.eborrow.domain.Review;
 import de.fhdo.eborrow.dto.AccountDto;
-import de.fhdo.eborrow.dto.GameDto;
+import de.fhdo.eborrow.dto.RichGameDto;
 import de.fhdo.eborrow.dto.ReviewDto;
 import de.fhdo.eborrow.repositories.GameRepository;
 import de.fhdo.eborrow.repositories.ReviewRepository;
