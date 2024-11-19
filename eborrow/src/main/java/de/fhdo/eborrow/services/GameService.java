@@ -26,7 +26,7 @@ public class GameService {
         this.gameRepository = gameRepository;
     }
 
-    public Long addGame(GameDto gameDto) {
+    public Long createGame(GameDto gameDto) {
         Game game = GameMapper.dtoToGame(gameDto);
         return gameRepository.save(game).getId();
     }
@@ -91,6 +91,12 @@ public class GameService {
             updatedGame.setGameImage(game.getGameImage());
         }
         return gameRepository.save(updatedGame).getId();
+    }
+
+    public void addReview(ReviewDto reviewDto, Long gameId) {
+        GameDto gameDto = getGameById(gameId);
+		gameDto.getReviewsDto().add(reviewDto);
+        gameRepository.save(GameMapper.dtoToGame(gameDto));
     }
 
     /*public List<ReviewDto> getReviewsByGameId(Long id) {

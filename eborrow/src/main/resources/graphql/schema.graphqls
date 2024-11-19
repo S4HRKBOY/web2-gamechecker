@@ -6,14 +6,13 @@ schema {
 type Query {
     games: [Game!]!
     game(id: ID!): Game
-    gameReviews(id: ID!): [Review!]!
     review(id: ID!): Review
     reviews: [Review!]!
 }
     
 type Game {
     id: ID!
-    title: String!
+    title: String
     description: String
     platforms: [String]
     genres: [String]
@@ -21,25 +20,14 @@ type Game {
     ageRating: String
     developer: String
     publisher: String
-}
-
-input GameInput {
-    id: ID!
-    title: String!
-    description: String
-    platforms: [String]
-    genres: [String]
-    publicationDate: String
-    ageRating: String
-    developer: String
-    publisher: String
+    reviews: [Review]
 }
 
 type Review {
-  id: ID
+  id: ID!
   reviewHeadline: String
   reviewText: String
-  rating: String
+  rating: Int
   reviewDate: String
 }
 
@@ -47,7 +35,7 @@ type Mutation {
   createGame(game: createGameInput!): Game!
   deleteGame(id: ID!): Boolean!
   updateGame(game: updateGameInput!): Game!
-  createReview(review: createReviewInput!): Review!
+  createReview(review: createReviewInput!, gameId: ID!, accountId: ID!): Review!
   deleteReview(id: ID!): Boolean!
   updateReview(review: updateReviewInput!): Review!
 }
@@ -75,12 +63,11 @@ input updateGameInput {
   publisher: String
 }
 
-input createReviewInput{
+input createReviewInput {
   reviewHeadline: String
   reviewText: String
-  rating: String
+  rating: Int
   reviewDate: String
-  game: GameInput!
 }
 
 input updateReviewInput{
@@ -88,5 +75,4 @@ input updateReviewInput{
   reviewText: String
   rating: String
   reviewDate: String
-  game: GameInput!
 }

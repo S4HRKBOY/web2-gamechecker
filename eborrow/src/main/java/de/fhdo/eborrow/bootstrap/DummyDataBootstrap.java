@@ -67,27 +67,27 @@ public class DummyDataBootstrap implements ApplicationListener<ContextRefreshedE
                 LocalDate.of(2022, 2, 25), AgeRating.USK_16, "From Software", "Bandai Namco",
                 readImage("EldenRing.jpg"));
 
-        Review game1Review1 = new Review(1L, "Gut", "Voll gut.", 10, LocalDate.now());
-        Review game1Review2 = new Review(2L, "Edel", "Echt edel", 8, LocalDate.now());
-        Review game2Review1 = new Review(3L, "Voll gut", "10 von 10", 9, LocalDate.now());
-        Review game2Review2 = new Review(4L, "Doof", "Kacke viel zu schwer.", 2, LocalDate.now());
+        Review game1Review1 = new Review(null, "Gut", "Voll gut.", 10, LocalDate.now());
+        Review game1Review2 = new Review(null, "Edel", "Echt edel", 8, LocalDate.now());
+        Review game2Review1 = new Review(null, "Voll gut", "10 von 10", 9, LocalDate.now());
+        Review game2Review2 = new Review(null, "Doof", "Kacke viel zu schwer.", 2, LocalDate.now());
 
         initAccounts(game1, game2, game3);
 
         game1Review1.setAccount(accountRepository.findById(1L).get());
-        game1Review2.setAccount(accountRepository.findById(1L).get());
+        game1Review2.setAccount(accountRepository.findById(2L).get());
         game2Review1.setAccount(accountRepository.findById(1L).get());
-        game2Review2.setAccount(accountRepository.findById(1L).get());
+        game2Review2.setAccount(accountRepository.findById(2L).get());
 
         // game1Review1.setGame(savedGame1);
         // game1Review2.setGame(savedGame1);
         // game2Review1.setGame(savedGame2);
         // game2Review2.setGame(savedGame2);
 
-        reviewRepository.save(game1Review1);
-        reviewRepository.save(game1Review2);
-        reviewRepository.save(game2Review1);
-        reviewRepository.save(game2Review2);
+        // reviewRepository.save(game1Review1);
+        // reviewRepository.save(game1Review2);
+        // reviewRepository.save(game2Review1);
+        // reviewRepository.save(game2Review2);
 
         game1.getReviews().add(game1Review1); 
         game1.getReviews().add(game1Review2); 

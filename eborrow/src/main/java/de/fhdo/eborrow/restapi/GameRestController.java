@@ -57,7 +57,7 @@ public class GameRestController {
     @PutMapping("/createGame")
     @ResponseStatus(HttpStatus.CREATED)
     public void createGame(@RequestBody GameDto gameDto) {
-        gameService.addGame(gameDto); 
+        gameService.createGame(gameDto); 
     }
 
     @PostMapping("/updateGame")

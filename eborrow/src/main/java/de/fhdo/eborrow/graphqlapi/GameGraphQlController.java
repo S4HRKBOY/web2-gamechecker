@@ -42,8 +42,8 @@ public class GameGraphQlController {
     }
 
     @MutationMapping("createGame")
-    public GameDto addGame(@Argument GameDto game) {
-        Long gameId = gameService.addGame(game);
+    public GameDto createGame(@Argument GameDto game) {
+        Long gameId = gameService.createGame(game);
         return gameService.getGameById(gameId);
     }
 
