@@ -14,8 +14,8 @@ import java.util.List;
 @Controller
 @RequestMapping("/thymeleaf/account")
 public class AccountController {
-	private AccountService accountService;
-	private GameService gameService;
+	private final AccountService accountService;
+	private final GameService gameService;
 
 	@Autowired
 	public AccountController(AccountService accountService, GameService gameService) {
@@ -28,6 +28,18 @@ public class AccountController {
 		AccountDto accountDto = accountService.getAccountById(id);
 		List<GameDto> gamesDtos = accountDto.getTaggedGames();
 
+		model.addAttribute("account", accountDto);
+		model.addAttribute("games", gamesDtos);
+
+		return "profile_page";
+	}
+
+	@PostMapping("/{accountId}/unlistGame/{gameId}")
+	public String unlistGameFromAccount(@PathVariable Long accountId, @PathVariable Long gameId, Model model) {
+		AccountDto accountDto = accountService.getAccountById(accountId);
+		accountService.unlistGameFromAccount(accountDto, gameId);
+
+		List<GameDto> gamesDtos = accountDto.getTaggedGames();
 		model.addAttribute("account", accountDto);
 		model.addAttribute("games", gamesDtos);
 
