@@ -29,6 +29,13 @@
             <label for="platform">Plattform</label>
             <div class="dropdown" id="platform-grid">
                 <button id="platform">Verfügbare Plattformen auswählen</button>
+                <script>
+                    document.getElementById("platform").addEventListener("click", function (event) {
+                        event.preventDefault();
+                        const dropdownContent = document.querySelector("#platform-grid .dropdown-content");
+                        dropdownContent.style.display = dropdownContent.style.display === "block" ? "none" : "block";
+                    });
+                </script>
                 <div class="dropdown-content">
                     <label><input type="checkbox" name="platform" value="windows"> Windows</label>
                     <label><input type="checkbox" name="platform" value="ps 3"> PlayStation 3</label>
@@ -44,6 +51,13 @@
             <label for="genre">Genre</label>
             <div class="dropdown" id="genre-grid">
                 <button id="genre">Genre auswählen</button>
+                <script>
+                    document.getElementById("genre").addEventListener("click", function (event) {
+                        event.preventDefault();
+                        const dropdownContent = document.querySelector("#genre-grid .dropdown-content");
+                        dropdownContent.style.display = dropdownContent.style.display === "block" ? "none" : "block";
+                    });
+                </script>
                 <div class="dropdown-content">
                     <label><input type="checkbox" name="genre" value="action"> Action</label>
                     <label><input type="checkbox" name="genre" value="adventure"> Adventure</label>

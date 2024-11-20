@@ -29,21 +29,36 @@
             <label for="platform">Plattform</label>
             <div class="dropdown" id="platform-grid">
                 <button id="platform">Verfügbare Plattformen auswählen</button>
-                <div class="dropdown-content" id="platform-grid">
+                <script>
+                    document.getElementById("platform").addEventListener("click", function (event) {
+                        event.preventDefault();
+                        const dropdownContent = document.querySelector("#platform-grid .dropdown-content");
+                        dropdownContent.style.display = dropdownContent.style.display === "block" ? "none" : "block";
+                    });
+                </script>
+                <div class="dropdown-content">
                     <label><input type="checkbox" name="platform" value="windows" checked> Windows</label>
                     <label><input type="checkbox" name="platform" value="ps 3"> PlayStation 3</label>
                     <label><input type="checkbox" name="platform" value="ps4" checked> PlayStation 4</label>
-                    <label><input type="checkbox" name="platform" value="ps5" checked>  PlayStation 5</label>
+                    <label><input type="checkbox" name="platform" value="ps5" checked> PlayStation 5</label>
                     <label><input type="checkbox" name="platform" value="switch"> Nintendo Switch</label>
                     <label><input type="checkbox" name="platform" value="xboxone" checked> Xbox One</label>
                     <label><input type="checkbox" name="platform" value="xboxseries" checked> Xbox Series</label>
                 </div>
             </div>
             <label for="description">Beschreibung</label>
-            <textarea id="description" name="description" required>Call of Duty ist eine weltweit bekannte Ego-Shooter-Spielreihe, die die Spieler in intensive und realistische Kriegsszenarien versetzt. Mit atemberaubender Grafik und fesselnden Storylines erleben Spieler historische und moderne Schlachten. Ob im Einzelspieler-Storymodus oder in actiongeladenen Multiplayer-Schlachten – Call of Duty bietet Adrenalin pur.</textarea>
+            <textarea id="description" name="description"
+                required>Call of Duty ist eine weltweit bekannte Ego-Shooter-Spielreihe, die die Spieler in intensive und realistische Kriegsszenarien versetzt. Mit atemberaubender Grafik und fesselnden Storylines erleben Spieler historische und moderne Schlachten. Ob im Einzelspieler-Storymodus oder in actiongeladenen Multiplayer-Schlachten – Call of Duty bietet Adrenalin pur.</textarea>
             <label for="genre">Genre</label>
             <div class="dropdown" id="genre-grid">
                 <button id="genre">Genre auswählen</button>
+                <script>
+                    document.getElementById("genre").addEventListener("click", function (event) {
+                        event.preventDefault();
+                        const dropdownContent = document.querySelector("#genre-grid .dropdown-content");
+                        dropdownContent.style.display = dropdownContent.style.display === "block" ? "none" : "block";
+                    });
+                </script>
                 <div class="dropdown-content">
                     <label><input type="checkbox" name="genre" value="action"> Action</label>
                     <label><input type="checkbox" name="genre" value="adventure"> Adventure</label>
@@ -61,7 +76,8 @@
             <label for="publication">Veröffentlichung</label>
             <input id="publication" type="date" name="publication" value="2023-11-10" required>
             <label for="developer">Entwickler</label>
-            <input id="developer" type="text" name="developer" value="Sledgehammer Games, Treyarch, Infinity Ward" required>
+            <input id="developer" type="text" name="developer" value="Sledgehammer Games, Treyarch, Infinity Ward"
+                required>
             <label for="publisher">Publisher</label>
             <input id="publisher" type="text" name="publisher" value="Activision" required>
             <label for="age">Altersfreigabe</label>
