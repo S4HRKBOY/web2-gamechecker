@@ -124,7 +124,7 @@ public class DummyDataBootstrap implements ApplicationListener<ContextRefreshedE
                 .setBirthday(LocalDate.of(2023, 12, 31))
                 .setEmail("john.doe@dummy.com")
                 .setPassword("johnpassword")
-                .setProfilePicture(readImage("where_image.png"))
+                .setProfilePicture(readImage("callOfDuty3.jpg"))
                 .setTaggedGames(acc2GameList)
                 .build();
 
@@ -136,7 +136,6 @@ public class DummyDataBootstrap implements ApplicationListener<ContextRefreshedE
                 .setBirthday(LocalDate.of(2000, 1, 1))
                 .setEmail("publisher@dummy.com")
                 .setPassword("publisher")
-                .setProfilePicture(readImage("where_image.png"))
                 .setPublisher(true)
                 .build();
 

@@ -7,6 +7,7 @@ import de.fhdo.eborrow.dto.AccountDto;
 import de.fhdo.eborrow.dto.AccountDtoBuilder;
 import de.fhdo.eborrow.dto.GameDto;
 
+import java.util.Base64;
 import java.util.List;
 
 public class AccountMapper {
@@ -22,11 +23,15 @@ public class AccountMapper {
 				.setUsername(account.getUsername())
 				.setEmail(account.getEmail())
 				.setPassword(account.getPassword())
-				.setProfilePicture(account.getProfilePicture())
 				.setPublisher(account.isPublisher());
 
+		byte[] profilePicture = account.getProfilePicture();
+		if(profilePicture != null) {
+			accountDtoBuilder.setProfilePicture(Base64.getEncoder().encodeToString(profilePicture));
+		}
+
 		List<GameDto> gameDTOs = account.getTaggedGames().stream()
-				.map(game -> GameMapper.gameToDto(game))
+				.map(GameMapper::gameToDto)
 				.toList();
 		accountDtoBuilder.setTaggedGames(gameDTOs);
 
@@ -42,8 +47,12 @@ public class AccountMapper {
 				.setUsername(accountDto.getUsername())
 				.setEmail(accountDto.getEmail())
 				.setPassword(accountDto.getPassword())
-				.setProfilePicture(accountDto.getProfilePicture())
 				.setPublisher(accountDto.isPublisher());
+
+		String profilePicture = accountDto.getProfilePicture();
+		if(profilePicture != null) {
+			accountBuilder.setProfilePicture(Base64.getDecoder().decode(profilePicture));
+		}
 
 		List<Game> games = accountDto.getTaggedGames().stream()
 				.map(GameMapper::dtoToGame)

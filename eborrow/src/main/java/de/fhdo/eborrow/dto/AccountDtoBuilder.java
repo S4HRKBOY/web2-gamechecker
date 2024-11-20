@@ -1,8 +1,6 @@
 package de.fhdo.eborrow.dto;
 
 import java.time.LocalDate;
-import java.util.Collections;
-import java.util.LinkedList;
 import java.util.List;
 
 public class AccountDtoBuilder{
@@ -13,7 +11,7 @@ public class AccountDtoBuilder{
     private String username;
     private String email;
     private String password;
-    private byte[] profilePicture;
+    private String profilePicture;
     private boolean isPublisher;
 
     private List<GameDto> taggedGames;
@@ -84,11 +82,11 @@ public class AccountDtoBuilder{
         return this;
     }
 
-    public byte[] getProfilePicture() {
+    public String getProfilePicture() {
         return profilePicture;
     }
 
-    public AccountDtoBuilder setProfilePicture(byte[] profilePicture) {
+    public AccountDtoBuilder setProfilePicture(String profilePicture) {
         this.profilePicture = profilePicture;
         return this;
     }
