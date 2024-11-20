@@ -22,7 +22,7 @@
     "developer developer publisher publisher"
     "file-label file-label file-label file-label"
     "file file preview-image preview-image"
-    "submit submit delete delete"
+    "delete delete submit submit"
 }
 
 #submit, #age, #publication, #delete {
@@ -110,10 +110,10 @@ label[for="file"] {
 }
 #submit {
     grid-area: submit;
+    justify-self: end;
 }
 
 #delete {
-    justify-self: end;
     grid-area: delete;
-}
+  }
 
