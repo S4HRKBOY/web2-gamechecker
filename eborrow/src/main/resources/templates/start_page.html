@@ -3,20 +3,20 @@
 
 <head>
     <meta charset="UTF-8">
-    <title>E-Burrow</title>
+    <title>GameTracker</title>
     <link rel="stylesheet" href="/style/startpage_style.css">
     <link rel="stylesheet" href="/style/style.css">
 </head>
 
 <body>
     <header>
-        <img class="logo" src="../images/logo.svg" alt="logo">
+        <img class="logo" src="/images/logo.svg" alt="logo">
         <nav class="navigation">
             <ul class="nav-links">
                 <li><a href="#">Home</a></li>
-                <li><a href="gameForm.html">Neues Spiel anlegen</a></li>
-                <li><a href="profile_page.html">Profil</a></li>
-                <li><a href="login_page.html">Logout</a></li>
+                <li><a href="#">Neues Spiel anlegen</a></li>
+                <li><a href="#">Profil</a></li>
+                <li><a href="#">Logout</a></li>
             </ul>
         </nav>
     </header>
@@ -45,7 +45,7 @@
         <div class="overview">
             <table class="overview-table-container">
                 <tr th:each="game: ${games}" class="overview-entry">
-                    <td class="overview-image"><a href="detail_page.html"><img th:src="'data:image/jpg;base64,' + ${game.gameImage}" alt="logo"></a></td>
+                    <td class="overview-image"><a th:href="@{/thymeleaf/game/{id}(id=${game.id})}"><img th:src="'data:image/jpg;base64,' + ${game.gameImage}" alt="logo"></a></td>
                     <td class="overview-description" th:text="${game.description}"></td>
                 </tr>
             </table>
