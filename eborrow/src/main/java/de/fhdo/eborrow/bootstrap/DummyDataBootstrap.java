@@ -38,7 +38,7 @@ public class DummyDataBootstrap implements ApplicationListener<ContextRefreshedE
     }
 
     @Transactional
-    private void initData() {
+    public void initData() {
         Game game1 = new Game(1L, "Baldurs Gate 3",
                 "Stelle deine Gruppe zusammen und kehre in die Vergessenen Reiche zurück. Erlebe eine Geschichte von Freundschaft und Verrat, von Opfer und Überleben – und die Verlockung absoluter Macht.",
                 Arrays.asList(Platform.WINDOWS, Platform.PLAYSTATION_4, Platform.PLAYSTATION_5, Platform.XBOX_ONE,
