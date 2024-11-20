@@ -1,8 +1,7 @@
 package de.fhdo.eborrow.bootstrap;
 
-import de.fhdo.eborrow.domain.AccountBuilder;
+import de.fhdo.eborrow.domain.*;
 import de.fhdo.eborrow.repositories.AccountRepository;
-import de.fhdo.eborrow.domain.Review;
 import de.fhdo.eborrow.repositories.ReviewRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationListener;
@@ -17,10 +16,6 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Objects;
 
-import de.fhdo.eborrow.domain.AgeRating;
-import de.fhdo.eborrow.domain.Game;
-import de.fhdo.eborrow.domain.Genre;
-import de.fhdo.eborrow.domain.Platform;
 import de.fhdo.eborrow.repositories.GameRepository;
 
 @Component
@@ -72,42 +67,42 @@ public class DummyDataBootstrap implements ApplicationListener<ContextRefreshedE
         Review game2Review1 = new Review(null, "Voll gut", "10 von 10", 9, LocalDate.now());
         Review game2Review2 = new Review(null, "Doof", "Kacke viel zu schwer.", 2, LocalDate.now());
 
-        initAccounts(game1, game2, game3);
+        initAccounts();
 
         game1Review1.setAccount(accountRepository.findById(1L).get());
         game1Review2.setAccount(accountRepository.findById(2L).get());
         game2Review1.setAccount(accountRepository.findById(1L).get());
         game2Review2.setAccount(accountRepository.findById(2L).get());
 
-        // game1Review1.setGame(savedGame1);
-        // game1Review2.setGame(savedGame1);
-        // game2Review1.setGame(savedGame2);
-        // game2Review2.setGame(savedGame2);
+        game1.getReviews().add(game1Review1);
+        game1.getReviews().add(game1Review2);
+        game2.getReviews().add(game2Review1);
+        game2.getReviews().add(game2Review2);
 
-        // reviewRepository.save(game1Review1);
-        // reviewRepository.save(game1Review2);
-        // reviewRepository.save(game2Review1);
-        // reviewRepository.save(game2Review2);
+		Game savedGame1 = gameRepository.save(game1);
+		Game savedGame2 = gameRepository.save(game2);
+		Game savedGame3 = gameRepository.save(game3);
 
-        game1.getReviews().add(game1Review1); 
-        game1.getReviews().add(game1Review2); 
-        game2.getReviews().add(game2Review1); 
-        game2.getReviews().add(game2Review2); 
+		List<Game> acc1GameList = new LinkedList<>();
+		acc1GameList.add(savedGame1);
+		acc1GameList.add(savedGame3);
+		List<Game> acc2GameList = new LinkedList<>();
+		acc2GameList.add(savedGame2);
+		acc2GameList.add(savedGame3);
 
-        gameRepository.save(game1);
-        gameRepository.save(game2);
-        gameRepository.save(game3);
+		Account acc1 = accountRepository.findById(1L).get();
+		Account acc2 = accountRepository.findById(2L).get();
+
+		acc1.setTaggedGames(acc1GameList);
+		acc2.setTaggedGames(acc2GameList);
+
+		accountRepository.save(acc1);
+		accountRepository.save(acc2);
 
     }
 
-    private void initAccounts(Game... game) {
+    private void initAccounts() {
         long id = 1L;
-		List<Game> acc1GameList = new LinkedList<>();
-        // acc1GameList.add(game[0]);
-        // acc1GameList.add(game[2]);
-        // List<Game> acc2GameList = new LinkedList<>();
-        // acc2GameList.add(game[1]);
-        // acc2GameList.add(game[0]);
 
         var acc1 = new AccountBuilder()
                 .setId(id++)
@@ -118,7 +113,6 @@ public class DummyDataBootstrap implements ApplicationListener<ContextRefreshedE
                 .setEmail("max.mustermann@dummy.com")
                 .setPassword("maxpassword")
                 .setProfilePicture(readImage("where_image.png"))
-                //.setTaggedGames(acc1GameList)
                 .build();
 
         var acc2 = new AccountBuilder()
@@ -130,7 +124,6 @@ public class DummyDataBootstrap implements ApplicationListener<ContextRefreshedE
                 .setEmail("john.doe@dummy.com")
                 .setPassword("johnpassword")
                 .setProfilePicture(readImage("where_image.png"))
-                //.setTaggedGames(acc2GameList)
                 .build();
 
         var publisher = new AccountBuilder()
@@ -141,7 +134,6 @@ public class DummyDataBootstrap implements ApplicationListener<ContextRefreshedE
                 .setBirthday(LocalDate.of(2000, 1, 1))
                 .setEmail("publisher@dummy.com")
                 .setPassword("publisher")
-                .setProfilePicture(readImage("where_image.png"))
                 .setPublisher(true)
                 .build();
 
