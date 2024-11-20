@@ -87,7 +87,7 @@
                                     <span th:text="${game.title}">Kein Titel verfügbar</span>
                                 </td>
                                 <td class="unpin-button">
-                                    <form action="#" method="post">
+                                    <form th:action="@{'/thymeleaf/account/' + ${account.id} + '/unlistGame/' + ${game.id}}" method="POST">
                                         <button type="submit">entfernen</button>
                                     </form>
                                 </td>
