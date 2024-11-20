@@ -152,7 +152,7 @@ label[for="file"] {
 
 
 .dropdown-content {
-    overflow: scroll;
+    overflow-y: scroll;
     width: 100%; 
     height: 200px;
     padding: 10px; 
