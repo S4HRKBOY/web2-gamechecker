@@ -49,20 +49,6 @@ header{
     background-color: rgb(192, 192, 192);
 }
 
-.nav-links li a{
-    display: all 0.3s ease 0s;
-    color: white;
-    font-style: italic;
-    text-decoration: none;
-}
-
-.nav-links li a:hover{
-    display: all 0.3s ease 0s;
-    font-style: italic;
-    text-decoration: none;
-}
-
-
 .main-page-container {
     display: grid;
     font-family: 'Open Sans', sans-serif;
