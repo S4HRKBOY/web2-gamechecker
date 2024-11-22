@@ -43,7 +43,7 @@ public class AccountMapper {
 				.setBirthday(accountDto.getBirthday())
 				.setUsername(accountDto.getUsername())
 				.setEmail(accountDto.getEmail())
-				.setPassword(accountDto.getPassword())
+				.setPassword(accountDto.getPassword()) // TODO Zak: Passwort sollte nicht im Klartext uebertragen werden (oder auf null setzen)
 				.setPublisher(accountDto.isPublisher());
 
 		String profilePicture = accountDto.getProfilePicture();
