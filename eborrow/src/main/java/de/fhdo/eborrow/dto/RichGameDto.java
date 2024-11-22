@@ -5,7 +5,7 @@ import java.util.List;
 
 import de.fhdo.eborrow.domain.Review;
 
-public class GameDto {
+public class RichGameDto {
 
     private Long id; 
 
@@ -18,8 +18,9 @@ public class GameDto {
     private String developer; 
     private String publisher; 
     private String gameImage;
+    private List<ReviewDto> reviews; 
 
-    public GameDto(Long id, String title, String description, List<String> platforms, int licences, int remainingLicences, List<String> genres, LocalDate publicationDate,
+    public RichGameDto(Long id, String title, String description, List<String> platforms, int licences, int remainingLicences, List<String> genres, LocalDate publicationDate,
             String ageRating, String developer, String publisher, String gameImage) {
         this.id = id;
         this.title = title;
@@ -33,7 +34,7 @@ public class GameDto {
         this.gameImage = gameImage;
     }
 
-    public GameDto() {
+    public RichGameDto() {
 
     }
 
@@ -116,5 +117,14 @@ public class GameDto {
     public void setGameImage(String gameImage) {
         this.gameImage = gameImage;
     }
+
+    public List<ReviewDto> getReviewsDto() {
+        return reviews; 
+    }
+
+    public void setReviewsDto(List<ReviewDto> reviews) {
+        this.reviews = reviews; 
+    }
+
     
 }

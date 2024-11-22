@@ -12,7 +12,7 @@ import de.fhdo.eborrow.converters.GameMapper;
 import de.fhdo.eborrow.converters.ReviewMapper;
 import de.fhdo.eborrow.domain.Game;
 import de.fhdo.eborrow.domain.Review;
-import de.fhdo.eborrow.dto.GameDto;
+import de.fhdo.eborrow.dto.RichGameDto;
 import de.fhdo.eborrow.dto.ReviewDto;
 import de.fhdo.eborrow.repositories.GameRepository;
 
@@ -26,14 +26,14 @@ public class GameService {
         this.gameRepository = gameRepository;
     }
 
-    public Long createGame(GameDto gameDto) {
-        Game game = GameMapper.dtoToGame(gameDto);
+    public Long createGame(RichGameDto gameDto) {
+        Game game = GameMapper.richDtoToGame(gameDto);
         return gameRepository.save(game).getId();
     }
 
-    public GameDto getGameById(Long id) {
+    public RichGameDto getGameById(Long id) {
         Game game = gameRepository.findById(id).orElseThrow(() -> new RuntimeException("Spiel nicht gefunden"));
-        return GameMapper.gameToDto(game);
+        return GameMapper.gameToRichDto(game);
     }
 
     @Transactional
@@ -42,16 +42,16 @@ public class GameService {
         gameRepository.deleteById(id);
     }
 
-    public List<GameDto> getAll() {
-        List<GameDto> games = new ArrayList<>();
+    public List<RichGameDto> getAll() {
+        List<RichGameDto> games = new ArrayList<>();
         for (Game game : gameRepository.findAll()) {
-            games.add(GameMapper.gameToDto(game));
+            games.add(GameMapper.gameToRichDto(game));
         }
         return games;
     }
 
-    public Long updateGame(GameDto gameDto) {
-        Game game = GameMapper.dtoToGame(gameDto); 
+    public Long updateGame(RichGameDto gameDto) {
+        Game game = GameMapper.richDtoToGame(gameDto); 
         Game updatedGame;
         if (game.getId() != null) {
             updatedGame = gameRepository.findById(game.getId())
@@ -94,9 +94,9 @@ public class GameService {
     }
 
     public void addReview(ReviewDto reviewDto, Long gameId) {
-        GameDto gameDto = getGameById(gameId);
+        RichGameDto gameDto = getGameById(gameId);
 		gameDto.getReviewsDto().add(reviewDto);
-        gameRepository.save(GameMapper.dtoToGame(gameDto));
+        gameRepository.save(GameMapper.richDtoToGame(gameDto));
     }
 
     /*public List<ReviewDto> getReviewsByGameId(Long id) {

@@ -9,7 +9,11 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import de.fhdo.eborrow.dto.GameDto;
+
+import de.fhdo.eborrow.converters.GameMapper;
+import de.fhdo.eborrow.domain.Game;
+import de.fhdo.eborrow.dto.RichGameDto;
+import de.fhdo.eborrow.dto.ReviewDto;
 import de.fhdo.eborrow.services.GameService;
 
 
@@ -26,14 +30,14 @@ public class GameController {
 
     @GetMapping("/allGames")
     public String getAll(Model model) {
-        List<GameDto> gameDto = gameService.getAll(); 
+        List<RichGameDto> gameDto = gameService.getAll(); 
         model.addAttribute("games", gameDto);
         return "start_page";
     }
 
     @GetMapping("/{id}")
     public String getGameById(@PathVariable Long id, Model model) {
-        GameDto gameDto = gameService.getGameById(id); 
+        RichGameDto gameDto = gameService.getGameById(id); 
         model.addAttribute("game", gameDto); 
         return "detail_page";
     }

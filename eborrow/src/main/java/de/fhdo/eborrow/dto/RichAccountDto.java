@@ -1,9 +1,12 @@
 package de.fhdo.eborrow.dto;
 
 import java.time.LocalDate;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.LinkedList;
 import java.util.List;
 
-public class AccountDto {
+public class RichAccountDto {
     private Long id;
     private String prename;
     private String surname;
@@ -11,10 +14,12 @@ public class AccountDto {
     private String username;
     private String email;
     private String password;
-    private String profilePicture;
+    private byte[] profilePicture;  // TODO Zak: Aendern auf String und konvertieren in Base64 von AccountMapper aus
     private boolean isPublisher;
+    
+    private List<GameDto> taggedGames;
 
-    private AccountDto(Long id, String prename, String surname, LocalDate birthday, String username, String email, String password, String profilePicture) {
+    private RichAccountDto(Long id, String prename, String surname, LocalDate birthday, String username, String email, String password, byte[] profilePicture) {
         this.id = id;
         this.prename = prename;
         this.surname = surname;
@@ -25,7 +30,7 @@ public class AccountDto {
         this.profilePicture = profilePicture;
     }
 
-    public AccountDto(AccountDtoBuilder builder) {
+    public RichAccountDto(RichAccountDtoBuilder builder) {
         this(builder.getId(),
                 builder.getPrename(),
                 builder.getSurname(),
@@ -36,6 +41,7 @@ public class AccountDto {
                 builder.getProfilePicture());
 
         this.isPublisher = builder.isPublisher();
+        this.taggedGames = builder.getTaggedGames();
     }
 
     // region getter and setter
@@ -95,11 +101,11 @@ public class AccountDto {
         this.password = password;
     }
 
-    public String getProfilePicture() {
+    public byte[] getProfilePicture() {
         return profilePicture;
     }
 
-    public void setProfilePicture(String profilePicture) {
+    public void setProfilePicture(byte[] profilePicture) {
         this.profilePicture = profilePicture;
     }
 
@@ -111,11 +117,18 @@ public class AccountDto {
         isPublisher = publisher;
     }
 
+    public List<GameDto> getTaggedGames() {
+        return taggedGames;
+    }
+
+    public void setTaggedGames(List<GameDto> taggedGames) {
+        this.taggedGames = taggedGames;
+    }
     // endregion
 
     @Override
     public String toString() {
-        return "AccountDto{" +
+        return "RichAccountDto{" +
                 "id=" + id +
                 ", prename='" + prename + '\'' +
                 ", surname='" + surname + '\'' +
@@ -125,6 +138,7 @@ public class AccountDto {
                 ", password='" + password + '\'' +
                 ", profilePicture=" + (profilePicture != null ? "yes" : "no") +
                 ", isPublisher=" + isPublisher +
+                ", taggedGames=" + taggedGames +
                 '}';
     }
 }

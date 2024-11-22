@@ -15,8 +15,9 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import de.fhdo.eborrow.dto.AccountDto;
-import de.fhdo.eborrow.dto.GameDto;
+import de.fhdo.eborrow.dto.RichGameDto;
 import de.fhdo.eborrow.dto.ReviewDto;
+import de.fhdo.eborrow.dto.RichAccountDto;
 import de.fhdo.eborrow.services.AccountService;
 import de.fhdo.eborrow.services.GameService;
 import de.fhdo.eborrow.services.ReviewService;
@@ -38,13 +39,13 @@ public class GameRestController {
 
     @GetMapping("/getGames")
     @ResponseStatus(HttpStatus.OK)
-    public List<GameDto> getAll() {
+    public List<RichGameDto> getAll() {
         return gameService.getAll(); 
     }
 
     @GetMapping("/{id}")
     @ResponseStatus(HttpStatus.OK)
-    public GameDto getGameById(@PathVariable Long id) {
+    public RichGameDto getGameById(@PathVariable Long id) {
         return gameService.getGameById(id); 
     }
 
@@ -56,13 +57,13 @@ public class GameRestController {
 
     @PutMapping("/createGame")
     @ResponseStatus(HttpStatus.CREATED)
-    public void createGame(@RequestBody GameDto gameDto) {
+    public void createGame(@RequestBody RichGameDto gameDto) {
         gameService.createGame(gameDto); 
     }
 
     @PostMapping("/updateGame")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void updateGame(@RequestBody GameDto gameDto) {
+    public void updateGame(@RequestBody RichGameDto gameDto) {
         gameService.updateGame(gameDto); 
     }
 
@@ -82,4 +83,10 @@ public class GameRestController {
     public AccountDto getAccountById(@PathVariable Long id) {
         return accountService.getAccountById(id); 
     }
+
+    @GetMapping("/getRichAccounts")
+    public List<RichAccountDto> getRichAccounts() {
+        return accountService.getRichAccounts(); 
+    }
+
 }
