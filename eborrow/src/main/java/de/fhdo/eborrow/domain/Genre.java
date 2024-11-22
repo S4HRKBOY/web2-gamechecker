@@ -1,7 +1,7 @@
 package de.fhdo.eborrow.domain;
 
 public enum Genre {
-    ACTION("Aktion"),
+    ACTION("Action"),
     ADVENTURE("Adventure"),
     FIGHTING("Kampfspiel"),
     PLATFORMER("Plattformer"),

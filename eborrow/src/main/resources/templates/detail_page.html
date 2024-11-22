@@ -13,9 +13,9 @@
         <img class="logo" src="/images/logo.svg" alt="logo">
         <nav class="navigation">
             <ul class="nav-links">
-                <li><a href="start_page.html">Home</a></li>
+                <li><a href="/thymeleaf/game/allGames">Home</a></li>
                 <li><a href="#">Neues Spiel anlegen</a></li>
-                <li><a href="profile_page.html">Profil</a></li>
+                <li><a href="#">Profil</a></li>
                 <li><a href="#">Logout</a></li>
             </ul>
         </nav>
@@ -98,9 +98,9 @@
                 </form>
             </div>
 
-            <div class="reviewContainer" th:each="review: ${reviews}">
-                <img class="reviewImage" src="/images/profile_pic_default.svg" alt="Profilbild">
-                <div class="reviewUsername">kein Username verfügbar</div>
+            <div class="reviewContainer" th:each="review: ${game.reviewsDto}">
+                <img class="reviewImage" th:src="'data:image/jpg;base64,' + ${review.accountDto.profilePicture}" alt="Profil bild">
+                <div class="reviewUsername" th:text="${review.accountDto.username}">kein Username verfügbar</div>
                 <div class="reviewDate" th:text="${#temporals.format(review.reviewDate, 'dd.MM.yyyy')}">Kein Datum verfügbar</div>
                 <h3 class="reviewHeadline" th:text="${review.reviewHeadline}">Kein Titel verfügbar</h3>
                 <div class="reviewRating" th:text="${review.rating + '/10'}">Kein Rating verfügbar</div>
