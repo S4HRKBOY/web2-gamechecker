@@ -83,21 +83,21 @@ public class DummyDataBootstrap implements ApplicationListener<ContextRefreshedE
 		Game savedGame2 = gameRepository.save(game2);
 		Game savedGame3 = gameRepository.save(game3);
 
-		List<Game> acc1GameList = new LinkedList<>();
-		acc1GameList.add(savedGame1);
-		acc1GameList.add(savedGame3);
-		List<Game> acc2GameList = new LinkedList<>();
-		acc2GameList.add(savedGame2);
-		acc2GameList.add(savedGame3);
-
-		Account acc1 = accountRepository.findById(1L).get();
-		Account acc2 = accountRepository.findById(2L).get();
-
-		acc1.setTaggedGames(acc1GameList);
-		acc2.setTaggedGames(acc2GameList);
-
-		accountRepository.save(acc1);
-		accountRepository.save(acc2);
+//		List<Game> acc1GameList = new LinkedList<>();
+//		acc1GameList.add(savedGame1);
+//		acc1GameList.add(savedGame3);
+//		List<Game> acc2GameList = new LinkedList<>();
+//		acc2GameList.add(savedGame2);
+//		acc2GameList.add(savedGame3);
+//
+//		Account acc1 = accountRepository.findById(1L).get();
+//		Account acc2 = accountRepository.findById(2L).get();
+//
+//		acc1.setTaggedGames(acc1GameList);
+//		acc2.setTaggedGames(acc2GameList);
+//
+//		accountRepository.save(acc1);
+//		accountRepository.save(acc2);
 
     }
 
