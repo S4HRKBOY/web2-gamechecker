@@ -95,7 +95,6 @@ public class DummyDataBootstrap implements ApplicationListener<ContextRefreshedE
 				.setBirthday(LocalDate.of(2000, 1, 1))
 				.setEmail("max.mustermann@dummy.com")
 				.setPassword("maxpassword")
-				.setProfilePicture(readImage("where_image.png"))
 				.build();
 
 		Account acc2 = new AccountBuilder()
@@ -106,7 +105,7 @@ public class DummyDataBootstrap implements ApplicationListener<ContextRefreshedE
 				.setBirthday(LocalDate.of(2023, 12, 31))
 				.setEmail("john.doe@dummy.com")
 				.setPassword("johnpassword")
-				.setProfilePicture(readImage("callOfDuty3.jpg"))
+				.setProfilePicture(readImage("where_image.png"))
 				.build();
 
 		Account publisher = new AccountBuilder()
@@ -117,6 +116,7 @@ public class DummyDataBootstrap implements ApplicationListener<ContextRefreshedE
 				.setBirthday(LocalDate.of(2000, 1, 1))
 				.setEmail("publisher@dummy.com")
 				.setPassword("publisher")
+				.setProfilePicture(readImage("no_games.png"))
 				.setPublisher(true)
 				.build();
 
