@@ -1,5 +1,6 @@
 package de.fhdo.eborrow.domain;
 
+import de.fhdo.eborrow.domain.builder.AccountBuilder;
 import jakarta.persistence.*;
 import org.springframework.format.annotation.DateTimeFormat;
 
@@ -34,7 +35,7 @@ public class Account {
 			joinColumns = @JoinColumn(name = "account_id"),
 			inverseJoinColumns = @JoinColumn(name = "game_id")
 	)
-	private List<Game> taggedGames;
+	private List<Game> taggedGames; // TODO Zak: Aendern auf HashSet
     
 	// TODO Zak: Reviews hinzufuegen
 	// @OneToMany(cascade = CascadeType.ALL)	

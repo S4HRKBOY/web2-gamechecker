@@ -1,7 +1,8 @@
 package de.fhdo.eborrow.dto;
 
+import de.fhdo.eborrow.dto.builder.AccountDtoBuilder;
+
 import java.time.LocalDate;
-import java.util.List;
 
 public class AccountDto {
     private Long id;

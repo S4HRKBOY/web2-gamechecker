@@ -1,9 +1,8 @@
 package de.fhdo.eborrow.dto;
 
+import de.fhdo.eborrow.dto.builder.RichAccountDtoBuilder;
+
 import java.time.LocalDate;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.LinkedList;
 import java.util.List;
 
 public class RichAccountDto {
@@ -14,12 +13,12 @@ public class RichAccountDto {
     private String username;
     private String email;
     private String password;
-    private byte[] profilePicture;  // TODO Zak: Aendern auf String und konvertieren in Base64 von AccountMapper aus
+    private String profilePicture;
     private boolean isPublisher;
     
     private List<GameDto> taggedGames;
 
-    private RichAccountDto(Long id, String prename, String surname, LocalDate birthday, String username, String email, String password, byte[] profilePicture) {
+    private RichAccountDto(Long id, String prename, String surname, LocalDate birthday, String username, String email, String password, String profilePicture) {
         this.id = id;
         this.prename = prename;
         this.surname = surname;
@@ -101,11 +100,11 @@ public class RichAccountDto {
         this.password = password;
     }
 
-    public byte[] getProfilePicture() {
+    public String getProfilePicture() {
         return profilePicture;
     }
 
-    public void setProfilePicture(byte[] profilePicture) {
+    public void setProfilePicture(String profilePicture) {
         this.profilePicture = profilePicture;
     }
 

@@ -1,11 +1,12 @@
-package de.fhdo.eborrow.dto;
+package de.fhdo.eborrow.domain.builder;
+
+import de.fhdo.eborrow.domain.Account;
+import de.fhdo.eborrow.domain.Game;
 
 import java.time.LocalDate;
-import java.util.Collections;
-import java.util.LinkedList;
 import java.util.List;
 
-public class RichAccountDtoBuilder{
+public class AccountBuilder {
     private Long id;
     private String prename;
     private String surname;
@@ -16,14 +17,17 @@ public class RichAccountDtoBuilder{
     private byte[] profilePicture;
     private boolean isPublisher;
 
-    private List<GameDto> taggedGames;
+    private List<Game> taggedGames;
 
+    public AccountBuilder() {
+    }
+    
     // region getter
     public Long getId() {
         return id;
     }
 
-    public RichAccountDtoBuilder setId(Long id) {
+    public AccountBuilder setId(Long id) {
         this.id = id;
         return this;
     }
@@ -32,7 +36,7 @@ public class RichAccountDtoBuilder{
         return prename;
     }
 
-    public RichAccountDtoBuilder setPrename(String prename) {
+    public AccountBuilder setPrename(String prename) {
         this.prename = prename;
         return this;
     }
@@ -41,7 +45,7 @@ public class RichAccountDtoBuilder{
         return surname;
     }
 
-    public RichAccountDtoBuilder setSurname(String surname) {
+    public AccountBuilder setSurname(String surname) {
         this.surname = surname;
         return this;
     }
@@ -50,7 +54,7 @@ public class RichAccountDtoBuilder{
         return birthday;
     }
 
-    public RichAccountDtoBuilder setBirthday(LocalDate birthday) {
+    public AccountBuilder setBirthday(LocalDate birthday) {
         this.birthday = birthday;
         return this;
     }
@@ -59,7 +63,7 @@ public class RichAccountDtoBuilder{
         return username;
     }
 
-    public RichAccountDtoBuilder setUsername(String username) {
+    public AccountBuilder setUsername(String username) {
         this.username = username;
         return this;
     }
@@ -68,7 +72,7 @@ public class RichAccountDtoBuilder{
         return email;
     }
 
-    public RichAccountDtoBuilder setEmail(String email) {
+    public AccountBuilder setEmail(String email) {
         this.email = email;
         return this;
     }
@@ -77,7 +81,7 @@ public class RichAccountDtoBuilder{
         return password;
     }
 
-    public RichAccountDtoBuilder setPassword(String password) {
+    public AccountBuilder setPassword(String password) {
         this.password = password;
         return this;
     }
@@ -86,7 +90,7 @@ public class RichAccountDtoBuilder{
         return profilePicture;
     }
 
-    public RichAccountDtoBuilder setProfilePicture(byte[] profilePicture) {
+    public AccountBuilder setProfilePicture(byte[] profilePicture) {
         this.profilePicture = profilePicture;
         return this;
     }
@@ -95,28 +99,28 @@ public class RichAccountDtoBuilder{
         return isPublisher;
     }
 
-    public RichAccountDtoBuilder setPublisher(boolean publisher) {
+    public AccountBuilder setPublisher(boolean publisher) {
         isPublisher = publisher;
         return this;
     }
 
-    public List<GameDto> getTaggedGames() {
+    public List<Game> getTaggedGames() {
         return taggedGames;
     }
 
-    public RichAccountDtoBuilder setTaggedGames(List<GameDto> taggedGames) {
+    public AccountBuilder setTaggedGames(List<Game> taggedGames) {
         this.taggedGames = taggedGames;
         return this;
     }
     // endregion
 
-    public RichAccountDto build() {
+    public Account build() {
         validateInputs();
 
-        return new RichAccountDto(this);
+        return new Account(this);
     }
 
-    private void validateInputs() {
+    void validateInputs() {
         // TODO Zak: Check each field and throw Exception if invalid
     }
 }

@@ -1,6 +1,7 @@
 package de.fhdo.eborrow.bootstrap;
 
 import de.fhdo.eborrow.domain.*;
+import de.fhdo.eborrow.domain.builder.AccountBuilder;
 import de.fhdo.eborrow.repositories.AccountRepository;
 import de.fhdo.eborrow.repositories.ReviewRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -83,21 +84,21 @@ public class DummyDataBootstrap implements ApplicationListener<ContextRefreshedE
 		Game savedGame2 = gameRepository.save(game2);
 		Game savedGame3 = gameRepository.save(game3);
 
-//		List<Game> acc1GameList = new LinkedList<>();
-//		acc1GameList.add(savedGame1);
-//		acc1GameList.add(savedGame3);
-//		List<Game> acc2GameList = new LinkedList<>();
-//		acc2GameList.add(savedGame2);
-//		acc2GameList.add(savedGame3);
-//
-//		Account acc1 = accountRepository.findById(1L).get();
-//		Account acc2 = accountRepository.findById(2L).get();
-//
-//		acc1.setTaggedGames(acc1GameList);
-//		acc2.setTaggedGames(acc2GameList);
-//
-//		accountRepository.save(acc1);
-//		accountRepository.save(acc2);
+		List<Game> acc1GameList = new LinkedList<>();
+		acc1GameList.add(savedGame1);
+		acc1GameList.add(savedGame3);
+		List<Game> acc2GameList = new LinkedList<>();
+		acc2GameList.add(savedGame2);
+		acc2GameList.add(savedGame3);
+
+		Account acc1 = accountRepository.findById(1L).get();
+		Account acc2 = accountRepository.findById(2L).get();
+
+		acc1.setTaggedGames(acc1GameList);
+		acc2.setTaggedGames(acc2GameList);
+
+		accountRepository.save(acc1);
+		accountRepository.save(acc2);
 
     }
 
@@ -123,7 +124,7 @@ public class DummyDataBootstrap implements ApplicationListener<ContextRefreshedE
                 .setBirthday(LocalDate.of(2023, 12, 31))
                 .setEmail("john.doe@dummy.com")
                 .setPassword("johnpassword")
-                .setProfilePicture(readImage("where_image.png"))
+                .setProfilePicture(readImage("callOfDuty3.jpg"))
                 .build();
 
         var publisher = new AccountBuilder()

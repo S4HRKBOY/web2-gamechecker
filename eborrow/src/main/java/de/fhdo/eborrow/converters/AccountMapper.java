@@ -1,21 +1,18 @@
 package de.fhdo.eborrow.converters;
 
 import de.fhdo.eborrow.domain.Account;
-import de.fhdo.eborrow.domain.AccountBuilder;
+import de.fhdo.eborrow.domain.builder.AccountBuilder;
 import de.fhdo.eborrow.domain.Game;
 import de.fhdo.eborrow.dto.AccountDto;
-import de.fhdo.eborrow.dto.AccountDtoBuilder;
+import de.fhdo.eborrow.dto.builder.AccountDtoBuilder;
 import de.fhdo.eborrow.dto.RichAccountDto;
-import de.fhdo.eborrow.dto.RichAccountDtoBuilder;
+import de.fhdo.eborrow.dto.builder.RichAccountDtoBuilder;
 import de.fhdo.eborrow.dto.GameDto;
 
 import java.util.Base64;
 import java.util.List;
 
 public class AccountMapper {
-
-	// Zak: mir gefaellt die jetzige Implementierung nicht, da man bei Aenderungen von DTO oder Domain-Klasse schnell
-	// vergisst, den Mapper mit anzupassen
 	public static AccountDto accountToDto(Account account) {
 		AccountDtoBuilder accountDtoBuilder = new AccountDtoBuilder()
 				.setId(account.getId())
@@ -35,6 +32,32 @@ public class AccountMapper {
 		return accountDtoBuilder.build();
 	}
 
+	// TODO Zak: "DRY Prinzip": Lasst uns ueberlegen, ob wir den doppelten Code nicht vermeiden koennen
+	// (Beispiele: RichAccountDto extends AccountDto oder RichAccountDto.getAccountDto() (Composition over inheritance) )
+	public static RichAccountDto accountToRichDto(Account account) {
+		RichAccountDtoBuilder richAccountDtoBuilder = new RichAccountDtoBuilder()
+				.setId(account.getId())
+				.setPrename(account.getPrename())
+				.setSurname(account.getSurname())
+				.setBirthday(account.getBirthday())
+				.setUsername(account.getUsername())
+				.setEmail(account.getEmail())
+				.setPassword(account.getPassword())
+				.setPublisher(account.isPublisher());
+
+		byte[] profilePicture = account.getProfilePicture();
+		if(profilePicture != null) {
+			richAccountDtoBuilder.setProfilePicture(Base64.getEncoder().encodeToString(profilePicture));
+		}
+
+		List<GameDto> gameDTOs = account.getTaggedGames().stream()
+				.map(GameMapper::gameToDto)
+				.toList();
+		richAccountDtoBuilder.setTaggedGames(gameDTOs);
+
+		return richAccountDtoBuilder.build();
+	}
+
 	public static Account dtoToAccount(AccountDto accountDto) {
 		AccountBuilder accountBuilder = new AccountBuilder()
 				.setId(accountDto.getId())
@@ -52,30 +75,6 @@ public class AccountMapper {
 		}
 
 		return accountBuilder.build();
-	}
-
-	public static RichAccountDto accountToRichDto(Account account) {
-		RichAccountDtoBuilder richAccountDtoBuilder = new RichAccountDtoBuilder()
-				.setId(account.getId())
-				.setPrename(account.getPrename())
-				.setSurname(account.getSurname())
-				.setBirthday(account.getBirthday())
-				.setUsername(account.getUsername())
-				.setEmail(account.getEmail())
-				.setPassword(account.getPassword())
-				.setPublisher(account.isPublisher());
-
-		List<GameDto> gameDTOs = account.getTaggedGames().stream()
-				.map(game -> GameMapper.gameToDto(game))
-				.toList();
-		richAccountDtoBuilder.setTaggedGames(gameDTOs);
-
-		byte[] profilePicture = account.getProfilePicture();
-		if(profilePicture != null) {
-			richAccountDtoBuilder.setProfilePicture(Base64.getEncoder().encodeToString(profilePicture));
-		}
-
-		return richAccountDtoBuilder.build();
 	}
 
 	public static Account richDtoToAccount(RichAccountDto accountDto) {
