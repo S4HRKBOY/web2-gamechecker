@@ -28,10 +28,10 @@
                 <img id="detailImage" th:src="'data:image/jpg;base64,' + ${game.gameImage}"
                     alt="Bild nicht verfügbar" />
 
-                <form id="editButton">
+                <form id="editGameButton">
                     <input th:if="${account.isPublisher()}" type="submit" value="Bearbeiten">
                 </form>
-                <div id="addButton">
+                <div id="addGameButton">
                     <button th:if="${!account.isPublisher()}">Zu Liste hinzufügen</button>
                 </div>
                 <div>
