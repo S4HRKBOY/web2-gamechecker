@@ -27,10 +27,13 @@
             <div class="detailContainer">
                 <img id="detailImage" th:src="'data:image/jpg;base64,' + ${game.gameImage}"
                     alt="Bild nicht verfügbar" />
+
                 <form id="editButton">
-                    <input type="submit" value="Bearbeiten">
+                    <input th:if="${account.isPublisher()}" type="submit" value="Bearbeiten">
                 </form>
-                <button id="addButton">Zu Liste hinzufügen</button>
+                <div id="addButton">
+                    <button th:if="${!account.isPublisher()}">Zu Liste hinzufügen</button>
+                </div>
                 <div>
                     <table id="detailInfo">
                         <tr>
@@ -101,14 +104,18 @@
             </div>
 
             <div class="reviewContainer" th:each="review: ${game.reviewsDto}">
-                <img class="reviewImage" th:src="'data:image/jpg;base64,' + ${review.accountDto.profilePicture}"
-                    alt="Profil bild">
+                <img th:if="${review.accountDto.profilePicture != null}" class="reviewImage"
+                    th:src="'data:image/jpg;base64,' + ${review.accountDto.profilePicture}" alt="Profilbild">
+                <img th:unless="${review.accountDto.profilePicture != null}" class="reviewImage"
+                    src="/images/profile_pic_default.svg" alt="Bild nicht verfügbar">
                 <div class="reviewUsername" th:text="${review.accountDto.username}">kein Username verfügbar</div>
                 <div class="reviewDate" th:text="${#temporals.format(review.reviewDate, 'dd.MM.yyyy')}">Kein Datum
                     verfügbar</div>
                 <h3 class="reviewHeadline" th:text="${review.reviewHeadline}">Kein Titel verfügbar</h3>
                 <div class="reviewRating" th:text="${review.rating + '/10'}">Kein Rating verfügbar</div>
-                <div class="reviewContent" th:text="${review.reviewText}">Kein Review verfügbar
+                <div class="reviewContent" th:text="${review.reviewText}">Kein Review verfügbar</div>
+                <div th:if="${review.accountDto.id == account.getId()}" id="editReviewButton">
+                    <button>Bearbeiten</button>
                 </div>
             </div>
         </section>

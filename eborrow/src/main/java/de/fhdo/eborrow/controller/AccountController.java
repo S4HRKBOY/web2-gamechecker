@@ -28,7 +28,6 @@ public class AccountController {
 	public String showProfilePageView(@PathVariable Long id, Model model) {
 		RichAccountDto richAccountDto = accountService.getRichAccountById(id);
 		List<GameDto> gamesDtos = richAccountDto.getTaggedGames();
-
 		model.addAttribute("account", richAccountDto);
 		model.addAttribute("games", gamesDtos);
 
