@@ -13,9 +13,9 @@
         <img class="logo" src="/images/logo.svg" alt="logo">
         <nav class="navigation">
             <ul class="nav-links">
-                <li><a href="/thymeleaf/game/allGames">Home</a></li>
+                <li><a href="/thymeleaf/home">Home</a></li>
                 <li><a href="#">Neues Spiel anlegen</a></li>
-                <li><a href="#">Profil</a></li>
+                <li><a href="/account/1">Profil</a></li>
                 <li><a href="#">Logout</a></li>
             </ul>
         </nav>
@@ -25,10 +25,12 @@
         <h1 class="headline" th:text="${game.title}">Kein Titel verfügbar</h1>
         <div class="container">
             <div class="detailContainer">
-                <img id="detailImage" th:src="'data:image/jpg;base64,' + ${game.gameImage}" alt="Bild nicht verfügbar" />
+                <img id="detailImage" th:src="'data:image/jpg;base64,' + ${game.gameImage}"
+                    alt="Bild nicht verfügbar" />
                 <form id="editButton">
                     <input type="submit" value="Bearbeiten">
                 </form>
+                <button id="addButton">Zu Liste hinzufügen</button>
                 <div>
                     <table id="detailInfo">
                         <tr>
@@ -99,9 +101,11 @@
             </div>
 
             <div class="reviewContainer" th:each="review: ${game.reviewsDto}">
-                <img class="reviewImage" th:src="'data:image/jpg;base64,' + ${review.accountDto.profilePicture}" alt="Profil bild">
+                <img class="reviewImage" th:src="'data:image/jpg;base64,' + ${review.accountDto.profilePicture}"
+                    alt="Profil bild">
                 <div class="reviewUsername" th:text="${review.accountDto.username}">kein Username verfügbar</div>
-                <div class="reviewDate" th:text="${#temporals.format(review.reviewDate, 'dd.MM.yyyy')}">Kein Datum verfügbar</div>
+                <div class="reviewDate" th:text="${#temporals.format(review.reviewDate, 'dd.MM.yyyy')}">Kein Datum
+                    verfügbar</div>
                 <h3 class="reviewHeadline" th:text="${review.reviewHeadline}">Kein Titel verfügbar</h3>
                 <div class="reviewRating" th:text="${review.rating + '/10'}">Kein Rating verfügbar</div>
                 <div class="reviewContent" th:text="${review.reviewText}">Kein Review verfügbar

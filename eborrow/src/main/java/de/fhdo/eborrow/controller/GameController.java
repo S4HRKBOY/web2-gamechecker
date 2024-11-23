@@ -18,7 +18,7 @@ import de.fhdo.eborrow.services.GameService;
 
 
 @Controller
-@RequestMapping("/thymeleaf/game")
+@RequestMapping("/thymeleaf")
 public class GameController {
 
     private GameService gameService;  
@@ -28,14 +28,14 @@ public class GameController {
         this.gameService = gameService; 
     }
 
-    @GetMapping("/allGames")
+    @GetMapping("/home")
     public String getAll(Model model) {
         List<RichGameDto> gameDto = gameService.getAll(); 
         model.addAttribute("games", gameDto);
         return "start_page";
     }
 
-    @GetMapping("/{id}")
+    @GetMapping("/game/{id}")
     public String getGameById(@PathVariable Long id, Model model) {
         RichGameDto gameDto = gameService.getGameById(id); 
         model.addAttribute("game", gameDto); 
