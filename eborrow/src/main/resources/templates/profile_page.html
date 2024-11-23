@@ -69,7 +69,7 @@
                         </table>
                     </section>
                 </section>
-                <form id="edit-profile-btn" action="./profile_edit_page.html">
+                <form id="edit-profile-btn" th:action="@{'/account/edit/' + ${account.id}}">
                     <button type="submit">Profil bearbeiten</button>
                 </form>
                 <section id="pinned-games">
@@ -87,7 +87,9 @@
                                     <span th:text="${game.title}">Kein Titel verfügbar</span>
                                 </td>
                                 <td class="unpin-button">
-                                    <form th:action="@{'/thymeleaf/account/' + ${account.id} + '/unlistGame/' + ${game.id}}" method="POST">
+                                    <form th:action="@{'/account/unlist-game'}" method="POST">
+                                        <input type="hidden" name="account-Id" th:value="${account.id}" />
+                                        <input type="hidden" name="game-Id" th:value="${game.id}" />
                                         <button type="submit">entfernen</button>
                                     </form>
                                 </td>

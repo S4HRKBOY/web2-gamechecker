@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @Controller
-@RequestMapping("/thymeleaf/account")
+@RequestMapping("/account")
 public class AccountController {
 	private final AccountService accountService;
 	private final GameService gameService;
@@ -35,8 +35,8 @@ public class AccountController {
 		return "profile_page";
 	}
 
-	@PostMapping("/{accountId}/unlistGame/{gameId}")
-	public String unlistGameFromAccount(@PathVariable Long accountId, @PathVariable Long gameId, Model model) {
+	@PostMapping("/unlist-game")
+	public String unlistGameFromAccount(@RequestParam("account-Id") Long accountId, @RequestParam("game-Id") Long gameId, Model model) {
 		RichAccountDto richAccountDto = accountService.getRichAccountById(accountId);
 		accountService.unlistGameFromAccount(richAccountDto, gameId);
 
@@ -47,7 +47,7 @@ public class AccountController {
 		return "profile_page";
 	}
 
-	@GetMapping("/{id}/edit")
+	@GetMapping("/edit/{id}")
 	public String showEditAccountView(@PathVariable Long id, Model model) {
 		AccountDto accountDto = accountService.getAccountById(id);
 		model.addAttribute("account", accountDto);
@@ -55,7 +55,7 @@ public class AccountController {
 		return "profile_edit_page";
 	}
 
-	@PostMapping("/{id}/edit")
+	@PostMapping("/edit/{id}")
 	public String updateAccount(@PathVariable Long id, @RequestBody AccountDto prefilledAccount, Model model) {
 		if (prefilledAccount == null) {
 			// TODO: Redirect to /{id}/edit
@@ -75,5 +75,13 @@ public class AccountController {
 		model.addAttribute("games", gamesDtos);
 
 		return "profile_page";
+	}
+	
+	@PostMapping("/delete-account")
+	public String deleteAccount(@RequestParam("account-Id") Long accountId) {
+		// TODO Zak: Bestätigung vom User holen? (eigene View oder ueber Prompt via JavaScript mit funktion confirm())
+		accountService.deleteAccount(accountId);
+
+		return "login_page";
 	}
 }
