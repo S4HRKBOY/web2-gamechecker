@@ -1,11 +1,7 @@
 package de.fhdo.eborrow.converters;
 
-import java.util.Base64;
-import java.util.List;
+import java.util.*;
 import java.util.stream.Collectors;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
 
 import de.fhdo.eborrow.domain.AgeRating;
 import de.fhdo.eborrow.domain.Game;
@@ -147,4 +143,29 @@ public class GameMapper {
         return genres;
     }
 
+    protected static List<GameDto> gameSetToDtoList(Set<Game> set) {
+        if (set == null) {
+            return null;
+        }
+
+        List<GameDto> result = new ArrayList<>(Math.max((int) (set.size() / .75f) + 1, 16));
+        for (Game game : set) {
+            result.add(gameToDto(game));
+        }
+
+        return result;
+    }
+
+    protected static Set<Game> dtoListToGameSet(List<GameDto> list) {
+        if (list == null) {
+            return null;
+        }
+
+        Set<Game> result = new HashSet<>();
+        for (GameDto gameDto : list) {
+            result.add(dtoToGame(gameDto));
+        }
+
+        return result;
+    }
 }

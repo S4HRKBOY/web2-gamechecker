@@ -5,7 +5,7 @@ import jakarta.persistence.*;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import java.time.LocalDate;
-import java.util.List;
+import java.util.Set;
 
 @Entity
 @Table(name = "account")
@@ -35,14 +35,7 @@ public class Account {
 			joinColumns = @JoinColumn(name = "account_id"),
 			inverseJoinColumns = @JoinColumn(name = "game_id")
 	)
-	private List<Game> taggedGames; // TODO Zak: Aendern auf HashSet
-    
-	// TODO Zak: Reviews hinzufuegen
-	// @OneToMany(cascade = CascadeType.ALL)	
-	// Zak: Auf der anderen Seite dann @ManyToOne(fetch = FetchType.LAZY) und @JoinColumn(name = "game_id", nullable = false)
-    // @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    // @JoinColumn(name = "review_id")
-    // private List<Review> writtenReviews;
+	private Set<Game> taggedGames;
 	
     protected Account() {
     }
@@ -146,11 +139,11 @@ public class Account {
         isPublisher = publisher;
     }
 
-	public List<Game> getTaggedGames() {
+	public Set<Game> getTaggedGames() {
 		return taggedGames;
 	}
 
-	public void setTaggedGames(List<Game> taggedGames) {
+	public void setTaggedGames(Set<Game> taggedGames) {
 		this.taggedGames = taggedGames;
 	}
 	// endregion

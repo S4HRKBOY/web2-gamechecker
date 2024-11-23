@@ -2,15 +2,12 @@ package de.fhdo.eborrow.converters;
 
 import de.fhdo.eborrow.domain.Account;
 import de.fhdo.eborrow.domain.builder.AccountBuilder;
-import de.fhdo.eborrow.domain.Game;
 import de.fhdo.eborrow.dto.AccountDto;
 import de.fhdo.eborrow.dto.builder.AccountDtoBuilder;
 import de.fhdo.eborrow.dto.RichAccountDto;
 import de.fhdo.eborrow.dto.builder.RichAccountDtoBuilder;
-import de.fhdo.eborrow.dto.GameDto;
 
 import java.util.Base64;
-import java.util.List;
 
 public class AccountMapper {
 	public static AccountDto accountToDto(Account account) {
@@ -50,10 +47,7 @@ public class AccountMapper {
 			richAccountDtoBuilder.setProfilePicture(Base64.getEncoder().encodeToString(profilePicture));
 		}
 
-		List<GameDto> gameDTOs = account.getTaggedGames().stream()
-				.map(GameMapper::gameToDto)
-				.toList();
-		richAccountDtoBuilder.setTaggedGames(gameDTOs);
+		richAccountDtoBuilder.setTaggedGames(GameMapper.gameSetToDtoList(account.getTaggedGames()));
 
 		return richAccountDtoBuilder.build();
 	}
@@ -93,10 +87,7 @@ public class AccountMapper {
 			accountBuilder.setProfilePicture(Base64.getDecoder().decode(profilePicture));
 		}
 
-		List<Game> games = accountDto.getTaggedGames().stream()
-				.map(GameMapper::dtoToGame)
-				.toList();
-		accountBuilder.setTaggedGames(games);
+		accountBuilder.setTaggedGames(GameMapper.dtoListToGameSet(accountDto.getTaggedGames()));
 
 		return accountBuilder.build();
 	}

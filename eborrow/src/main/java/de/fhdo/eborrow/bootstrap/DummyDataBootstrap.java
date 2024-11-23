@@ -12,10 +12,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
 import java.io.*;
-import java.util.Arrays;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
 
 import de.fhdo.eborrow.repositories.GameRepository;
 
@@ -84,12 +81,57 @@ public class DummyDataBootstrap implements ApplicationListener<ContextRefreshedE
 		Game savedGame2 = gameRepository.save(game2);
 		Game savedGame3 = gameRepository.save(game3);
 
-		List<Game> acc1GameList = new LinkedList<>();
-		acc1GameList.add(savedGame1);
-		acc1GameList.add(savedGame3);
-		List<Game> acc2GameList = new LinkedList<>();
-		acc2GameList.add(savedGame2);
-		acc2GameList.add(savedGame3);
+		assignTaggedGames(savedGame1, savedGame3, savedGame2);
+	}
+
+	private void initAccounts() {
+		long id = 1L;
+
+		Account acc1 = new AccountBuilder()
+				.setId(id++)
+				.setPrename("Max")
+				.setSurname("Mustermann")
+				.setUsername("mamus")
+				.setBirthday(LocalDate.of(2000, 1, 1))
+				.setEmail("max.mustermann@dummy.com")
+				.setPassword("maxpassword")
+				.setProfilePicture(readImage("where_image.png"))
+				.build();
+
+		Account acc2 = new AccountBuilder()
+				.setId(id++)
+				.setPrename("John")
+				.setSurname("Doe")
+				.setUsername("jodoe")
+				.setBirthday(LocalDate.of(2023, 12, 31))
+				.setEmail("john.doe@dummy.com")
+				.setPassword("johnpassword")
+				.setProfilePicture(readImage("callOfDuty3.jpg"))
+				.build();
+
+		Account publisher = new AccountBuilder()
+				.setId(id++)
+				.setPrename("Publisher")
+				.setSurname("Publisher")
+				.setUsername("publisher")
+				.setBirthday(LocalDate.of(2000, 1, 1))
+				.setEmail("publisher@dummy.com")
+				.setPassword("publisher")
+				.setPublisher(true)
+				.build();
+
+		accountRepository.save(acc1);
+		accountRepository.save(acc2);
+		accountRepository.save(publisher);
+	}
+
+	private void assignTaggedGames(Game... savedGames) {
+		Set<Game> acc1GameList = new HashSet<>();
+		acc1GameList.add(savedGames[2]);
+		Set<Game> acc2GameList = new HashSet<>();
+		acc2GameList.add(savedGames[0]);
+		acc2GameList.add(savedGames[1]);
+		acc2GameList.add(savedGames[2]);
 
 		Account acc1 = accountRepository.findById(1L).get();
 		Account acc2 = accountRepository.findById(2L).get();
@@ -99,49 +141,7 @@ public class DummyDataBootstrap implements ApplicationListener<ContextRefreshedE
 
 		accountRepository.save(acc1);
 		accountRepository.save(acc2);
-
-    }
-
-    private void initAccounts() {
-        long id = 1L;
-
-        var acc1 = new AccountBuilder()
-                .setId(id++)
-                .setPrename("Max")
-                .setSurname("Mustermann")
-                .setUsername("mamus")
-                .setBirthday(LocalDate.of(2000, 1, 1))
-                .setEmail("max.mustermann@dummy.com")
-                .setPassword("maxpassword")
-                .setProfilePicture(readImage("where_image.png"))
-                .build();
-
-        var acc2 = new AccountBuilder()
-                .setId(id++)
-                .setPrename("John")
-                .setSurname("Doe")
-                .setUsername("jodoe")
-                .setBirthday(LocalDate.of(2023, 12, 31))
-                .setEmail("john.doe@dummy.com")
-                .setPassword("johnpassword")
-                .setProfilePicture(readImage("callOfDuty3.jpg"))
-                .build();
-
-        var publisher = new AccountBuilder()
-                .setId(id++)
-                .setPrename("Publisher")
-                .setSurname("Publisher")
-                .setUsername("publisher")
-                .setBirthday(LocalDate.of(2000, 1, 1))
-                .setEmail("publisher@dummy.com")
-                .setPassword("publisher")
-                .setPublisher(true)
-                .build();
-
-        accountRepository.save(acc1);
-        accountRepository.save(acc2); 
-        accountRepository.save(publisher);
-    }
+	}
 
     /*
      * Helper class to save dummy image data in db
