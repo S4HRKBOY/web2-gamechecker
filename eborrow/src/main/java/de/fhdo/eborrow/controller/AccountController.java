@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @Controller
-@RequestMapping("/account")
+@RequestMapping("/thymeleaf/account")
 public class AccountController {
 	private final AccountService accountService;
 	private final GameService gameService;
