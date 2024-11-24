@@ -149,12 +149,29 @@ public class AccountService {
 		return true;
 	}
 
-	private RichAccountDto transferTaggedGameChanges(RichAccountDto existingRichAccountDto, List<GameDto> newTaggedGames){
-		existingRichAccountDto.setTaggedGames(newTaggedGames);
-		Account updatedAccount = AccountMapper.richDtoToAccount(existingRichAccountDto);
+	public boolean updatePublisherStatus(Long id, boolean isPublisher){
+		AccountDto accountDto = getAccountById(id);
+		if (accountDto == null) {
+			System.err.println("Update failed: No Account found with id " + id);
+			return false;
+		}
+
+		return updatePublisherStatus(accountDto, isPublisher);
+	}
+
+	public boolean updatePublisherStatus(AccountDto accountDto, boolean isPublisher) {
+		accountDto.setPublisher(isPublisher);
+		Account updatedAccount = AccountMapper.dtoToAccount(accountDto);
+		if(updatedAccount.getId() == null || !accountRepository.existsById(updatedAccount.getId())) {
+			System.err.println("Unlisting failed: No Account found with id " + updatedAccount.getId());
+			return false;
+		}
+
 		accountRepository.save(updatedAccount);
 
-		return existingRichAccountDto;
+		return true;
+	}
+
 	private void transferTaggedGameChanges(RichAccountDto existingRichAccountDto, List<GameDto> newTaggedGames){
 		existingRichAccountDto.setTaggedGames(newTaggedGames);
 	}
