@@ -16,7 +16,9 @@ public class AccountRestController {
 	private final AccountService accountService;
 
 	@Autowired
-	public AccountRestController(AccountService accountService) {this.accountService = accountService;}
+	public AccountRestController(AccountService accountService) {
+		this.accountService = accountService;
+	}
 
 	// ResponseEntity allows for multiple HTTP status codes to be returned
 	@GetMapping(value = "/getAccounts", params = "with-games")
@@ -67,7 +69,7 @@ public class AccountRestController {
 
 		Long accountId = accountService.addAccount(accountDto);
 		if (accountId == null) {
-			return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 		}
 
 		return new ResponseEntity<>(accountId, HttpStatus.CREATED);
@@ -79,14 +81,9 @@ public class AccountRestController {
 			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 		}
 
-		AccountDto accountDto = accountService.getAccountById(id);
-		if (accountDto == null) {
-			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-		}
-
-		boolean updateSucceeded = accountService.updateAccount(prefilledAccount, accountDto);
+		boolean updateSucceeded = accountService.updateAccount(prefilledAccount, id);
 		if (!updateSucceeded) {
-			return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 		}
 
 		return new ResponseEntity<>(HttpStatus.OK);
@@ -100,7 +97,23 @@ public class AccountRestController {
 		}
 
 		if (!accountService.deleteAccount(id)) {
-			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+		}
+
+		return new ResponseEntity<>(HttpStatus.OK);
+	}
+
+	@PostMapping(value = "/add-game", consumes = "application/json")
+	public ResponseEntity<Void> addGameToAccount(@RequestBody Map<String, Long> requestBody) {
+		Long accountId = requestBody.get("accountId");
+		Long gameId = requestBody.get("gameId");
+
+		if (accountId == null || gameId == null) {
+			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+		}
+
+		if (!accountService.addGameToAccount(accountId, gameId)) {
+			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 		}
 
 		return new ResponseEntity<>(HttpStatus.OK);
@@ -116,7 +129,7 @@ public class AccountRestController {
 		}
 
 		if (!accountService.unlistGameFromAccount(accountId, gameId)) {
-			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 		}
 
 		return new ResponseEntity<>(HttpStatus.OK);

@@ -31,15 +31,15 @@
                 <form id="editGameButton">
                     <input th:if="${account.publisher}" type="submit" value="Bearbeiten">
                 </form>
-                <div class="addOrRemoveGameButton" th:if="${!accountHasGame and !account.publisher}">
+                <div class="addOrRemoveGameButton" th:unless="${accountHasGame}">
                     <form th:action="@{'/thymeleaf/game/add-game'}" method="POST">
                         <input type="hidden" name="accountId" th:value="${account.id}" />
                         <input type="hidden" name="gameId" th:value="${game.id}" />
                         <button th:if="${editReview}" disabled>Zur Liste hinzufügen</button>
-                        <button th:unless="${editReview}" disabled>Zur Liste hinzufügen</button>
+                        <button th:unless="${editReview}">Zur Liste hinzufügen</button>
                     </form>
                 </div>
-                <div class="addOrRemoveGameButton" th:if="${accountHasGame and !account.publisher}">
+                <div class="addOrRemoveGameButton" th:if="${accountHasGame}">
                     <form th:action="@{'/thymeleaf/game/unlist-game'}" method="POST">
                         <input type="hidden" name="accountId" th:value="${account.id}" />
                         <input type="hidden" name="gameId" th:value="${game.id}" />

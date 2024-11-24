@@ -1,10 +1,12 @@
 package de.fhdo.eborrow.services;
 
 import de.fhdo.eborrow.converters.AccountMapper;
+import de.fhdo.eborrow.converters.GameMapper;
 import de.fhdo.eborrow.domain.Account;
 import de.fhdo.eborrow.dto.AccountDto;
 import de.fhdo.eborrow.dto.GameDto;
 import de.fhdo.eborrow.dto.RichAccountDto;
+import de.fhdo.eborrow.dto.RichGameDto;
 import de.fhdo.eborrow.repositories.AccountRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -15,10 +17,12 @@ import java.util.stream.StreamSupport;
 @Service
 public class AccountService {
 	private final AccountRepository accountRepository;
+	private final GameService gameService;
 
 	@Autowired
-	public AccountService(AccountRepository accountRepository) {
+	public AccountService(AccountRepository accountRepository, GameService gameService) {
 		this.accountRepository = accountRepository;
+		this.gameService = gameService;
 	}
 
 	public Long addAccount(AccountDto accountDto) {
@@ -105,8 +109,55 @@ public class AccountService {
 	public boolean updateAccount(AccountDto accountChanges, AccountDto existingAccountDto) {
 		transferAccountChanges(existingAccountDto, accountChanges);
 		Account updatedAccount = AccountMapper.dtoToAccount(existingAccountDto);
-		if(updatedAccount.getId() == null || !accountRepository.existsById(updatedAccount.getId())) {
+		if (updatedAccount.getId() == null || !accountRepository.existsById(updatedAccount.getId())) {
 			System.err.println("Update failed: No Account found with id " + updatedAccount.getId());
+			return false;
+		}
+
+		rechargeTaggedGames(updatedAccount);
+		accountRepository.save(updatedAccount);
+
+		return true;
+	}
+
+	public boolean accountHasGame(Long accountId, Long gameId) {
+		return accountRepository.accountHasGame(accountId, gameId);
+	}
+	
+	public boolean addGameToAccount(Long accountId, Long gameId) {
+		RichAccountDto richAccountDto = getRichAccountById(accountId);
+		if (richAccountDto == null) {
+			System.err.println("Unlisting failed: No Account found with id " + accountId);
+			return false;
+		}
+
+		// TODO Zak: Lieber eine Service Methode fuer Laden aller Games als GameDto statt RichGameDto nutzen
+		RichGameDto richGameDto = gameService.getGameById(gameId);
+		if (richGameDto == null) {
+			System.err.println("Unlisting failed: No Game found with id " + gameId);
+			return false;
+		}
+		GameDto gameDto = GameMapper.gameToDto(GameMapper.richDtoToGame(richGameDto));
+
+		return addGameToAccount(richAccountDto, gameDto);
+	}
+
+	public boolean addGameToAccount(RichAccountDto richAccountDto, GameDto gameDto) {
+		List<GameDto> gamesDtos = richAccountDto.getTaggedGames();
+		if (gamesDtos == null) {
+			System.err.println("Appending failed: account with id " + richAccountDto.getId() + " has no tagged games list");
+			return false;
+		}
+
+		if (richAccountDto.getTaggedGames().stream().anyMatch(g -> g.getId().equals(gameDto.getId()))) {
+			System.err.println("Appending failed: Game with id " + gameDto.getId() + " is already tagged by Account with id " + richAccountDto.getId());
+			return false;
+		}
+
+		gamesDtos.add(gameDto);
+		Account updatedAccount = AccountMapper.richDtoToAccount(richAccountDto);
+		if (updatedAccount.getId() == null || !accountRepository.existsById(updatedAccount.getId())) {
+			System.err.println("Appending failed: No Account found with id " + updatedAccount.getId());
 			return false;
 		}
 
@@ -132,15 +183,15 @@ public class AccountService {
 			return false;
 		}
 
-		if(gamesDtos.stream().noneMatch(gameDto -> gameDto.getId().equals(gameId))) {
+		if (gamesDtos.stream().noneMatch(gameDto -> gameDto.getId().equals(gameId))) {
 			System.err.println("Unlisting failed: Game with id " + gameId + " is not tagged by Account with id " + richAccountDto.getId());
 			return false;
 		}
 
 		List<GameDto> updatedGamesDtos = gamesDtos.stream().filter(gameDto -> !gameDto.getId().equals(gameId)).toList();
-		transferTaggedGameChanges(richAccountDto, updatedGamesDtos);
+		richAccountDto.setTaggedGames(updatedGamesDtos);
 		Account updatedAccount = AccountMapper.richDtoToAccount(richAccountDto);
-		if(updatedAccount.getId() == null || !accountRepository.existsById(updatedAccount.getId())) {
+		if (updatedAccount.getId() == null || !accountRepository.existsById(updatedAccount.getId())) {
 			System.err.println("Unlisting failed: No Account found with id " + updatedAccount.getId());
 			return false;
 		}
@@ -149,7 +200,7 @@ public class AccountService {
 		return true;
 	}
 
-	public boolean updatePublisherStatus(Long id, boolean isPublisher){
+	public boolean updatePublisherStatus(Long id, boolean isPublisher) {
 		AccountDto accountDto = getAccountById(id);
 		if (accountDto == null) {
 			System.err.println("Update failed: No Account found with id " + id);
@@ -162,20 +213,17 @@ public class AccountService {
 	public boolean updatePublisherStatus(AccountDto accountDto, boolean isPublisher) {
 		accountDto.setPublisher(isPublisher);
 		Account updatedAccount = AccountMapper.dtoToAccount(accountDto);
-		if(updatedAccount.getId() == null || !accountRepository.existsById(updatedAccount.getId())) {
+		if (updatedAccount.getId() == null || !accountRepository.existsById(updatedAccount.getId())) {
 			System.err.println("Unlisting failed: No Account found with id " + updatedAccount.getId());
 			return false;
 		}
 
+		rechargeTaggedGames(updatedAccount);
 		accountRepository.save(updatedAccount);
 
 		return true;
 	}
 
-	private void transferTaggedGameChanges(RichAccountDto existingRichAccountDto, List<GameDto> newTaggedGames){
-		existingRichAccountDto.setTaggedGames(newTaggedGames);
-	}
-	
 	private void transferAccountChanges(AccountDto existingAccountDto, AccountDto accountChanges) {
 		if (accountChanges.getPrename() != null) {
 			existingAccountDto.setPrename(accountChanges.getPrename());
@@ -208,7 +256,8 @@ public class AccountService {
 		// Zak: Sollte der Wechsel des Status auf Publisher bzw. User unterstuetzt werden?
 	}
 
-	public boolean accountHasGame(Long accountId, Long gameId) {
-		return accountRepository.accountHasGame(accountId, gameId); 
+	private void rechargeTaggedGames(Account accountWithoutTaggedGames) {
+		// TODO Zak: Bessere Loesung ueberlegen
+		accountWithoutTaggedGames.setTaggedGames(accountRepository.findById(accountWithoutTaggedGames.getId()).get().getTaggedGames());
 	}
 }

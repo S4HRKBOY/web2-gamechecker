@@ -53,6 +53,8 @@ public class AccountMapper {
 	}
 
 	public static Account dtoToAccount(AccountDto accountDto) {
+		// TODO Zak: Das ist ziemlich fehleranfaellig, da die Liste an taggedGames nicht gesetzt und somit auf null gesetzt wird
+		// im Moment muessen Aufrufer die taggedGames aus der DB "nachladen" -> alternative ueberlegen! 
 		AccountBuilder accountBuilder = new AccountBuilder()
 				.setId(accountDto.getId())
 				.setPrename(accountDto.getPrename())
