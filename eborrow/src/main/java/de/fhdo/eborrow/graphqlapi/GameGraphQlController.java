@@ -9,7 +9,6 @@ import org.springframework.graphql.data.method.annotation.QueryMapping;
 import org.springframework.stereotype.Controller;
 
 import de.fhdo.eborrow.dto.RichGameDto;
-import de.fhdo.eborrow.dto.ReviewDto;
 import de.fhdo.eborrow.services.GameService;
 
 @Controller
@@ -53,8 +52,4 @@ public class GameGraphQlController {
         return gameService.getGameById(id);
     }
 
-    /*@QueryMapping("reviews")
-    public List<ReviewDto> getReviewsByGameId(@Argument Long id) {
-        return gameService.getReviewsByGameId(id); 
-    }*/
 }

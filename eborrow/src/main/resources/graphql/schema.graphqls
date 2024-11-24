@@ -71,6 +71,7 @@ input createReviewInput {
 }
 
 input updateReviewInput{
+  id:ID!
   reviewHeadline: String
   reviewText: String
   rating: String

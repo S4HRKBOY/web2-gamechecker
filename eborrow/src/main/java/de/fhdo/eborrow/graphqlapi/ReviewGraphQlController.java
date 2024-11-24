@@ -51,10 +51,10 @@ public class ReviewGraphQlController {
 		return reviewService.getReviewById(id);
 	}
 
-	// @MutationMapping("updateReview")
-	// public ReviewDto updateReview(@Argument ReviewDto reviewDto){
-	// 	Long id = reviewService.updateReview(reviewDto);
-	// 	return reviewService.getReviewById(id);
-	// }
+	@MutationMapping("updateReview")
+	public ReviewDto updateReview(@Argument ReviewDto review){
+		Long id = reviewService.updateReview(review);
+		return reviewService.getReviewById(id);
+	}
 
 }

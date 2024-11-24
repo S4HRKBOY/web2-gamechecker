@@ -1,19 +1,15 @@
 package de.fhdo.eborrow.controller;
 
+import java.time.LocalDate;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 
-import de.fhdo.eborrow.converters.GameMapper;
-import de.fhdo.eborrow.domain.Game;
 import de.fhdo.eborrow.dto.RichGameDto;
 import de.fhdo.eborrow.dto.RichAccountDto;
 import de.fhdo.eborrow.dto.ReviewDto;
@@ -50,12 +46,14 @@ public class GameController {
         RichGameDto gameDto = gameService.getGameById(id);
         RichAccountDto accountDto = accountService.getRichAccountById(1L);
         boolean hasReviewed = reviewService.existsByGameAndAccount(id, accountDto.getId());
+        boolean editReview = false; 
         ReviewDto reviewDto = new ReviewDto();
-        reviewDto.setRating(0);
+        reviewDto.setReviewDate(LocalDate.now());
         model.addAttribute("review", reviewDto); 
         model.addAttribute("game", gameDto);
         model.addAttribute("account", accountDto);
         model.addAttribute("hasReviewed", hasReviewed);
+        model.addAttribute("editReview", editReview);
         return "detail_page";
     }
 

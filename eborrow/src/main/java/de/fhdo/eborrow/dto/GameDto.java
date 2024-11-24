@@ -1,9 +1,7 @@
 package de.fhdo.eborrow.dto;
 import java.time.LocalDate;
-import java.util.ArrayList;
 import java.util.List;
 
-import de.fhdo.eborrow.domain.Review;
 
 public class GameDto {
 

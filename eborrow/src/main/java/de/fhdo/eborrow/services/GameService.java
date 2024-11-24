@@ -2,16 +2,13 @@ package de.fhdo.eborrow.services;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import de.fhdo.eborrow.converters.GameMapper;
-import de.fhdo.eborrow.converters.ReviewMapper;
 import de.fhdo.eborrow.domain.Game;
-import de.fhdo.eborrow.domain.Review;
 import de.fhdo.eborrow.dto.RichGameDto;
 import de.fhdo.eborrow.dto.ReviewDto;
 import de.fhdo.eborrow.repositories.GameRepository;
@@ -98,11 +95,5 @@ public class GameService {
 		gameDto.getReviewsDto().add(reviewDto);
         gameRepository.save(GameMapper.richDtoToGame(gameDto));
     }
-
-    /*public List<ReviewDto> getReviewsByGameId(Long id) {
-        Game game = gameRepository.findById(id).orElseThrow(() -> new RuntimeException("Spiel nicht gefunden"));
-        Set<Review> reviews = game.getReviews();
-        return reviews.stream().map(review -> ReviewMapper.convertReviewToDto(review)).toList();
-    }*/
 
 }

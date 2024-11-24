@@ -1,9 +1,12 @@
 package de.fhdo.eborrow.controller;
 
+import java.time.LocalDate;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -32,30 +35,66 @@ public class ReviewController {
     }
 
     @PostMapping("/create-review")
-    public String reviewSubmit(@ModelAttribute ReviewDto reviewDto, @RequestParam("gameId") Long gameId, @RequestParam("accountId") Long accountId, Model model) {
+    public String createReview(@ModelAttribute ReviewDto reviewDto, @RequestParam("gameId") Long gameId, @RequestParam("accountId") Long accountId, Model model) {
         reviewService.addReview(reviewDto, gameId, accountId);
         model.addAttribute("review", reviewDto);
         RichGameDto gameDto = gameService.getGameById(gameId);
         RichAccountDto accountDto = accountService.getRichAccountById(1L);
         boolean hasReviewed = reviewService.existsByGameAndAccount(gameId, accountDto.getId());
+        boolean editReview = false; 
         model.addAttribute("game", gameDto);
         model.addAttribute("account", accountDto);
         model.addAttribute("hasReviewed", hasReviewed);
+        model.addAttribute("editReview", editReview);
         return "detail_page";
     }
 
     @PostMapping("/delete-review")
-    public String reviewDelete(@RequestParam("reviewId") Long reviewId, Long gameId, Long accountId, Model model) {
+    public String deleteReview(@RequestParam("reviewId") Long reviewId, Long gameId, Long accountId, Model model) {
         reviewService.deleteReviewById(reviewId);
         RichGameDto gameDto = gameService.getGameById(gameId);
         RichAccountDto accountDto = accountService.getRichAccountById(accountId);
         boolean hasReviewed = reviewService.existsByGameAndAccount(gameId, accountId);
         ReviewDto reviewDto = new ReviewDto();
+        reviewDto.setReviewDate(LocalDate.now());
+        boolean editReview = false; 
         model.addAttribute("review", reviewDto); 
         model.addAttribute("game", gameDto);
         model.addAttribute("account", accountDto);
         model.addAttribute("hasReviewed", hasReviewed);
+        model.addAttribute("editReview", editReview);
         return "detail_page";
     }
+
+    @GetMapping("/update-review/{reviewId}")
+    public String getUpdateReview(@PathVariable("reviewId") Long reviewId, Long gameId, Long accountId, Model model) {
+        ReviewDto reviewDto = reviewService.getReviewById(reviewId);
+        RichGameDto gameDto = gameService.getGameById(gameId);
+        RichAccountDto accountDto = accountService.getRichAccountById(accountId);
+        boolean hasReviewed = reviewService.existsByGameAndAccount(gameId, accountDto.getId());; 
+        boolean editReview = true; 
+        model.addAttribute("review", reviewDto); 
+        model.addAttribute("game", gameDto);
+        model.addAttribute("account", accountDto);
+        model.addAttribute("hasReviewed", hasReviewed);
+        model.addAttribute("editReview", editReview);
+        return "detail_page";
+    }
+
+    @PostMapping("/update-review/{reviewId}")
+    public String updateReview( @ModelAttribute ReviewDto reviewDto, @PathVariable("reviewId") Long reviewId, Long gameId, Long accountId, Model model) {
+        reviewService.updateReview(reviewDto); 
+        RichGameDto gameDto = gameService.getGameById(gameId);
+        RichAccountDto accountDto = accountService.getRichAccountById(accountId);
+        boolean hasReviewed = reviewService.existsByGameAndAccount(gameId, accountDto.getId());; 
+        boolean editReview = false; 
+        model.addAttribute("review", reviewDto); 
+        model.addAttribute("game", gameDto);
+        model.addAttribute("account", accountDto);
+        model.addAttribute("hasReviewed", hasReviewed);
+        model.addAttribute("editReview", editReview);
+        return "detail_page";
+    }
+
 
 }
