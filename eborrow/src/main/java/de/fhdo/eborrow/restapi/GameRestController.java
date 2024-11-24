@@ -60,7 +60,7 @@ public class GameRestController {
         gameService.createGame(gameDto); 
     }
 
-    @PostMapping("/game/update-game/{id}")
+    @PostMapping("/game/update-game")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void updateGame(@RequestBody RichGameDto gameDto) {
         gameService.updateGame(gameDto); 
