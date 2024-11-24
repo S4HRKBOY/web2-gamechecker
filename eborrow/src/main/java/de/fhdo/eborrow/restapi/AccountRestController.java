@@ -3,7 +3,6 @@ package de.fhdo.eborrow.restapi;
 import de.fhdo.eborrow.dto.AccountDto;
 import de.fhdo.eborrow.dto.RichAccountDto;
 import de.fhdo.eborrow.services.AccountService;
-import de.fhdo.eborrow.services.GameService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -15,12 +14,10 @@ import java.util.Map;
 @RequestMapping("/account")
 public class AccountRestController {
 	private final AccountService accountService;
-	private final GameService gameService;
 
 	@Autowired
-	public AccountRestController(AccountService accountService, GameService gameService) {
+	public AccountRestController(AccountService accountService) {
 		this.accountService = accountService;
-		this.gameService = gameService;
 	}
 
 	// ResponseEntity allows for multiple HTTP status codes to be returned
@@ -72,7 +69,7 @@ public class AccountRestController {
 
 		Long accountId = accountService.addAccount(accountDto);
 		if (accountId == null) {
-			return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 		}
 
 		return new ResponseEntity<>(accountId, HttpStatus.CREATED);
@@ -84,14 +81,9 @@ public class AccountRestController {
 			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 		}
 
-		AccountDto accountDto = accountService.getAccountById(id);
-		if (accountDto == null) {
-			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-		}
-
-		boolean updateSucceeded = accountService.updateAccount(prefilledAccount, accountDto);
+		boolean updateSucceeded = accountService.updateAccount(prefilledAccount, id);
 		if (!updateSucceeded) {
-			return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 		}
 
 		return new ResponseEntity<>(HttpStatus.OK);
@@ -105,7 +97,7 @@ public class AccountRestController {
 		}
 
 		if (!accountService.deleteAccount(id)) {
-			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 		}
 
 		return new ResponseEntity<>(HttpStatus.OK);
