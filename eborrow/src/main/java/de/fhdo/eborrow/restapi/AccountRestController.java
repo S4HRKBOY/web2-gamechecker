@@ -3,6 +3,7 @@ package de.fhdo.eborrow.restapi;
 import de.fhdo.eborrow.dto.AccountDto;
 import de.fhdo.eborrow.dto.RichAccountDto;
 import de.fhdo.eborrow.services.AccountService;
+import de.fhdo.eborrow.services.GameService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -14,9 +15,13 @@ import java.util.Map;
 @RequestMapping("/account")
 public class AccountRestController {
 	private final AccountService accountService;
+	private final GameService gameService;
 
 	@Autowired
-	public AccountRestController(AccountService accountService) {this.accountService = accountService;}
+	public AccountRestController(AccountService accountService, GameService gameService) {
+		this.accountService = accountService;
+		this.gameService = gameService;
+	}
 
 	// ResponseEntity allows for multiple HTTP status codes to be returned
 	@GetMapping(value = "/getAccounts", params = "with-games")
@@ -106,6 +111,22 @@ public class AccountRestController {
 		return new ResponseEntity<>(HttpStatus.OK);
 	}
 
+	@PostMapping(value = "/add-game", consumes = "application/json")
+	public ResponseEntity<Void> addGameToAccount(@RequestBody Map<String, Long> requestBody) {
+		Long accountId = requestBody.get("accountId");
+		Long gameId = requestBody.get("gameId");
+
+		if (accountId == null || gameId == null) {
+			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+		}
+
+		if (!accountService.addGameToAccount(accountId, gameId)) {
+			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+		}
+
+		return new ResponseEntity<>(HttpStatus.OK);
+	}
+
 	@PostMapping(value = "/unlist-game", consumes = "application/json")
 	public ResponseEntity<Void> unlistGameFromAccount(@RequestBody Map<String, Long> requestBody) {
 		Long accountId = requestBody.get("accountId");
@@ -116,7 +137,7 @@ public class AccountRestController {
 		}
 
 		if (!accountService.unlistGameFromAccount(accountId, gameId)) {
-			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 		}
 
 		return new ResponseEntity<>(HttpStatus.OK);

@@ -84,7 +84,7 @@ public class GameController {
 
     @PostMapping("/game/add-game")
 	public String addGameToAccount(@RequestParam("accountId") Long accountId, @RequestParam("gameId") Long gameId, Model model) {
-		//accountService.addGameToAccount(accountId, gameId);
+		accountService.addGameToAccount(accountId, gameId);
         RichGameDto gameDto = gameService.getGameById(gameId);
         AccountDto accountDto = accountService.getAccountById(accountId);
         boolean hasReviewed = reviewService.existsByGameAndAccount(gameId, accountId);
