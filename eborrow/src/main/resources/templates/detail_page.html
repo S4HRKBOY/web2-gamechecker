@@ -14,7 +14,7 @@
         <nav class="navigation">
             <ul class="nav-links">
                 <li><a href="/thymeleaf/home">Home</a></li>
-                <li><a href="#">Neues Spiel anlegen</a></li>
+                <li th:if="${account.publisher}"><a href="#">Neues Spiel anlegen</a></li>
                 <li><a href="/account/1">Profil</a></li>
                 <li><a href="#">Logout</a></li>
             </ul>
@@ -82,7 +82,8 @@
         <section class="container">
             <h2 class="headline">Reviews</h2>
             <div id="addReview" th:if="${!hasReviewed or account.publisher}">
-                <form class="reviewForm" th:action="@{/thymeleaf/review/create-review}" th:object="${review}" method="POST">
+                <form class="reviewForm" th:action="@{/thymeleaf/review/create-review}" th:object="${review}"
+                    method="POST">
 
                     <input type="hidden" name="gameId" th:value="${game.id}" />
                     <input type="hidden" name="accountId" th:value="${account.id}" />
@@ -92,7 +93,6 @@
                     <textarea th:field="*{reviewText}" id="reviewText" name="reviewText" required></textarea>
                     <label for="recommendation">Deine Bewertung?</label>
                     <select th:field="*{rating}" name="recommendation" id="recommendation" required>
-                        <option th:value="0" th:text="--" th:if="${review.rating == 0}" selected disabled>--</option>
                         <option th:value="${1}" th:text="${1}">1</option>
                         <option th:value="${2}" th:text="${2}">2</option>
                         <option th:value="${3}" th:text="${3}">3</option>
@@ -123,7 +123,13 @@
                     <button>Bearbeiten</button>
                 </div>
                 <div th:if="${review.accountDto.id == account.id}" id="deleteReviewButton">
-                    <button>Löschen</button>
+                    <form th:action="@{/thymeleaf/review/delete-review}" method="POST" style="display:inline;">
+                        <input type="hidden" name="gameId" th:value="${game.id}" />
+                        <input type="hidden" name="accountId" th:value="${account.id}" />
+                        <input type="hidden" name="reviewId" th:value="${review.id}" />
+                        <input type="hidden" name="_method" value="DELETE" />
+                        <button type="submit">Löschen</button>
+                    </form>
                 </div>
             </div>
         </section>

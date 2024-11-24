@@ -44,4 +44,18 @@ public class ReviewController {
         return "detail_page";
     }
 
+    @PostMapping("/delete-review")
+    public String reviewDelete(@RequestParam("reviewId") Long reviewId, Long gameId, Long accountId, Model model) {
+        reviewService.deleteReviewById(reviewId);
+        RichGameDto gameDto = gameService.getGameById(gameId);
+        RichAccountDto accountDto = accountService.getRichAccountById(accountId);
+        boolean hasReviewed = reviewService.existsByGameAndAccount(gameId, accountId);
+        ReviewDto reviewDto = new ReviewDto();
+        model.addAttribute("review", reviewDto); 
+        model.addAttribute("game", gameDto);
+        model.addAttribute("account", accountDto);
+        model.addAttribute("hasReviewed", hasReviewed);
+        return "detail_page";
+    }
+
 }
