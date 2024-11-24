@@ -51,8 +51,8 @@ public class ReviewController {
         return "detail_page";
     }
 
-    @PostMapping("/delete-review")
-    public String deleteReview(@RequestParam("reviewId") Long reviewId, Long gameId, Long accountId, Model model) {
+    @PostMapping("/delete-review/{reviewId}")
+    public String deleteReview(@PathVariable("reviewId") Long reviewId, Long gameId, Long accountId, Model model) {
         reviewService.deleteReviewById(reviewId);
         RichGameDto gameDto = gameService.getGameById(gameId);
         AccountDto accountDto = accountService.getAccountById(accountId);

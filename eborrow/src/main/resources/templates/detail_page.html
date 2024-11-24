@@ -169,10 +169,10 @@
                     </form>
                 </div>
                 <div th:if="${review.accountDto.id == account.id}" id="deleteReviewButton">
-                    <form th:action="@{/thymeleaf/review/delete-review}" method="POST" style="display:inline;">
+                    <form th:action="@{/thymeleaf/review/delete-review/{reviewId}(reviewId=${review.id})}" th:object="${review}" method="POST">
                         <input type="hidden" name="gameId" th:value="${game.id}" />
                         <input type="hidden" name="accountId" th:value="${account.id}" />
-                        <input type="hidden" name="reviewId" th:value="${review.id}" />
+                        <input type="hidden" th:field="*{id}" th:value="${review.id}" />
                         <input type="hidden" name="_method" value="DELETE" />
                         <button type="submit">Löschen</button>
                     </form>
