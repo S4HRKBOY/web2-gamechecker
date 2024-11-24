@@ -86,4 +86,9 @@ public class ReviewService {
 		return reviewRepository.save(reviewToUpdate).getId();
 	}
 
+
+	public boolean existsByGameAndAccount(Long gameId, Long accountId){
+		return reviewRepository.existsByGameAndAccount(gameId, accountId); 
+	}
+
 }

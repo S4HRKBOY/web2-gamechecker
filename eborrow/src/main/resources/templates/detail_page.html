@@ -29,10 +29,10 @@
                     alt="Bild nicht verfügbar" />
 
                 <form id="editGameButton">
-                    <input th:if="${account.isPublisher()}" type="submit" value="Bearbeiten">
+                    <input th:if="${account.publisher}" type="submit" value="Bearbeiten">
                 </form>
                 <div id="addGameButton">
-                    <button th:if="${!account.isPublisher()}">Zu Liste hinzufügen</button>
+                    <button th:if="${!account.publisher}">Zu Liste hinzufügen</button>
                 </div>
                 <div>
                     <table id="detailInfo">
@@ -81,23 +81,28 @@
 
         <section class="container">
             <h2 class="headline">Reviews</h2>
-            <div id="addReview">
-                <form class="reviewForm" action="./detail_page.html">
-                    <input type="text" id="reviewFormHeadline" name="reviewFormHeadline" placeholder="Titel" required>
-                    <textarea id="reviewText" name="reviewText" required></textarea>
+            <div id="addReview" th:if="${!hasReviewed or account.publisher}">
+                <form class="reviewForm" th:action="@{/thymeleaf/review/create-review}" th:object="${review}" method="POST">
+
+                    <input type="hidden" name="gameId" th:value="${game.id}" />
+                    <input type="hidden" name="accountId" th:value="${account.id}" />
+
+                    <input type="text" th:field="*{reviewHeadline}" id="reviewFormHeadline" name="reviewFormHeadline"
+                        placeholder="Titel" required>
+                    <textarea th:field="*{reviewText}" id="reviewText" name="reviewText" required></textarea>
                     <label for="recommendation">Deine Bewertung?</label>
-                    <select name="recommendation" id="recommendation">
-                        <option value="">--</option>
-                        <option value="1">1</option>
-                        <option value="2">2</option>
-                        <option value="3">3</option>
-                        <option value="4">4</option>
-                        <option value="5">5</option>
-                        <option value="6">6</option>
-                        <option value="7">7</option>
-                        <option value="8">8</option>
-                        <option value="9">9</option>
-                        <option value="10">10</option>
+                    <select th:field="*{rating}" name="recommendation" id="recommendation" required>
+                        <option th:value="0" th:text="--" th:if="${review.rating == 0}" selected disabled>--</option>
+                        <option th:value="${1}" th:text="${1}">1</option>
+                        <option th:value="${2}" th:text="${2}">2</option>
+                        <option th:value="${3}" th:text="${3}">3</option>
+                        <option th:value="${4}" th:text="${5}">4</option>
+                        <option th:value="${5}" th:text="${5}">5</option>
+                        <option th:value="${6}" th:text="${6}">6</option>
+                        <option th:value="${7}" th:text="${7}">7</option>
+                        <option th:value="${8}" th:text="${8}">8</option>
+                        <option th:value="${9}" th:text="${9}">9</option>
+                        <option th:value="${10}" th:text="${10}">10</option>
                     </select>
                     <input id="submit" type="submit" value="Review veröffentlichen">
                 </form>
@@ -114,8 +119,11 @@
                 <h3 class="reviewHeadline" th:text="${review.reviewHeadline}">Kein Titel verfügbar</h3>
                 <div class="reviewRating" th:text="${review.rating + '/10'}">Kein Rating verfügbar</div>
                 <div class="reviewContent" th:text="${review.reviewText}">Kein Review verfügbar</div>
-                <div th:if="${review.accountDto.id == account.getId()}" id="editReviewButton">
+                <div th:if="${review.accountDto.id == account.id}" id="editReviewButton">
                     <button>Bearbeiten</button>
+                </div>
+                <div th:if="${review.accountDto.id == account.id}" id="deleteReviewButton">
+                    <button>Löschen</button>
                 </div>
             </div>
         </section>

@@ -92,6 +92,13 @@ label[for="recommendation"] {
 #editReviewButton {
   grid-area: editReviewButton;
   justify-self: end;
+  padding-top: 20px; 
+}
+
+#deleteReviewButton {
+  grid-area: deleteReviewButton;
+  justify-self: left;
+  padding-top: 20px; 
 }
 
 textarea {
@@ -110,7 +117,7 @@ textarea {
     "reviewImage reviewUsername reviewDate"
     "reviewHeadline reviewHeadline reviewRating"
     "reviewContent reviewContent reviewContent"
-    ". . editReviewButton"
+    "deleteReviewButton . editReviewButton"
 }
 
 .reviewImage {

@@ -1,61 +1,47 @@
 package de.fhdo.eborrow.controller;
 
-import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.ui.Model;
 
-import de.fhdo.eborrow.converters.GameMapper;
-import de.fhdo.eborrow.domain.Game;
-import de.fhdo.eborrow.dto.RichGameDto;
-import de.fhdo.eborrow.dto.RichAccountDto;
 import de.fhdo.eborrow.dto.ReviewDto;
+import de.fhdo.eborrow.dto.RichAccountDto;
+import de.fhdo.eborrow.dto.RichGameDto;
 import de.fhdo.eborrow.services.AccountService;
 import de.fhdo.eborrow.services.GameService;
 import de.fhdo.eborrow.services.ReviewService;
 
 @Controller
-@RequestMapping("/thymeleaf")
-public class GameController {
+@RequestMapping("/thymeleaf/review")
+public class ReviewController {
 
     private GameService gameService;
     private AccountService accountService;
     private ReviewService reviewService;
 
     @Autowired
-    public GameController(GameService gameService, AccountService accountService, ReviewService reviewService) {
+    public ReviewController (GameService gameService, AccountService accountService, ReviewService reviewService) {
         this.gameService = gameService;
         this.accountService = accountService;
         this.reviewService = reviewService;
     }
 
-    @GetMapping("/home")
-    public String getAll(Model model) {
-        List<RichGameDto> gameDto = gameService.getAll();
-        model.addAttribute("games", gameDto);
-        return "start_page";
-    }
-
-    @GetMapping("/game/{id}")
-    public String getGameById(@PathVariable Long id, Model model) {
-        RichGameDto gameDto = gameService.getGameById(id);
+    @PostMapping("/create-review")
+    public String reviewSubmit(@ModelAttribute ReviewDto reviewDto, @RequestParam("gameId") Long gameId, @RequestParam("accountId") Long accountId, Model model) {
+        reviewService.addReview(reviewDto, gameId, accountId);
+        model.addAttribute("review", reviewDto);
+        RichGameDto gameDto = gameService.getGameById(gameId);
         RichAccountDto accountDto = accountService.getRichAccountById(1L);
-        boolean hasReviewed = reviewService.existsByGameAndAccount(id, accountDto.getId());
-        ReviewDto reviewDto = new ReviewDto();
-        reviewDto.setRating(0);
-        model.addAttribute("review", reviewDto); 
+        boolean hasReviewed = reviewService.existsByGameAndAccount(gameId, accountDto.getId());
         model.addAttribute("game", gameDto);
         model.addAttribute("account", accountDto);
         model.addAttribute("hasReviewed", hasReviewed);
         return "detail_page";
     }
-
 
 }
