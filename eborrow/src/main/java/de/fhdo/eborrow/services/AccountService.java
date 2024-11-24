@@ -22,6 +22,9 @@ public class AccountService {
 	}
 
 	public Long addAccount(AccountDto accountDto) {
+		// TODO Zak: Pruefen ob Account bereits existiert (z.B. nur benutzername oder email)
+		// (muesste ich da echt die ganze Liste durchgehen? Jeden einzelnen Account zu DTO konvertieren 
+		// waere echt ineffizient, vor allem mit Profilbildern)
 		Account account = AccountMapper.dtoToAccount(accountDto);
 
 		return accountRepository.save(account).getId();
@@ -100,8 +103,13 @@ public class AccountService {
 	}
 
 	public boolean updateAccount(AccountDto accountChanges, AccountDto existingAccountDto) {
-		AccountDto updatedAccountDTO = transferChanges(existingAccountDto, accountChanges);
-		Account updatedAccount = AccountMapper.dtoToAccount(updatedAccountDTO);
+		transferAccountChanges(existingAccountDto, accountChanges);
+		Account updatedAccount = AccountMapper.dtoToAccount(existingAccountDto);
+		if(updatedAccount.getId() == null || !accountRepository.existsById(updatedAccount.getId())) {
+			System.err.println("Update failed: No Account found with id " + updatedAccount.getId());
+			return false;
+		}
+
 		accountRepository.save(updatedAccount);
 
 		return true;
@@ -124,21 +132,51 @@ public class AccountService {
 			return false;
 		}
 
+		if(gamesDtos.stream().noneMatch(gameDto -> gameDto.getId().equals(gameId))) {
+			System.err.println("Unlisting failed: Game with id " + gameId + " is not tagged by Account with id " + richAccountDto.getId());
+			return false;
+		}
+
 		List<GameDto> updatedGamesDtos = gamesDtos.stream().filter(gameDto -> !gameDto.getId().equals(gameId)).toList();
 		transferTaggedGameChanges(richAccountDto, updatedGamesDtos);
+		Account updatedAccount = AccountMapper.richDtoToAccount(richAccountDto);
+		if(updatedAccount.getId() == null || !accountRepository.existsById(updatedAccount.getId())) {
+			System.err.println("Unlisting failed: No Account found with id " + updatedAccount.getId());
+			return false;
+		}
+		accountRepository.save(updatedAccount);
 
 		return true;
 	}
 
-	private RichAccountDto transferTaggedGameChanges(RichAccountDto existingRichAccountDto, List<GameDto> newTaggedGames){
-		existingRichAccountDto.setTaggedGames(newTaggedGames);
-		Account updatedAccount = AccountMapper.richDtoToAccount(existingRichAccountDto);
+	public boolean updatePublisherStatus(Long id, boolean isPublisher){
+		AccountDto accountDto = getAccountById(id);
+		if (accountDto == null) {
+			System.err.println("Update failed: No Account found with id " + id);
+			return false;
+		}
+
+		return updatePublisherStatus(accountDto, isPublisher);
+	}
+
+	public boolean updatePublisherStatus(AccountDto accountDto, boolean isPublisher) {
+		accountDto.setPublisher(isPublisher);
+		Account updatedAccount = AccountMapper.dtoToAccount(accountDto);
+		if(updatedAccount.getId() == null || !accountRepository.existsById(updatedAccount.getId())) {
+			System.err.println("Unlisting failed: No Account found with id " + updatedAccount.getId());
+			return false;
+		}
+
 		accountRepository.save(updatedAccount);
 
-		return existingRichAccountDto;
+		return true;
+	}
+
+	private void transferTaggedGameChanges(RichAccountDto existingRichAccountDto, List<GameDto> newTaggedGames){
+		existingRichAccountDto.setTaggedGames(newTaggedGames);
 	}
 	
-	private AccountDto transferChanges(AccountDto existingAccountDto, AccountDto accountChanges) {
+	private void transferAccountChanges(AccountDto existingAccountDto, AccountDto accountChanges) {
 		if (accountChanges.getPrename() != null) {
 			existingAccountDto.setPrename(accountChanges.getPrename());
 		}
@@ -168,8 +206,6 @@ public class AccountService {
 		}
 
 		// Zak: Sollte der Wechsel des Status auf Publisher bzw. User unterstuetzt werden?
-
-		return existingAccountDto;
 	}
 
 	public boolean accountHasGame(Long accountId, Long gameId) {

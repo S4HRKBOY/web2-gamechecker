@@ -23,7 +23,6 @@ import de.fhdo.eborrow.services.GameService;
 import de.fhdo.eborrow.services.ReviewService;
 
 @RestController
-@RequestMapping("/game")
 public class GameRestController {
 
     private GameService gameService; 
@@ -37,41 +36,55 @@ public class GameRestController {
         this.accountService = accountService; 
     }
 
-    @GetMapping("/getGames")
+    @GetMapping("/home")
     @ResponseStatus(HttpStatus.OK)
     public List<RichGameDto> getAll() {
         return gameService.getAll(); 
     }
 
-    @GetMapping("/{id}")
+    @GetMapping("/game/{id}")
     @ResponseStatus(HttpStatus.OK)
     public RichGameDto getGameById(@PathVariable Long id) {
         return gameService.getGameById(id); 
     }
 
-    @DeleteMapping("/deleteGameById/{id}")
+    @DeleteMapping("/game/delete-game/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void deleteGameById(@PathVariable Long id) {
         gameService.deleteGameById(id);
     }
 
-    @PutMapping("/createGame")
+    @PutMapping("/game/create-game")
     @ResponseStatus(HttpStatus.CREATED)
     public void createGame(@RequestBody RichGameDto gameDto) {
         gameService.createGame(gameDto); 
     }
 
-    @PostMapping("/updateGame")
+    @PostMapping("/game/update-game/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void updateGame(@RequestBody RichGameDto gameDto) {
         gameService.updateGame(gameDto); 
     }
 
-    // @GetMapping("/getReviewsByGameId/{id}")
-    // @ResponseStatus(HttpStatus.OK)
-    // public List<ReviewDto> getReviewsByGameId(@PathVariable Long id) {
-    //     return reviewService.getAllReviewsToGame(id); 
-    // }
+    @GetMapping("/game/all-platforms")
+    @ResponseStatus(HttpStatus.OK)
+    public List<String> getAllPlatforms() {
+        return gameService.getAllPlatforms(); 
+    }
+
+    @GetMapping("/game/all-genres")
+    @ResponseStatus(HttpStatus.OK)
+    public List<String> getAllGenres() {
+        return gameService.getAllGenres(); 
+    }
+
+    @GetMapping("/game/all-age-ratings")
+    @ResponseStatus(HttpStatus.OK)
+    public List<String> getAllAgeRatings() {
+        return gameService.getAllAgeRatings(); 
+    }
+
+
 
     //TODO später löschen
     @GetMapping("/getReviewById/{id}")

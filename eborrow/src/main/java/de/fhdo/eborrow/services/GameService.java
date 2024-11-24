@@ -2,13 +2,17 @@ package de.fhdo.eborrow.services;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import de.fhdo.eborrow.converters.GameMapper;
+import de.fhdo.eborrow.domain.AgeRating;
 import de.fhdo.eborrow.domain.Game;
+import de.fhdo.eborrow.domain.Genre;
+import de.fhdo.eborrow.domain.Platform;
 import de.fhdo.eborrow.dto.RichGameDto;
 import de.fhdo.eborrow.dto.ReviewDto;
 import de.fhdo.eborrow.repositories.GameRepository;
@@ -94,6 +98,18 @@ public class GameService {
         RichGameDto gameDto = getGameById(gameId);
 		gameDto.getReviewsDto().add(reviewDto);
         gameRepository.save(GameMapper.richDtoToGame(gameDto));
+    }
+
+    public List<String> getAllPlatforms() {
+        return List.of(Platform.values()).stream().map(Platform::getPlatform).collect(Collectors.toList());
+    }
+
+    public List<String> getAllGenres() {
+        return List.of(Genre.values()).stream().map(Genre::getGenre).collect(Collectors.toList());
+    }
+
+    public List<String> getAllAgeRatings() {
+        return List.of(AgeRating.values()).stream().map(AgeRating::getAgeRating).collect(Collectors.toList());
     }
 
 }

@@ -2,6 +2,7 @@ package de.fhdo.eborrow.converters;
 
 import de.fhdo.eborrow.domain.Review;
 import de.fhdo.eborrow.dto.ReviewDto;
+import de.fhdo.eborrow.graphqlapi.ReviewGraphql;
 
 import java.util.ArrayList;
 import java.util.HashSet;
