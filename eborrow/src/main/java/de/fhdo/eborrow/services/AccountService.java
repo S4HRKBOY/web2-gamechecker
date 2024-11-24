@@ -114,11 +114,16 @@ public class AccountService {
 			return false;
 		}
 
+		rechargeTaggedGames(updatedAccount);
 		accountRepository.save(updatedAccount);
 
 		return true;
 	}
 
+	public boolean accountHasGame(Long accountId, Long gameId) {
+		return accountRepository.accountHasGame(accountId, gameId);
+	}
+	
 	public boolean addGameToAccount(Long accountId, Long gameId) {
 		RichAccountDto richAccountDto = getRichAccountById(accountId);
 		if (richAccountDto == null) {
@@ -213,6 +218,7 @@ public class AccountService {
 			return false;
 		}
 
+		rechargeTaggedGames(updatedAccount);
 		accountRepository.save(updatedAccount);
 
 		return true;
@@ -250,7 +256,8 @@ public class AccountService {
 		// Zak: Sollte der Wechsel des Status auf Publisher bzw. User unterstuetzt werden?
 	}
 
-	public boolean accountHasGame(Long accountId, Long gameId) {
-		return accountRepository.accountHasGame(accountId, gameId);
+	private void rechargeTaggedGames(Account accountWithoutTaggedGames) {
+		// TODO Zak: Bessere Loesung ueberlegen
+		accountWithoutTaggedGames.setTaggedGames(accountRepository.findById(accountWithoutTaggedGames.getId()).get().getTaggedGames());
 	}
 }
