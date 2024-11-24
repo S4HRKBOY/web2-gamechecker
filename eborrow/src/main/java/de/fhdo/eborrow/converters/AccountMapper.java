@@ -12,7 +12,7 @@ import java.util.Base64;
 public class AccountMapper {
 	public static AccountDto accountToDto(Account account) {
 		AccountDtoBuilder accountDtoBuilder = new AccountDtoBuilder()
-				//.setId(account.getId())
+				.setId(account.getId())
 				.setPrename(account.getPrename())
 				.setSurname(account.getSurname())
 				.setBirthday(account.getBirthday())
