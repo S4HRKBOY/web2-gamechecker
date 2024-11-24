@@ -54,13 +54,13 @@ public class GameRestController {
         gameService.deleteGameById(id);
     }
 
-    @PutMapping("/game/create-game")
+    @PostMapping("/game/create-game")
     @ResponseStatus(HttpStatus.CREATED)
     public void createGame(@RequestBody RichGameDto gameDto) {
         gameService.createGame(gameDto); 
     }
 
-    @PostMapping("/game/update-game")
+    @PutMapping("/game/update-game")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void updateGame(@RequestBody RichGameDto gameDto) {
         gameService.updateGame(gameDto); 
