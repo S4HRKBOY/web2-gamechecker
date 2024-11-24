@@ -12,8 +12,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.ui.Model;
 
+import de.fhdo.eborrow.dto.AccountDto;
 import de.fhdo.eborrow.dto.ReviewDto;
-import de.fhdo.eborrow.dto.RichAccountDto;
 import de.fhdo.eborrow.dto.RichGameDto;
 import de.fhdo.eborrow.services.AccountService;
 import de.fhdo.eborrow.services.GameService;
@@ -39,13 +39,15 @@ public class ReviewController {
         reviewService.addReview(reviewDto, gameId, accountId);
         model.addAttribute("review", reviewDto);
         RichGameDto gameDto = gameService.getGameById(gameId);
-        RichAccountDto accountDto = accountService.getRichAccountById(1L);
+        AccountDto accountDto = accountService.getAccountById(1L);
         boolean hasReviewed = reviewService.existsByGameAndAccount(gameId, accountDto.getId());
         boolean editReview = false; 
+        boolean accountHasGame = accountService.accountHasGame(accountId, gameId); 
         model.addAttribute("game", gameDto);
         model.addAttribute("account", accountDto);
         model.addAttribute("hasReviewed", hasReviewed);
         model.addAttribute("editReview", editReview);
+        model.addAttribute("accountHasGame", accountHasGame); 
         return "detail_page";
     }
 
@@ -53,8 +55,9 @@ public class ReviewController {
     public String deleteReview(@RequestParam("reviewId") Long reviewId, Long gameId, Long accountId, Model model) {
         reviewService.deleteReviewById(reviewId);
         RichGameDto gameDto = gameService.getGameById(gameId);
-        RichAccountDto accountDto = accountService.getRichAccountById(accountId);
+        AccountDto accountDto = accountService.getAccountById(accountId);
         boolean hasReviewed = reviewService.existsByGameAndAccount(gameId, accountId);
+        boolean accountHasGame = accountService.accountHasGame(accountId, gameId); 
         ReviewDto reviewDto = new ReviewDto();
         reviewDto.setReviewDate(LocalDate.now());
         boolean editReview = false; 
@@ -63,6 +66,7 @@ public class ReviewController {
         model.addAttribute("account", accountDto);
         model.addAttribute("hasReviewed", hasReviewed);
         model.addAttribute("editReview", editReview);
+        model.addAttribute("accountHasGame", accountHasGame); 
         return "detail_page";
     }
 
@@ -70,14 +74,16 @@ public class ReviewController {
     public String getUpdateReview(@PathVariable("reviewId") Long reviewId, Long gameId, Long accountId, Model model) {
         ReviewDto reviewDto = reviewService.getReviewById(reviewId);
         RichGameDto gameDto = gameService.getGameById(gameId);
-        RichAccountDto accountDto = accountService.getRichAccountById(accountId);
-        boolean hasReviewed = reviewService.existsByGameAndAccount(gameId, accountDto.getId());; 
+        AccountDto accountDto = accountService.getAccountById(accountId);
+        boolean hasReviewed = reviewService.existsByGameAndAccount(gameId, accountDto.getId());
+        boolean accountHasGame = accountService.accountHasGame(accountId, gameId); 
         boolean editReview = true; 
         model.addAttribute("review", reviewDto); 
         model.addAttribute("game", gameDto);
         model.addAttribute("account", accountDto);
         model.addAttribute("hasReviewed", hasReviewed);
         model.addAttribute("editReview", editReview);
+        model.addAttribute("accountHasGame", accountHasGame); 
         return "detail_page";
     }
 
@@ -85,14 +91,16 @@ public class ReviewController {
     public String updateReview( @ModelAttribute ReviewDto reviewDto, @PathVariable("reviewId") Long reviewId, Long gameId, Long accountId, Model model) {
         reviewService.updateReview(reviewDto); 
         RichGameDto gameDto = gameService.getGameById(gameId);
-        RichAccountDto accountDto = accountService.getRichAccountById(accountId);
-        boolean hasReviewed = reviewService.existsByGameAndAccount(gameId, accountDto.getId());; 
+        AccountDto accountDto = accountService.getAccountById(accountId);
+        boolean hasReviewed = reviewService.existsByGameAndAccount(gameId, accountDto.getId());
+        boolean accountHasGame = accountService.accountHasGame(accountId, gameId); 
         boolean editReview = false; 
         model.addAttribute("review", reviewDto); 
         model.addAttribute("game", gameDto);
         model.addAttribute("account", accountDto);
         model.addAttribute("hasReviewed", hasReviewed);
         model.addAttribute("editReview", editReview);
+        model.addAttribute("accountHasGame", accountHasGame); 
         return "detail_page";
     }
 

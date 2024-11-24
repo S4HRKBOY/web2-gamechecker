@@ -17,7 +17,7 @@
   grid-template-columns: auto 60%;
   grid-template-rows: auto;
   grid-template-areas:
-    "editGameButton addGameButton"
+    "editGameButton addOrRemoveGameButton"
     "detailImage detailInfo"
     "detailDescription detailDescription"
 }
@@ -27,12 +27,12 @@
   grid-area: editGameButton;
 }
 
-#addGameButton {
-  grid-area: addGameButton;
+.addOrRemoveGameButton {
+  grid-area: addOrRemoveGameButton;
   justify-self: end;
 }
 
-#addGameButton > button {
+.addOrRemoveGameButton > form > button {
   height: 2.2em;
   width: 16.2em;
 }

@@ -171,4 +171,8 @@ public class AccountService {
 
 		return existingAccountDto;
 	}
+
+	public boolean accountHasGame(Long accountId, Long gameId) {
+		return accountRepository.accountHasGame(accountId, gameId); 
+	}
 }
