@@ -1,48 +1,25 @@
-package de.fhdo.eborrow.domain;
+package de.fhdo.eborrow.dto;
 
-import de.fhdo.eborrow.domain.builder.AccountBuilder;
-import jakarta.persistence.*;
-import org.springframework.format.annotation.DateTimeFormat;
+import de.fhdo.eborrow.dto.builder.RichAccountDtoBuilder;
 
 import java.time.LocalDate;
-import java.util.Set;
+import java.util.List;
 
-@Entity
-@Table(name = "account")
-public class Account {
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+public class RichAccountDto {
     private Long id;
-
     private String prename;
     private String surname;
-    @DateTimeFormat
     private LocalDate birthday;
-
     private String username;
     private String email;
     private String password;
-
-    @Lob
-    @Column(columnDefinition = "MEDIUMBLOB")
-    private byte[] profilePicture;
-
+    private String profilePicture;
     private boolean isPublisher;
+    
+    private List<GameDto> taggedGames;
 
-	@ManyToMany
-	@JoinTable(
-			name = "account_game",
-			joinColumns = @JoinColumn(name = "account_id"),
-			inverseJoinColumns = @JoinColumn(name = "game_id")
-	)
-	private Set<Game> taggedGames;
-	
-    protected Account() {
-    }
-
-    private Account(Long id, String prename, String surname, LocalDate birthday, String username, String email, String password, byte[] profilePicture) {
-        this();
-		this.id = id;
+    private RichAccountDto(Long id, String prename, String surname, LocalDate birthday, String username, String email, String password, String profilePicture) {
+        this.id = id;
         this.prename = prename;
         this.surname = surname;
         this.birthday = birthday;
@@ -52,7 +29,7 @@ public class Account {
         this.profilePicture = profilePicture;
     }
 
-    public Account(AccountBuilder builder) {
+    public RichAccountDto(RichAccountDtoBuilder builder) {
         this(builder.getId(),
                 builder.getPrename(),
                 builder.getSurname(),
@@ -62,9 +39,9 @@ public class Account {
                 builder.getPassword(),
                 builder.getProfilePicture());
 
-		this.isPublisher = builder.isPublisher();
-		this.taggedGames = builder.getTaggedGames();
-	}
+        this.isPublisher = builder.isPublisher();
+        this.taggedGames = builder.getTaggedGames();
+    }
 
     // region getter and setter
     public Long getId() {
@@ -123,11 +100,11 @@ public class Account {
         this.password = password;
     }
 
-    public byte[] getProfilePicture() {
+    public String getProfilePicture() {
         return profilePicture;
     }
 
-    public void setProfilePicture(byte[] profilePicture) {
+    public void setProfilePicture(String profilePicture) {
         this.profilePicture = profilePicture;
     }
 
@@ -139,18 +116,18 @@ public class Account {
         isPublisher = publisher;
     }
 
-	public Set<Game> getTaggedGames() {
-		return taggedGames;
-	}
+    public List<GameDto> getTaggedGames() {
+        return taggedGames;
+    }
 
-	public void setTaggedGames(Set<Game> taggedGames) {
-		this.taggedGames = taggedGames;
-	}
-	// endregion
+    public void setTaggedGames(List<GameDto> taggedGames) {
+        this.taggedGames = taggedGames;
+    }
+    // endregion
 
     @Override
     public String toString() {
-        return "Account{" +
+        return "RichAccountDto{" +
                 "id=" + id +
                 ", prename='" + prename + '\'' +
                 ", surname='" + surname + '\'' +

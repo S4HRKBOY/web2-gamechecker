@@ -1,5 +1,5 @@
 #headline {
-    padding-left: 25%; 
+    padding-left: 25%;
 }
 
 #gameForm {
@@ -7,113 +7,164 @@
     margin: 0 25% 0 25%;
     border: 1px solid black;
     border-radius: 10px;
-    padding: 10px; 
+    padding: 10px;
     gap: 10px;
     grid-template-columns: 24% 24% 24% 24%;
     grid-template-rows: auto;
-    grid-template-areas: 
-    "title-label title-label platform-label platform-label"
-    "title title platform platform"
-    "description-label description-label description-label description-label"
-    "description description description description"
-    "genre-label genre-label publication-label age-label"
-    "genre genre publication age"
-    "developer-label developer-label publisher-label publisher-label"
-    "developer developer publisher publisher"
-    "file-label file-label file-label file-label"
-    "file file preview-image preview-image"
-    "submit submit delete delete"
+    grid-template-areas:
+        "title-label title-label platform-label platform-label"
+        "title title platform platform"
+        "description-label description-label description-label description-label"
+        "description description description description"
+        "genre-label genre-label publication-label age-label"
+        "genre genre publication age"
+        "developer-label developer-label publisher-label publisher-label"
+        "developer developer publisher publisher"
+        "file-label file-label file-label file-label"
+        "file file preview-image preview-image"
+        "delete delete submit submit"
 }
 
-#submit, #age, #publication, #delete {
-   height: fit-content; 
-   width: fit-content
+#submit,
+#age,
+#publication,
+#delete {
+    height: fit-content;
+    width: fit-content
 }
 
 textarea {
-    overflow-y: scroll; 
-    height: 150px; 
-    resize:none; 
+    overflow-y: scroll;
+    height: 150px;
+    resize: none;
     padding: 10px 20px 10px 10px;
     text-align: justify;
-    overflow-x: hidden; 
+    overflow-x: hidden;
 }
 
 #gameImage {
-    max-width: 100%; 
+    max-width: 100%;
     max-height: 100%;
 }
 
 #imagearea {
-    grid-area:preview-image; 
+    grid-area: preview-image;
     border: 1px solid hsl(0, 0%, 75%);
     border-radius: 10px;
     padding: 10px;
-    height: 300px; 
+    height: 300px;
     text-align: center;
 }
 
 label[for="title"] {
-    grid-area:title-label;
+    grid-area: title-label;
 }
+
 label[for="platform"] {
-    grid-area:platform-label;
+    grid-area: platform-label;
 }
+
 label[for="description"] {
-    grid-area:description-label;
+    grid-area: description-label;
 }
+
 label[for="genre"] {
-    grid-area:genre-label;
+    grid-area: genre-label;
 }
+
 label[for="publication"] {
-    grid-area:publication-label;
+    grid-area: publication-label;
 }
+
 label[for="developer"] {
-    grid-area:developer-label;
+    grid-area: developer-label;
 }
+
 label[for="publisher"] {
-    grid-area:publisher-label;
+    grid-area: publisher-label;
 }
+
 label[for="age"] {
-    grid-area:age-label;
+    grid-area: age-label;
 }
+
 label[for="file"] {
-    grid-area:file-label;
+    grid-area: file-label;
 }
 
 #title {
-    grid-area: title; 
+    grid-area: title;
 }
-#platform {
-    grid-area: platform; 
+
+#platform-grid {
+    grid-area: platform;
 }
+
 #description {
-    grid-area: description; 
+    grid-area: description;
 }
-#genre {
-    grid-area: genre; 
+
+#genre-grid {
+    grid-area: genre;
 }
+
 #publication {
-    grid-area: publication; 
+    grid-area: publication;
 }
+
 #developer {
-    grid-area: developer; 
+    grid-area: developer;
 }
+
 #publisher {
-    grid-area: publisher; 
+    grid-area: publisher;
 }
+
 #age {
-    grid-area: age; 
+    grid-area: age;
 }
+
 #file {
-    grid-area: file; 
+    grid-area: file;
 }
+
 #submit {
     grid-area: submit;
+    justify-self: end;
 }
 
 #delete {
-    justify-self: end;
     grid-area: delete;
 }
 
+#genre {
+    width: 100%; 
+}
+
+#platform {
+    width: 100%; 
+}
+
+.dropdown {
+    position: relative;
+    display: block;
+}
+
+
+.dropdown-content {
+    overflow-y: scroll;
+    width: 100%; 
+    height: 200px;
+    padding: 10px; 
+    display: none;
+    position: absolute;
+    background-color: #f9f9f9;
+    min-width: 160px;
+    box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+    z-index: 1;
+}
+
+.dropdown-content label {
+    display: block;
+    margin-top: 10px;
+}

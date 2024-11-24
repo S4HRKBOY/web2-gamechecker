@@ -1,9 +1,9 @@
-package de.fhdo.eborrow.domain;
+package de.fhdo.eborrow.domain.builder;
+
+import de.fhdo.eborrow.domain.Account;
+import de.fhdo.eborrow.domain.Game;
 
 import java.time.LocalDate;
-import java.util.Collections;
-import java.util.LinkedList;
-import java.util.List;
 import java.util.Set;
 
 public class AccountBuilder {
@@ -17,9 +17,7 @@ public class AccountBuilder {
     private byte[] profilePicture;
     private boolean isPublisher;
 
-    private List<Game> taggedGames;
-    // TODO Zak: Reviews hinzufuegen
-    // private List<Review> writtenReviews;
+    private Set<Game> taggedGames;
 
     public AccountBuilder() {
     }
@@ -106,11 +104,11 @@ public class AccountBuilder {
         return this;
     }
 
-    public List<Game> getTaggedGames() {
+    public Set<Game> getTaggedGames() {
         return taggedGames;
     }
 
-    public AccountBuilder setTaggedGames(List<Game> taggedGames) {
+    public AccountBuilder setTaggedGames(Set<Game> taggedGames) {
         this.taggedGames = taggedGames;
         return this;
     }

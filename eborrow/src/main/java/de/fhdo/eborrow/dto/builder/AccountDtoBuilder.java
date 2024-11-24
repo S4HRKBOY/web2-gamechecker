@@ -1,8 +1,9 @@
-package de.fhdo.eborrow.dto;
+package de.fhdo.eborrow.dto.builder;
+
+import de.fhdo.eborrow.dto.AccountDto;
+import de.fhdo.eborrow.dto.RichGameDto;
 
 import java.time.LocalDate;
-import java.util.Collections;
-import java.util.LinkedList;
 import java.util.List;
 
 public class AccountDtoBuilder{
@@ -13,10 +14,10 @@ public class AccountDtoBuilder{
     private String username;
     private String email;
     private String password;
-    private byte[] profilePicture;
+    private String profilePicture;
     private boolean isPublisher;
 
-    private List<GameDto> taggedGames;
+    private List<RichGameDto> taggedGames;
     // TODO Zak: Reviews hinzufuegen
     // private List<Review> writtenReviews;
 
@@ -84,11 +85,11 @@ public class AccountDtoBuilder{
         return this;
     }
 
-    public byte[] getProfilePicture() {
+    public String getProfilePicture() {
         return profilePicture;
     }
 
-    public AccountDtoBuilder setProfilePicture(byte[] profilePicture) {
+    public AccountDtoBuilder setProfilePicture(String profilePicture) {
         this.profilePicture = profilePicture;
         return this;
     }
@@ -102,11 +103,11 @@ public class AccountDtoBuilder{
         return this;
     }
 
-    public List<GameDto> getTaggedGames() {
+    public List<RichGameDto> getTaggedGames() {
         return taggedGames;
     }
 
-    public AccountDtoBuilder setTaggedGames(List<GameDto> taggedGames) {
+    public AccountDtoBuilder setTaggedGames(List<RichGameDto> taggedGames) {
         this.taggedGames = taggedGames;
         return this;
     }

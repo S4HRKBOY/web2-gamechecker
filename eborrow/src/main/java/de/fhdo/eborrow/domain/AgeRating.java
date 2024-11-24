@@ -1,8 +1,5 @@
 package de.fhdo.eborrow.domain;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
-import com.fasterxml.jackson.annotation.JsonValue;
-
 public enum AgeRating {
     USK_O("USK 0"), 
     USK_6("USK 6"), 

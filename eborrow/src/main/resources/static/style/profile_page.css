@@ -20,6 +20,11 @@ h1{
     text-align: center;
 }
 
+.publisher-account{
+    color: red;
+    text-align: center;
+}
+
 #infos {
     display: grid;
     grid-template-columns: 1fr 1fr;
@@ -35,9 +40,11 @@ h1{
 }
 
 #profile-pic img {
-    width: 15vw;
-    min-width: 100px;
-    height: auto;
+    width: 288px;
+    height: 288px;
+    object-fit: cover;
+    object-position: 50%;
+    border-radius: 50%;
 }
 
 #profile-info {
@@ -50,6 +57,12 @@ h1{
     border: 1px solid black;
     border-radius: 10px;
     padding: 10px;
+}
+
+
+#profile-info #personal-data h2{
+    padding-left: 10px;
+    padding-right: 10px;
 }
 
 #profile-info h2 {

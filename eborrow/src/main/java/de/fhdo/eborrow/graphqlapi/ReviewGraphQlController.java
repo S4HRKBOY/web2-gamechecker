@@ -1,10 +1,12 @@
 package de.fhdo.eborrow.graphqlapi;
 
+import de.fhdo.eborrow.dto.RichGameDto;
 import de.fhdo.eborrow.dto.ReviewDto;
 import de.fhdo.eborrow.services.GameService;
 import de.fhdo.eborrow.services.ReviewService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.graphql.data.method.annotation.Argument;
+import org.springframework.graphql.data.method.annotation.Arguments;
 import org.springframework.graphql.data.method.annotation.MutationMapping;
 import org.springframework.graphql.data.method.annotation.QueryMapping;
 import org.springframework.stereotype.Controller;
@@ -43,28 +45,16 @@ public class ReviewGraphQlController {
 		}
 	}
 
-	//TODO: Ändern
 	@MutationMapping("createReview")
-	public ReviewDto addReview(@Argument ReviewGraphql review){
-		ReviewDto reviewDto = new ReviewDto();
-
-		reviewDto.setRating(Integer.parseInt(review.getRating()));
-		reviewDto.setReviewHeadline(review.getReviewHeadline());
-		reviewDto.setReviewText(review.getReviewText());
-
-		Long id = reviewService.addReview(reviewDto);
-		return getReviewByid(id);
+	public ReviewDto addReview(@Argument ReviewDto review, @Argument Long gameId, @Argument Long accountId){
+		Long id = reviewService.addReview(review, gameId, accountId);
+		return reviewService.getReviewById(id);
 	}
 
 	@MutationMapping("updateReview")
-	public ReviewDto updateReview(@Argument ReviewGraphql review){
-		ReviewDto reviewDto = new ReviewDto();
-
-		reviewDto.setRating(Integer.parseInt(review.getRating()));
-		reviewDto.setReviewHeadline(review.getReviewHeadline());
-		reviewDto.setReviewText(review.getReviewText());
-		Long id = reviewService.updateReview(reviewDto);
-		return getReviewByid(id);
+	public ReviewDto updateReview(@Argument ReviewDto review){
+		Long id = reviewService.updateReview(review);
+		return reviewService.getReviewById(id);
 	}
 
 }

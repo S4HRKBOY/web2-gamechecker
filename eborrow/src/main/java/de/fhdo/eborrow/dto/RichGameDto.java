@@ -1,55 +1,24 @@
-package de.fhdo.eborrow.domain;
-
-import jakarta.persistence.*;
-
+package de.fhdo.eborrow.dto;
 import java.time.LocalDate;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
-import org.springframework.format.annotation.DateTimeFormat;
+public class RichGameDto {
 
-@Entity
-@Table(name = "game")
-public class Game {
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long id;
+    private Long id; 
 
-    private String title;
-    @Lob
-    private String description;
+    private String title; 
+    private String description; 
+    private List<String> platforms; 
+    private List<String> genres; 
+    private LocalDate publicationDate; 
+    private String ageRating; 
+    private String developer; 
+    private String publisher; 
+    private String gameImage;
+    private List<ReviewDto> reviews; 
 
-    @ElementCollection 
-    @Enumerated(EnumType.STRING)
-    private List<Platform> platforms; 
-
-    @ElementCollection 
-    @Enumerated(EnumType.STRING)
-    private List<Genre> genres;
-
-    @DateTimeFormat
-    private LocalDate publicationDate;
-
-    @Enumerated(EnumType.STRING)
-    private AgeRating ageRating;
-    private String developer;
-    private String publisher;
-
-    @Lob
-    @Column(columnDefinition = "MEDIUMBLOB")
-    private byte[] gameImage;
-
-    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
-    @JoinColumn(name = "game_id")
-	private Set<Review> reviews = new HashSet<>();
-
-    public Game() {
-
-    }
-
-    public Game(Long id, String title, String description, List<Platform> platforms, List<Genre> genres, LocalDate publicationDate,
-            AgeRating ageRating, String developer, String publisher, byte[] gameImage) {
+    public RichGameDto(Long id, String title, String description, List<String> platforms, int licences, int remainingLicences, List<String> genres, LocalDate publicationDate,
+            String ageRating, String developer, String publisher, String gameImage) {
         this.id = id;
         this.title = title;
         this.description = description;
@@ -60,6 +29,10 @@ public class Game {
         this.developer = developer;
         this.publisher = publisher;
         this.gameImage = gameImage;
+    }
+
+    public RichGameDto() {
+
     }
 
     public Long getId() {
@@ -86,19 +59,19 @@ public class Game {
         this.description = description;
     }
 
-    public List<Platform> getPlatforms() {
+    public List<String> getPlatforms() {
         return platforms; 
     }
 
-    public void setPlatforms(List<Platform> platforms) {
+    public void setPlatforms(List<String> platforms) {
         this.platforms = platforms; 
     }
 
-    public List<Genre> getGenres() {
+    public List<String> getGenres() {
         return genres;
     }
 
-    public void setGenres(List<Genre> genres) {
+    public void setGenres(List<String> genres) {
         this.genres = genres;
     }
 
@@ -110,11 +83,11 @@ public class Game {
         this.publicationDate = publicationDate;
     }
 
-    public AgeRating getAgeRating() {
+    public String getAgeRating() {
         return ageRating;
     }
 
-    public void setAgeRating(AgeRating ageRating) {
+    public void setAgeRating(String ageRating) {
         this.ageRating = ageRating;
     }
 
@@ -134,21 +107,21 @@ public class Game {
         this.publisher = publisher;
     }
 
-    public byte[] getGameImage() {
+    public String getGameImage() {
         return gameImage;
     }
 
-    public void setGameImage(byte[] gameImage) {
+    public void setGameImage(String gameImage) {
         this.gameImage = gameImage;
     }
 
-    public Set<Review> getReviews() {
+    public List<ReviewDto> getReviewsDto() {
         return reviews; 
     }
 
-    public void setReviews(Set<Review> reviews) {
+    public void setReviewsDto(List<ReviewDto> reviews) {
         this.reviews = reviews; 
     }
-    
 
+    
 }

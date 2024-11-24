@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="de" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Profil</title>
+    <link rel="stylesheet" href="/style/profile_page.css">
+    <link rel="stylesheet" href="/style/style.css">
+</head>
+
+<body>
+    <header>
+        <img class="logo" src="/images/logo.svg" alt="logo">
+        <nav class="navigation">
+            <ul class="nav-links">
+                <li><a href="/thymeleaf/home">Home</a></li>
+                <li th:if="${account.publisher}"><a href="#">Neues Spiel anlegen</a></li>
+                <li><a href="#">Profil</a></li>
+                <li><a href="#">Logout</a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        <article id="content">
+            <h1>Mein Profil</h1>
+            <div class="publisher-account" th:if="${account.isPublisher()}">(Redakteur-Account)</div>
+            <article id="infos">
+                <figure id="profile-pic">
+<!--                    TODO: Account image in DTO ist immer noch byte array -> auf base64 umaendern-->
+                    <img th:if="${account.profilePicture != null}" th:src="'data:image/jpg;base64,' + ${account.profilePicture}" alt="Bild nicht verfügbar">
+                    <img th:unless="${account.profilePicture != null}" src="/images/profile_pic_default.svg" alt="Bild nicht verfügbar">
+                </figure>
+                <section id="profile-info">
+                    <section id="personal-data">
+                        <h2>Persönliche Daten</h2>
+                        <table>
+                            <tr>
+                                <td>Benutzername</td>
+                                <td>
+                                    <span th:text="${account.username}">Kein Benutzername verfügbar</span>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Vorname</td>
+                                <td>
+                                    <span th:text="${account.prename}">Kein Vorname verfügbar</span>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Nachname</td>
+                                <td>
+                                    <span th:text="${account.surname}">Kein Nachname verfügbar</span>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Geburtsdatum</td>
+                                <td>
+                                    <span th:text="${#temporals.format(account.birthday, 'dd.MM.yyyy')}">
+                                        Kein Geburtsdatum verfügbar</span>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>E-Mail</td>
+                                <td>
+                                    <span th:text="${account.email}">Keine E-Mail verfügbar</span>
+                                </td>
+                            </tr>
+                        </table>
+                    </section>
+                </section>
+                <form id="edit-profile-btn" th:action="@{'/account/edit/' + ${account.id}}">
+                    <button type="submit">Profil bearbeiten</button>
+                </form>
+                <section id="pinned-games">
+                    <h2>Angepinnte Spiele</h2>
+                    <span th:if="${account.taggedGames.size() == 0}">Keine Spiele angepinnt</span>
+                    <div class="overview">
+                        <table class="overview-table-container">
+                            <tr th:each="game : ${account.taggedGames}" class="overview-entry">
+                                <td class="overview-image">
+                                    <a th:href="@{'/thymeleaf/game/' + ${game.id}}">
+                                        <img th:src="'data:image/jpg;base64,' + ${game.gameImage}" alt="Bild nicht verfügbar">
+                                    </a>
+                                </td>
+                                <td class="overview-description">
+                                    <span th:text="${game.title}">Kein Titel verfügbar</span>
+                                </td>
+                                <td class="unpin-button">
+                                    <form th:action="@{'/account/unlist-game'}" method="POST">
+                                        <input type="hidden" name="account-Id" th:value="${account.id}" />
+                                        <input type="hidden" name="game-Id" th:value="${game.id}" />
+                                        <button type="submit">entfernen</button>
+                                    </form>
+                                </td>
+                        </table>
+                    </div>
+                </section>
+            </article>
+        </article>
+    </main>
+</body>
+
+</html>

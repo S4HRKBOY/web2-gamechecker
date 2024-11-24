@@ -2,7 +2,7 @@ package de.fhdo.eborrow.services;
 
 import de.fhdo.eborrow.domain.Genre;
 import de.fhdo.eborrow.domain.Platform;
-import de.fhdo.eborrow.dto.GameDto;
+import de.fhdo.eborrow.dto.RichGameDto;
 import org.apache.commons.text.similarity.LevenshteinDistance;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -26,12 +26,12 @@ public class GameSearchService {
 		this.gameService = gameService;
 	}
 
-	public List<GameDto> sortByTitle(boolean naturalOrder){
-		List<GameDto> gameDtos = gameService.getAll();
-		List<GameDto> result;
+	public List<RichGameDto> sortByTitle(boolean naturalOrder){
+		List<RichGameDto> gameDtos = gameService.getAll();
+		List<RichGameDto> result;
 
 		if(naturalOrder){
-			result = gameDtos.stream().sorted(Comparator.comparing(GameDto::getTitle)).toList();
+			result = gameDtos.stream().sorted(Comparator.comparing(RichGameDto::getTitle)).toList();
 		}else{
 			result = gameDtos.stream().sorted((e1, e2) -> e2.getTitle().compareTo(e1.getTitle())).toList();
 		}
@@ -39,11 +39,11 @@ public class GameSearchService {
 		return result;
 	}
 
-	public List<GameDto> getGamesByDate(String dateString, boolean after){
+	public List<RichGameDto> getGamesByDate(String dateString, boolean after){
 		LocalDate date = LocalDate.parse(dateString, formatter);
 
-		List<GameDto> gameDtos = gameService.getAll();
-		List<GameDto> results;
+		List<RichGameDto> gameDtos = gameService.getAll();
+		List<RichGameDto> results;
 
 		results = gameDtos.stream().filter(gameDto -> {
 				if(after){
@@ -57,9 +57,9 @@ public class GameSearchService {
 		return results;
 	}
 
-	public List<GameDto> gamesByGenre(String genre){
-		List<GameDto> gameDtos = gameService.getAll();
-		List<GameDto> results;
+	public List<RichGameDto> gamesByGenre(String genre){
+		List<RichGameDto> gameDtos = gameService.getAll();
+		List<RichGameDto> results;
 
 		results = gameDtos.stream().filter(gameDto -> {
 			List<String> genres = gameDto.getGenres();
@@ -69,9 +69,9 @@ public class GameSearchService {
 		return results;
 	}
 
-	public List<GameDto> gamesByPlatform(String platform){
-		List<GameDto> gameDtos = gameService.getAll();
-		List<GameDto> results;
+	public List<RichGameDto> gamesByPlatform(String platform){
+		List<RichGameDto> gameDtos = gameService.getAll();
+		List<RichGameDto> results;
 
 		results = gameDtos.stream().filter(gameDto -> {
 			List<String> platforms = gameDto.getPlatforms();
@@ -81,17 +81,17 @@ public class GameSearchService {
 		return results;
 	}
 
-	public List<GameDto> gamesByDeveloper(String developer){
-		List<GameDto> gameDtos = gameService.getAll();
-		List<GameDto> results;
+	public List<RichGameDto> gamesByDeveloper(String developer){
+		List<RichGameDto> gameDtos = gameService.getAll();
+		List<RichGameDto> results;
 
 		results = gameDtos.stream().filter(gameDto -> gameDto.getDeveloper().equals(developer)).toList();
 		return results;
 	}
 
-	public List<GameDto> getGamesBySearchQuery(String query){
-		List<GameDto> gameDtos = gameService.getAll();
-		List<GameDto> results;
+	public List<RichGameDto> getGamesBySearchQuery(String query){
+		List<RichGameDto> gameDtos = gameService.getAll();
+		List<RichGameDto> results;
 
 		results = gameDtos.stream().filter(gameDto -> {
 			LevenshteinDistance levenshteinDistance = new LevenshteinDistance();

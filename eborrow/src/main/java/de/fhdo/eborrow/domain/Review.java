@@ -12,7 +12,7 @@ import java.time.LocalDate;
 
 //TODO: Rating Bounds
 @Entity
-@Table(name = "review")
+@Table(name = "review", uniqueConstraints = @UniqueConstraint(columnNames = {"game_id", "account_id"}))
 public class Review {
 
 	@Id

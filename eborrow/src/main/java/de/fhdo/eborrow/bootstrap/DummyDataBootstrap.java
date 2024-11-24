@@ -1,8 +1,8 @@
 package de.fhdo.eborrow.bootstrap;
 
-import de.fhdo.eborrow.domain.AccountBuilder;
+import de.fhdo.eborrow.domain.*;
+import de.fhdo.eborrow.domain.builder.AccountBuilder;
 import de.fhdo.eborrow.repositories.AccountRepository;
-import de.fhdo.eborrow.domain.Review;
 import de.fhdo.eborrow.repositories.ReviewRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationListener;
@@ -12,15 +12,8 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
 import java.io.*;
-import java.util.Arrays;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
 
-import de.fhdo.eborrow.domain.AgeRating;
-import de.fhdo.eborrow.domain.Game;
-import de.fhdo.eborrow.domain.Genre;
-import de.fhdo.eborrow.domain.Platform;
 import de.fhdo.eborrow.repositories.GameRepository;
 
 @Component
@@ -43,7 +36,7 @@ public class DummyDataBootstrap implements ApplicationListener<ContextRefreshedE
     }
 
     @Transactional
-    private void initData() {
+    public void initData() {
         Game game1 = new Game(1L, "Baldurs Gate 3",
                 "Stelle deine Gruppe zusammen und kehre in die Vergessenen Reiche zurück. Erlebe eine Geschichte von Freundschaft und Verrat, von Opfer und Überleben – und die Verlockung absoluter Macht.",
                 Arrays.asList(Platform.WINDOWS, Platform.PLAYSTATION_4, Platform.PLAYSTATION_5, Platform.XBOX_ONE,
@@ -67,88 +60,88 @@ public class DummyDataBootstrap implements ApplicationListener<ContextRefreshedE
                 LocalDate.of(2022, 2, 25), AgeRating.USK_16, "From Software", "Bandai Namco",
                 readImage("EldenRing.jpg"));
 
-        Review game1Review1 = new Review(1L, "Gut", "Voll gut.", 10, LocalDate.now());
-        Review game1Review2 = new Review(2L, "Edel", "Echt edel", 8, LocalDate.now());
-        Review game2Review1 = new Review(3L, "Voll gut", "10 von 10", 9, LocalDate.now());
-        Review game2Review2 = new Review(4L, "Doof", "Kacke viel zu schwer.", 2, LocalDate.now());
+        Review game1Review1 = new Review(null, "Gut", "Voll gut.", 10, LocalDate.now());
+        Review game1Review2 = new Review(null, "Edel", "Echt edel", 8, LocalDate.now());
+        Review game2Review1 = new Review(null, "Voll gut", "10 von 10", 9, LocalDate.now());
+        Review game2Review2 = new Review(null, "Doof", "Kacke viel zu schwer.", 2, LocalDate.now());
 
-        initAccounts(game1, game2, game3);
+        initAccounts();
 
         game1Review1.setAccount(accountRepository.findById(1L).get());
-        game1Review2.setAccount(accountRepository.findById(1L).get());
+        game1Review2.setAccount(accountRepository.findById(2L).get());
         game2Review1.setAccount(accountRepository.findById(1L).get());
-        game2Review2.setAccount(accountRepository.findById(1L).get());
+        game2Review2.setAccount(accountRepository.findById(2L).get());
 
-        // game1Review1.setGame(savedGame1);
-        // game1Review2.setGame(savedGame1);
-        // game2Review1.setGame(savedGame2);
-        // game2Review2.setGame(savedGame2);
+        game1.getReviews().add(game1Review1);
+        game1.getReviews().add(game1Review2);
+        game2.getReviews().add(game2Review1);
+        game2.getReviews().add(game2Review2);
 
-        reviewRepository.save(game1Review1);
-        reviewRepository.save(game1Review2);
-        reviewRepository.save(game2Review1);
-        reviewRepository.save(game2Review2);
+		Game savedGame1 = gameRepository.save(game1);
+		Game savedGame2 = gameRepository.save(game2);
+		Game savedGame3 = gameRepository.save(game3);
 
-        game1.getReviews().add(game1Review1); 
-        game1.getReviews().add(game1Review2); 
-        game2.getReviews().add(game2Review1); 
-        game2.getReviews().add(game2Review2); 
+		assignTaggedGames(savedGame1, savedGame3, savedGame2);
+	}
 
-        gameRepository.save(game1);
-        gameRepository.save(game2);
-        gameRepository.save(game3);
+	private void initAccounts() {
+		long id = 1L;
 
-    }
+		Account acc1 = new AccountBuilder()
+				.setId(id++)
+				.setPrename("Max")
+				.setSurname("Mustermann")
+				.setUsername("mamus")
+				.setBirthday(LocalDate.of(2000, 1, 1))
+				.setEmail("max.mustermann@dummy.com")
+				.setPassword("maxpassword")
+				.build();
 
-    private void initAccounts(Game... game) {
-        long id = 1L;
-		List<Game> acc1GameList = new LinkedList<>();
-        // acc1GameList.add(game[0]);
-        // acc1GameList.add(game[2]);
-        // List<Game> acc2GameList = new LinkedList<>();
-        // acc2GameList.add(game[1]);
-        // acc2GameList.add(game[0]);
+		Account acc2 = new AccountBuilder()
+				.setId(id++)
+				.setPrename("John")
+				.setSurname("Doe")
+				.setUsername("jodoe")
+				.setBirthday(LocalDate.of(2023, 12, 31))
+				.setEmail("john.doe@dummy.com")
+				.setPassword("johnpassword")
+				.setProfilePicture(readImage("where_image.png"))
+				.build();
 
-        var acc1 = new AccountBuilder()
-                .setId(id++)
-                .setPrename("Max")
-                .setSurname("Mustermann")
-                .setUsername("mamus")
-                .setBirthday(LocalDate.of(2000, 1, 1))
-                .setEmail("max.mustermann@dummy.com")
-                .setPassword("maxpassword")
-                .setProfilePicture(readImage("where_image.png"))
-                //.setTaggedGames(acc1GameList)
-                .build();
+		Account publisher = new AccountBuilder()
+				.setId(id++)
+				.setPrename("Publisher")
+				.setSurname("Publisher")
+				.setUsername("publisher")
+				.setBirthday(LocalDate.of(2000, 1, 1))
+				.setEmail("publisher@dummy.com")
+				.setPassword("publisher")
+				.setProfilePicture(readImage("no_games.png"))
+				.setPublisher(true)
+				.build();
 
-        var acc2 = new AccountBuilder()
-                .setId(id++)
-                .setPrename("John")
-                .setSurname("Doe")
-                .setUsername("jodoe")
-                .setBirthday(LocalDate.of(2023, 12, 31))
-                .setEmail("john.doe@dummy.com")
-                .setPassword("johnpassword")
-                .setProfilePicture(readImage("where_image.png"))
-                //.setTaggedGames(acc2GameList)
-                .build();
+		accountRepository.save(acc1);
+		accountRepository.save(acc2);
+		accountRepository.save(publisher);
+	}
 
-        var publisher = new AccountBuilder()
-                .setId(id++)
-                .setPrename("Publisher")
-                .setSurname("Publisher")
-                .setUsername("publisher")
-                .setBirthday(LocalDate.of(2000, 1, 1))
-                .setEmail("publisher@dummy.com")
-                .setPassword("publisher")
-                .setProfilePicture(readImage("where_image.png"))
-                .setPublisher(true)
-                .build();
+	private void assignTaggedGames(Game... savedGames) {
+		Set<Game> acc1GameList = new HashSet<>();
+		acc1GameList.add(savedGames[2]);
+		Set<Game> acc2GameList = new HashSet<>();
+		acc2GameList.add(savedGames[0]);
+		acc2GameList.add(savedGames[1]);
+		acc2GameList.add(savedGames[2]);
 
-        accountRepository.save(acc1);
-        accountRepository.save(acc2); 
-        accountRepository.save(publisher);
-    }
+		Account acc1 = accountRepository.findById(1L).get();
+		Account acc2 = accountRepository.findById(2L).get();
+
+		acc1.setTaggedGames(acc1GameList);
+		acc2.setTaggedGames(acc2GameList);
+
+		accountRepository.save(acc1);
+		accountRepository.save(acc2);
+	}
 
     /*
      * Helper class to save dummy image data in db

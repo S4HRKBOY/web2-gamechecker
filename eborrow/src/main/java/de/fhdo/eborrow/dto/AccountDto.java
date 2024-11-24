@@ -1,10 +1,8 @@
 package de.fhdo.eborrow.dto;
 
+import de.fhdo.eborrow.dto.builder.AccountDtoBuilder;
+
 import java.time.LocalDate;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.LinkedList;
-import java.util.List;
 
 public class AccountDto {
     private Long id;
@@ -14,14 +12,10 @@ public class AccountDto {
     private String username;
     private String email;
     private String password;
-    private byte[] profilePicture;  // TODO Zak: Aendern auf String und konvertieren in Base64 von AccountMapper aus
+    private String profilePicture;
     private boolean isPublisher;
-    
-    private List<GameDto> taggedGames;
-    // TODO Zak: Reviews hinzufuegen
-    // private List<ReviewDto> writtenReviews;
 
-    private AccountDto(Long id, String prename, String surname, LocalDate birthday, String username, String email, String password, byte[] profilePicture) {
+    private AccountDto(Long id, String prename, String surname, LocalDate birthday, String username, String email, String password, String profilePicture) {
         this.id = id;
         this.prename = prename;
         this.surname = surname;
@@ -43,7 +37,6 @@ public class AccountDto {
                 builder.getProfilePicture());
 
         this.isPublisher = builder.isPublisher();
-        this.taggedGames = builder.getTaggedGames();
     }
 
     // region getter and setter
@@ -103,11 +96,11 @@ public class AccountDto {
         this.password = password;
     }
 
-    public byte[] getProfilePicture() {
+    public String getProfilePicture() {
         return profilePicture;
     }
 
-    public void setProfilePicture(byte[] profilePicture) {
+    public void setProfilePicture(String profilePicture) {
         this.profilePicture = profilePicture;
     }
 
@@ -119,13 +112,6 @@ public class AccountDto {
         isPublisher = publisher;
     }
 
-    public List<GameDto> getTaggedGames() {
-        return taggedGames;
-    }
-
-    public void setTaggedGames(List<GameDto> taggedGames) {
-        this.taggedGames = taggedGames;
-    }
     // endregion
 
     @Override
@@ -140,7 +126,6 @@ public class AccountDto {
                 ", password='" + password + '\'' +
                 ", profilePicture=" + (profilePicture != null ? "yes" : "no") +
                 ", isPublisher=" + isPublisher +
-                ", taggedGames=" + taggedGames +
                 '}';
     }
 }

@@ -37,8 +37,8 @@ fieldset {
 
 .form-content {
     display: grid;
-    grid-template-areas: "set-personal-infos set-profile-pic"
-                         "set-account-data set-account-data";
+    grid-template-areas: "set-personal-infos set-profile-pic";
+    grid-template-columns: 2fr 1fr;
     gap: 15px;
 }
 
@@ -75,21 +75,6 @@ fieldset {
     width: 15vw;
     min-width: 100px;
     height: auto;
-}
-
-.set-account-data {
-    grid-area: set-account-data;
-}
-
-.set-account-data fieldset:not(.bancacc-active-iban) {
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-}
-
-.set-account-data fieldset.bancacc-active-iban{
-    display: flex;
-    justify-content: space-evenly;
 }
 
 .send-form-options {
