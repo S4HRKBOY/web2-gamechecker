@@ -14,6 +14,7 @@ import de.fhdo.eborrow.domain.Game;
 import de.fhdo.eborrow.domain.Genre;
 import de.fhdo.eborrow.domain.Platform;
 import de.fhdo.eborrow.dto.RichGameDto;
+import de.fhdo.eborrow.dto.GameDto;
 import de.fhdo.eborrow.dto.ReviewDto;
 import de.fhdo.eborrow.repositories.GameRepository;
 
@@ -27,8 +28,8 @@ public class GameService {
         this.gameRepository = gameRepository;
     }
 
-    public Long createGame(RichGameDto gameDto) {
-        Game game = GameMapper.richDtoToGame(gameDto);
+    public Long createGame(GameDto gameDto) {
+        Game game = GameMapper.dtoToGame(gameDto);
         return gameRepository.save(game).getId();
     }
 
@@ -39,27 +40,22 @@ public class GameService {
 
     @Transactional
     public void deleteGameById(Long id) {
-        gameRepository.removeGameAssociations(id); 
+        gameRepository.removeGameAssociations(id);
         gameRepository.deleteById(id);
     }
 
-    public List<RichGameDto> getAll() {
-        List<RichGameDto> games = new ArrayList<>();
+    public List<GameDto> getAll() {
+        List<GameDto> games = new ArrayList<>();
         for (Game game : gameRepository.findAll()) {
-            games.add(GameMapper.gameToRichDto(game));
+            games.add(GameMapper.gameToDto(game));
         }
         return games;
     }
 
-    public Long updateGame(RichGameDto gameDto) {
-        Game game = GameMapper.richDtoToGame(gameDto); 
-        Game updatedGame;
-        if (game.getId() != null) {
-            updatedGame = gameRepository.findById(game.getId())
-                    .orElseThrow(() -> new RuntimeException("Spiel nicht gefunden"));
-        } else {
-            updatedGame = new Game();
-        }
+    public Long updateGame(GameDto gameDto) {
+        Game game = GameMapper.dtoToGame(gameDto);
+        Game updatedGame = gameRepository.findById(game.getId())
+                .orElseThrow(() -> new RuntimeException("Spiel nicht gefunden"));
 
         if (game.getTitle() != null) {
             updatedGame.setTitle(game.getTitle());
@@ -96,7 +92,7 @@ public class GameService {
 
     public void addReview(ReviewDto reviewDto, Long gameId) {
         RichGameDto gameDto = getGameById(gameId);
-		gameDto.getReviewsDto().add(reviewDto);
+        gameDto.getReviewsDto().add(reviewDto);
         gameRepository.save(GameMapper.richDtoToGame(gameDto));
     }
 

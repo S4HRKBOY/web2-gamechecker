@@ -13,9 +13,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import de.fhdo.eborrow.dto.RichGameDto;
+import de.fhdo.eborrow.dto.GameDto;
 import de.fhdo.eborrow.dto.RichAccountDto;
 import de.fhdo.eborrow.dto.AccountDto;
-import de.fhdo.eborrow.dto.GameDto;
 import de.fhdo.eborrow.dto.ReviewDto;
 import de.fhdo.eborrow.services.AccountService;
 import de.fhdo.eborrow.services.GameService;
@@ -38,7 +38,7 @@ public class GameController {
 
     @GetMapping("/home")
     public String getAll(Model model) {
-        List<RichGameDto> gameDto = gameService.getAll();
+        List<GameDto> gameDto = gameService.getAll();
         RichAccountDto accountDto = accountService.getRichAccountById(1L);
         model.addAttribute("games", gameDto);
         model.addAttribute("account", accountDto);

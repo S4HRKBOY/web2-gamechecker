@@ -8,6 +8,7 @@ import org.springframework.graphql.data.method.annotation.MutationMapping;
 import org.springframework.graphql.data.method.annotation.QueryMapping;
 import org.springframework.stereotype.Controller;
 
+import de.fhdo.eborrow.dto.GameDto;
 import de.fhdo.eborrow.dto.RichGameDto;
 import de.fhdo.eborrow.services.GameService;
 
@@ -21,7 +22,7 @@ public class GameGraphQlController {
     }
 
     @QueryMapping("games")
-    public List<RichGameDto> getGames() {
+    public List<GameDto> getGames() {
         return gameService.getAll();
     }
 
@@ -41,13 +42,13 @@ public class GameGraphQlController {
     }
 
     @MutationMapping("createGame")
-    public RichGameDto createGame(@Argument RichGameDto game) {
+    public RichGameDto createGame(@Argument GameDto game) {
         Long gameId = gameService.createGame(game);
         return gameService.getGameById(gameId);
     }
 
     @MutationMapping("updateGame")
-    public RichGameDto updateGame(@Argument RichGameDto game) {
+    public RichGameDto updateGame(@Argument GameDto game) {
         Long id = gameService.updateGame(game); 
         return gameService.getGameById(id);
     }
