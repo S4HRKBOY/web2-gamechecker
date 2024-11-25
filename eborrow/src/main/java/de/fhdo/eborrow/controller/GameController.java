@@ -1,6 +1,7 @@
 package de.fhdo.eborrow.controller;
 
 import java.time.LocalDate;
+import java.util.Comparator;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -48,6 +49,7 @@ public class GameController {
     @GetMapping("/game/{id}")
     public String getGameById(@PathVariable Long id, Model model) {
         RichGameDto gameDto = gameService.getGameById(id);
+        gameDto.getReviewsDto().sort(Comparator.comparing(ReviewDto::getId).reversed());
         AccountDto accountDto = accountService.getAccountById(1L);
         boolean hasReviewed = reviewService.existsByGameAndAccount(id, accountDto.getId());
         boolean editReview = false; 
@@ -67,6 +69,7 @@ public class GameController {
 	public String unlistGameFromAccount(@RequestParam("accountId") Long accountId, @RequestParam("gameId") Long gameId, Model model) {
 		accountService.unlistGameFromAccount(accountId, gameId);
         RichGameDto gameDto = gameService.getGameById(gameId);
+        gameDto.getReviewsDto().sort(Comparator.comparing(ReviewDto::getId).reversed());
         AccountDto accountDto = accountService.getAccountById(accountId);
         boolean hasReviewed = reviewService.existsByGameAndAccount(gameId, accountId);
         boolean editReview = false; 
@@ -86,6 +89,7 @@ public class GameController {
 	public String addGameToAccount(@RequestParam("accountId") Long accountId, @RequestParam("gameId") Long gameId, Model model) {
 		accountService.addGameToAccount(accountId, gameId);
         RichGameDto gameDto = gameService.getGameById(gameId);
+        gameDto.getReviewsDto().sort(Comparator.comparing(ReviewDto::getId).reversed());
         AccountDto accountDto = accountService.getAccountById(accountId);
         boolean hasReviewed = reviewService.existsByGameAndAccount(gameId, accountId);
         boolean editReview = false; 

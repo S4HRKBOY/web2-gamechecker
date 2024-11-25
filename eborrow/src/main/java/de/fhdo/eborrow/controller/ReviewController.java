@@ -1,6 +1,7 @@
 package de.fhdo.eborrow.controller;
 
 import java.time.LocalDate;
+import java.util.Comparator;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -39,6 +40,7 @@ public class ReviewController {
         reviewService.addReview(reviewDto, gameId, accountId);
         model.addAttribute("review", reviewDto);
         RichGameDto gameDto = gameService.getGameById(gameId);
+        gameDto.getReviewsDto().sort(Comparator.comparing(ReviewDto::getId).reversed());
         AccountDto accountDto = accountService.getAccountById(1L);
         boolean hasReviewed = reviewService.existsByGameAndAccount(gameId, accountDto.getId());
         boolean editReview = false; 
@@ -55,6 +57,7 @@ public class ReviewController {
     public String deleteReview(@PathVariable("reviewId") Long reviewId, Long gameId, Long accountId, Model model) {
         reviewService.deleteReviewById(reviewId);
         RichGameDto gameDto = gameService.getGameById(gameId);
+        gameDto.getReviewsDto().sort(Comparator.comparing(ReviewDto::getId).reversed());
         AccountDto accountDto = accountService.getAccountById(accountId);
         boolean hasReviewed = reviewService.existsByGameAndAccount(gameId, accountId);
         boolean accountHasGame = accountService.accountHasGame(accountId, gameId); 
@@ -74,6 +77,7 @@ public class ReviewController {
     public String getUpdateReview(@PathVariable("reviewId") Long reviewId, Long gameId, Long accountId, Model model) {
         ReviewDto reviewDto = reviewService.getReviewById(reviewId);
         RichGameDto gameDto = gameService.getGameById(gameId);
+        gameDto.getReviewsDto().sort(Comparator.comparing(ReviewDto::getId).reversed());
         AccountDto accountDto = accountService.getAccountById(accountId);
         boolean hasReviewed = reviewService.existsByGameAndAccount(gameId, accountDto.getId());
         boolean accountHasGame = accountService.accountHasGame(accountId, gameId); 
@@ -91,6 +95,7 @@ public class ReviewController {
     public String updateReview( @ModelAttribute ReviewDto reviewDto, @PathVariable("reviewId") Long reviewId, Long gameId, Long accountId, Model model) {
         reviewService.updateReview(reviewDto); 
         RichGameDto gameDto = gameService.getGameById(gameId);
+        gameDto.getReviewsDto().sort(Comparator.comparing(ReviewDto::getId).reversed());
         AccountDto accountDto = accountService.getAccountById(accountId);
         boolean hasReviewed = reviewService.existsByGameAndAccount(gameId, accountDto.getId());
         boolean accountHasGame = accountService.accountHasGame(accountId, gameId); 
