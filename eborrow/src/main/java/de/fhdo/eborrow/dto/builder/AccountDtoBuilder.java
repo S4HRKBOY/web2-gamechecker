@@ -18,8 +18,6 @@ public class AccountDtoBuilder{
     private boolean isPublisher;
 
     private List<RichGameDto> taggedGames;
-    // TODO Zak: Reviews hinzufuegen
-    // private List<Review> writtenReviews;
 
     // region getter
     public Long getId() {
@@ -120,6 +118,6 @@ public class AccountDtoBuilder{
     }
 
     private void validateInputs() {
-        // TODO Zak: Check each field and throw Exception if invalid
+        // Zak: Check each field here and throw Exception if invalid
     }
 }

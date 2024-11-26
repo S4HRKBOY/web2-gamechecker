@@ -253,7 +253,7 @@ public class AccountService {
 			existingAccountDto.setProfilePicture(accountChanges.getProfilePicture());
 		}
 
-		// Zak: Sollte der Wechsel des Status auf Publisher bzw. User unterstuetzt werden?
+		// Zak: Auch Update von taggedGames und publisher update hier mit anbieten?
 	}
 
 	private void rechargeTaggedGames(Account accountWithoutTaggedGames) {
