@@ -8,8 +8,25 @@ type Query {
     game(id: ID!): Game
     review(id: ID!): Review
     reviews: [Review!]!
+    accounts: [Account!]!
+    account(id: ID!): Account
 }
-    
+
+type Mutation {
+    createGame(game: createGameInput!): Game!
+    deleteGame(id: ID!): Boolean!
+    updateGame(game: updateGameInput!): Game!
+    createReview(review: createReviewInput!, gameId: ID!, accountId: ID!): Review!
+    deleteReview(id: ID!): Boolean!
+    updateReview(review: updateReviewInput!): Review!
+    createAccount(account: createAccountInput!): Account!
+    updateAccount(account: updateAccountInput!): Account!
+    deleteAccount(id: ID!): Boolean!
+    addGameToAccount(accountId: ID!, gameId: ID!): Account!
+    unlistGameFromAccount(accountId: ID!, gameId: ID!): Account!
+    updatePublisherStatus(accountId: ID!): Account!
+}
+
 type Game {
     id: ID!
     title: String
@@ -21,6 +38,20 @@ type Game {
     developer: String
     publisher: String
     reviews: [Review]
+    # Zak: Wo ist das gameImage?
+}
+
+type Account {
+    id: ID!
+    prename: String
+    surname: String
+    birthday: String
+    username: String
+    email: String
+    password: String
+    profilePicture: String
+    isPublisher: Boolean
+    taggedGames: [Game]
 }
 
 type Review {
@@ -31,14 +62,7 @@ type Review {
   reviewDate: String
 }
 
-type Mutation {
-  createGame(game: createGameInput!): Game!
-  deleteGame(id: ID!): Boolean!
-  updateGame(game: updateGameInput!): Game!
-  createReview(review: createReviewInput!, gameId: ID!, accountId: ID!): Review!
-  deleteReview(id: ID!): Boolean!
-  updateReview(review: updateReviewInput!): Review!
-}
+# TODO Zak: Festlegen, was Non-Nullable ist
 
 input createGameInput {
   title: String!
@@ -76,4 +100,25 @@ input updateReviewInput{
   reviewText: String
   rating: String
   reviewDate: String
+}
+
+input createAccountInput {
+  prename: String
+  surname: String
+  birthday: String
+  username: String
+  email: String
+  password: String
+  profilePicture: String
+}
+
+input updateAccountInput {
+  id: ID!
+  prename: String
+  surname: String
+  birthday: String
+  username: String
+  email: String
+  password: String
+  profilePicture: String
 }

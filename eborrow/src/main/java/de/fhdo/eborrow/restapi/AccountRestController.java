@@ -81,8 +81,8 @@ public class AccountRestController {
 			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 		}
 
-		boolean updateSucceeded = accountService.updateAccount(prefilledAccount, id);
-		if (!updateSucceeded) {
+		boolean succeeded = accountService.updateAccount(prefilledAccount, id);
+		if (!succeeded) {
 			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 		}
 
@@ -96,7 +96,8 @@ public class AccountRestController {
 			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 		}
 
-		if (!accountService.deleteAccount(id)) {
+		boolean succeeded = accountService.deleteAccount(id);
+		if (!succeeded) {
 			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 		}
 
@@ -112,7 +113,8 @@ public class AccountRestController {
 			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 		}
 
-		if (!accountService.addGameToAccount(accountId, gameId)) {
+		boolean succeeded = accountService.addGameToAccount(accountId, gameId);
+		if (!succeeded) {
 			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 		}
 
@@ -128,7 +130,8 @@ public class AccountRestController {
 			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 		}
 
-		if (!accountService.unlistGameFromAccount(accountId, gameId)) {
+		boolean succeeded = accountService.unlistGameFromAccount(accountId, gameId);
+		if (!succeeded) {
 			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 		}
 
