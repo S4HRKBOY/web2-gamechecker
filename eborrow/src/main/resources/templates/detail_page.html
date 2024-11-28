@@ -98,7 +98,7 @@
 
                 <input type="text" th:field="*{reviewHeadline}" id="reviewFormHeadline" name="reviewFormHeadline"
                     placeholder="Titel" maxlength="100" required>
-                <textarea th:field="*{reviewText}" id="reviewText" name="reviewText" maxlength="1000" required></textarea>
+                <textarea th:field="*{reviewText}" id="reviewText" name="reviewText" maxlength="2000" required></textarea>
                 <label for="recommendation">Deine Bewertung?</label>
                 <select th:field="*{rating}" name="recommendation" id="recommendation" required>
                     <option th:value="${1}" th:text="${1}">1</option>
@@ -127,7 +127,7 @@
 
                 <input type="text" th:field="*{reviewHeadline}" id="reviewFormHeadline" name="reviewFormHeadline"
                     placeholder="Titel" maxlength="100" required>
-                <textarea th:field="*{reviewText}" id="reviewText" name="reviewText" maxlength="1000" required></textarea>
+                <textarea th:field="*{reviewText}" id="reviewText" name="reviewText" maxlength="2000" required></textarea>
                 <label for="recommendation">Deine Bewertung?</label>
                 <select th:field="*{rating}" name="recommendation" id="recommendation" required>
                     <option th:value="${1}" th:text="${1}">1</option>
