@@ -168,3 +168,7 @@ label[for="file"] {
     display: block;
     margin-top: 10px;
 }
+
+.dropdown:hover .dropdown-content {
+    display: block;
+}

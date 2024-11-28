@@ -21,21 +21,14 @@
         </nav>
     </header>
 
-    <main id="mainContainer">
+    <main>
         <h1 id="headline">Spiel anlegen</h1>
         <form id="gameForm" action="./detail_page.html">
             <label for="title">Spieletitel</label>
-            <input id="title" type="text" name="title" required>
+            <input id="title" type="text" name="title" maxlength="255" required>
             <label for="platform">Plattform</label>
             <div class="dropdown" id="platform-grid">
                 <button id="platform">Verfügbare Plattformen auswählen</button>
-                <script>
-                    document.getElementById("platform").addEventListener("click", function (event) {
-                        event.preventDefault();
-                        const dropdownContent = document.querySelector("#platform-grid .dropdown-content");
-                        dropdownContent.style.display = dropdownContent.style.display === "block" ? "none" : "block";
-                    });
-                </script>
                 <div class="dropdown-content">
                     <label><input type="checkbox" name="platform" value="windows"> Windows</label>
                     <label><input type="checkbox" name="platform" value="ps 3"> PlayStation 3</label>
@@ -51,13 +44,6 @@
             <label for="genre">Genre</label>
             <div class="dropdown" id="genre-grid">
                 <button id="genre">Genre auswählen</button>
-                <script>
-                    document.getElementById("genre").addEventListener("click", function (event) {
-                        event.preventDefault();
-                        const dropdownContent = document.querySelector("#genre-grid .dropdown-content");
-                        dropdownContent.style.display = dropdownContent.style.display === "block" ? "none" : "block";
-                    });
-                </script>
                 <div class="dropdown-content">
                     <label><input type="checkbox" name="genre" value="action"> Action</label>
                     <label><input type="checkbox" name="genre" value="adventure"> Adventure</label>
@@ -75,9 +61,9 @@
             <label for="publication">Veröffentlichung</label>
             <input id="publication" type="date" name="publication" required>
             <label for="developer">Entwickler</label>
-            <input id="developer" type="text" name="developer" required>
+            <input id="developer" type="text" name="developer" maxlength="255" required>
             <label for="publisher">Publisher</label>
-            <input id="publisher" type="text" name="publisher" required>
+            <input id="publisher" type="text" name="publisher" maxlength="255" required>
             <label for="age">Altersfreigabe</label>
             <select name="age" id="age">
                 <option value="0">USK 0</option>
