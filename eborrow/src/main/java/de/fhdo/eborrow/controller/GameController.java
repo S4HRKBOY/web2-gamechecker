@@ -48,6 +48,10 @@ public class GameController {
     public String getAll(Model model) {
         List<GameDto> gameDto = gameService.getAll();
         RichAccountDto accountDto = accountService.getRichAccountById(1L);
+        List<String> genres = gameService.getAllGenres(); 
+        List<String> platforms = gameService.getAllPlatforms(); 
+        model.addAttribute("genres", genres); 
+        model.addAttribute("platforms", platforms); 
         model.addAttribute("FilterInfo", new FilterInfo());
         model.addAttribute("Query", new Query());
         model.addAttribute("games", gameDto);
@@ -58,7 +62,7 @@ public class GameController {
     @PostMapping("/game/filtered-games")
     public String getFilteredGames(@ModelAttribute FilterInfo filterInfo, Model model){
         LOGGER.info(filterInfo.toString());
-        RichAccountDto accountDto = accountService.getRichAccountById(1L);
+        AccountDto accountDto = accountService.getAccountById(1L);
         List<GameDto> games = gameService.getAll();
 
         if(!Objects.equals(filterInfo.getGenre(), "All")){
@@ -73,6 +77,10 @@ public class GameController {
             games = gameSearchService.gamesByPlatform(games, filterInfo.getPlatform());
         }
 
+        List<String> genres = gameService.getAllGenres(); 
+        List<String> platforms = gameService.getAllPlatforms(); 
+        model.addAttribute("genres", genres); 
+        model.addAttribute("platforms", platforms); 
         model.addAttribute("games", games);
         model.addAttribute("account", accountDto);
         model.addAttribute("FilterInfo", new FilterInfo());
@@ -83,9 +91,13 @@ public class GameController {
     @PostMapping("/game/games-search")
     public String getGamesByQuery(@ModelAttribute Query query, Model model){
         LOGGER.info(query.getQuery());
-        RichAccountDto accountDto = accountService.getRichAccountById(1L);
+        AccountDto accountDto = accountService.getAccountById(1L);
         List<GameDto> games = gameSearchService.getGamesBySearchQuery(query.getQuery());
 
+        List<String> genres = gameService.getAllGenres(); 
+        List<String> platforms = gameService.getAllPlatforms(); 
+        model.addAttribute("genres", genres); 
+        model.addAttribute("platforms", platforms); 
         model.addAttribute("games", games);
         model.addAttribute("account", accountDto);
         model.addAttribute("FilterInfo", new FilterInfo());

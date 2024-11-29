@@ -33,28 +33,12 @@
                     <label for="genre"> Genre</label>
                     <select name="genre" id="genre" class="genre-filter" th:field="*{genre}">
                         <option value="All">All</option>
-                        <option value="Action">Action</option>
-                        <option value="Adventure">Adventure</option>
-                        <option value="Kampfspiel">Fighting game</option>
-                        <option value="Plattformer">Platformer</option>
-                        <option value="Puzzle">Puzzle</option>
-                        <option value="Rennspiel">Racing</option>
-                        <option value="Rollenspiel">RPG</option>
-                        <option value="Shooter">Shooter</option>
-                        <option value="Simulation">Simulation</option>
-                        <option value="Sport">Sport</option>
-                        <option value="Strategie">Strategy</option>
-                        <option value="Unbekannt">Unknown</option>
+                        <option th:each="genre : ${genres}" th:value="${genre}" th:text="${genre}">Kein Genre Verfügbar</option>
                     </select>
                     <label for="platform"> Platform</label>
                     <select name="platform" id="platform" class="platform-filter" th:field="*{platform}">
                         <option value="All">All</option>
-                        <option value="Nintendo Switch">Nintendo Switch</option>
-                        <option value="Windows">Windows</option>
-                        <option value="Playstation 4">Playstation 4</option>
-                        <option value="Playstation 5">Playstation 5</option>
-                        <option value="XBox One">XBox One</option>
-                        <option value="XBox Series">XBox Series</option>
+                        <option th:each="platform : ${platforms}" th:value="${platform}" th:text="${platform}">Keine Platform Verfügbar</option>
                     </select>
                     <div class="dev-filter">
                         <label for="dev">Developer: </label>
