@@ -24,7 +24,7 @@ type Mutation {
     deleteAccount(id: ID!): Boolean!
     addGameToAccount(accountId: ID!, gameId: ID!): Account!
     unlistGameFromAccount(accountId: ID!, gameId: ID!): Account!
-    setPublisherStatus(accountId: ID!, isPublisher: Boolean): Account!
+    setPublisherStatus(id: ID!, isPublisher: Boolean): Account!
 }
 
 type Game {
