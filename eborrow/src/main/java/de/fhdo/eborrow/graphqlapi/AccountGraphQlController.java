@@ -29,7 +29,7 @@ public class AccountGraphQlController {
 
 	@MutationMapping("createAccount")
 	public AccountDto createAccount(@Argument AccountDto account) {
-		var accountId = accountService.addAccount(account);
+		Long accountId = accountService.addAccount(account);
 
 		return accountService.getAccountById(accountId);
 	}

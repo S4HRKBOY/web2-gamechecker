@@ -20,27 +20,7 @@ public class AccountRestController {
 		this.accountService = accountService;
 	}
 
-	// ResponseEntity allows for multiple HTTP status codes to be returned
-	@GetMapping(value = "/getAccounts", params = "with-games")
-	public ResponseEntity<Iterable<RichAccountDto>> getAllRichAccounts() {
-		Iterable<RichAccountDto> richAccountsDtos = accountService.getRichAccounts();
-		if (richAccountsDtos == null) {
-			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-		}
-
-		return new ResponseEntity<>(richAccountsDtos, HttpStatus.OK);
-	}
-
-	@GetMapping(value = "/getAccounts", params = "!with-games")
-	public ResponseEntity<Iterable<AccountDto>> getAllAccounts() {
-		Iterable<AccountDto> accountDtos = accountService.getAccounts();
-		if (accountDtos == null) {
-			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-		}
-
-		return new ResponseEntity<>(accountDtos, HttpStatus.OK);
-	}
-
+	// ResponseEntity allows for multiple kinds of HTTP status codes to be returned
 	@GetMapping(value = "/{id}", params = "with-games")
 	public ResponseEntity<RichAccountDto> getRichAccountById(@PathVariable Long id) {
 		RichAccountDto richAccountDto = accountService.getRichAccountById(id);
