@@ -57,7 +57,7 @@ public class AccountRestController {
 
 	@PutMapping(value = "/edit/{id}", consumes = "application/json")
 	public ResponseEntity<Void> updateAccount(@PathVariable Long id, @RequestBody AccountDto prefilledAccount) {
-		if (prefilledAccount == null) {
+		if (prefilledAccount == null || prefilledAccount.getId() == null || !id.equals(prefilledAccount.getId())) {
 			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 		}
 
