@@ -55,7 +55,7 @@ public class AccountRestController {
 		return new ResponseEntity<>(accountId, HttpStatus.CREATED);
 	}
 
-	@PostMapping(value = "/edit/{id}", consumes = "application/json")
+	@PutMapping(value = "/edit/{id}", consumes = "application/json")
 	public ResponseEntity<Void> updateAccount(@PathVariable Long id, @RequestBody AccountDto prefilledAccount) {
 		if (prefilledAccount == null) {
 			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
@@ -69,9 +69,8 @@ public class AccountRestController {
 		return new ResponseEntity<>(HttpStatus.OK);
 	}
 
-	@PostMapping(value = "/delete-account", consumes = "application/json")
-	public ResponseEntity<Void> deleteAccount(@RequestBody Map<String, Long> requestBody) {
-		Long id = requestBody.get("Id");
+	@DeleteMapping(value = "/delete-account/{id}", consumes = "application/json")
+	public ResponseEntity<Void> deleteAccount(@PathVariable Long id) {
 		if (id == null) {
 			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 		}
@@ -84,10 +83,10 @@ public class AccountRestController {
 		return new ResponseEntity<>(HttpStatus.OK);
 	}
 
-	@PostMapping(value = "/add-game", consumes = "application/json")
+	@PutMapping(value = "/add-game", consumes = "application/json")
 	public ResponseEntity<Void> addGameToAccount(@RequestBody Map<String, Long> requestBody) {
-		Long accountId = requestBody.get("accountId");
-		Long gameId = requestBody.get("gameId");
+		Long accountId = requestBody.get("account-Id");
+		Long gameId = requestBody.get("game-Id");
 
 		if (accountId == null || gameId == null) {
 			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
@@ -101,10 +100,10 @@ public class AccountRestController {
 		return new ResponseEntity<>(HttpStatus.OK);
 	}
 
-	@PostMapping(value = "/unlist-game", consumes = "application/json")
+	@PutMapping(value = "/unlist-game", consumes = "application/json")
 	public ResponseEntity<Void> unlistGameFromAccount(@RequestBody Map<String, Long> requestBody) {
-		Long accountId = requestBody.get("accountId");
-		Long gameId = requestBody.get("gameId");
+		Long accountId = requestBody.get("account-Id");
+		Long gameId = requestBody.get("game-Id");
 
 		if (accountId == null || gameId == null) {
 			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
