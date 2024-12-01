@@ -27,7 +27,6 @@
             <div class="publisher-account" th:if="${account.isPublisher()}">(Redakteur-Account)</div>
             <article id="infos">
                 <figure id="profile-pic">
-<!--                    TODO: Account image in DTO ist immer noch byte array -> auf base64 umaendern-->
                     <img th:if="${account.profilePicture != null}" th:src="'data:image/jpg;base64,' + ${account.profilePicture}" alt="Bild nicht verfügbar">
                     <img th:unless="${account.profilePicture != null}" src="/images/profile_pic_default.svg" alt="Bild nicht verfügbar">
                 </figure>
@@ -86,8 +85,9 @@
                                 <td class="overview-description">
                                     <span th:text="${game.title}">Kein Titel verfügbar</span>
                                 </td>
-                                <td class="unpin-button">
-                                    <form th:action="@{'/thymeleaf/account/unlist-game'}" method="POST">
+                                <td class="unlist-button">
+                                    <form th:action="@{'/thymeleaf/account/unlist-game'}" th:method="PUT">
+                                        <input type="hidden" name="_method" value="DELETE">
                                         <input type="hidden" name="account-Id" th:value="${account.id}" />
                                         <input type="hidden" name="game-Id" th:value="${game.id}" />
                                         <button type="submit">entfernen</button>

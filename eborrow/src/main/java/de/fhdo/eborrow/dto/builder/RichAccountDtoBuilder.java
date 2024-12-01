@@ -118,6 +118,6 @@ public class RichAccountDtoBuilder{
     }
 
     private void validateInputs() {
-        // TODO Zak: Check each field and throw Exception if invalid
+        // Zak: Check each field here and throw Exception if invalid
     }
 }

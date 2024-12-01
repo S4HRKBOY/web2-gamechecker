@@ -14,12 +14,13 @@ public class AdminRestController {
 	@Autowired
 	public AdminRestController(AccountService accountService) {this.accountService = accountService;}
 
-	@GetMapping(value = "/account/set-publisher-status/{id}")
+	@PutMapping(value = "/account/set-publisher-status/{id}")
 	public ResponseEntity<Void> setPublisherStatus(@PathVariable Long id, @RequestParam("is-publisher") boolean isPublisher) {
-		if (!accountService.updatePublisherStatus(id, isPublisher)) {
+		boolean succeeded = accountService.updatePublisherStatus(id, isPublisher);
+		if (!succeeded) {
 			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 		}
 
-		return new ResponseEntity<>(HttpStatus.OK);
+		return new ResponseEntity<>(HttpStatus.NO_CONTENT);
 	}
 }
