@@ -85,8 +85,9 @@
                                 <td class="overview-description">
                                     <span th:text="${game.title}">Kein Titel verfügbar</span>
                                 </td>
-                                <td class="unpin-button">
-                                    <form th:action="@{'/thymeleaf/account/unlist-game'}" method="POST">
+                                <td class="unlist-button">
+                                    <form th:action="@{'/thymeleaf/account/unlist-game'}" th:method="PUT">
+                                        <input type="hidden" name="_method" value="DELETE">
                                         <input type="hidden" name="account-Id" th:value="${account.id}" />
                                         <input type="hidden" name="game-Id" th:value="${game.id}" />
                                         <button type="submit">entfernen</button>

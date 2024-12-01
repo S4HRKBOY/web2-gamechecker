@@ -30,7 +30,7 @@ public class AccountController {
 		return "profile_page";
 	}
 
-	@PostMapping("/unlist-game")
+	@PutMapping("/unlist-game")
 	public String unlistGameFromAccount(@RequestParam("account-Id") Long accountId, @RequestParam("game-Id") Long gameId, Model model) {
 		RichAccountDto richAccountDto = accountService.getRichAccountById(accountId);
 		accountService.unlistGameFromAccount(richAccountDto, gameId);
