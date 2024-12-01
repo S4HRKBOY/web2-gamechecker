@@ -81,7 +81,7 @@ public class AccountRestController {
 			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 		}
 
-		boolean succeeded = accountService.updateAccount(prefilledAccount, id);
+		boolean succeeded = accountService.updateAccount(id, prefilledAccount);
 		if (!succeeded) {
 			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 		}
