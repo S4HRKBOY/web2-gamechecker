@@ -29,6 +29,8 @@ public class AccountService {
 		// TODO Zak: Pruefen ob Account bereits existiert (z.B. nur benutzername oder email)
 		// (muesste ich da echt die ganze Liste durchgehen? Jeden einzelnen Account zu DTO konvertieren 
 		// waere echt ineffizient, vor allem mit Profilbildern)
+
+		accountDto.setId(null);	// zur Sicherheit, damit nicht geupdated wird
 		Account account = AccountMapper.dtoToAccount(accountDto);
 
 		return accountRepository.save(account).getId();
