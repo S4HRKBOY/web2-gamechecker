@@ -3,6 +3,7 @@ package de.fhdo.eborrow.restapi;
 import de.fhdo.eborrow.dto.AccountDto;
 import de.fhdo.eborrow.dto.RichAccountDto;
 import de.fhdo.eborrow.services.AccountService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -42,7 +43,7 @@ public class AccountRestController {
 	}
 
 	@PostMapping(value = "/create-account", consumes = "application/json")
-	public ResponseEntity<Long> createAccount(@RequestBody AccountDto accountDto) {
+	public ResponseEntity<Long> createAccount(@Valid @RequestBody AccountDto accountDto) {
 		if (accountDto == null) {
 			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 		}
@@ -56,7 +57,7 @@ public class AccountRestController {
 	}
 
 	@PutMapping(value = "/edit/{id}", consumes = "application/json")
-	public ResponseEntity<Void> updateAccount(@PathVariable Long id, @RequestBody AccountDto prefilledAccount) {
+	public ResponseEntity<Void> updateAccount(@PathVariable Long id, @Valid @RequestBody AccountDto prefilledAccount) {
 		if (prefilledAccount == null || prefilledAccount.getId() == null || !id.equals(prefilledAccount.getId())) {
 			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 		}
