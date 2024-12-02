@@ -26,14 +26,17 @@ public class AccountService {
 	}
 
 	public Long addAccount(AccountDto accountDto) {
-		// TODO Zak: Pruefen ob Account bereits existiert (z.B. nur benutzername oder email)
-		// (muesste ich da echt die ganze Liste durchgehen? Jeden einzelnen Account zu DTO konvertieren 
-		// waere echt ineffizient, vor allem mit Profilbildern)
-
 		accountDto.setId(null);	// zur Sicherheit, damit nicht geupdated wird
 		Account account = AccountMapper.dtoToAccount(accountDto);
 
-		return accountRepository.save(account).getId();
+		Long result = null;
+		try {
+			result = accountRepository.save(account).getId();
+		} catch (Exception ex) {
+			System.err.println("Account creation failed: " + ex.getMessage());
+		}
+
+		return result;
 	}
 
 	public Iterable<AccountDto> getAccounts() {
@@ -105,7 +108,14 @@ public class AccountService {
 
 		Account changes = AccountMapper.dtoToAccount(accountChangesDto);
 		Account updatedAccount = transferAccountChanges(existingAccount, changes);
-		accountRepository.save(updatedAccount);
+
+		try {
+			accountRepository.save(updatedAccount);
+		} catch (Exception ex) {
+			System.err.println("Update failed: " + ex.getMessage());
+			return false;
+		}
+
 
 		return true;
 	}
@@ -113,7 +123,7 @@ public class AccountService {
 	public boolean accountHasGame(Long accountId, Long gameId) {
 		return accountRepository.accountHasGame(accountId, gameId);
 	}
-	
+
 	public boolean addGameToAccount(Long accountId, Long gameId) {
 		RichAccountDto richAccountDto = getRichAccountById(accountId);
 		if (richAccountDto == null) {
