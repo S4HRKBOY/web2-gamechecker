@@ -8,6 +8,9 @@ type Query {
     game(id: ID!): Game
     review(id: ID!): Review
     reviews: [Review!]!
+    allGenres : [String]
+    allPlatforms : [String]
+    allAgeRatings : [String]
 }
     
 type Game {

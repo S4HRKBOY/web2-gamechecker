@@ -31,6 +31,21 @@ public class GameGraphQlController {
         return gameService.getGameById(id);
     }
 
+    @QueryMapping("allGenres")
+    public List<String> getAllGenres() {
+        return gameService.getAllGenres(); 
+    }
+
+    @QueryMapping("allPlatforms")
+    public List<String> getAllPlatforms() {
+        return gameService.getAllPlatforms(); 
+    }
+
+    @QueryMapping("allAgeRatings")
+    public List<String> getAllAgeRatings() {
+        return gameService.getAllAgeRatings(); 
+    }
+
     @MutationMapping("deleteGame")
     public Boolean deleteGameById(@Argument Long id) {
         try {
