@@ -10,11 +10,11 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.server.ResponseStatusException;
 
 @Controller
-public class AdminGraphClController {
+public class AdminGraphQlController {
 	private final AccountService accountService;
 
 	@Autowired
-	public AdminGraphClController(AccountService accountService) {
+	public AdminGraphQlController(AccountService accountService) {
 		this.accountService = accountService;
 	}
 
