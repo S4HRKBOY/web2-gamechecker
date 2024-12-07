@@ -26,12 +26,17 @@ public class AccountService {
 	}
 
 	public Long addAccount(AccountDto accountDto) {
-		// TODO Zak: Pruefen ob Account bereits existiert (z.B. nur benutzername oder email)
-		// (muesste ich da echt die ganze Liste durchgehen? Jeden einzelnen Account zu DTO konvertieren 
-		// waere echt ineffizient, vor allem mit Profilbildern)
+		accountDto.setId(null);	// zur Sicherheit, damit nicht geupdated wird
 		Account account = AccountMapper.dtoToAccount(accountDto);
 
-		return accountRepository.save(account).getId();
+		Long result = null;
+		try {
+			result = accountRepository.save(account).getId();
+		} catch (Exception ex) {
+			System.err.println("Account creation failed: " + ex.getMessage());
+		}
+
+		return result;
 	}
 
 	public Iterable<AccountDto> getAccounts() {
@@ -90,32 +95,27 @@ public class AccountService {
 
 	// use in case the id in accountChanges is guaranteed to match the id in the database 
 	public boolean updateAccount(AccountDto accountChanges) {
-		return updateAccount(accountChanges, accountChanges.getId());
+		return updateAccount(accountChanges.getId(), accountChanges);
 	}
 
 	// use in case the id in accountChanges is not guaranteed to match the id in the database
-	public boolean updateAccount(AccountDto accountChanges, Long id) {
+	public boolean updateAccount(Long id, AccountDto accountChangesDto) {
 		Account existingAccount = accountRepository.findById(id).orElse(null);
 		if (existingAccount == null) {
 			System.err.println("Update failed: No Account found with id " + id);
 			return false;
 		}
 
-		AccountDto existingAccountDto = AccountMapper.accountToDto(existingAccount);
+		Account changes = AccountMapper.dtoToAccount(accountChangesDto);
+		Account updatedAccount = transferAccountChanges(existingAccount, changes);
 
-		return updateAccount(accountChanges, existingAccountDto);
-	}
-
-	public boolean updateAccount(AccountDto accountChanges, AccountDto existingAccountDto) {
-		transferAccountChanges(existingAccountDto, accountChanges);
-		Account updatedAccount = AccountMapper.dtoToAccount(existingAccountDto);
-		if (updatedAccount.getId() == null || !accountRepository.existsById(updatedAccount.getId())) {
-			System.err.println("Update failed: No Account found with id " + updatedAccount.getId());
+		try {
+			accountRepository.save(updatedAccount);
+		} catch (Exception ex) {
+			System.err.println("Update failed: " + ex.getMessage());
 			return false;
 		}
 
-		rechargeTaggedGames(updatedAccount);
-		accountRepository.save(updatedAccount);
 
 		return true;
 	}
@@ -123,7 +123,7 @@ public class AccountService {
 	public boolean accountHasGame(Long accountId, Long gameId) {
 		return accountRepository.accountHasGame(accountId, gameId);
 	}
-	
+
 	public boolean addGameToAccount(Long accountId, Long gameId) {
 		RichAccountDto richAccountDto = getRichAccountById(accountId);
 		if (richAccountDto == null) {
@@ -195,69 +195,56 @@ public class AccountService {
 			System.err.println("Unlisting failed: No Account found with id " + updatedAccount.getId());
 			return false;
 		}
+
 		accountRepository.save(updatedAccount);
 
 		return true;
 	}
 
 	public boolean updatePublisherStatus(Long id, boolean isPublisher) {
-		AccountDto accountDto = getAccountById(id);
-		if (accountDto == null) {
+		Account existingAccount = accountRepository.findById(id).orElse(null);
+		if (existingAccount == null) {
 			System.err.println("Update failed: No Account found with id " + id);
 			return false;
 		}
 
-		return updatePublisherStatus(accountDto, isPublisher);
-	}
-
-	public boolean updatePublisherStatus(AccountDto accountDto, boolean isPublisher) {
-		accountDto.setPublisher(isPublisher);
-		Account updatedAccount = AccountMapper.dtoToAccount(accountDto);
-		if (updatedAccount.getId() == null || !accountRepository.existsById(updatedAccount.getId())) {
-			System.err.println("Unlisting failed: No Account found with id " + updatedAccount.getId());
-			return false;
-		}
-
-		rechargeTaggedGames(updatedAccount);
-		accountRepository.save(updatedAccount);
+		existingAccount.setPublisher(isPublisher);
+		accountRepository.save(existingAccount);
 
 		return true;
 	}
 
-	private void transferAccountChanges(AccountDto existingAccountDto, AccountDto accountChanges) {
-		if (accountChanges.getPrename() != null) {
-			existingAccountDto.setPrename(accountChanges.getPrename());
+	private Account transferAccountChanges(Account existingAccount, Account changes) {
+		if (changes.getPrename() != null) {
+			existingAccount.setPrename(changes.getPrename());
 		}
 
-		if (accountChanges.getSurname() != null) {
-			existingAccountDto.setSurname(accountChanges.getSurname());
+		if (changes.getSurname() != null) {
+			existingAccount.setSurname(changes.getSurname());
 		}
 
-		if (accountChanges.getUsername() != null) {
-			existingAccountDto.setUsername(accountChanges.getUsername());
+		if (changes.getUsername() != null) {
+			existingAccount.setUsername(changes.getUsername());
 		}
 
-		if (accountChanges.getBirthday() != null) {
-			existingAccountDto.setBirthday(accountChanges.getBirthday());
+		if (changes.getBirthday() != null) {
+			existingAccount.setBirthday(changes.getBirthday());
 		}
 
-		if (accountChanges.getEmail() != null) {
-			existingAccountDto.setEmail(accountChanges.getEmail());
+		if (changes.getEmail() != null) {
+			existingAccount.setEmail(changes.getEmail());
 		}
 
-		if (accountChanges.getPassword() != null) {
-			existingAccountDto.setPassword(accountChanges.getPassword());
+		if (changes.getPassword() != null) {
+			existingAccount.setPassword(changes.getPassword());
 		}
 
-		if (accountChanges.getProfilePicture() != null) {
-			existingAccountDto.setProfilePicture(accountChanges.getProfilePicture());
+		if (changes.getProfilePicture() != null) {
+			existingAccount.setProfilePicture(changes.getProfilePicture());
 		}
 
-		// Zak: Sollte der Wechsel des Status auf Publisher bzw. User unterstuetzt werden?
-	}
+		// Zak: Auch Update von taggedGames und publisher update hier mit anbieten?
 
-	private void rechargeTaggedGames(Account accountWithoutTaggedGames) {
-		// TODO Zak: Bessere Loesung ueberlegen
-		accountWithoutTaggedGames.setTaggedGames(accountRepository.findById(accountWithoutTaggedGames.getId()).get().getTaggedGames());
+		return existingAccount;
 	}
 }

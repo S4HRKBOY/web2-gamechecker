@@ -1,16 +1,25 @@
 package de.fhdo.eborrow.dto;
 
 import de.fhdo.eborrow.dto.builder.RichAccountDtoBuilder;
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Past;
 
 import java.time.LocalDate;
 import java.util.List;
 
 public class RichAccountDto {
     private Long id;
+    @NotNull
     private String prename;
+    @NotNull
     private String surname;
-    private LocalDate birthday;
+    @NotNull
     private String username;
+    @Past
+    private LocalDate birthday;
+    @Email
+    @NotNull
     private String email;
     private String password;
     private String profilePicture;

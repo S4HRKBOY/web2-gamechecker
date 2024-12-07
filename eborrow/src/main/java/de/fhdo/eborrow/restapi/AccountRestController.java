@@ -3,6 +3,7 @@ package de.fhdo.eborrow.restapi;
 import de.fhdo.eborrow.dto.AccountDto;
 import de.fhdo.eborrow.dto.RichAccountDto;
 import de.fhdo.eborrow.services.AccountService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -20,27 +21,7 @@ public class AccountRestController {
 		this.accountService = accountService;
 	}
 
-	// ResponseEntity allows for multiple HTTP status codes to be returned
-	@GetMapping(value = "/getAccounts", params = "with-games")
-	public ResponseEntity<Iterable<RichAccountDto>> getAllRichAccounts() {
-		Iterable<RichAccountDto> richAccountsDtos = accountService.getRichAccounts();
-		if (richAccountsDtos == null) {
-			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-		}
-
-		return new ResponseEntity<>(richAccountsDtos, HttpStatus.OK);
-	}
-
-	@GetMapping(value = "/getAccounts", params = "!with-games")
-	public ResponseEntity<Iterable<AccountDto>> getAllAccounts() {
-		Iterable<AccountDto> accountDtos = accountService.getAccounts();
-		if (accountDtos == null) {
-			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-		}
-
-		return new ResponseEntity<>(accountDtos, HttpStatus.OK);
-	}
-
+	// ResponseEntity allows for multiple kinds of HTTP status codes to be returned
 	@GetMapping(value = "/{id}", params = "with-games")
 	public ResponseEntity<RichAccountDto> getRichAccountById(@PathVariable Long id) {
 		RichAccountDto richAccountDto = accountService.getRichAccountById(id);
@@ -62,7 +43,7 @@ public class AccountRestController {
 	}
 
 	@PostMapping(value = "/create-account", consumes = "application/json")
-	public ResponseEntity<Long> createAccount(@RequestBody AccountDto accountDto) {
+	public ResponseEntity<Long> createAccount(@Valid @RequestBody AccountDto accountDto) {
 		if (accountDto == null) {
 			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 		}
@@ -75,63 +56,65 @@ public class AccountRestController {
 		return new ResponseEntity<>(accountId, HttpStatus.CREATED);
 	}
 
-	@PostMapping(value = "/edit/{id}", consumes = "application/json")
-	public ResponseEntity<Void> updateAccount(@PathVariable Long id, @RequestBody AccountDto prefilledAccount) {
-		if (prefilledAccount == null) {
+	@PutMapping(value = "/edit/{id}", consumes = "application/json")
+	public ResponseEntity<Void> updateAccount(@PathVariable Long id, @Valid @RequestBody AccountDto prefilledAccount) {
+		if (prefilledAccount == null || prefilledAccount.getId() == null || !id.equals(prefilledAccount.getId())) {
 			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 		}
 
-		boolean updateSucceeded = accountService.updateAccount(prefilledAccount, id);
-		if (!updateSucceeded) {
+		boolean succeeded = accountService.updateAccount(id, prefilledAccount);
+		if (!succeeded) {
 			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 		}
 
-		return new ResponseEntity<>(HttpStatus.OK);
+		return new ResponseEntity<>(HttpStatus.NO_CONTENT);
 	}
 
-	@PostMapping(value = "/delete-account", consumes = "application/json")
-	public ResponseEntity<Void> deleteAccount(@RequestBody Map<String, Long> requestBody) {
-		Long id = requestBody.get("Id");
+	@DeleteMapping(value = "/delete-account/{id}", consumes = "application/json")
+	public ResponseEntity<Void> deleteAccount(@PathVariable Long id) {
 		if (id == null) {
 			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 		}
 
-		if (!accountService.deleteAccount(id)) {
+		boolean succeeded = accountService.deleteAccount(id);
+		if (!succeeded) {
 			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 		}
 
-		return new ResponseEntity<>(HttpStatus.OK);
+		return new ResponseEntity<>(HttpStatus.NO_CONTENT);
 	}
 
-	@PostMapping(value = "/add-game", consumes = "application/json")
+	@PutMapping(value = "/add-game", consumes = "application/json")
 	public ResponseEntity<Void> addGameToAccount(@RequestBody Map<String, Long> requestBody) {
-		Long accountId = requestBody.get("accountId");
-		Long gameId = requestBody.get("gameId");
+		Long accountId = requestBody.get("account-Id");
+		Long gameId = requestBody.get("game-Id");
 
 		if (accountId == null || gameId == null) {
 			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 		}
 
-		if (!accountService.addGameToAccount(accountId, gameId)) {
+		boolean succeeded = accountService.addGameToAccount(accountId, gameId);
+		if (!succeeded) {
 			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 		}
 
-		return new ResponseEntity<>(HttpStatus.OK);
+		return new ResponseEntity<>(HttpStatus.NO_CONTENT);
 	}
 
-	@PostMapping(value = "/unlist-game", consumes = "application/json")
+	@PutMapping(value = "/unlist-game", consumes = "application/json")
 	public ResponseEntity<Void> unlistGameFromAccount(@RequestBody Map<String, Long> requestBody) {
-		Long accountId = requestBody.get("accountId");
-		Long gameId = requestBody.get("gameId");
+		Long accountId = requestBody.get("account-Id");
+		Long gameId = requestBody.get("game-Id");
 
 		if (accountId == null || gameId == null) {
 			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 		}
 
-		if (!accountService.unlistGameFromAccount(accountId, gameId)) {
+		boolean succeeded = accountService.unlistGameFromAccount(accountId, gameId);
+		if (!succeeded) {
 			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 		}
 
-		return new ResponseEntity<>(HttpStatus.OK);
+		return new ResponseEntity<>(HttpStatus.NO_CONTENT);
 	}
 }

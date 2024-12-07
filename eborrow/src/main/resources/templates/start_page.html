@@ -22,26 +22,33 @@
     </header>
 
     <div class="main-page-container">
-        <div class="search">
-            <input type="text" class="searchBox" placeholder="Search for games!">
+        <form class="search" th:action="@{'/thymeleaf/game/games-search'}" method="post" th:object="${Query}">
+            <input type="text" class="searchBox" placeholder="Search for games!" th:field="*{query}">
             <button type="submit" class="searchButton">
                 <i class="fa fa-search"></i>
             </button>
-        </div>
-        <div class="sort">
-            <div class="filter-bar">     
-                <select name="genres" id="genres" class="genre-filter">
-                    <option value="fantasy">Fantasy</option>
-                    <option value="horror">Horror</option>
-                    <option value="strategy">Strategy</option>
-                    <option value="story">Story</option>
-                </select>
-                <input type="date" class="date-filter"/>
-                <button type="submit" class="apply-filter">
-                    <i class="fa fa-filter"></i>
-                </button>
-            </div>
-        </div>
+        </form>
+        <form th:action="@{'/thymeleaf/game/filtered-games'}" th:object="${FilterInfo}" method="post" class="sort">
+                <div class="filter-bar">
+                    <label for="genre"> Genre</label>
+                    <select name="genre" id="genre" class="genre-filter" th:field="*{genre}">
+                        <option value="All">All</option>
+                        <option th:each="genre : ${genres}" th:value="${genre}" th:text="${genre}">Kein Genre Verfügbar</option>
+                    </select>
+                    <label for="platform"> Platform</label>
+                    <select name="platform" id="platform" class="platform-filter" th:field="*{platform}">
+                        <option value="All">All</option>
+                        <option th:each="platform : ${platforms}" th:value="${platform}" th:text="${platform}">Keine Platform Verfügbar</option>
+                    </select>
+                    <div class="dev-filter">
+                        <label for="dev">Developer: </label>
+                        <input type="text" id="dev" name="developer" th:field="*{developer}">
+                    </div>
+                    <button type="submit" class="apply-filter">
+                        <i class="fa fa-filter"></i>
+                    </button>
+                </div>
+        </form>
         <div class="overview">
             <table class="overview-table-container">
                 <tr th:each="game: ${games}" class="overview-entry">

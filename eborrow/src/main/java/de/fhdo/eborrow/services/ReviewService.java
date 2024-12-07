@@ -54,15 +54,15 @@ public class ReviewService {
 		return reviewDtos;
 	}
 
-	// public List<ReviewDto> getAllReviewsToGame(Long id){
-	// 	List<ReviewDto> reviewDtos = new ArrayList<>();
-	// 	reviewRepository.findAll().forEach(review -> {
-	// 		if(Objects.equals(review.getGame().getId(), id)){
-	// 			reviewDtos.add(ReviewMapper.convertReviewToDto(review));
-	// 		}
-	// 	});
-	// 	return reviewDtos;
-	// }
+//	 public List<ReviewDto> getAllReviewsToGame(Long id){
+//	 	List<ReviewDto> reviewDtos = new ArrayList<>();
+//	 	reviewRepository.findAll().forEach(review -> {
+//	 		if(Objects.equals(review.getGame().getId(), id)){
+//	 			reviewDtos.add(ReviewMapper.convertReviewToDto(review));
+//	 		}
+//	 	});
+//	 	return reviewDtos;
+//	 }
 
 	public Long updateReview(ReviewDto reviewDto) {
 		Review reviewToUpdate;

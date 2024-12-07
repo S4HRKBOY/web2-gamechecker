@@ -2,6 +2,9 @@ package de.fhdo.eborrow.domain;
 
 import de.fhdo.eborrow.domain.builder.AccountBuilder;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Past;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import java.time.LocalDate;
@@ -14,13 +17,17 @@ public class Account {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
+    @Column(nullable = false)
     private String prename;
+    @Column(nullable = false)
     private String surname;
+    @Column(nullable = false, unique = true)
+    private String username;
     @DateTimeFormat
     private LocalDate birthday;
-
-    private String username;
+    @Column(nullable = false, unique = true)
     private String email;
+    @Column(nullable = false)
     private String password;
 
     @Lob
