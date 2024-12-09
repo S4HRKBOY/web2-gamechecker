@@ -116,7 +116,6 @@ public class AccountService {
 			return false;
 		}
 
-
 		return true;
 	}
 
@@ -215,35 +214,14 @@ public class AccountService {
 	}
 
 	private Account transferAccountChanges(Account existingAccount, Account changes) {
-		if (changes.getPrename() != null) {
-			existingAccount.setPrename(changes.getPrename());
-		}
-
-		if (changes.getSurname() != null) {
-			existingAccount.setSurname(changes.getSurname());
-		}
-
-		if (changes.getUsername() != null) {
-			existingAccount.setUsername(changes.getUsername());
-		}
-
-		if (changes.getBirthday() != null) {
-			existingAccount.setBirthday(changes.getBirthday());
-		}
-
-		if (changes.getEmail() != null) {
-			existingAccount.setEmail(changes.getEmail());
-		}
-
-		if (changes.getPassword() != null) {
-			existingAccount.setPassword(changes.getPassword());
-		}
-
-		if (changes.getProfilePicture() != null) {
-			existingAccount.setProfilePicture(changes.getProfilePicture());
-		}
-
-		// Zak: Auch Update von taggedGames und publisher update hier mit anbieten?
+		existingAccount.setPrename(changes.getPrename());
+		existingAccount.setSurname(changes.getSurname());
+		existingAccount.setUsername(changes.getUsername());
+		existingAccount.setBirthday(changes.getBirthday());
+		existingAccount.setEmail(changes.getEmail());
+		existingAccount.setPassword(changes.getPassword());
+		existingAccount.setProfilePicture(changes.getProfilePicture());
+		// Zak: Auch Update von taggedGames und publisher hier mit anbieten?
 
 		return existingAccount;
 	}

@@ -117,4 +117,6 @@ public class AccountRestController {
 
 		return new ResponseEntity<>(HttpStatus.NO_CONTENT);
 	}
+	
+	// TODO Zak: Handler fuer Exceptions bei SpringValidierung schreiben
 }
