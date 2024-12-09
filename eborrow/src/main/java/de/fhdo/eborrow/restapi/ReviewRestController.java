@@ -5,10 +5,8 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import de.fhdo.eborrow.controller.ReviewController;
 import de.fhdo.eborrow.converters.GameMapper;
 import de.fhdo.eborrow.domain.Game;
-import de.fhdo.eborrow.dto.AccountDto;
 import de.fhdo.eborrow.dto.GameDto;
 import de.fhdo.eborrow.dto.ReviewDto;
-import de.fhdo.eborrow.dto.RichGameDto;
 import de.fhdo.eborrow.services.AccountService;
 import de.fhdo.eborrow.services.GameService;
 import de.fhdo.eborrow.services.ReviewService;
@@ -19,10 +17,8 @@ import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -49,6 +45,39 @@ public class ReviewRestController {
 		this.gameService = gameService;
 		this.accountService = accountService;
 		this.reviewService = reviewService;
+	}
+
+	@GetMapping("/reviews")
+	public ResponseEntity<ResponseMessage> allReviews(){
+		ResponseMessage responseMessage = new ResponseMessage();
+		Map<String, Object> results = new HashMap<>();
+
+		responseMessage.setStatus(200);
+		responseMessage.setMessage("Operation Successful!");
+		results.put("results", reviewService.getAll());
+		responseMessage.setResponse(results);
+
+		return new ResponseEntity<>(responseMessage, HttpStatus.OK);
+	}
+
+	@GetMapping("/{reviewId}")
+	public ResponseEntity<ResponseMessage> reviewById(@PathVariable("reviewId") Long reviewId){
+		ResponseMessage responseMessage = new ResponseMessage();
+		ReviewDto reviewDto = reviewService.getReviewById(reviewId);
+		Map<String, Object> results = new HashMap<>();
+		HttpStatus httpStatus = null;
+		if(reviewDto != null){
+			responseMessage.setStatus(200);
+			responseMessage.setMessage("Operation Successful!");
+			results.put("results", reviewDto);
+			responseMessage.setResponse(results);
+			httpStatus = HttpStatus.OK;
+		}else{
+			responseMessage.setStatus(400);
+			responseMessage.setMessage(String.format("Could not get the review for the id: %s!", reviewId));
+			httpStatus = HttpStatus.BAD_REQUEST;
+		}
+		return new ResponseEntity<>(responseMessage, httpStatus);
 	}
 
 	@GetMapping("/accounts-games")
@@ -101,7 +130,7 @@ public class ReviewRestController {
 	}
 
 	//TODO: Json benötigt ReviewDTO im HTTP-Body
-	@PostMapping("/delete-review/{reviewId}")
+	@DeleteMapping("/delete-review/{reviewId}")
 	public ResponseEntity<ResponseMessage> deleteReview(@PathVariable("reviewId") Long reviewId) {
 		reviewService.deleteReviewById(reviewId);
 		ResponseMessage responseMessage = new ResponseMessage();
@@ -111,7 +140,7 @@ public class ReviewRestController {
 	}
 
 	//TODO: Json benötigt ReviewDTO
-	@PostMapping(value = "/update-review/{reviewId}", consumes = { MediaType.APPLICATION_JSON_VALUE }, produces = {
+	@PutMapping(value = "/update-review/{reviewId}", consumes = { MediaType.APPLICATION_JSON_VALUE }, produces = {
 			MediaType.APPLICATION_JSON_VALUE })
 	public ResponseEntity<ResponseMessage> updateReview(HttpEntity<String> httpEntity, @PathVariable("reviewId") Long reviewId) {
 		String json = httpEntity.getBody();

@@ -128,8 +128,8 @@ header{
     background-color: aliceblue;
 
     display: grid;
-    grid-template-areas: "genre-filter date-filter apply-filter";
-    grid-template-columns: 40% 40% auto;
+    grid-template-areas: "genre-filter platform-filter dev-filter apply-filter";
+    grid-template-columns: 30% 30% 30% auto;
     align-items: center;
     justify-items: center;
                         
@@ -139,8 +139,12 @@ header{
     grid-area: genre-filter; 
 }
 
-.date-filter{
-    grid-area: date-filter;
+.platform-filter{
+    grid-area: platform-filter;
+}
+
+.dev-filter{
+    grid-area: dev-filter;
 }
 
 .apply-filter{

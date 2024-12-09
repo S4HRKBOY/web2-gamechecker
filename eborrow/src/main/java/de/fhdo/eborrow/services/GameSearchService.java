@@ -1,30 +1,33 @@
 package de.fhdo.eborrow.services;
 
-import de.fhdo.eborrow.domain.Genre;
-import de.fhdo.eborrow.domain.Platform;
 import de.fhdo.eborrow.dto.GameDto;
-import de.fhdo.eborrow.dto.RichGameDto;
-import org.apache.commons.text.similarity.LevenshteinDistance;
+import org.apache.commons.text.similarity.FuzzyScore;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.Comparator;
 import java.util.List;
+import java.util.Locale;
 
 @Service
 public class GameSearchService {
 
+	private static final Logger LOGGER = LoggerFactory.getLogger(GameSearchService.class);
+
 	private GameService gameService;
+	private ReviewService reviewService;
 
 	private DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 
-	private final int maxAllowedLevenshteinDistance = 5;
+	private final int minScoreNeeded = 5;
 
 	@Autowired
-	public GameSearchService(GameService gameService){
+	public GameSearchService(GameService gameService, ReviewService reviewService){
 		this.gameService = gameService;
+		this.reviewService = reviewService;
 	}
 
 	public List<GameDto> sortByTitle(boolean naturalOrder){
@@ -40,26 +43,7 @@ public class GameSearchService {
 		return result;
 	}
 
-	public List<GameDto> getGamesByDate(String dateString, boolean after){
-		LocalDate date = LocalDate.parse(dateString, formatter);
-
-		List<GameDto> gameDtos = gameService.getAll();
-		List<GameDto> results;
-
-		results = gameDtos.stream().filter(gameDto -> {
-				if(after){
-					return gameDto.getPublicationDate().isAfter(date);
-				}else{
-					return gameDto.getPublicationDate().isBefore(date);
-				}
-			}
-		).toList();
-
-		return results;
-	}
-
-	public List<GameDto> gamesByGenre(String genre){
-		List<GameDto> gameDtos = gameService.getAll();
+	public List<GameDto> gamesByGenre(List<GameDto> gameDtos, String genre){
 		List<GameDto> results;
 
 		results = gameDtos.stream().filter(gameDto -> {
@@ -70,8 +54,7 @@ public class GameSearchService {
 		return results;
 	}
 
-	public List<GameDto> gamesByPlatform(String platform){
-		List<GameDto> gameDtos = gameService.getAll();
+	public List<GameDto> gamesByPlatform(List<GameDto> gameDtos, String platform){
 		List<GameDto> results;
 
 		results = gameDtos.stream().filter(gameDto -> {
@@ -82,8 +65,7 @@ public class GameSearchService {
 		return results;
 	}
 
-	public List<GameDto> gamesByDeveloper(String developer){
-		List<GameDto> gameDtos = gameService.getAll();
+	public List<GameDto> gamesByDeveloper(List<GameDto> gameDtos, String developer){
 		List<GameDto> results;
 
 		results = gameDtos.stream().filter(gameDto -> gameDto.getDeveloper().equals(developer)).toList();
@@ -95,10 +77,10 @@ public class GameSearchService {
 		List<GameDto> results;
 
 		results = gameDtos.stream().filter(gameDto -> {
-			LevenshteinDistance levenshteinDistance = new LevenshteinDistance();
-			int distance = levenshteinDistance.apply(gameDto.getTitle(), query);
-			System.out.println(distance);
-			return distance <= maxAllowedLevenshteinDistance;
+			FuzzyScore fuzzyScore = new FuzzyScore(Locale.ENGLISH);
+			int score = fuzzyScore.fuzzyScore(gameDto.getTitle(), query);
+			System.out.println(score);
+			return score >= minScoreNeeded;
 		}).toList();
 
 		return results;

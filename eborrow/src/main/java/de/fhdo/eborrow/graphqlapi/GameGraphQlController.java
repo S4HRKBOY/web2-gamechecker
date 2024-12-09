@@ -1,16 +1,15 @@
 package de.fhdo.eborrow.graphqlapi;
 
-import java.util.List;
-
+import de.fhdo.eborrow.dto.GameDto;
+import de.fhdo.eborrow.dto.RichGameDto;
+import de.fhdo.eborrow.services.GameService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.graphql.data.method.annotation.Argument;
 import org.springframework.graphql.data.method.annotation.MutationMapping;
 import org.springframework.graphql.data.method.annotation.QueryMapping;
 import org.springframework.stereotype.Controller;
 
-import de.fhdo.eborrow.dto.GameDto;
-import de.fhdo.eborrow.dto.RichGameDto;
-import de.fhdo.eborrow.services.GameService;
+import java.util.List;
 
 @Controller
 public class GameGraphQlController {
@@ -67,5 +66,4 @@ public class GameGraphQlController {
         Long id = gameService.updateGame(game); 
         return gameService.getGameById(id);
     }
-
 }
