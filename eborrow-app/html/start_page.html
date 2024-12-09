@@ -32,12 +32,20 @@
         <div class="sort">
             <div class="filter-bar">
                 <select name="genres" id="genres" class="genre-filter">
+                    <!--
                     <option value="fantasy">Fantasy</option>
-                    <option value="horror">Horror</option>
-                    <option value="strategy">Strategy</option>
-                    <option value="story">Story</option>
+                    -->
                 </select>
-                <input type="date" class="date-filter"/>
+                <select name="platform" id="platform" class="platform-filter">
+                    <!--
+                    <option value="All">All</option>
+                    <option th:each="platform : ${platforms}" th:value="${platform}" th:text="${platform}">Keine Platform Verfügbar</option>
+                    -->
+                </select>
+                <div class="dev-filter">
+                    <label for="dev">Developer: </label>
+                    <input type="text" id="dev" name="developer" class="dev-input">
+                </div>
                 <button type="submit" class="apply-filter">
                     <i class="fa fa-filter"></i>
                 </button>
@@ -45,33 +53,15 @@
         </div>
         <div class="overview">
             <table class="overview-table-container">
+                <!--
                 <tr class="overview-entry">
                     <td class="overview-image"><a href="detail_page.html"><img src="../images/dummy-image.jpg" alt="logo"></a></td>
                     <td class="overview-description">Hier steht was zum Spiel</td>
                 </tr>
-                <tr class="overview-entry">
-                    <td class="overview-image"><a href="detail_page.html"><img src="../images/dummy-image.jpg" alt="logo"></a></td>
-                    <td class="overview-description">Hier steht was zum Spiel</td>
-                </tr>
-                <tr class="overview-entry">
-                    <td class="overview-image"><a href="detail_page.html"><img src="../images/dummy-image.jpg" alt="logo"></a></td>
-                    <td class="overview-description">Hier steht was zum Spiel</td>
-                </tr>
-                <tr class="overview-entry">
-                    <td class="overview-image"><a href="detail_page.html"><img src="../images/dummy-image.jpg" alt="logo"></a></td>
-                    <td class="overview-description">Hier steht was zum Spiel</td>
-                </tr>
-                <tr class="overview-entry">
-                    <td class="overview-image"><a href="detail_page.html"><img src="../images/dummy-image.jpg" alt="logo"></a></td>
-                    <td class="overview-description">Hier steht was zum Spiel</td>
-                </tr>
-                <tr class="overview-entry">
-                    <td class="overview-image"><a href="detail_page.html"><img src="../images/dummy-image.jpg" alt="logo"></a></td>
-                    <td class="overview-description">Hier steht was zum Spiel</td>
-                </tr>
+                -->
             </table>
         </div>
     </div>
 </body>
-
+<script src="../js/startpage.js"></script>
 </html>
