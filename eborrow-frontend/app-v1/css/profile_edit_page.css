@@ -1,0 +1,103 @@
+html,
+body,
+main {
+    margin: 0;
+    height: 100%;
+}
+
+main {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+#content {
+    width: 50%;
+}
+
+fieldset {
+    border: 1px solid hsl(0, 0%, 75%);
+    border-radius: 10px;
+    padding: 10px;
+}
+
+/*input-styling*/
+input:invalid,
+select:invalid {
+  border-color: red;
+}
+
+.form-input {
+    display: flex;
+    column-gap: 10px;
+}
+
+.form-input>label {
+    flex: 2;
+}
+
+.form-input>input {
+    flex: 3;
+}
+
+.form-content {
+    display: grid;
+    grid-template-areas: "set-personal-infos set-profile-pic";
+    grid-template-columns: 2fr 1fr;
+    gap: 15px;
+}
+
+.set-personal-infos {
+    display: flex;
+    grid-area: set-personal-infos;
+    flex-direction: column;
+}
+
+.set-personal-infos>fieldset {
+    display: flex;
+    flex: 1;
+    flex-direction: column;
+    justify-content: space-evenly;
+}
+
+.set-profile-pic {
+    grid-area: set-profile-pic;
+}
+
+.set-profile-pic {
+    grid-area: set-profile-pic;
+}
+
+.set-profile-pic .form-input>label {
+    text-align: end;
+}
+
+.profile-pic {
+    justify-self: center;
+}
+
+.profile-pic img {
+    width: 288px;
+    height: 288px;
+    object-fit: cover;
+    object-position: 50%;
+    border-radius: 50%;
+}
+
+.send-form-options {
+    display: flex;
+    justify-content: end;
+    gap: 10px;
+    margin-top: 10px;
+}
+
+.delete-profile {
+    display: inline;
+    position: relative;
+    top: -21px;
+}
+
+.delete-profile>* {
+    color: red;
+}
