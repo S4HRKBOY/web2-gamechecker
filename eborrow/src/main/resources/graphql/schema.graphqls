@@ -103,22 +103,22 @@ input updateReviewInput{
 }
 
 input createAccountInput {
-  prename: String
-  surname: String
+  prename: String!
+  surname: String!
   birthday: String
-  username: String
-  email: String
-  password: String
+  username: String!
+  email: String!
+  password: String!
   profilePicture: String
 }
 
 input updateAccountInput {
   id: ID!
-  prename: String
-  surname: String
+  prename: String!
+  surname: String!
   birthday: String
-  username: String
-  email: String
-  password: String
+  username: String!
+  email: String!
+  password: String!
   profilePicture: String
 }
