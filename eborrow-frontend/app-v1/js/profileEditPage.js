@@ -1,6 +1,6 @@
 'use strict';
 
-import { createHeader, removeCSSTags } from "./global.js";
+import { createHeader, removeCSSTags } from "./main.js";
 
 // #region global variables
 let previewPicture = null;
@@ -26,7 +26,7 @@ function setCSS() {
     const head = document.querySelector("head");
 
     // add new stylesheet imports
-    head.insertAdjacentHTML("beforeend", `<link rel="stylesheet" href="../css/global.css">`);
+    head.insertAdjacentHTML("beforeend", `<link rel="stylesheet" href="../css/main.css">`);
     head.insertAdjacentHTML("beforeend", `<link rel="stylesheet" href="../css/profile_edit_page.css">`);
 }
 
