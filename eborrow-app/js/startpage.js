@@ -1,4 +1,3 @@
-// Endpunktname?
 const allGamesEndpoint = "http://localhost:8080/home";
 
 const allGenresEndpoint = "http://localhost:8080/game/all-genres";
@@ -11,18 +10,17 @@ function handleGameFilling(games) {
     const table = document.querySelector(".overview-table-container");
     table.innerHTML = '';
 
-    for (var i = 0; i < games.length; i++) {
-        const game = games[i];
-        var entry = document.createElement("tr");
+    for (const game of games) {
+        const entry = document.createElement("tr");
         entry.setAttribute("class", "overview-entry");
 
         table.appendChild(entry);
 
-        var entryImage = document.createElement("td");
-        var entryText = document.createElement("td");
+        const entryImage = document.createElement("td");
+        const entryText = document.createElement("td");
 
         entryImage.appendChild(document.createElement("a"));
-        var gameDescription = document.createTextNode(game["description"]);
+        const gameDescription = document.createTextNode(game["description"]);
         entryText.append(gameDescription);
         entry.appendChild(entryImage);
         entry.appendChild(entryText);
@@ -30,7 +28,7 @@ function handleGameFilling(games) {
 }
 
 async function requestResource(url) {
-    var result;
+    let result;
     try {
         const response = await fetch(url);
         if (!response.ok) {
@@ -74,13 +72,9 @@ async function getGamesByFilter() {
     const platform = platformSelect.options[platformSelect.selectedIndex].text;
 
     const developerInput = document.querySelector(".dev-input");
-    var developer;
+    let developer;
 
-    if(developer == null){
-        developer = "";
-    }else{
-        developer = developerInput.value;
-    }
+    developer = developer == null ? "" : developerInput.value;
 
     try{
         const myHeaders = new Headers();
