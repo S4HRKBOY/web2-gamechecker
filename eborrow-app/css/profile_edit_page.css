@@ -22,6 +22,12 @@ fieldset {
     padding: 10px;
 }
 
+/*input-styling*/
+input:invalid,
+select:invalid {
+  border-color: red;
+}
+
 .form-input {
     display: flex;
     column-gap: 10px;
