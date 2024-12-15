@@ -4,6 +4,7 @@ import de.fhdo.eborrow.dto.AccountDto;
 import de.fhdo.eborrow.dto.RichAccountDto;
 import de.fhdo.eborrow.services.AccountService;
 import jakarta.validation.Valid;
+import javassist.NotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -24,7 +25,7 @@ public class AccountRestController {
 	// ResponseEntity allows for multiple kinds of HTTP status codes to be returned
 	@GetMapping(value = "/{id}", params = "with-games", 
 			produces = "application/json", consumes = {"application/json", "application/xml"})
-	public ResponseEntity<RichAccountDto> getRichAccountById(@PathVariable Long id) {
+	public ResponseEntity<RichAccountDto> getRichAccountById(@PathVariable Long id) throws NotFoundException {
 		RichAccountDto richAccountDto = accountService.getRichAccountById(id);
 		
 		if (richAccountDto == null) {
@@ -35,7 +36,7 @@ public class AccountRestController {
 	}
 
 	@GetMapping(value = "/{id}", produces = "application/json", consumes = {"application/json", "application/xml"})
-	public ResponseEntity<AccountDto> getAccountById(@PathVariable Long id) {
+	public ResponseEntity<AccountDto> getAccountById(@PathVariable Long id) throws NotFoundException {
 		AccountDto accountDto = accountService.getAccountById(id);
 		if (accountDto == null) {
 			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
@@ -59,35 +60,29 @@ public class AccountRestController {
 	}
 
 	@PutMapping(value = "/edit/{id}", produces = "application/json", consumes = {"application/json", "application/xml"})
-	public ResponseEntity<Void> updateAccount(@PathVariable Long id, @Valid @RequestBody AccountDto prefilledAccount) {
+	public ResponseEntity<Void> updateAccount(@PathVariable Long id, @Valid @RequestBody AccountDto prefilledAccount) throws NotFoundException {
 		if (prefilledAccount == null || prefilledAccount.getId() == null || !id.equals(prefilledAccount.getId())) {
 			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 		}
 
-		boolean succeeded = accountService.updateAccount(id, prefilledAccount);
-		if (!succeeded) {
-			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-		}
+		accountService.updateAccount(id, prefilledAccount);
 
 		return new ResponseEntity<>(HttpStatus.NO_CONTENT);
 	}
 
 	@DeleteMapping(value = "/delete-account/{id}", produces = "application/json", consumes = {"application/json", "application/xml"})
-	public ResponseEntity<Void> deleteAccount(@PathVariable Long id) {
+	public ResponseEntity<Void> deleteAccount(@PathVariable Long id) throws NotFoundException {
 		if (id == null) {
 			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 		}
 
-		boolean succeeded = accountService.deleteAccount(id);
-		if (!succeeded) {
-			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-		}
+		accountService.deleteAccount(id);
 
 		return new ResponseEntity<>(HttpStatus.NO_CONTENT);
 	}
 
 	@PutMapping(value = "/add-game", produces = "application/json", consumes = {"application/json", "application/xml"})
-	public ResponseEntity<Void> addGameToAccount(@RequestBody Map<String, Long> requestBody) {
+	public ResponseEntity<Void> addGameToAccount(@RequestBody Map<String, Long> requestBody) throws NotFoundException {
 		Long accountId = requestBody.get("account-Id");
 		Long gameId = requestBody.get("game-Id");
 
@@ -95,16 +90,13 @@ public class AccountRestController {
 			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 		}
 
-		boolean succeeded = accountService.addGameToAccount(accountId, gameId);
-		if (!succeeded) {
-			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-		}
+		accountService.addGameToAccount(accountId, gameId);
 
 		return new ResponseEntity<>(HttpStatus.NO_CONTENT);
 	}
 
 	@PutMapping(value = "/unlist-game", produces = "application/json", consumes = {"application/json", "application/xml"})
-	public ResponseEntity<Void> unlistGameFromAccount(@RequestBody Map<String, Long> requestBody) {
+	public ResponseEntity<Void> unlistGameFromAccount(@RequestBody Map<String, Long> requestBody) throws NotFoundException {
 		Long accountId = requestBody.get("account-Id");
 		Long gameId = requestBody.get("game-Id");
 
@@ -112,10 +104,7 @@ public class AccountRestController {
 			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 		}
 
-		boolean succeeded = accountService.unlistGameFromAccount(accountId, gameId);
-		if (!succeeded) {
-			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-		}
+		accountService.unlistGameFromAccount(accountId, gameId);
 
 		return new ResponseEntity<>(HttpStatus.NO_CONTENT);
 	}

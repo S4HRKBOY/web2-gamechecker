@@ -10,6 +10,9 @@ import org.springframework.web.server.ResponseStatusException;
 
 @ControllerAdvice
 public class CustomGraphQlExceptionHandler{
+	// Zak TODO: Handler schreiben, der abzufangende Exceptions zu einer ResponseStatusException umwandelt
+	// u.a. MethodArgumentNotValidException und DataIntegrityViolationException
+
 	@GraphQlExceptionHandler
 	public GraphQLError handleResponseStatusException(ResponseStatusException ex) {
 		GraphqlErrorBuilder<? extends GraphqlErrorBuilder<?>> error = GraphqlErrorBuilder.newError();

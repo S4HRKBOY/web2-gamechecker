@@ -2,6 +2,7 @@ package de.fhdo.eborrow.restapi;
 
 import java.util.List;
 
+import javassist.NotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -97,7 +98,7 @@ public class GameRestController {
     }
 
     @GetMapping("/getAccountById/{id}")
-    public AccountDto getAccountById(@PathVariable Long id) {
+    public AccountDto getAccountById(@PathVariable Long id) throws NotFoundException {
         return accountService.getAccountById(id);
     }
 

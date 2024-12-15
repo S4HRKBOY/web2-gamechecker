@@ -3,6 +3,8 @@ package de.fhdo.eborrow.graphqlapi;
 import de.fhdo.eborrow.dto.AccountDto;
 import de.fhdo.eborrow.dto.RichAccountDto;
 import de.fhdo.eborrow.services.AccountService;
+import jakarta.validation.Valid;
+import javassist.NotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.graphql.data.method.annotation.Argument;
 import org.springframework.graphql.data.method.annotation.MutationMapping;
@@ -26,7 +28,7 @@ public class AccountGraphQlController {
 	}
 
 	@QueryMapping("account")
-	public RichAccountDto getRichAccountById(@Argument Long id) {
+	public RichAccountDto getRichAccountById(@Argument Long id) throws NotFoundException {
 		RichAccountDto richAccountDto = accountService.getRichAccountById(id);
 		if (richAccountDto == null) {
 			throw new ResponseStatusException(HttpStatus.NOT_FOUND);
@@ -36,7 +38,7 @@ public class AccountGraphQlController {
 	}
 
 	@MutationMapping("createAccount")
-	public AccountDto createAccount(@Argument AccountDto account) {
+	public AccountDto createAccount(@Valid @Argument AccountDto account) throws NotFoundException {
 		if (account == null) {
 			throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
 		}
@@ -52,59 +54,47 @@ public class AccountGraphQlController {
 	}
 
 	@MutationMapping("updateAccount")
-	public AccountDto updateAccount(@Argument AccountDto account) {
+	public AccountDto updateAccount(@Valid @Argument AccountDto account) throws NotFoundException {
 		if (account == null || account.getId() == null) {
 			throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
 		}
 
-		boolean succeeded = accountService.updateAccount(account);
-		if (!succeeded) {
-			throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
-		}
-
+		accountService.updateAccount(account);
 		AccountDto result = accountService.getAccountById(account.getId());
 
 		return result;
 	}
 
 	@MutationMapping("deleteAccount")
-	public boolean deleteAccount(@Argument Long id) {
+	public boolean deleteAccount(@Argument Long id) throws NotFoundException {
 		if (id == null) {
 			throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "ID is required");
 		}
 
-		boolean succeeded = accountService.deleteAccount(id);
+		accountService.deleteAccount(id);
 
-		return succeeded;
+		return true;
 	}
 
 	@MutationMapping("addGameToAccount")
-	public RichAccountDto addGameToAccount(@Argument Long accountId, @Argument Long gameId) {
+	public RichAccountDto addGameToAccount(@Argument Long accountId, @Argument Long gameId) throws NotFoundException {
 		if (accountId == null || gameId == null) {
 			throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "ID is required");
 		}
 
-		boolean succeeded = accountService.addGameToAccount(accountId, gameId);
-		if (!succeeded) {
-			throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
-		}
-
+		accountService.addGameToAccount(accountId, gameId);
 		RichAccountDto result = accountService.getRichAccountById(accountId);
 
 		return result;
 	}
 
 	@MutationMapping("unlistGameFromAccount")
-	public RichAccountDto unlistGameFromAccount(@Argument Long accountId, @Argument Long gameId) {
+	public RichAccountDto unlistGameFromAccount(@Argument Long accountId, @Argument Long gameId) throws NotFoundException {
 		if (accountId == null || gameId == null) {
 			throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "ID is required");
 		}
 
-		boolean succeeded = accountService.unlistGameFromAccount(accountId, gameId);
-		if (!succeeded) {
-			throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
-		}
-
+		accountService.unlistGameFromAccount(accountId, gameId);
 		RichAccountDto result = accountService.getRichAccountById(accountId);
 
 		return result;
