@@ -19,7 +19,11 @@ public class CustomGraphQlExceptionHandler{
 		if (ex instanceof NotFoundException) {
 			status = HttpStatus.NOT_FOUND;
 			message = ex.getMessage();
-		} else if (ex instanceof MethodArgumentNotValidException) {
+		} else if (ex instanceof IllegalArgumentException) {
+			status = HttpStatus.BAD_REQUEST;
+			message = "Illegal argument passed: " + ex.getMessage();
+		}
+		else if (ex instanceof MethodArgumentNotValidException) {
 			status = HttpStatus.BAD_REQUEST;
 			message = "Validation failed: " + ex.getMessage();
 		} else if (ex instanceof DataIntegrityViolationException) {

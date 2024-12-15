@@ -25,8 +25,14 @@ public class CustomRestExceptionHandler {
 		return ResponseEntity.status(HttpStatus.CONFLICT).body("Data integrity violation: " + ex.getMessage());
 	}
 
+	@ExceptionHandler(IllegalArgumentException.class)
+	public ResponseEntity<String> handleIllegalArgumentException(IllegalArgumentException ex) {
+		return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Illegal argument passed: " + ex.getMessage());
+	}
+
+	// Catch-em-all exception handler
 	@ExceptionHandler(Exception.class)
 	public ResponseEntity<String> handleAllExceptions(Exception ex) {
 		return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Unexpected error: " + ex.getMessage());
-	}	
+	}
 }

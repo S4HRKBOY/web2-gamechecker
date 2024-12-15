@@ -26,11 +26,14 @@ public class AccountService {
 		this.gameService = gameService;
 	}
 
-	public Long addAccount(AccountDto accountDto) {
-		accountDto.setId(null);    // zur Sicherheit, damit nicht geupdated wird (TODO: Lieber Exception werfen)
-		Account account = AccountMapper.dtoToAccount(accountDto);
+	public Long addAccount(AccountDto newAccountDto) {
+		if (newAccountDto.getId() != null) {
+			throw new IllegalArgumentException("Account ID must be null for new accounts");
+		}
 
-		return accountRepository.save(account).getId();    // TODO: Handler fuer DataIntegrityViolationException
+		Account newAccount = AccountMapper.dtoToAccount(newAccountDto);
+
+		return accountRepository.save(newAccount).getId();
 	}
 
 	public Iterable<AccountDto> getAccounts() {
@@ -83,7 +86,7 @@ public class AccountService {
 
 	// use in case the id in accountChanges is NOT guaranteed to match the id in the database
 	public void updateAccount(Long id, AccountDto accountChangesDto) throws NotFoundException {
-		Account existingAccount = accountRepository.findById(id).orElseThrow(()->new NotFoundException("No Account found with id " + id));
+		Account existingAccount = accountRepository.findById(id).orElseThrow(() -> new NotFoundException("No Account found with id " + id));
 
 		Account changes = AccountMapper.dtoToAccount(accountChangesDto);
 		Account updatedAccount = transferAccountChanges(existingAccount, changes);
@@ -103,7 +106,7 @@ public class AccountService {
 		// TODO Zak: Lieber eine Service Methode fuer Laden aller Games als GameDto statt RichGameDto nutzen
 		RichGameDto richGameDto = gameService.getGameById(gameId);
 		if (richGameDto == null) {
-			throw new NotFoundException("Appending failed: No Game found with id " + gameId);
+			throw new NotFoundException("No Game found with id " + gameId);
 		}
 
 		GameDto gameDto = GameMapper.gameToDto(GameMapper.richDtoToGame(richGameDto));
@@ -164,7 +167,7 @@ public class AccountService {
 	}
 
 	public void updatePublisherStatus(Long id, boolean isPublisher) throws NotFoundException {
-		Account existingAccount = accountRepository.findById(id).orElseThrow(()->new NotFoundException("No Account found with id " + id));
+		Account existingAccount = accountRepository.findById(id).orElseThrow(() -> new NotFoundException("No Account found with id " + id));
 		existingAccount.setPublisher(isPublisher);
 		accountRepository.save(existingAccount);
 	}
