@@ -14,7 +14,7 @@ public class AdminRestController {
 	@Autowired
 	public AdminRestController(AccountService accountService) {this.accountService = accountService;}
 
-	@PutMapping(value = "/account/set-publisher-status/{id}")
+	@PutMapping(value = "/account/set-publisher-status/{id}", produces = "application/json", consumes = {"application/json", "application/xml"})
 	public ResponseEntity<Void> setPublisherStatus(@PathVariable Long id, @RequestParam("is-publisher") boolean isPublisher) {
 		boolean succeeded = accountService.updatePublisherStatus(id, isPublisher);
 		if (!succeeded) {
