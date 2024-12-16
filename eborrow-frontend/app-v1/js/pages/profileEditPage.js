@@ -1,6 +1,6 @@
 'use strict';
 
-import { getAccountById, isEmailTaken } from "../accountController.js";
+import { getAccountById, isEmailTaken, isUsernameTaken } from "../accountController.js";
 import { loadImage, removeCSSTags } from "../utils/utils.js";
 import createHeader from "../views/partials/header.js";
 import createProfileEditPage from "../views/profileEditPage.js";
@@ -132,8 +132,8 @@ async function validateInputs() {
     if (!await validateEmail(emailInput))
         return false;
 
-    // if (!await validateUsername(emailInput))
-    //     return false;
+    if (!await validateUsername(usernameInput))
+        return false;
 
     return true; // Allow form submission
 }
@@ -195,8 +195,30 @@ async function validateEmail(emailInput) {
     return true;
 }
 
-function validateUsername(usernameInput) {
-    if (false/*TODO*/) {
+async function validateUsername(usernameInput) {
+    if(usernameInput.value === "") {
+        usernameInput.setCustomValidity("Bitte geben Sie einen Benutzernamen ein.");
+        usernameInput.reportValidity();
+
+        return false;
+    }
+
+    // Zak: Theoretisch muesste man noch schauen, ob es sich um denselben username handelt, der bereits im Account hinterlegt war
+    let usernameTaken;
+    try {
+        usernameTaken = await isUsernameTaken(usernameInput.value);
+
+        if (usernameTaken !== false && usernameTaken !== true) {
+            throw new Error("Unexpected response from server.");
+        }
+    } catch (err) {
+        console.error(err);
+        alert("Ein Fehler ist aufgetreten. Bitte versuchen Sie es später erneut.");
+
+        return false;
+    }
+
+    if (usernameTaken === true) {
         usernameInput.setCustomValidity("Dieser Benutzername ist bereits vergeben.");
         usernameInput.reportValidity();
 

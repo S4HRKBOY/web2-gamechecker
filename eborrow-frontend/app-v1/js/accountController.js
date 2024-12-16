@@ -17,3 +17,13 @@ export async function isEmailTaken(email) {
         console.error(`Failed to check if email is already taken`, err);
     }
 }
+
+export async function isUsernameTaken(username) {
+    try {
+        const response = await fetch(`//localhost:8080/account/username-taken?username=${username}`);
+
+        return await response.json();
+    } catch (err) {
+        console.error(`Failed to check if username is already taken`, err);
+    }
+}
