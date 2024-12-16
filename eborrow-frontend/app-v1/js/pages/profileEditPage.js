@@ -46,6 +46,8 @@ function assignEvents() {
         }
     });
 
+    assignValidationEvents();
+
     document.querySelector("#profile-pic-fileselect").addEventListener("change", (event) => {
         loadImage(event.target.files[0])
             .then((img) => previewPicture = img)
@@ -54,25 +56,45 @@ function assignEvents() {
     });
 }
 
+function assignValidationEvents() {
+    const passwordInput = document.querySelector(".update-form #password");
+    const passwordConfirmInput = document.querySelector(".update-form #password-confirm");
+
+    passwordInput.addEventListener("input", () => {
+        passwordConfirmInput.setCustomValidity("");
+    });
+
+    passwordConfirmInput.addEventListener("input", () => {
+        passwordConfirmInput.setCustomValidity("");
+    });
+}
+
 function updatePreviewPicture() {
     document.querySelector(".profile-pic>img").src = previewPicture;
 }
 
 function validateInputs() {
-    const password = document.getElementById("password");
-    const passwordConfirm = document.getElementById("password-confirm");
+    const passwordInput = document.getElementById("password");
+    const passwordConfirmInput = document.getElementById("password-confirm");
 
-    if (password.value !== passwordConfirm.value) {
-        passwordConfirm.setCustomValidity("Die eingegebenen Passwörter stimmen nicht überein.");
-        passwordConfirm.reportValidity();
-
-        return false;
-    }
+    if (!validatePasswords(passwordInput, passwordConfirmInput))
+        return false
 
     // TODO Zak: Entweder hier ueber Backend pruefen, ob die Unique Constraints eingehalten werden
     // oder nicht hier weiter pruefen und ein update request versuchen, und wenn es fehlschlaegt, 
     // dann die Fehlermeldung auslesen und entsprechendes input Feld markieren
 
     return true; // Allow form submission
+}
+
+function validatePasswords(passwordInput, passwordConfirmInput) {
+    if (passwordInput.value !== passwordConfirmInput.value) {
+        passwordConfirmInput.setCustomValidity("Die eingegebenen Passwörter stimmen nicht überein.");
+        passwordConfirmInput.reportValidity();
+
+        return false;
+    }
+
+    return true;
 }
 // #endregion
