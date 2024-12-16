@@ -1,22 +1,15 @@
 package de.fhdo.eborrow.services;
 
-import de.fhdo.eborrow.converters.AccountMapper;
-import de.fhdo.eborrow.converters.GameMapper;
 import de.fhdo.eborrow.converters.ReviewMapper;
 import de.fhdo.eborrow.domain.Review;
-import de.fhdo.eborrow.dto.AccountDto;
-import de.fhdo.eborrow.dto.RichGameDto;
 import de.fhdo.eborrow.dto.ReviewDto;
 import de.fhdo.eborrow.repositories.GameRepository;
 import de.fhdo.eborrow.repositories.ReviewRepository;
-import jakarta.transaction.Transactional;
-
+import javassist.NotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 
 @Service
 public class ReviewService {
@@ -33,7 +26,7 @@ public class ReviewService {
 		this.gameRepository = gameRepository; 
 	}
 
-	public Long addReview(ReviewDto reviewDto, Long gameId, Long accountId){
+	public Long addReview(ReviewDto reviewDto, Long gameId, Long accountId) throws NotFoundException {
 		reviewDto.setAccountDto(accountService.getAccountById(accountId));
 		gameService.addReview(reviewDto, gameId);
 		return reviewRepository.findByGameIdAndAccountId(gameId, accountId).getId();

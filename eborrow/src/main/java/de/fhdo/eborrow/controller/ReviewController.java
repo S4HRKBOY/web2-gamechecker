@@ -3,6 +3,7 @@ package de.fhdo.eborrow.controller;
 import java.time.LocalDate;
 import java.util.Comparator;
 
+import javassist.NotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -36,7 +37,7 @@ public class ReviewController {
     }
 
     @PostMapping("/create-review")
-    public String createReview(@ModelAttribute ReviewDto reviewDto, @RequestParam("gameId") Long gameId, @RequestParam("accountId") Long accountId, Model model) {
+    public String createReview(@ModelAttribute ReviewDto reviewDto, @RequestParam("gameId") Long gameId, @RequestParam("accountId") Long accountId, Model model) throws NotFoundException {
         reviewService.addReview(reviewDto, gameId, accountId);
         model.addAttribute("review", reviewDto);
         RichGameDto gameDto = gameService.getGameById(gameId);
@@ -54,7 +55,7 @@ public class ReviewController {
     }
 
     @PostMapping("/delete-review/{reviewId}")
-    public String deleteReview(@PathVariable("reviewId") Long reviewId, Long gameId, Long accountId, Model model) {
+    public String deleteReview(@PathVariable("reviewId") Long reviewId, Long gameId, Long accountId, Model model) throws NotFoundException {
         reviewService.deleteReviewById(reviewId);
         RichGameDto gameDto = gameService.getGameById(gameId);
         gameDto.getReviewsDto().sort(Comparator.comparing(ReviewDto::getId).reversed());
@@ -74,7 +75,7 @@ public class ReviewController {
     }
 
     @GetMapping("/update-review/{reviewId}")
-    public String getUpdateReview(@PathVariable("reviewId") Long reviewId, Long gameId, Long accountId, Model model) {
+    public String getUpdateReview(@PathVariable("reviewId") Long reviewId, Long gameId, Long accountId, Model model) throws NotFoundException {
         ReviewDto reviewDto = reviewService.getReviewById(reviewId);
         RichGameDto gameDto = gameService.getGameById(gameId);
         gameDto.getReviewsDto().sort(Comparator.comparing(ReviewDto::getId).reversed());
@@ -92,7 +93,7 @@ public class ReviewController {
     }
 
     @PostMapping("/update-review/{reviewId}")
-    public String updateReview( @ModelAttribute ReviewDto reviewDto, @PathVariable("reviewId") Long reviewId, Long gameId, Long accountId, Model model) {
+    public String updateReview( @ModelAttribute ReviewDto reviewDto, @PathVariable("reviewId") Long reviewId, Long gameId, Long accountId, Model model) throws NotFoundException {
         reviewService.updateReview(reviewDto); 
         RichGameDto gameDto = gameService.getGameById(gameId);
         gameDto.getReviewsDto().sort(Comparator.comparing(ReviewDto::getId).reversed());

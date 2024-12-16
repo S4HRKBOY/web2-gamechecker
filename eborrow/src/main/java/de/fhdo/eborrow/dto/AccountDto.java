@@ -24,7 +24,11 @@ public class AccountDto {
     private String profilePicture;
     private boolean isPublisher;
 
-    private AccountDto(Long id, String prename, String surname, LocalDate birthday, String username, String email, String password, String profilePicture) {
+    private AccountDto() {
+        // used for deserialization from JSON body
+    }
+
+    public AccountDto(Long id, String prename, String surname, LocalDate birthday, String username, String email, String password, String profilePicture) {
         this.id = id;
         this.prename = prename;
         this.surname = surname;

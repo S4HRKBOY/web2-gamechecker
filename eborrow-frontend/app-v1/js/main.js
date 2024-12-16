@@ -1,3 +1,5 @@
+'use strict';
+
 import {loadProfileEditPage} from "./profileEditPage.js";
 
 const idAccountToFetch = 1;

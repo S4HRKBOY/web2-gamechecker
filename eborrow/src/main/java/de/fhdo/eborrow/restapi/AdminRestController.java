@@ -1,6 +1,7 @@
 package de.fhdo.eborrow.restapi;
 
 import de.fhdo.eborrow.services.AccountService;
+import javassist.NotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -14,12 +15,9 @@ public class AdminRestController {
 	@Autowired
 	public AdminRestController(AccountService accountService) {this.accountService = accountService;}
 
-	@PutMapping(value = "/account/set-publisher-status/{id}")
-	public ResponseEntity<Void> setPublisherStatus(@PathVariable Long id, @RequestParam("is-publisher") boolean isPublisher) {
-		boolean succeeded = accountService.updatePublisherStatus(id, isPublisher);
-		if (!succeeded) {
-			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-		}
+	@PutMapping(value = "/account/set-publisher-status/{id}", produces = "application/json", consumes = {"application/json", "application/xml"})
+	public ResponseEntity<Void> setPublisherStatus(@PathVariable Long id, @RequestParam("is-publisher") boolean isPublisher) throws NotFoundException {
+		accountService.updatePublisherStatus(id, isPublisher);
 
 		return new ResponseEntity<>(HttpStatus.NO_CONTENT);
 	}

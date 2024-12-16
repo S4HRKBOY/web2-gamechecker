@@ -8,6 +8,7 @@ import java.util.Objects;
 import de.fhdo.eborrow.controller.wrapper.FilterInfo;
 import de.fhdo.eborrow.controller.wrapper.Query;
 import de.fhdo.eborrow.services.GameSearchService;
+import javassist.NotFoundException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -45,7 +46,7 @@ public class GameController {
     }
 
     @GetMapping("/home")
-    public String getAll(Model model) {
+    public String getAll(Model model) throws NotFoundException {
         List<GameDto> gameDto = gameService.getAll();
         RichAccountDto accountDto = accountService.getRichAccountById(1L);
         List<String> genres = gameService.getAllGenres(); 
@@ -60,7 +61,7 @@ public class GameController {
     }
 
     @PostMapping("/game/filtered-games")
-    public String getFilteredGames(@ModelAttribute FilterInfo filterInfo, Model model){
+    public String getFilteredGames(@ModelAttribute FilterInfo filterInfo, Model model) throws NotFoundException {
         LOGGER.info(filterInfo.toString());
         AccountDto accountDto = accountService.getAccountById(1L);
         List<GameDto> games = gameService.getAll();
@@ -89,7 +90,7 @@ public class GameController {
     }
 
     @PostMapping("/game/games-search")
-    public String getGamesByQuery(@ModelAttribute Query query, Model model){
+    public String getGamesByQuery(@ModelAttribute Query query, Model model) throws NotFoundException {
         LOGGER.info(query.getQuery());
         AccountDto accountDto = accountService.getAccountById(1L);
         List<GameDto> games = gameSearchService.getGamesBySearchQuery(query.getQuery());
@@ -106,7 +107,7 @@ public class GameController {
     }
 
     @GetMapping("/game/{id}")
-    public String getGameById(@PathVariable Long id, Model model) {
+    public String getGameById(@PathVariable Long id, Model model) throws NotFoundException {
         RichGameDto gameDto = gameService.getGameById(id);
         gameDto.getReviewsDto().sort(Comparator.comparing(ReviewDto::getId).reversed());
         AccountDto accountDto = accountService.getAccountById(1L);
@@ -125,7 +126,7 @@ public class GameController {
     }
 
     @PostMapping("/game/unlist-game")
-	public String unlistGameFromAccount(@RequestParam("accountId") Long accountId, @RequestParam("gameId") Long gameId, Model model) {
+	public String unlistGameFromAccount(@RequestParam("accountId") Long accountId, @RequestParam("gameId") Long gameId, Model model) throws NotFoundException {
 		accountService.unlistGameFromAccount(accountId, gameId);
         RichGameDto gameDto = gameService.getGameById(gameId);
         gameDto.getReviewsDto().sort(Comparator.comparing(ReviewDto::getId).reversed());
@@ -145,7 +146,7 @@ public class GameController {
 	}
 
     @PostMapping("/game/add-game")
-	public String addGameToAccount(@RequestParam("accountId") Long accountId, @RequestParam("gameId") Long gameId, Model model) {
+	public String addGameToAccount(@RequestParam("accountId") Long accountId, @RequestParam("gameId") Long gameId, Model model) throws NotFoundException {
 		accountService.addGameToAccount(accountId, gameId);
         RichGameDto gameDto = gameService.getGameById(gameId);
         gameDto.getReviewsDto().sort(Comparator.comparing(ReviewDto::getId).reversed());

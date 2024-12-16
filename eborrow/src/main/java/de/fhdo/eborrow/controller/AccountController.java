@@ -3,6 +3,7 @@ package de.fhdo.eborrow.controller;
 import de.fhdo.eborrow.dto.GameDto;
 import de.fhdo.eborrow.dto.RichAccountDto;
 import de.fhdo.eborrow.services.AccountService;
+import javassist.NotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -21,7 +22,7 @@ public class AccountController {
 	}
 
 	@GetMapping("/{id}")
-	public String showProfilePageView(@PathVariable Long id, Model model) {
+	public String showProfilePageView(@PathVariable Long id, Model model) throws NotFoundException {
 		RichAccountDto richAccountDto = accountService.getRichAccountById(id);
 		List<GameDto> gamesDtos = richAccountDto.getTaggedGames();
 		model.addAttribute("account", richAccountDto);
@@ -31,7 +32,7 @@ public class AccountController {
 	}
 
 	@PutMapping("/unlist-game")
-	public String unlistGameFromAccount(@RequestParam("account-Id") Long accountId, @RequestParam("game-Id") Long gameId, Model model) {
+	public String unlistGameFromAccount(@RequestParam("account-Id") Long accountId, @RequestParam("game-Id") Long gameId, Model model) throws NotFoundException {
 		RichAccountDto richAccountDto = accountService.getRichAccountById(accountId);
 		accountService.unlistGameFromAccount(richAccountDto, gameId);
 
