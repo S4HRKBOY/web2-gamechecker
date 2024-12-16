@@ -1,7 +1,7 @@
 'use strict';
 
-import { getAccountById, isEmailTaken, isUsernameTaken } from "../accountController.js";
-import { loadImage, removeCSSTags } from "../utils/utils.js";
+import * as accountController from "../accountController.js";
+import * as utils from "../utils/utils.js";
 import createHeader from "../views/partials/header.js";
 import createProfileEditPage from "../views/profileEditPage.js";
 import { srcDefaultProfilePic } from "../views/profileEditPage.js";
@@ -12,7 +12,7 @@ let previewPicture = null;
 
 // region functions
 export function loadProfileEditPage(accountId) {
-    getAccountById(accountId)
+    accountController.getAccountById(accountId)
         .then(data => renderPage(data));
 }
 
@@ -23,7 +23,7 @@ function renderPage(account) {
 }
 
 function setCSS() {
-    removeCSSTags();
+    utils.removeCSSTags();
 
     const head = document.querySelector("head");
 
@@ -77,7 +77,7 @@ function assignEvents() {
             return;
         }
 
-        loadImage(event.target.files[0])
+        utils.loadImage(event.target.files[0])
             .then((img) => previewPicture = img)
             .then(updatePreviewPicture)
             .catch((err) => console.error(err));
@@ -173,7 +173,7 @@ async function validateEmail(emailInput) {
     // Zak: Theoretisch muesste man noch schauen, ob es sich um dieselbe Mail handelt, die bereits im Account hinterlegt war
     let emailTaken;
     try {
-        emailTaken = await isEmailTaken(emailInput.value);
+        emailTaken = await accountController.isEmailTaken(emailInput.value);
 
         if (emailTaken !== false && emailTaken !== true) {
             throw new Error("Unexpected response from server.");
@@ -206,7 +206,7 @@ async function validateUsername(usernameInput) {
     // Zak: Theoretisch muesste man noch schauen, ob es sich um denselben username handelt, der bereits im Account hinterlegt war
     let usernameTaken;
     try {
-        usernameTaken = await isUsernameTaken(usernameInput.value);
+        usernameTaken = await accountController.isUsernameTaken(usernameInput.value);
 
         if (usernameTaken !== false && usernameTaken !== true) {
             throw new Error("Unexpected response from server.");
