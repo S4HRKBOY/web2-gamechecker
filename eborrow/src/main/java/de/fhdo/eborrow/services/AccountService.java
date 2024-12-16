@@ -93,10 +93,6 @@ public class AccountService {
 		accountRepository.save(updatedAccount);
 	}
 
-	public boolean accountHasGame(Long accountId, Long gameId) {
-		return accountRepository.accountHasGame(accountId, gameId);
-	}
-
 	public void addGameToAccount(Long accountId, Long gameId) throws NotFoundException {
 		RichAccountDto richAccountDto = getRichAccountById(accountId);
 		if (richAccountDto == null) {
@@ -170,6 +166,18 @@ public class AccountService {
 		Account existingAccount = accountRepository.findById(id).orElseThrow(() -> new NotFoundException("No Account found with id " + id));
 		existingAccount.setPublisher(isPublisher);
 		accountRepository.save(existingAccount);
+	}
+
+	public boolean accountHasGame(Long accountId, Long gameId) {
+		return accountRepository.accountHasGame(accountId, gameId);
+	}
+
+	public boolean isEmailTaken(String email) {
+		return accountRepository.existsByEmail(email);
+	}
+
+	public boolean isUsernameTaken(String username) {
+		return accountRepository.existsByUsername(username);
 	}
 
 	private Account transferAccountChanges(Account existingAccount, Account changes) {

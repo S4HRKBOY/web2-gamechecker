@@ -4,6 +4,7 @@ import de.fhdo.eborrow.dto.AccountDto;
 import de.fhdo.eborrow.dto.RichAccountDto;
 import de.fhdo.eborrow.services.AccountService;
 import jakarta.validation.Valid;
+import jakarta.validation.constraints.Email;
 import javassist.NotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -106,5 +107,27 @@ public class AccountRestController {
 		accountService.unlistGameFromAccount(accountId, gameId);
 
 		return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+	}
+
+	@GetMapping("/username-taken")
+	public ResponseEntity<Boolean> isUsernameTaken(@RequestParam String username) {
+		if(username == null || username.trim().isEmpty()) {
+			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+		}
+
+		boolean usernameExists = accountService.isUsernameTaken(username);
+
+		return new ResponseEntity<>(usernameExists, HttpStatus.OK);
+	}
+
+	@GetMapping("/email-taken")
+	public ResponseEntity<Boolean> isEmailTaken(@RequestParam @Email String email) {
+		if(email == null || email.trim().isEmpty()) {
+			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+		}
+
+		boolean emailExists = accountService.isEmailTaken(email);
+
+		return new ResponseEntity<>(emailExists, HttpStatus.OK);
 	}
 }
