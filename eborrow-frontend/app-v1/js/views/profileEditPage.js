@@ -1,43 +1,6 @@
-'use strict';
+export const srcDefaultProfilePic = "../resources/images/profile_pic_default.svg";
 
-import { createHeader, removeCSSTags } from "./main.js";
-
-// #region global variables
-let previewPicture = null;
-// #endregion
-
-
-// region functions
-export function loadProfileEditPage(accouhtId) {
-    fetch(`//localhost:8080/account/${accouhtId}`)
-        .then(response => response.json())
-        .then(data => renderPage(data));
-}
-
-function renderPage(account) {
-    createContent(account);
-    assignEvents();
-    setCSS();
-}
-
-function setCSS() {
-    removeCSSTags();
-
-    const head = document.querySelector("head");
-
-    // add new stylesheet imports
-    head.insertAdjacentHTML("beforeend", `<link rel="stylesheet" href="../css/main.css">`);
-    head.insertAdjacentHTML("beforeend", `<link rel="stylesheet" href="../css/profile_edit_page.css">`);
-}
-
-function createContent(account) {
-    const body = document.querySelector("body");
-    const header = createHeader(account);
-    const main = createMain(account);
-    [header, main].forEach((element) => body.insertAdjacentHTML("beforeend", element));
-}
-
-function createMain(account) {
+export default (account) => {
     // TODO: fix links and add logic to save changes/delete account
     let yesterday = new Date();
     yesterday.setDate(yesterday.getDate() - 1);
@@ -87,11 +50,11 @@ function createMain(account) {
                         <section class="set-profile-pic">
                             <fieldset>
                                 <figure class="profile-pic">
-                                    <img src="../resources/images/profile_pic_default.svg" alt="Profilbild">
+                                    <img src="${srcDefaultProfilePic}" alt="Profilbild">
                                 </figure>
                                 <div class="form-input">
-                                    <label for="profile-pic-fileselect">Bild ändern</label>
-                                    <input type="file" id="profile-pic-fileselect" name="profile-pic-fpath">
+                                    <label for="profile-pic-fileselect">Profilbild</label>
+                                    <input type="file" accept="image/*" id="profile-pic-fileselect" name="profile-pic-fpath">
                                 </div>
                             </fieldset>
                         </section>
@@ -108,65 +71,3 @@ function createMain(account) {
         </article>
     </main>`;
 }
-
-
-function assignEvents() {
-    document.querySelector(".update-form").addEventListener("submit", (event) => {
-        if (!validateInputs()) {
-            event.preventDefault();
-        }
-    });
-
-    document.querySelector("#profile-pic-fileselect").addEventListener("change", (event) => {
-        loadImage(event)
-            .then(updatePreviewPicture)
-            .catch((err) => console.error(err));
-    });
-}
-
-function loadImage(event) {
-    const file = event.target.files[0]; // Get the selected file
-
-    if (!file) {
-        return Promise.reject("No file selected.");
-    }
-
-    return new Promise((resolve, reject) => {
-        const reader = new FileReader();
-
-        // Set the image preview once the file is read
-        reader.onload = (e) => {
-            previewPicture = e.target.result;
-            resolve(); // Resolve the promise when the file is read
-        };
-
-        reader.onerror = () => {
-            reject("There was an error when reading the image file!");
-        }
-
-        reader.readAsDataURL(file); // Read the file as a data URL
-    });
-}
-
-function updatePreviewPicture() {
-    document.querySelector(".profile-pic>img").src = previewPicture;
-}
-
-function validateInputs() {
-    const password = document.getElementById("password");
-    const passwordConfirm = document.getElementById("password-confirm");
-
-    if (password.value !== passwordConfirm.value) {
-        passwordConfirm.setCustomValidity("Die eingegebenen Passwörter stimmen nicht überein.");
-        passwordConfirm.reportValidity();
-
-        return false;
-    }
-
-    // TODO Zak: Entweder hier ueber Backend pruefen, ob die Unique Constraints eingehalten werden
-    // oder nicht hier weiter pruefen und ein update request versuchen, und wenn es fehlschlaegt, 
-    // dann die Fehlermeldung auslesen und entsprechendes input Feld markieren
-
-    return true; // Allow form submission
-}
-// #endregion

@@ -31,6 +31,7 @@ public class AccountService {
 			throw new IllegalArgumentException("Account ID must be null for new accounts");
 		}
 
+		newAccountDto.setEmail(newAccountDto.getEmail().toLowerCase());
 		Account newAccount = AccountMapper.dtoToAccount(newAccountDto);
 
 		return accountRepository.save(newAccount).getId();
@@ -86,15 +87,12 @@ public class AccountService {
 
 	// use in case the id in accountChanges is NOT guaranteed to match the id in the database
 	public void updateAccount(Long id, AccountDto accountChangesDto) throws NotFoundException {
+		accountChangesDto.setEmail(accountChangesDto.getEmail().toLowerCase());
 		Account existingAccount = accountRepository.findById(id).orElseThrow(() -> new NotFoundException("No Account found with id " + id));
 
 		Account changes = AccountMapper.dtoToAccount(accountChangesDto);
 		Account updatedAccount = transferAccountChanges(existingAccount, changes);
 		accountRepository.save(updatedAccount);
-	}
-
-	public boolean accountHasGame(Long accountId, Long gameId) {
-		return accountRepository.accountHasGame(accountId, gameId);
 	}
 
 	public void addGameToAccount(Long accountId, Long gameId) throws NotFoundException {
@@ -170,6 +168,19 @@ public class AccountService {
 		Account existingAccount = accountRepository.findById(id).orElseThrow(() -> new NotFoundException("No Account found with id " + id));
 		existingAccount.setPublisher(isPublisher);
 		accountRepository.save(existingAccount);
+	}
+
+	public boolean accountHasGame(Long accountId, Long gameId) {
+		return accountRepository.accountHasGame(accountId, gameId);
+	}
+
+	public boolean isEmailTaken(String email) {
+		email = email.toLowerCase();
+		return accountRepository.existsByEmail(email);
+	}
+
+	public boolean isUsernameTaken(String username) {
+		return accountRepository.existsByUsername(username);
 	}
 
 	private Account transferAccountChanges(Account existingAccount, Account changes) {
