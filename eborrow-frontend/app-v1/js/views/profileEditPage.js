@@ -1,3 +1,5 @@
+export const srcDefaultProfilePic = "../resources/images/profile_pic_default.svg";
+
 export default (account) => {
     // TODO: fix links and add logic to save changes/delete account
     let yesterday = new Date();
@@ -48,11 +50,11 @@ export default (account) => {
                         <section class="set-profile-pic">
                             <fieldset>
                                 <figure class="profile-pic">
-                                    <img src="../resources/images/profile_pic_default.svg" alt="Profilbild">
+                                    <img src="${srcDefaultProfilePic}" alt="Profilbild">
                                 </figure>
                                 <div class="form-input">
-                                    <label for="profile-pic-fileselect">Bild ändern</label>
-                                    <input type="file" id="profile-pic-fileselect" name="profile-pic-fpath">
+                                    <label for="profile-pic-fileselect">Profilbild</label>
+                                    <input type="file" accept="image/*" id="profile-pic-fileselect" name="profile-pic-fpath">
                                 </div>
                             </fieldset>
                         </section>

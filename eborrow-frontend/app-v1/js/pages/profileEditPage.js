@@ -4,6 +4,7 @@ import { getAccountById } from "../accountController.js";
 import { loadImage, removeCSSTags } from "../utils/utils.js";
 import createHeader from "../views/partials/header.js";
 import createProfileEditPage from "../views/profileEditPage.js";
+import { srcDefaultProfilePic } from "../views/profileEditPage.js";
 
 // #region global variables
 let previewPicture = null;
@@ -49,6 +50,20 @@ function assignEvents() {
     assignValidationEvents();
 
     document.querySelector("#profile-pic-fileselect").addEventListener("change", (event) => {
+        const fileInput = event.target;
+        const file = fileInput.files[0]; // Get the selected file
+
+        if (!file) {
+            fileInput.value = ""; // Clear the invalid file input
+            clearPreviewPicture();
+
+            return;
+        }
+
+        if(!validateProfilePic(fileInput)) {
+            return;
+        }
+
         loadImage(event.target.files[0])
             .then((img) => previewPicture = img)
             .then(updatePreviewPicture)
@@ -56,9 +71,19 @@ function assignEvents() {
     });
 }
 
+function clearPreviewPicture() {
+    previewPicture = null;
+    updatePreviewPicture();
+}
+
+function updatePreviewPicture() {
+    document.querySelector(".profile-pic>img").src = previewPicture ? previewPicture : srcDefaultProfilePic;
+}
+
 function assignValidationEvents() {
     const passwordInput = document.querySelector(".update-form #password");
     const passwordConfirmInput = document.querySelector(".update-form #password-confirm");
+    const imageSelectInput = document.getElementById("profile-pic-fileselect");
 
     passwordInput.addEventListener("input", () => {
         passwordConfirmInput.setCustomValidity("");
@@ -69,16 +94,16 @@ function assignValidationEvents() {
     });
 }
 
-function updatePreviewPicture() {
-    document.querySelector(".profile-pic>img").src = previewPicture;
-}
-
 function validateInputs() {
     const passwordInput = document.getElementById("password");
     const passwordConfirmInput = document.getElementById("password-confirm");
+    const fileInput = document.getElementById("profile-pic-fileselect");
 
     if (!validatePasswords(passwordInput, passwordConfirmInput))
-        return false
+        return false;
+
+    if (!validateProfilePic(fileInput))
+        return false;
 
     // TODO Zak: Entweder hier ueber Backend pruefen, ob die Unique Constraints eingehalten werden
     // oder nicht hier weiter pruefen und ein update request versuchen, und wenn es fehlschlaegt, 
@@ -91,6 +116,19 @@ function validatePasswords(passwordInput, passwordConfirmInput) {
     if (passwordInput.value !== passwordConfirmInput.value) {
         passwordConfirmInput.setCustomValidity("Die eingegebenen Passwörter stimmen nicht überein.");
         passwordConfirmInput.reportValidity();
+
+        return false;
+    }
+
+    return true;
+}
+
+function validateProfilePic(fileInput) {
+    const file = fileInput.files[0]; // Get the selected file
+    if(file && !file.type.startsWith("image/")) {
+        alert("Bitte wählen Sie eine gültige Bilddatei aus.");
+        fileInput.value = ""; // Clear the invalid file input
+        clearPreviewPicture();
 
         return false;
     }
