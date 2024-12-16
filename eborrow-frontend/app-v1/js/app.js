@@ -1,7 +1,6 @@
 'use strict';
 
-import {loadProfileEditPage} from "./profileEditPage.js";
-import header from "./views/partials/header.js";
+import {loadProfileEditPage} from "./pages/profileEditPage.js";
 
 // The logged in account, currently hardcoded, will change in app-v2
 const idAccountToFetch = 1;

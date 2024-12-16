@@ -1,9 +1,9 @@
 'use strict';
 
-import { getAccountById } from "./accountController.js";
-import { loadImage, removeCSSTags } from "./utils/utils.js";
-import createHeader from "./views/partials/header.js";
-import createProfileEditPage from "./views/profileEditPage.js";
+import { getAccountById } from "../accountController.js";
+import { loadImage, removeCSSTags } from "../utils/utils.js";
+import createHeader from "../views/partials/header.js";
+import createProfileEditPage from "../views/profileEditPage.js";
 
 // #region global variables
 let previewPicture = null;
