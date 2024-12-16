@@ -1,6 +1,6 @@
 'use strict';
 
-import { getAccountById } from "../accountController.js";
+import { getAccountById, isEmailTaken } from "../accountController.js";
 import { loadImage, removeCSSTags } from "../utils/utils.js";
 import createHeader from "../views/partials/header.js";
 import createProfileEditPage from "../views/profileEditPage.js";
@@ -41,13 +41,26 @@ function createContent(account) {
 
 function assignEvents() {
     // TODO Bugfix: Wenn das Passwort-Feld geaendert wird, wird die Passwort-Wiederholung nicht zurueckgesetzt
-    document.querySelector(".update-form").addEventListener("submit", (event) => {
-        if (!validateInputs()) {
-            event.preventDefault();
+    document.querySelector(".update-form").addEventListener("submit", async (event) => {
+        {
+            event.preventDefault(); // needs to be done, else the form will be submitted before the fetch is done
+            const inputsValid = await validateInputs();
+            if (!inputsValid) {
+                event.preventDefault();
+            }
+            else {
+                event.target.submit();  // manual submission
+            }
+            // wenn stattdessen clientseitig gerendert werden soll
+            // else {
+            //     postprocessInputs();
+            //     createAccount();
+            //     renderProfilePage();
+            // }
         }
     });
 
-    assignValidationEvents();
+    assignResetValidityEvents();
 
     document.querySelector("#profile-pic-fileselect").addEventListener("change", (event) => {
         const fileInput = event.target;
@@ -80,10 +93,11 @@ function updatePreviewPicture() {
     document.querySelector(".profile-pic>img").src = previewPicture ? previewPicture : srcDefaultProfilePic;
 }
 
-function assignValidationEvents() {
+function assignResetValidityEvents() {
     const passwordInput = document.querySelector(".update-form #password");
     const passwordConfirmInput = document.querySelector(".update-form #password-confirm");
-    const imageSelectInput = document.getElementById("profile-pic-fileselect");
+    const emailInput = document.querySelector(".update-form #email");
+    const usernameInput = document.querySelector(".update-form #username");
 
     passwordInput.addEventListener("input", () => {
         passwordConfirmInput.setCustomValidity("");
@@ -92,12 +106,22 @@ function assignValidationEvents() {
     passwordConfirmInput.addEventListener("input", () => {
         passwordConfirmInput.setCustomValidity("");
     });
+
+    emailInput.addEventListener("input", () => {
+        emailInput.setCustomValidity("");
+    });
+
+    usernameInput.addEventListener("input", () => {
+        usernameInput.setCustomValidity("");
+    });
 }
 
-function validateInputs() {
-    const passwordInput = document.getElementById("password");
-    const passwordConfirmInput = document.getElementById("password-confirm");
-    const fileInput = document.getElementById("profile-pic-fileselect");
+async function validateInputs() {
+    const passwordInput = document.querySelector(".update-form #password");
+    const passwordConfirmInput = document.querySelector(".update-form #password-confirm");
+    const fileInput = document.querySelector(".update-form #profile-pic-fileselect");
+    const emailInput = document.querySelector(".update-form #email");
+    const usernameInput = document.querySelector(".update-form #username");
 
     if (!validatePasswords(passwordInput, passwordConfirmInput))
         return false;
@@ -105,9 +129,11 @@ function validateInputs() {
     if (!validateProfilePic(fileInput))
         return false;
 
-    // TODO Zak: Entweder hier ueber Backend pruefen, ob die Unique Constraints eingehalten werden
-    // oder nicht hier weiter pruefen und ein update request versuchen, und wenn es fehlschlaegt, 
-    // dann die Fehlermeldung auslesen und entsprechendes input Feld markieren
+    if (!await validateEmail(emailInput))
+        return false;
+
+    // if (!await validateUsername(emailInput))
+    //     return false;
 
     return true; // Allow form submission
 }
@@ -129,6 +155,50 @@ function validateProfilePic(fileInput) {
         alert("Bitte wählen Sie eine gültige Bilddatei aus.");
         fileInput.value = ""; // Clear the invalid file input
         clearPreviewPicture();
+
+        return false;
+    }
+
+    return true;
+}
+
+async function validateEmail(emailInput) {
+    if(emailInput.value === "") {
+        emailInput.setCustomValidity("Bitte geben Sie eine E-Mail Adresse ein.");
+        emailInput.reportValidity();
+
+        return false;
+    }
+
+    // Zak: Theoretisch muesste man noch schauen, ob es sich um dieselbe Mail handelt, die bereits im Account hinterlegt war
+    let emailTaken;
+    try {
+        emailTaken = await isEmailTaken(emailInput.value);
+
+        if (emailTaken !== false && emailTaken !== true) {
+            throw new Error("Unexpected response from server.");
+        }
+    } catch (err) {
+        console.error(err);
+        alert("Ein Fehler ist aufgetreten. Bitte versuchen Sie es später erneut.");
+
+        return false;
+    }
+
+    if (emailTaken === true) {
+        emailInput.setCustomValidity("Diese E-Mail Adresse wird bereits verwendet.");
+        emailInput.reportValidity();
+
+        return false;
+    }
+
+    return true;
+}
+
+function validateUsername(usernameInput) {
+    if (false/*TODO*/) {
+        usernameInput.setCustomValidity("Dieser Benutzername ist bereits vergeben.");
+        usernameInput.reportValidity();
 
         return false;
     }
