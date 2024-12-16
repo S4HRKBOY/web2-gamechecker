@@ -26,6 +26,7 @@ fieldset {
 input:invalid,
 select:invalid {
   border-color: red;
+  outline: none;
 }
 
 .form-input {

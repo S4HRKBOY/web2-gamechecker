@@ -73,7 +73,7 @@ function assignEvents() {
             return;
         }
 
-        if(!validateProfilePic(fileInput)) {
+        if (!validateProfilePic(fileInput)) {
             return;
         }
 
@@ -116,26 +116,31 @@ function assignResetValidityEvents() {
     });
 }
 
-async function validateInputs() {
+async function validateInputs() {   
     const passwordInput = document.querySelector(".update-form #password");
     const passwordConfirmInput = document.querySelector(".update-form #password-confirm");
     const fileInput = document.querySelector(".update-form #profile-pic-fileselect");
     const emailInput = document.querySelector(".update-form #email");
     const usernameInput = document.querySelector(".update-form #username");
 
-    if (!validatePasswords(passwordInput, passwordConfirmInput))
-        return false;
+    let isValid = true;
+    if (!validatePasswords(passwordInput, passwordConfirmInput)) {
+        isValid = false;
+    }
 
-    if (!validateProfilePic(fileInput))
-        return false;
+    if (!validateProfilePic(fileInput)) {
+        isValid = false;
+    }
 
-    if (!await validateEmail(emailInput))
-        return false;
+    if (!await validateUsername(usernameInput)) {
+        isValid = false;
+    }
 
-    if (!await validateUsername(usernameInput))
-        return false;
+    if (!await validateEmail(emailInput)) {
+        isValid = false;
+    }
 
-    return true; // Allow form submission
+    return isValid; // Allow form submission
 }
 
 function validatePasswords(passwordInput, passwordConfirmInput) {
@@ -151,7 +156,7 @@ function validatePasswords(passwordInput, passwordConfirmInput) {
 
 function validateProfilePic(fileInput) {
     const file = fileInput.files[0]; // Get the selected file
-    if(file && !file.type.startsWith("image/")) {
+    if (file && !file.type.startsWith("image/")) {
         alert("Bitte wählen Sie eine gültige Bilddatei aus.");
         fileInput.value = ""; // Clear the invalid file input
         clearPreviewPicture();
@@ -163,7 +168,7 @@ function validateProfilePic(fileInput) {
 }
 
 async function validateEmail(emailInput) {
-    if(emailInput.value === "") {
+    if (emailInput.value === "") {
         emailInput.setCustomValidity("Bitte geben Sie eine E-Mail Adresse ein.");
         emailInput.reportValidity();
 
@@ -196,7 +201,7 @@ async function validateEmail(emailInput) {
 }
 
 async function validateUsername(usernameInput) {
-    if(usernameInput.value === "") {
+    if (usernameInput.value === "") {
         usernameInput.setCustomValidity("Bitte geben Sie einen Benutzernamen ein.");
         usernameInput.reportValidity();
 
