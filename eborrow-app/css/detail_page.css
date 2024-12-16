@@ -30,9 +30,6 @@
 #addGameButton {
   grid-area: addGameButton;
   justify-self: end;
-}
-
-#addGameButton > button {
   height: 2.2em;
   width: 16.2em;
 }
@@ -45,6 +42,7 @@ td {
 
 #detailInfo {
   grid-area: detailInfo;
+  align-self: start;
 }
 
 #detailImage {
@@ -92,13 +90,15 @@ label[for="recommendation"] {
 #editReviewButton {
   grid-area: editReviewButton;
   justify-self: end;
-  padding-top: 20px;
+  height: fit-content; 
+  margin-top: 20px;
 }
 
 #deleteReviewButton {
   grid-area: deleteReviewButton;
   justify-self: left;
-  padding-top: 20px;
+  height: fit-content; 
+  margin-top: 20px;
 }
 
 textarea {
@@ -137,7 +137,6 @@ textarea {
 
 .reviewHeadline {
   grid-area: reviewHeadline;
-
 }
 
 .reviewRating {
@@ -147,4 +146,9 @@ textarea {
 
 .reviewContent {
   grid-area: reviewContent; 
+}
+
+.reviewContainer p,
+.reviewContainer time {
+  margin: 0;
 }

@@ -8,6 +8,9 @@ type Query {
     game(id: ID!): Game
     review(id: ID!): Review
     reviews: [Review!]!
+    allGenres : [String!]!
+    allPlatforms : [String!]!
+    allAgeRatings : [String!]!
     accounts: [Account!]!
     account(id: ID!): Account
 }
@@ -38,7 +41,7 @@ type Game {
     developer: String
     publisher: String
     reviews: [Review]
-    # Zak: Wo ist das gameImage?
+    gameImage: String
 }
 
 type Account {
@@ -66,13 +69,14 @@ type Review {
 
 input createGameInput {
   title: String!
-  description: String
-  platforms: [String]
-  genres: [String]
-  publicationDate: String
-  ageRating: String
-  developer: String
-  publisher: String
+  description: String!
+  platforms: [String!]!
+  genres: [String!]!
+  publicationDate: String!
+  ageRating: String!
+  developer: String!
+  publisher: String!
+  gameImage: String
 }
 
 input updateGameInput {
@@ -85,6 +89,7 @@ input updateGameInput {
   ageRating: String
   developer: String
   publisher: String
+  gameImage: String
 }
 
 input createReviewInput {
