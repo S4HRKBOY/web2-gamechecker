@@ -31,6 +31,7 @@ public class AccountService {
 			throw new IllegalArgumentException("Account ID must be null for new accounts");
 		}
 
+		newAccountDto.setEmail(newAccountDto.getEmail().toLowerCase());
 		Account newAccount = AccountMapper.dtoToAccount(newAccountDto);
 
 		return accountRepository.save(newAccount).getId();
@@ -86,6 +87,7 @@ public class AccountService {
 
 	// use in case the id in accountChanges is NOT guaranteed to match the id in the database
 	public void updateAccount(Long id, AccountDto accountChangesDto) throws NotFoundException {
+		accountChangesDto.setEmail(accountChangesDto.getEmail().toLowerCase());
 		Account existingAccount = accountRepository.findById(id).orElseThrow(() -> new NotFoundException("No Account found with id " + id));
 
 		Account changes = AccountMapper.dtoToAccount(accountChangesDto);
@@ -173,6 +175,7 @@ public class AccountService {
 	}
 
 	public boolean isEmailTaken(String email) {
+		email = email.toLowerCase();
 		return accountRepository.existsByEmail(email);
 	}
 

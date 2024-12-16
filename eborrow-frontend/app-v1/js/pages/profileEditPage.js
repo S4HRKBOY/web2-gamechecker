@@ -168,7 +168,8 @@ function validateProfilePic(fileInput) {
 }
 
 async function validateEmail(emailInput) {
-    if (emailInput.value === "") {
+    const email = emailInput.value.toLowerCase();
+    if (email === "") {
         emailInput.setCustomValidity("Bitte geben Sie eine E-Mail Adresse ein.");
         emailInput.reportValidity();
 
@@ -178,7 +179,7 @@ async function validateEmail(emailInput) {
     // Zak: Theoretisch muesste man noch schauen, ob es sich um dieselbe Mail handelt, die bereits im Account hinterlegt war
     let emailTaken;
     try {
-        emailTaken = await accountController.isEmailTaken(emailInput.value);
+        emailTaken = await accountController.isEmailTaken(email);
 
         if (emailTaken !== false && emailTaken !== true) {
             throw new Error("Unexpected response from server.");
