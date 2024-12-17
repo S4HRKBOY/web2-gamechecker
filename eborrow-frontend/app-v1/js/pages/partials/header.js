@@ -1,3 +1,9 @@
+import * as accountController from "../../controller/accountRestController.js";
+import { ID_ACCOUNT_TO_FETCH } from "../../global.js";
+
+accountController.getAccountById(ID_ACCOUNT_TO_FETCH)
+    .then(renderHeader);
+
 export function renderHeader(account) {
     const header = document.querySelector("header");
     header.innerHTML = createHeader(account) + header.innerHTML;

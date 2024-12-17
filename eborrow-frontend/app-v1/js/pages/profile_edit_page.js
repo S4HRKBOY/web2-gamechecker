@@ -17,10 +17,6 @@ function renderPage(account) {
     setFormValidationConstraints();
     prefillFormInputs(account);
     assignEvents();
-
-    // createContent(account);
-    // assignEvents();
-    // setCSS();
 }
 
 function setFormActions(account) {
