@@ -1,67 +1,67 @@
 'use strict';
 
-import * as accountController from "../controller/accountRestController.js";
 import * as utils from "../utils/utils.js";
-import createHeader from "../views/partials/header.js";
-import createProfileEditPage from "../views/profileEditPage.js";
-import { srcDefaultProfilePic } from "../views/profileEditPage.js";
+import * as accountController from "../controller/accountRestController.js";
+import { SRC_DEFAULT_PROFILE_PIC, ID_ACCOUNT_TO_FETCH } from "../global.js";
 
 // #region global variables
 let previewPicture = null;
 // #endregion
 
+accountController.getAccountById(ID_ACCOUNT_TO_FETCH)
+    .then(renderPage);
+
 // region functions
-export function loadProfileEditPage(accountId) {
-    accountController.getAccountById(accountId)
-        .then(data => renderPage(data));
-}
-
 function renderPage(account) {
-    createContent(account);
+    setFormActions(account);
+    setFormValidationConstraints();
+    prefillFormInputs(account);
     assignEvents();
-    setCSS();
+
+    // createContent(account);
+    // assignEvents();
+    // setCSS();
 }
 
-function setCSS() {
-    utils.removeCSSTags();
+function setFormActions(account) {
+    const updateform = document.querySelector(".update-form");
+    updateform.action = `//localhost:8080/thymeleaf/account/${account.id}`;
+    updateform.method = "get";
 
-    const head = document.querySelector("head");
+    const cancelLink = document.querySelector(".update-form .send-form-options .cancel-link");
+    cancelLink.href = `//localhost:8080/thymeleaf/account/${account.id}`;
 
-    // add new stylesheet imports
-    head.insertAdjacentHTML("beforeend", `<link rel="stylesheet" href="../css/globals/main.css">`);
-    head.insertAdjacentHTML("beforeend", `<link rel="stylesheet" href="../css/profile_edit_page.css">`);
+    const deleteForm = document.querySelector(".delete-profile");
+    deleteForm.action = `//localhost:8080/thymeleaf/account/${account.id}`;
+    updateform.method = "get";
 }
 
-function createContent(account) {
-    const body = document.querySelector("body");
-    const header = createHeader(account);
-    const main = createProfileEditPage(account);
-    [header, main].forEach((element) => body.insertAdjacentHTML("beforeend", element));
+function setFormValidationConstraints() {
+    let yesterday = new Date();
+    yesterday.setDate(yesterday.getDate() - 1);
+    yesterday = yesterday.toISOString().split("T")[0];
+
+    const birthdayInput = document.querySelector(".update-form #birthday");
+    birthdayInput.max = yesterday;
+}
+
+function prefillFormInputs(account) {
+    const updateform = document.querySelector(".update-form");
+    updateform.querySelector("#surname").value = account.surname;
+    updateform.querySelector("#prename").value = account.prename;
+    updateform.querySelector("#birthday").value = account.birthday;
+    updateform.querySelector("#email").value = account.email;
+    updateform.querySelector("#username").value = account.username;
+    updateform.querySelector(".profile-pic img").src = SRC_DEFAULT_PROFILE_PIC;
 }
 
 function assignEvents() {
-    // TODO Bugfix: Wenn das Passwort-Feld geaendert wird, wird die Passwort-Wiederholung nicht zurueckgesetzt
-    document.querySelector(".update-form").addEventListener("submit", async (event) => {
-        {
-            event.preventDefault(); // needs to be done, else the form will be submitted before the fetch is done
-            const inputsValid = await validateInputs();
-            if (!inputsValid) {
-                event.preventDefault();
-            }
-            else {
-                event.target.submit();  // manual submission
-            }
-            // wenn stattdessen clientseitig gerendert werden soll
-            // else {
-            //     postprocessInputs();
-            //     createAccount();
-            //     renderProfilePage();
-            // }
-        }
-    });
-
     assignResetValidityEvents();
+    assignProfilePicSelectionEvent();
+    assignSubmitEvent();
+}
 
+function assignProfilePicSelectionEvent() {
     document.querySelector("#profile-pic-fileselect").addEventListener("change", (event) => {
         const fileInput = event.target;
         const file = fileInput.files[0]; // Get the selected file
@@ -82,15 +82,6 @@ function assignEvents() {
             .then(updatePreviewPicture)
             .catch((err) => console.error(err));
     });
-}
-
-function clearPreviewPicture() {
-    previewPicture = null;
-    updatePreviewPicture();
-}
-
-function updatePreviewPicture() {
-    document.querySelector(".profile-pic>img").src = previewPicture ? previewPicture : srcDefaultProfilePic;
 }
 
 function assignResetValidityEvents() {
@@ -116,7 +107,38 @@ function assignResetValidityEvents() {
     });
 }
 
-async function validateInputs() {   
+function assignSubmitEvent() {
+    document.querySelector(".update-form").addEventListener("submit", async (event) => {
+        {
+            event.preventDefault(); // needs to be done, else the form will be submitted before the fetch is done
+            const inputsValid = await validateInputs();
+            if (!inputsValid) {
+                event.preventDefault();
+            }
+            else {
+                event.target.submit();
+            }
+            // wenn stattdessen clientseitig gerendert werden soll
+            // else {
+            //     postprocessInputs();
+            //     createAccount();
+            //     renderProfilePage();
+            // }
+        }
+    });
+}
+
+function clearPreviewPicture() {
+    previewPicture = null;
+    updatePreviewPicture();
+}
+
+function updatePreviewPicture() {
+    document.querySelector(".profile-pic>img").src = previewPicture ? previewPicture : SRC_DEFAULT_PROFILE_PIC;
+}
+
+
+async function validateInputs() {
     const passwordInput = document.querySelector(".update-form #password");
     const passwordConfirmInput = document.querySelector(".update-form #password-confirm");
     const fileInput = document.querySelector(".update-form #profile-pic-fileselect");

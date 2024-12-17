@@ -23,9 +23,3 @@ export function loadImage(file) {
         reader.readAsDataURL(file); // Read the file as a data URL
     });
 }
-
-export function removeCSSTags() {
-    // remove all existing stylesheet imports from the head
-    const links = document.querySelectorAll("link[rel=stylesheet]");
-    links.forEach((link) => link.remove());
-}

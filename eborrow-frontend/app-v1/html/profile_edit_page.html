@@ -1,41 +1,46 @@
-export const srcDefaultProfilePic = "../resources/images/profile_pic_default.svg";
+<!DOCTYPE html>
+<html lang="de">
 
-export default (account) => {
-    // TODO: fix links and add logic to save changes/delete account
-    let yesterday = new Date();
-    yesterday.setDate(yesterday.getDate() - 1);
-    yesterday = yesterday.toISOString().split("T")[0];
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Game-Tracker</title>
+    <link rel="stylesheet" href="../css/globals/main.css">
+    <link rel="stylesheet" href="../css/profile_edit_page.css">
+</head>
 
-    return `<main>
+<body>
+    <header></header>
+    <main>
         <article id="content">
             <section class="update-section">
-                <form class="update-form" action="//localhost:8080/thymeleaf/account/${account.id}" method="get">
+                <form class="update-form">
                     <section class="form-content">
                         <section class="set-personal-infos">
                             <fieldset>
                                 <legend>Persönliche Daten</legend>
                                 <div class="form-input">
                                     <label for="surname">Name</label>
-                                    <input type="text" id="surname" name="surname" value="${account.surname}" required>
+                                    <input type="text" id="surname" name="surname" required>
                                 </div>
                                 <div class="form-input">
                                     <label for="prename">Vorname</label>
-                                    <input type="text" id="prename" name="prename" value="${account.prename}" required>
+                                    <input type="text" id="prename" name="prename" required>
                                 </div>
                                 <div class="form-input">
                                     <label for="birthday">Geburtsdatum</label>
-                                    <input type="date" id="birthday" name="birthday" max="${yesterday}" value="${account.birthday}">
+                                    <input type="date" id="birthday" name="birthday">
                                 </div>
                                 <div class="form-input">
                                     <label for="email">E-Mail Adresse</label>
-                                    <input type="email" id="email" name="email" value="${account.email}" required>
+                                    <input type="email" id="email" name="email" required>
                                 </div>
                             </fieldset>
                             <fieldset>
                                 <legend>Anmeldeinformationen</legend>
                                 <div class="form-input">
                                     <label for="username">Benutzername</label>
-                                    <input type="text" id="username" name="username" value="${account.username}" required>
+                                    <input type="text" id="username" name="username" required>
                                 </div>
                                 <div class="form-input">
                                     <label for="password">Passwort</label>
@@ -50,24 +55,30 @@ export default (account) => {
                         <section class="set-profile-pic">
                             <fieldset>
                                 <figure class="profile-pic">
-                                    <img src="${srcDefaultProfilePic}" alt="Profilbild">
+                                    <img src="data:," alt="Profilbild">
                                 </figure>
                                 <div class="form-input">
                                     <label for="profile-pic-fileselect">Profilbild</label>
-                                    <input type="file" accept="image/*" id="profile-pic-fileselect" name="profile-pic-fpath">
+                                    <input type="file" accept="image/*" id="profile-pic-fileselect"
+                                        name="profile-pic-fpath">
                                 </div>
                             </fieldset>
                         </section>
                     </section>
                     <section class="send-form-options">
-                        <a class="cancel-link" href="//localhost:8080/thymeleaf/account/${account.id}">Abbrechen</a>
+                        <a class="cancel-link">Abbrechen</a>
                         <button type="submit">Änderungen speichern</button>
                     </section>
                 </form>
-                <form class="delete-profile" action="//localhost:8080/thymeleaf/account/${account.id}" method="get">
+                <form class="delete-profile">
                     <button type="submit">Profil löschen</button>
                 </form>
             </section>
         </article>
-    </main>`;
-}
+    </main>
+
+    <script src="../js/global.js" type="module"></script>
+    <script src="../js/pages/profile_edit_page.js" type="module"></script>
+</body>
+
+</html>

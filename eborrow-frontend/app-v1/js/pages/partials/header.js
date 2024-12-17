@@ -1,5 +1,10 @@
-export default (account) => `<header>
-        <img class="logo" src="../resources/images/logo.svg" alt="logo">
+export function renderHeader(account) {
+    const header = document.querySelector("header");
+    header.innerHTML = createHeader(account) + header.innerHTML;
+};
+
+function createHeader(account) {
+    return `<img class="logo" src="../resources/images/logo.svg" alt="logo">
         <nav class="navigation">
             <ul class="nav-links">
                 <li><a href="//localhost:8080/thymeleaf/home">Home</a></li>
@@ -7,5 +12,5 @@ export default (account) => `<header>
                 <li><a href="//localhost:8080/thymeleaf/account/${account.id}">Profil</a></li>
                 <li><a href="TODO">Logout</a></li>
             </ul>
-        </nav>
-    </header>`;
+        </nav>`;
+}

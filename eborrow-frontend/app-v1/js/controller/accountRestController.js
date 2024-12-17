@@ -10,6 +10,26 @@ export async function getAccountById(id) {
     }
 }
 
+export async function updateAccount(account) {
+    try {
+        const response = await fetch(`//localhost:8080/account/edit/${account.id}`, {
+            method: "PUT",
+            headers: {
+                "Content-Type": "application/json",
+                "Accept": "application/json"
+            },
+            body: JSON.stringify(account)
+        });
+
+        if (!response.ok) {
+            const errorResponse = await response.json();
+            throw new Error(errorResponse.message);
+        }
+    } catch (err) {
+        console.error(`Failed to update account with id ${account.id}:`, err);
+    }
+}
+
 export async function isEmailTaken(email) {
     try {
         const response = await fetch(`//localhost:8080/account/email-taken?email=${email}`);
