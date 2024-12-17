@@ -24,7 +24,7 @@ public class AccountRestController {
 	}
 
 	// ResponseEntity allows for multiple kinds of HTTP status codes to be returned
-	@GetMapping(value = "/{id}", params = "with-games", produces = "application/json")
+	@GetMapping(value = "/{id}", params = "with-games", produces = {"application/json", "application/xml"})
 	public ResponseEntity<RichAccountDto> getRichAccountById(@PathVariable Long id) throws NotFoundException {
 		RichAccountDto richAccountDto = accountService.getRichAccountById(id);
 		
@@ -35,7 +35,7 @@ public class AccountRestController {
 		return new ResponseEntity<>(richAccountDto, HttpStatus.OK);
 	}
 
-	@GetMapping(value = "/{id}", produces = "application/json")
+	@GetMapping(value = "/{id}", produces = {"application/json", "application/xml"})
 	public ResponseEntity<AccountDto> getAccountById(@PathVariable Long id) throws NotFoundException {
 		AccountDto accountDto = accountService.getAccountById(id);
 		if (accountDto == null) {
@@ -45,7 +45,7 @@ public class AccountRestController {
 		return new ResponseEntity<>(accountDto, HttpStatus.OK);
 	}
 
-	@PostMapping(value = "/create-account", produces = "application/json", consumes = {"application/json", "application/xml"})
+	@PostMapping(value = "/create-account", produces = {"application/json", "application/xml"}, consumes = {"application/json", "application/xml"})
 	public ResponseEntity<Long> createAccount(@Valid @RequestBody AccountDto accountDto) {
 		if (accountDto == null) {
 			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
@@ -59,7 +59,7 @@ public class AccountRestController {
 		return new ResponseEntity<>(accountId, HttpStatus.CREATED);
 	}
 
-	@PutMapping(value = "/edit/{id}", produces = "application/json", consumes = {"application/json", "application/xml"})
+	@PutMapping(value = "/edit/{id}", produces = {"application/json", "application/xml"}, consumes = {"application/json", "application/xml"})
 	public ResponseEntity<Void> updateAccount(@PathVariable Long id, @Valid @RequestBody AccountDto prefilledAccount) throws NotFoundException {
 		if (prefilledAccount == null || prefilledAccount.getId() == null || !id.equals(prefilledAccount.getId())) {
 			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
@@ -70,7 +70,7 @@ public class AccountRestController {
 		return new ResponseEntity<>(HttpStatus.NO_CONTENT);
 	}
 
-	@DeleteMapping(value = "/delete-account/{id}", produces = "application/json")
+	@DeleteMapping(value = "/delete-account/{id}")
 	public ResponseEntity<Void> deleteAccount(@PathVariable Long id) throws NotFoundException {
 		if (id == null) {
 			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
@@ -81,7 +81,7 @@ public class AccountRestController {
 		return new ResponseEntity<>(HttpStatus.NO_CONTENT);
 	}
 
-	@PutMapping(value = "/add-game", produces = "application/json", consumes = {"application/json", "application/xml"})
+	@PutMapping(value = "/add-game", produces = {"application/json", "application/xml"}, consumes = {"application/json", "application/xml"})
 	public ResponseEntity<Void> addGameToAccount(@RequestBody Map<String, Long> requestBody) throws NotFoundException {
 		Long accountId = requestBody.get("account-Id");
 		Long gameId = requestBody.get("game-Id");
@@ -95,7 +95,7 @@ public class AccountRestController {
 		return new ResponseEntity<>(HttpStatus.NO_CONTENT);
 	}
 
-	@PutMapping(value = "/unlist-game", produces = "application/json", consumes = {"application/json", "application/xml"})
+	@PutMapping(value = "/unlist-game", produces = {"application/json", "application/xml"}, consumes = {"application/json", "application/xml"})
 	public ResponseEntity<Void> unlistGameFromAccount(@RequestBody Map<String, Long> requestBody) throws NotFoundException {
 		Long accountId = requestBody.get("account-Id");
 		Long gameId = requestBody.get("game-Id");

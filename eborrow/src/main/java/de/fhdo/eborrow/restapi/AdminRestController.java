@@ -15,7 +15,7 @@ public class AdminRestController {
 	@Autowired
 	public AdminRestController(AccountService accountService) {this.accountService = accountService;}
 
-	@PutMapping(value = "/account/set-publisher-status/{id}", produces = "application/json", consumes = {"application/json", "application/xml"})
+	@PutMapping(value = "/account/set-publisher-status/{id}", produces = {"application/json", "application/xml"}, consumes = {"application/json", "application/xml"})
 	public ResponseEntity<Void> setPublisherStatus(@PathVariable Long id, @RequestParam("is-publisher") boolean isPublisher) throws NotFoundException {
 		accountService.updatePublisherStatus(id, isPublisher);
 
