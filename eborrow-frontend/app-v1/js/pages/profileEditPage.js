@@ -1,6 +1,6 @@
 'use strict';
 
-import * as accountController from "../controller/accountController.js";
+import * as accountController from "../controller/accountRestController.js";
 import * as utils from "../utils/utils.js";
 import createHeader from "../views/partials/header.js";
 import createProfileEditPage from "../views/profileEditPage.js";

@@ -1,3 +1,5 @@
+'use strict'
+
 export async function getAccountById(id) {
     try {
         const response = await fetch(`//localhost:8080/account/${id}`);
