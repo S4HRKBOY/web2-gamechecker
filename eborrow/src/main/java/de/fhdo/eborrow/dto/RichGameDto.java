@@ -2,6 +2,9 @@ package de.fhdo.eborrow.dto;
 import java.time.LocalDate;
 import java.util.List;
 
+//TODO: ReviewDto -> Ids übergeben
+//      Dto direkt im Controller umwandeln
+//      Folgerequest für Dependencies -> Dependencies als Referenz übergeben (IDs, HATEOAS)
 public class RichGameDto {
 
     private Long id; 
