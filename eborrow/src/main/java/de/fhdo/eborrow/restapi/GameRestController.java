@@ -6,6 +6,7 @@ import java.util.Objects;
 import de.fhdo.eborrow.controller.wrapper.FilterInfo;
 import de.fhdo.eborrow.controller.wrapper.Query;
 import de.fhdo.eborrow.services.GameSearchService;
+import javassist.NotFoundException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -80,7 +81,7 @@ public class GameRestController {
     }
 
     @PostMapping(value = "/game/filtered-games", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-    public List<GameDto> getFilteredGames(@RequestBody FilterInfo filterInfo) {
+    public List<GameDto> getFilteredGames(@RequestBody FilterInfo filterInfo) throws NotFoundException {
         AccountDto accountDto = accountService.getAccountById(1L);
         List<GameDto> games = gameService.getAll();
 
