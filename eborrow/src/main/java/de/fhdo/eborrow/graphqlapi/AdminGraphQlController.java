@@ -2,6 +2,7 @@ package de.fhdo.eborrow.graphqlapi;
 
 import de.fhdo.eborrow.dto.AccountDto;
 import de.fhdo.eborrow.services.AccountService;
+import javassist.NotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.graphql.data.method.annotation.Argument;
 import org.springframework.graphql.data.method.annotation.MutationMapping;
@@ -19,15 +20,12 @@ public class AdminGraphQlController {
 	}
 
 	@MutationMapping("setPublisherStatus")
-	public AccountDto setPublisherStatus(@Argument Long id, @Argument boolean isPublisher) {
+	public AccountDto setPublisherStatus(@Argument Long id, @Argument boolean isPublisher) throws NotFoundException {
 		if (id == null) {
 			throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "ID is required");
 		}
 
-		boolean succeeded = accountService.updatePublisherStatus(id, isPublisher);
-		if (!succeeded) {
-			throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
-		}
+		accountService.updatePublisherStatus(id, isPublisher);
 
 		return accountService.getAccountById(id);
 	}

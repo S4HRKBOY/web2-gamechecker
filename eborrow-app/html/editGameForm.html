@@ -25,17 +25,10 @@
         <h1 id="headline">Spiel bearbeiten</h1>
         <form id="gameForm" action="./detail_page.html">
             <label for="title">Spieletitel</label>
-            <input id="title" type="text" name="title" required value="Call of Duty: Modern Warfare III">
+            <input id="title" type="text" name="title" value="Call of Duty: Modern Warfare III" maxlength="255" required>
             <label for="platform">Plattform</label>
             <div class="dropdown" id="platform-grid">
                 <button id="platform">Verfügbare Plattformen auswählen</button>
-                <script>
-                    document.getElementById("platform").addEventListener("click", function (event) {
-                        event.preventDefault();
-                        const dropdownContent = document.querySelector("#platform-grid .dropdown-content");
-                        dropdownContent.style.display = dropdownContent.style.display === "block" ? "none" : "block";
-                    });
-                </script>
                 <div class="dropdown-content">
                     <label><input type="checkbox" name="platform" value="windows" checked> Windows</label>
                     <label><input type="checkbox" name="platform" value="ps 3"> PlayStation 3</label>
@@ -52,13 +45,6 @@
             <label for="genre">Genre</label>
             <div class="dropdown" id="genre-grid">
                 <button id="genre">Genre auswählen</button>
-                <script>
-                    document.getElementById("genre").addEventListener("click", function (event) {
-                        event.preventDefault();
-                        const dropdownContent = document.querySelector("#genre-grid .dropdown-content");
-                        dropdownContent.style.display = dropdownContent.style.display === "block" ? "none" : "block";
-                    });
-                </script>
                 <div class="dropdown-content">
                     <label><input type="checkbox" name="genre" value="action"> Action</label>
                     <label><input type="checkbox" name="genre" value="adventure"> Adventure</label>
@@ -76,10 +62,10 @@
             <label for="publication">Veröffentlichung</label>
             <input id="publication" type="date" name="publication" value="2023-11-10" required>
             <label for="developer">Entwickler</label>
-            <input id="developer" type="text" name="developer" value="Sledgehammer Games, Treyarch, Infinity Ward"
+            <input id="developer" type="text" name="developer" value="Sledgehammer Games, Treyarch, Infinity Ward" maxlength="255"
                 required>
             <label for="publisher">Publisher</label>
-            <input id="publisher" type="text" name="publisher" value="Activision" required>
+            <input id="publisher" type="text" name="publisher" value="Activision" maxlength="255" required>
             <label for="age">Altersfreigabe</label>
             <select name="age" id="age">
                 <option value="0">USK 0</option>
@@ -95,7 +81,7 @@
                 <img id="gameImage" src="../images/callOfDuty3.jpg" alt="Game Image">
             </fieldset>
             <input id="submit" type="submit" value="Änderungen speichern">
-            <input id="delete" type="submit" value="Spiel löschen" disabled>
+            <input id="delete" type="submit" value="Spiel löschen">
         </form>
     </main>
 </body>

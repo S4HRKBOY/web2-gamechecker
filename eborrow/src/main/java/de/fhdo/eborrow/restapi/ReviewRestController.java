@@ -9,6 +9,7 @@ import de.fhdo.eborrow.dto.ReviewDto;
 import de.fhdo.eborrow.services.AccountService;
 import de.fhdo.eborrow.services.GameService;
 import de.fhdo.eborrow.services.ReviewService;
+import javassist.NotFoundException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -99,7 +100,7 @@ public class ReviewRestController {
 
 	@PostMapping(value = "/create-review", consumes = { MediaType.APPLICATION_JSON_VALUE }, produces = {
 			MediaType.APPLICATION_JSON_VALUE })
-	public ResponseEntity<ResponseMessage> createReview(HttpEntity<String> httpEntity, @RequestParam("gameId") Long gameId, @RequestParam("accountId") Long accountId) {
+	public ResponseEntity<ResponseMessage> createReview(HttpEntity<String> httpEntity, @RequestParam("gameId") Long gameId, @RequestParam("accountId") Long accountId) throws NotFoundException {
 		String json = httpEntity.getBody();
 		ResponseMessage responseMessage = new ResponseMessage();
 		HttpStatus httpStatus;

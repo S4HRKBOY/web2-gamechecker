@@ -44,31 +44,31 @@ public class GameRestController {
         this.gameSearchService = gameSearchService;
     }
 
-    @GetMapping("/home")
+    @GetMapping(value="/home", produces={"application/json", "application/xml"})
     @ResponseStatus(HttpStatus.OK)
     public List<GameDto> getAll() {
         return gameService.getAll();
     }
 
-    @GetMapping("/game/{id}")
+    @GetMapping(value="/game/{id}", produces={"application/json", "application/xml"})
     @ResponseStatus(HttpStatus.OK)
     public RichGameDto getGameById(@PathVariable Long id) {
         return gameService.getGameById(id);
     }
 
-    @DeleteMapping("/game/delete-game/{id}")
+    @DeleteMapping(value="/game/delete-game/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void deleteGameById(@PathVariable Long id) {
         gameService.deleteGameById(id);
     }
 
-    @PostMapping("/game/create-game")
+    @PostMapping(value="/game/create-game", consumes={"application/json","application/xml"})
     @ResponseStatus(HttpStatus.CREATED)
     public void createGame(@RequestBody GameDto gameDto) {
         gameService.createGame(gameDto);
     }
 
-    @PutMapping("/game/update-game/{id}")
+    @PutMapping(value="/game/update-game/{id}", consumes={"application/json","application/xml"})
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void updateGame(@PathVariable Long id, @RequestBody GameDto gameDto) {
         if (id != null && gameDto.getId() != null && gameDto.getId().equals(id)) {
@@ -113,32 +113,15 @@ public class GameRestController {
         return gameService.getAllPlatforms();
     }
 
-    @GetMapping("/game/all-genres")
+    @GetMapping(value="/game/all-genres", produces={"application/json", "application/xml"})
     @ResponseStatus(HttpStatus.OK)
     public List<String> getAllGenres() {
         return gameService.getAllGenres();
     }
 
-    @GetMapping("/game/all-age-ratings")
+    @GetMapping(value="/game/all-age-ratings", produces={"application/json", "application/xml"})
     @ResponseStatus(HttpStatus.OK)
     public List<String> getAllAgeRatings() {
         return gameService.getAllAgeRatings();
     }
-
-    // TODO später löschen
-    @GetMapping("/getReviewById/{id}")
-    public ReviewDto getReviewById(@PathVariable Long id) {
-        return reviewService.getReviewById(id);
-    }
-
-    @GetMapping("/getAccountById/{id}")
-    public AccountDto getAccountById(@PathVariable Long id) {
-        return accountService.getAccountById(id);
-    }
-
-    @GetMapping("/getRichAccounts")
-    public List<RichAccountDto> getRichAccounts() {
-        return accountService.getRichAccounts();
-    }
-
 }

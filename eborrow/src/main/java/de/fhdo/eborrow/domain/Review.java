@@ -22,6 +22,7 @@ public class Review {
 
 	private String reviewHeadline;
 
+	@Lob
 	private String reviewText;
 
 	private int rating;
