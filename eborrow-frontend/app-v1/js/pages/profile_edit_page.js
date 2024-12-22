@@ -111,16 +111,17 @@ function assignSubmitEvent() {
             const inputsValid = await validateInputs();
             if (inputsValid) {
                 const form = event.target;
-                const accountUpdates = new Account(
-                    ID_ACCOUNT_TO_FETCH,
-                    form.prename.value,
-                    form.surname.value,
-                    form.username.value,
-                    form.birthday.value,
-                    form.email.value,
-                    form.password.value,
-                    previewPicture
-                );
+
+                const accountUpdates = new Account({
+                    id: ID_ACCOUNT_TO_FETCH,
+                    prename: form.prename.value,
+                    surname: form.surname.value,
+                    username: form.username.value,
+                    birthday: form.birthday.value,
+                    email: form.email.value,
+                    password: form.password.value,
+                    profilePicture: previewPicture
+                });
 
                 accountController.updateAccount(accountUpdates)
                     .then(() => {
@@ -130,7 +131,7 @@ function assignSubmitEvent() {
                         console.error(err)
                         alert("Ein Fehler ist aufgetreten. Bitte versuchen Sie es später erneut.");
                     }
-                );
+                    );
             }
         }
     });

@@ -1,10 +1,13 @@
 'use strict'
 
+import Account from "../entities/Account.js";
+
 export async function getAccountById(id) {
     try {
         const response = await fetch(`//localhost:8080/account/${id}`);
+        const json = await response.json();
 
-        return await response.json();
+        return new Account(json);
     } catch (err) {
         console.error(`Failed to load account data with id ${id}:`, err);
         throw err;
