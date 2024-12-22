@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="de">
+
+<head>
+    <meta charset="UTF-8">
+    <title>E-Borrow</title>
+    <link rel="stylesheet" href="../css/gamestyle.css">
+    <link rel="stylesheet" href="../css/globals/main.css">
+</head>
+
+<body>
+    <header>
+    </header>
+
+    <main id="mainContainer">
+        <h1 id="headline">Spiel bearbeiten</h1>
+        <form id="gameForm" action="#">
+            <label for="title">Spieletitel</label>
+            <input id="title" type="text" name="title" maxlength="255" required>
+            <label for="platform">Plattform</label>
+            <div class="dropdown" id="platform-grid">
+                <button id="platform">Verfügbare Plattformen auswählen</button>
+                <div class="dropdown-content" id="platform-dropdown">
+                </div>
+            </div>
+            <label for="description">Beschreibung</label>
+            <textarea id="description" name="description" required></textarea>
+            <label for="genre">Genre</label>
+            <div class="dropdown" id="genre-grid">
+                <button id="genre">Genre auswählen</button>
+                <div class="dropdown-content" id="genre-dropdown">
+                </div>
+            </div>
+            <label for="publication">Veröffentlichung</label>
+            <input id="publication" type="date" name="publication" required>
+            <label for="developer">Entwickler</label>
+            <input id="developer" type="text" name="developer" maxlength="255" required>
+            <label for="publisher">Publisher</label>
+            <input id="publisher" type="text" name="publisher" maxlength="255" required>
+            <label for="age">Altersfreigabe</label>
+            <select name="age" id="age">
+            </select>
+            <label for="file">Bild hochladen</label>
+            <input id="file" type="file" name="file" accept="image/*">
+            <fieldset id="imagearea">
+            </fieldset>
+            <input id="submit" type="submit" value="Änderungen speichern">
+            <input id="delete" type="submit" value="Spiel löschen">
+        </form>
+    </main>
+</body>
+
+<script src="../js/pages/partials/header.js" type="module"></script>
+<script src="../js/gameForm.js"></script>
+
+</html>
