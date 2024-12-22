@@ -2,7 +2,7 @@
 
 import * as utils from "../utils/utils.js";
 import * as accountController from "../controller/accountRestController.js";
-import { SRC_DEFAULT_PROFILE_PIC, ID_ACCOUNT_TO_FETCH } from "../global.js";
+import { PATH_DEFAULT_PROFILE_PIC, ID_ACCOUNT_TO_FETCH } from "../global.js";
 
 // #region global variables
 let previewPicture = null;
@@ -48,7 +48,7 @@ function prefillFormInputs(account) {
     updateform.querySelector("#birthday").value = account.birthday;
     updateform.querySelector("#email").value = account.email;
     updateform.querySelector("#username").value = account.username;
-    updateform.querySelector(".profile-pic img").src = SRC_DEFAULT_PROFILE_PIC;
+    updateform.querySelector(".profile-pic img").src = PATH_DEFAULT_PROFILE_PIC;
 }
 
 function assignEvents() {
@@ -130,7 +130,7 @@ function clearPreviewPicture() {
 }
 
 function updatePreviewPicture() {
-    document.querySelector(".profile-pic>img").src = previewPicture ? previewPicture : SRC_DEFAULT_PROFILE_PIC;
+    document.querySelector(".profile-pic>img").src = previewPicture ? `data:image/jpeg;base64,${previewPicture}` : PATH_DEFAULT_PROFILE_PIC;
 }
 
 

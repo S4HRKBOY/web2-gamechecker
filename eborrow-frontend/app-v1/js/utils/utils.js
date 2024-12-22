@@ -13,7 +13,9 @@ export function loadImage(file) {
 
         // Set the image preview once the file is read
         reader.onload = (e) => {
-            resolve(e.target.result); // Resolve the promise when the file is read
+            const dataUrl = e.target.result;    // Full url; data:image/jpeg;base64,.....
+            const base64Data = dataUrl.split(",")[1]; // Only the base64 data of the image
+            resolve(base64Data); // Resolve the promise when the file is read
         };
 
         reader.onerror = () => {
