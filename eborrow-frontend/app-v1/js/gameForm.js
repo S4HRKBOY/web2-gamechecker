@@ -157,7 +157,11 @@ let fillData = async function () {
 
         updateButton.addEventListener('click', function (event) {
             event.preventDefault();
-            submitGameData('PUT');
+            if (document.getElementById('gameForm').checkValidity()) {
+                submitGameData('PUT');
+            } else {
+                alert("Alle Felder müssen ausgefüllt sein.");
+            }
         });
 
     } else {
@@ -174,7 +178,11 @@ let fillData = async function () {
 
         createButton.addEventListener('click', function (event) {
             event.preventDefault();
-            submitGameData('POST');
+            if (document.getElementById('gameForm').checkValidity()) {
+                submitGameData('POST');
+            } else {
+                alert("Alle Felder müssen ausgefüllt sein.");
+            }
         });
     }
 }
@@ -277,20 +285,10 @@ async function submitGameData(method) {
         if (!response.ok) {
             throw new Error(`Response status: ${response.status}`);
         }
-        const newViewResponse = await fetch("../html/start_page.html");
-        if (!newViewResponse.ok) {
-            throw new Error(`Failed to load new view: ${newViewResponse.status}`);
-        }
-        const newViewHtml = await newViewResponse.text();
-        document.body.innerHTML = newViewHtml;
-        const script = document.createElement('script');
-        script.src = "../js/startpage.js";
-        document.body.appendChild(script);
-
     } catch (error) {
         console.error('Error:', error.message);
     }
-
+    window.location.href = "../html/start_page.html";
 }
 
 async function deleteGameData() {
@@ -303,17 +301,8 @@ async function deleteGameData() {
         if (!response.ok) {
             throw new Error(`Response status: ${response.status}`);
         }
-        const newViewResponse = await fetch("../html/start_page.html");
-        if (!newViewResponse.ok) {
-            throw new Error(`Failed to load new view: ${newViewResponse.status}`);
-        }
-        const newViewHtml = await newViewResponse.text();
-        document.body.innerHTML = newViewHtml;
-        const script = document.createElement('script');
-        script.src = "../js/startpage.js";
-        document.body.appendChild(script);
-
     } catch (error) {
         console.error('Error:', error.message);
     }
+    window.location.href = "../html/start_page.html";
 }
