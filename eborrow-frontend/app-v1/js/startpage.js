@@ -126,7 +126,7 @@ async function startUp() {
     const allPlatforms = document.createElement("option");
     allPlatforms.setAttribute("value", "All");
     allPlatforms.appendChild(document.createTextNode("All"));
-    platformsSelection.appendChild(allGenres);
+    platformsSelection.appendChild(allPlatforms);
 
     for (var i = 0; i < platforms.length; i++) {
         const option = document.createElement("option");

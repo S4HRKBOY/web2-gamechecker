@@ -1,0 +1,185 @@
+#headline {
+    padding-left: 25%;
+}
+
+#gameForm {
+    display: grid;
+    margin: 0 25% 0 25%;
+    border: 1px solid black;
+    border-radius: 10px;
+    padding: 10px;
+    gap: 10px;
+    grid-template-columns: 24% 24% 24% 24%;
+    grid-template-rows: auto;
+    grid-template-areas:
+        "title-label title-label platform-label platform-label"
+        "title title platform platform"
+        "description-label description-label description-label description-label"
+        "description description description description"
+        "genre-label genre-label publication-label age-label"
+        "genre genre publication age"
+        "developer-label developer-label publisher-label publisher-label"
+        "developer developer publisher publisher"
+        "file-label file-label file-label file-label"
+        "file file preview-image preview-image"
+        "delete delete submit submit"
+        ". . create create"
+}
+
+#submit,
+#create,
+#age,
+#publication,
+#delete {
+    height: fit-content;
+    width: fit-content
+}
+
+textarea {
+    overflow-y: scroll;
+    height: 150px;
+    resize: none;
+    padding: 10px 20px 10px 10px;
+    text-align: justify;
+    overflow-x: hidden;
+}
+
+#gameImage {
+    max-width: 100%;
+    max-height: 100%;
+}
+
+#imagearea {
+    grid-area: preview-image;
+    border: 1px solid hsl(0, 0%, 75%);
+    border-radius: 10px;
+    padding: 10px;
+    height: 300px;
+    text-align: center;
+}
+
+label[for="title"] {
+    grid-area: title-label;
+}
+
+label[for="platform"] {
+    grid-area: platform-label;
+}
+
+label[for="description"] {
+    grid-area: description-label;
+}
+
+label[for="genre"] {
+    grid-area: genre-label;
+}
+
+label[for="publication"] {
+    grid-area: publication-label;
+}
+
+label[for="developer"] {
+    grid-area: developer-label;
+}
+
+label[for="publisher"] {
+    grid-area: publisher-label;
+}
+
+label[for="age"] {
+    grid-area: age-label;
+}
+
+label[for="file"] {
+    grid-area: file-label;
+}
+
+#title {
+    grid-area: title;
+}
+
+#platform-grid {
+    grid-area: platform;
+}
+
+#description {
+    grid-area: description;
+}
+
+#genre-grid {
+    grid-area: genre;
+}
+
+#publication {
+    grid-area: publication;
+}
+
+#developer {
+    grid-area: developer;
+}
+
+#publisher {
+    grid-area: publisher;
+}
+
+#age {
+    grid-area: age;
+}
+
+#file {
+    grid-area: file;
+}
+
+#submit {
+    grid-area: submit;
+    justify-self: end;
+}
+
+#delete {
+    grid-area: delete;
+}
+
+#create {
+    grid-area: create;
+    justify-self: end;
+}
+
+#genre {
+    width: 100%;
+}
+
+#platform {
+    width: 100%;
+}
+
+.dropdown {
+    position: relative;
+    display: block;
+}
+
+
+.dropdown-content {
+    overflow-y: scroll;
+    width: 100%;
+    height: 200px;
+    padding: 10px;
+    display: none;
+    position: absolute;
+    background-color: #f9f9f9;
+    min-width: 160px;
+    box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+    z-index: 1;
+}
+
+.dropdown-content label {
+    display: block;
+    margin-top: 10px;
+}
+
+.dropdown-content.open {
+    display: block;
+}
+
+/*.dropdown:hover .dropdown-content {
+    display: block;
+}*/
