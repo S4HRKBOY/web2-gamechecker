@@ -13,6 +13,8 @@ type Query {
     allAgeRatings : [String!]!
     accounts: [Account!]!
     account(id: ID!): Account
+    emailTaken(email: String!): Boolean!
+    usernameTaken(username: String!): Boolean!
 }
 
 type Mutation {
