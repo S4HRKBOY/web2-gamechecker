@@ -1,10 +1,14 @@
 import * as accountController from "../../controller/accountGraphQLController.js";
-import { ID_ACCOUNT_TO_FETCH } from "../../global.js";
+import { getActiveAccountId } from "../../global.js";
 
-accountController.getAccountById(ID_ACCOUNT_TO_FETCH, [
+accountController.getAccountById(getActiveAccountId(), [
     "id",
     "publisher"
-]).then(renderHeader);
+]).then(renderHeader)
+    .catch((err) => {
+        console.error(err)
+        alert("Ein Fehler ist aufgetreten. Bitte versuchen Sie es später erneut.");
+    });
 
 export function renderHeader(account) {
     const header = document.querySelector("header");

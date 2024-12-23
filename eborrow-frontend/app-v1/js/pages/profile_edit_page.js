@@ -4,25 +4,33 @@ import * as utils from "../utils/utils.js";
 import * as accountRestController from "../controller/accountRestController.js";
 import * as accountGraphQLController from "../controller/accountGraphQLController.js";
 import Account from "../entities/Account.js";
-import { PATH_DEFAULT_PROFILE_PIC, ID_ACCOUNT_TO_FETCH } from "../global.js";
+import { PATH_DEFAULT_PROFILE_PIC, getActiveAccountId, setActiveAccountId } from "../global.js";
 
 // #region global variables
 let previewPicture = null;
 // #endregion
 
-accountGraphQLController.getAccountById(ID_ACCOUNT_TO_FETCH, 
+// const activeId = getActiveAccountId();
+const idAccountToDelete = 2; // Since app-v1 has no login page, the app needs a different active account after deletion to work with
+const activeId = idAccountToDelete;
+
+accountGraphQLController.getAccountById(activeId, 
     ["id", "prename", "surname", "username", "birthday", "email"]
-).then(renderPage);
+).then(renderPage)
+    .catch((err) => {
+    console.error(err)
+    alert("Ein Fehler ist aufgetreten. Bitte versuchen Sie es später erneut.");
+});
 
 // region functions
 function renderPage(account) {
-    setFormActions(account.id);
+    setFormRouting(account.id);
     setFormValidationConstraints();
-    prefillFormInputs(account);
-    assignEvents();
+    populateFormInputs(account);
+    assignEvents(account.id);
 }
 
-function setFormActions(accountId) {
+function setFormRouting(accountId) {
     const updateform = document.querySelector(".update-form");
     updateform.action = `//localhost:8080/thymeleaf/account/${accountId}`;
     updateform.method = "get";
@@ -31,7 +39,7 @@ function setFormActions(accountId) {
     cancelLink.href = `//localhost:8080/thymeleaf/account/${accountId}`;
 
     const deleteForm = document.querySelector(".delete-profile");
-    deleteForm.action = `//localhost:8080/thymeleaf/account/${accountId}`;
+    deleteForm.action = "../html/start_page.html";
     updateform.method = "get";
 }
 
@@ -44,7 +52,7 @@ function setFormValidationConstraints() {
     birthdayInput.max = yesterday;
 }
 
-function prefillFormInputs(account) {
+function populateFormInputs(account) {
     const updateform = document.querySelector(".update-form");
     updateform.querySelector("#surname").value = account.surname;
     updateform.querySelector("#prename").value = account.prename;
@@ -54,10 +62,11 @@ function prefillFormInputs(account) {
     updateform.querySelector(".profile-pic img").src = PATH_DEFAULT_PROFILE_PIC;
 }
 
-function assignEvents() {
+function assignEvents(accountId) {
     assignResetValidityEvents();
     assignProfilePicSelectionEvent();
-    assignSubmitEvent();
+    assignSubmitEvent(accountId);
+    assignDeleteEvent(accountId);
 }
 
 function assignResetValidityEvents() {
@@ -106,16 +115,16 @@ function assignProfilePicSelectionEvent() {
     });
 }
 
-function assignSubmitEvent() {
+function assignSubmitEvent(accountId) {
     document.querySelector(".update-form").addEventListener("submit", async (event) => {
         {
             event.preventDefault(); // needs to be done, else the form will be submitted before the fetch is done
-            const inputsValid = await validateInputs(ID_ACCOUNT_TO_FETCH);
+            const inputsValid = await validateInputs(accountId);
             if (inputsValid) {
                 const form = event.target;
 
                 const accountUpdates = new Account({
-                    id: ID_ACCOUNT_TO_FETCH,
+                    id: accountId,
                     prename: form.prename.value,
                     surname: form.surname.value,
                     username: form.username.value,
@@ -135,6 +144,25 @@ function assignSubmitEvent() {
                     }
                 );
             }
+        }
+    });
+}
+
+function assignDeleteEvent(accountId) {
+    document.querySelector(".delete-profile").addEventListener("submit", async (event) => {
+        event.preventDefault(); // needs to be done, else the form will be submitted before the fetch is done
+
+        if (confirm("Möchten Sie Ihr Profil wirklich löschen?")) {
+            accountRestController.deleteAccount(accountId)
+                .then(() => {
+                    setActiveAccountId(activeId);   // modules reload after new page is loaded, so this does currently nothing
+                    window.location.href = event.target.action;
+                })
+                .catch((err) => {
+                    console.error(err)
+                    alert("Ein Fehler ist aufgetreten. Bitte versuchen Sie es später erneut.");
+                }
+            );
         }
     });
 }

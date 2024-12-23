@@ -35,6 +35,22 @@ export async function updateAccount(account) {
     }
 }
 
+export async function deleteAccount(id) {
+    try {
+        const response = await fetch(`//localhost:8080/account/delete-account/${id}`, {
+            method: "DELETE"
+        });
+
+        if (!response.ok) {
+            const errorResponse = await response.json();
+            throw new Error(errorResponse.message);
+        }
+    } catch (err) {
+        console.error(`Failed to delete account with id ${id}:`, err);
+        throw err;
+    }
+}
+
 export async function isEmailTaken(email) {
     try {
         const response = await fetch(`//localhost:8080/account/email-taken?email=${email}`);

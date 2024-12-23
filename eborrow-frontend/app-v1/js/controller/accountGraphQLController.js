@@ -80,6 +80,28 @@ export async function updateAccount(account, fields = []) {
 
 }
 
+export async function deleteAccount(id) {
+    const mutation = `
+        mutation {
+            deleteAccount(id: ${id})
+        }`;
+
+    try {
+        const response = await fetchGraphQL(mutation);
+        const json = await response.json();
+        if (json.errors) {
+            const errorMessages = bundleErrorMessages(json)
+            throw new Error(errorMessages);
+        }
+
+        const deletionSuccessful = json.data.deleteAccount;
+        return deletionSuccessful;
+    } catch (error) {
+        console.error(`Failed to delete account with id ${id}:`, error);
+        throw error;
+    }
+}
+
 export async function isEmailTaken(email) {
     const query = `
         {
