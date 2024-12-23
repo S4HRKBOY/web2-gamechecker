@@ -15,7 +15,7 @@ public class AccountBuilder {
     private String email;
     private String password;
     private byte[] profilePicture;
-    private boolean isPublisher;
+    private boolean publisher;
 
     private Set<Game> taggedGames;
 
@@ -96,11 +96,11 @@ public class AccountBuilder {
     }
 
     public boolean isPublisher() {
-        return isPublisher;
+        return publisher;
     }
 
     public AccountBuilder setPublisher(boolean publisher) {
-        isPublisher = publisher;
+        this.publisher = publisher;
         return this;
     }
 

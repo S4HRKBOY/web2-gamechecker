@@ -22,7 +22,7 @@ public class AccountDto {
     private String email;
     private String password;
     private String profilePicture;
-    private boolean isPublisher;
+    private boolean publisher;
 
     private AccountDto() {
         // used for deserialization from JSON body
@@ -49,7 +49,7 @@ public class AccountDto {
                 builder.getPassword(),
                 builder.getProfilePicture());
 
-        this.isPublisher = builder.isPublisher();
+        this.publisher = builder.isPublisher();
     }
 
     // region getter and setter
@@ -118,11 +118,11 @@ public class AccountDto {
     }
 
     public boolean isPublisher() {
-        return isPublisher;
+        return publisher;
     }
 
     public void setPublisher(boolean publisher) {
-        isPublisher = publisher;
+        this.publisher = publisher;
     }
 
     // endregion
@@ -138,7 +138,7 @@ public class AccountDto {
                 ", email='" + email + '\'' +
                 ", password='" + password + '\'' +
                 ", profilePicture=" + (profilePicture != null ? "yes" : "no") +
-                ", isPublisher=" + isPublisher +
+                ", isPublisher=" + publisher +
                 '}';
     }
 }

@@ -2,9 +2,6 @@ package de.fhdo.eborrow.domain;
 
 import de.fhdo.eborrow.domain.builder.AccountBuilder;
 import jakarta.persistence.*;
-import jakarta.validation.constraints.Email;
-import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Past;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import java.time.LocalDate;
@@ -34,7 +31,7 @@ public class Account {
     @Column(columnDefinition = "MEDIUMBLOB")
     private byte[] profilePicture;
 
-    private boolean isPublisher;
+    private boolean publisher;
 
 	@ManyToMany
 	@JoinTable(
@@ -69,7 +66,7 @@ public class Account {
                 builder.getPassword(),
                 builder.getProfilePicture());
 
-		this.isPublisher = builder.isPublisher();
+		this.publisher = builder.isPublisher();
 		this.taggedGames = builder.getTaggedGames();
 	}
 
@@ -139,11 +136,11 @@ public class Account {
     }
 
     public boolean isPublisher() {
-        return isPublisher;
+        return publisher;
     }
 
     public void setPublisher(boolean publisher) {
-        isPublisher = publisher;
+        this.publisher = publisher;
     }
 
 	public Set<Game> getTaggedGames() {
@@ -166,7 +163,7 @@ public class Account {
                 ", email='" + email + '\'' +
                 ", password='" + password + '\'' +
                 ", profilePicture=" + (profilePicture != null ? "yes" : "no") +
-                ", isPublisher=" + isPublisher +
+                ", publisher=" + publisher +
                 ", taggedGames=" + taggedGames +
                 '}';
     }

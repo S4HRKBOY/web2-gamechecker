@@ -23,7 +23,7 @@ public class RichAccountDto {
     private String email;
     private String password;
     private String profilePicture;
-    private boolean isPublisher;
+    private boolean publisher;
     
     private List<GameDto> taggedGames;
 
@@ -48,7 +48,7 @@ public class RichAccountDto {
                 builder.getPassword(),
                 builder.getProfilePicture());
 
-        this.isPublisher = builder.isPublisher();
+        this.publisher = builder.isPublisher();
         this.taggedGames = builder.getTaggedGames();
     }
 
@@ -118,11 +118,11 @@ public class RichAccountDto {
     }
 
     public boolean isPublisher() {
-        return isPublisher;
+        return publisher;
     }
 
     public void setPublisher(boolean publisher) {
-        isPublisher = publisher;
+        this.publisher = publisher;
     }
 
     public List<GameDto> getTaggedGames() {
@@ -145,7 +145,7 @@ public class RichAccountDto {
                 ", email='" + email + '\'' +
                 ", password='" + password + '\'' +
                 ", profilePicture=" + (profilePicture != null ? "yes" : "no") +
-                ", isPublisher=" + isPublisher +
+                ", publisher=" + publisher +
                 ", taggedGames=" + taggedGames +
                 '}';
     }

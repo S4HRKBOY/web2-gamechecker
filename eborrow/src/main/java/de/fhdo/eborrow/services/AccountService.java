@@ -164,9 +164,9 @@ public class AccountService {
 		accountRepository.save(updatedAccount);
 	}
 
-	public void updatePublisherStatus(Long id, boolean isPublisher) throws NotFoundException {
+	public void updatePublisherStatus(Long id, boolean publisher) throws NotFoundException {
 		Account existingAccount = accountRepository.findById(id).orElseThrow(() -> new NotFoundException("No Account found with id " + id));
-		existingAccount.setPublisher(isPublisher);
+		existingAccount.setPublisher(publisher);
 		accountRepository.save(existingAccount);
 	}
 

@@ -15,7 +15,7 @@ public class AccountDtoBuilder{
     private String email;
     private String password;
     private String profilePicture;
-    private boolean isPublisher;
+    private boolean publisher;
 
     private List<RichGameDto> taggedGames;
 
@@ -93,11 +93,11 @@ public class AccountDtoBuilder{
     }
 
     public boolean isPublisher() {
-        return isPublisher;
+        return publisher;
     }
 
     public AccountDtoBuilder setPublisher(boolean publisher) {
-        isPublisher = publisher;
+        this.publisher = publisher;
         return this;
     }
 

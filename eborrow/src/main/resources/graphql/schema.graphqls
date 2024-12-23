@@ -27,7 +27,7 @@ type Mutation {
     deleteAccount(id: ID!): Boolean!
     addGameToAccount(accountId: ID!, gameId: ID!): Account!
     unlistGameFromAccount(accountId: ID!, gameId: ID!): Account!
-    setPublisherStatus(id: ID!, isPublisher: Boolean): Account!
+    setPublisherStatus(id: ID!, publisher: Boolean): Account!
 }
 
 type Game {
@@ -53,7 +53,7 @@ type Account {
     email: String
     password: String
     profilePicture: String
-    isPublisher: Boolean
+    publisher: Boolean
     taggedGames: [Game]
 }
 

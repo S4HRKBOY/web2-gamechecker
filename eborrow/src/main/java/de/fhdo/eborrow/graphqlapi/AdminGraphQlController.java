@@ -20,12 +20,12 @@ public class AdminGraphQlController {
 	}
 
 	@MutationMapping("setPublisherStatus")
-	public AccountDto setPublisherStatus(@Argument Long id, @Argument boolean isPublisher) throws NotFoundException {
+	public AccountDto setPublisherStatus(@Argument Long id, @Argument boolean publisher) throws NotFoundException {
 		if (id == null) {
 			throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "ID is required");
 		}
 
-		accountService.updatePublisherStatus(id, isPublisher);
+		accountService.updatePublisherStatus(id, publisher);
 
 		return accountService.getAccountById(id);
 	}
