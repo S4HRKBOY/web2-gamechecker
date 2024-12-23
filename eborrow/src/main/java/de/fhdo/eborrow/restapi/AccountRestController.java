@@ -27,7 +27,7 @@ public class AccountRestController {
 	@GetMapping(value = "/{id}", params = "with-games", produces = {"application/json", "application/xml"})
 	public ResponseEntity<RichAccountDto> getRichAccountById(@PathVariable Long id) throws NotFoundException {
 		RichAccountDto richAccountDto = accountService.getRichAccountById(id);
-		
+
 		if (richAccountDto == null) {
 			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 		}
@@ -111,7 +111,7 @@ public class AccountRestController {
 
 	@GetMapping("/username-taken")
 	public ResponseEntity<Boolean> isUsernameTaken(@RequestParam String username) {
-		if(username == null || username.trim().isEmpty()) {
+		if (username == null || username.trim().isEmpty()) {
 			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 		}
 
@@ -120,13 +120,43 @@ public class AccountRestController {
 		return new ResponseEntity<>(usernameExists, HttpStatus.OK);
 	}
 
+	@GetMapping("/username-taken/{id}")
+	public ResponseEntity<Boolean> isUsernameUsedByOtherAccount(@PathVariable Long id, @RequestParam String username) throws NotFoundException {
+		if (username == null || username.trim().isEmpty()) {
+			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+		}
+
+		if (id == null) {
+			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+		}
+
+		boolean usernameExists = accountService.isUsernameUsedByOtherAccount(id, username);
+
+		return new ResponseEntity<>(usernameExists, HttpStatus.OK);
+	}
+
 	@GetMapping("/email-taken")
 	public ResponseEntity<Boolean> isEmailTaken(@RequestParam @Email String email) {
-		if(email == null || email.trim().isEmpty()) {
+		if (email == null || email.trim().isEmpty()) {
 			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 		}
 
 		boolean emailExists = accountService.isEmailTaken(email);
+
+		return new ResponseEntity<>(emailExists, HttpStatus.OK);
+	}
+
+	@GetMapping("/email-taken/{id}")
+	public ResponseEntity<Boolean> isEmailUsedByOtherAccount(@PathVariable Long id, @RequestParam @Email String email) throws NotFoundException {
+		if (email == null || email.trim().isEmpty()) {
+			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+		}
+
+		if (id == null) {
+			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+		}
+
+		boolean emailExists = accountService.isEmailUsedByOtherAccount(id, email);
 
 		return new ResponseEntity<>(emailExists, HttpStatus.OK);
 	}

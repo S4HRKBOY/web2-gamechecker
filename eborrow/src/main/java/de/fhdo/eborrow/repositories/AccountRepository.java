@@ -17,7 +17,13 @@ public interface AccountRepository extends CrudRepository<Account, Long> {
 
     @Query(value = "SELECT COUNT(*) > 0 FROM account a WHERE a.email = :email", nativeQuery = true)
     boolean existsByEmail(@Param("email") String email);
-    
+
+    @Query(value = "SELECT COUNT(*) > 0 FROM account a WHERE a.id != :id AND a.email = :email", nativeQuery = true)
+    boolean existsByEmailInOtherAccount(@Param("id") Long id, @Param("email") String email);
+
     @Query(value = "SELECT COUNT(*) > 0 FROM account a WHERE a.username = :username", nativeQuery = true)
     boolean existsByUsername(@Param("username") String username);
+
+    @Query(value = "SELECT COUNT(*) > 0 FROM account a WHERE a.id != :id AND a.username = :username", nativeQuery = true)
+    boolean existsByUsernameInOtherAccount(@Param("id") Long id, @Param("username") String username);
 }

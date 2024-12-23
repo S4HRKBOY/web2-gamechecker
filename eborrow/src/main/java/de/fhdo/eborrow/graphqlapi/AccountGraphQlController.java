@@ -10,9 +10,7 @@ import org.springframework.graphql.data.method.annotation.Argument;
 import org.springframework.graphql.data.method.annotation.MutationMapping;
 import org.springframework.graphql.data.method.annotation.QueryMapping;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.server.ResponseStatusException;
 
 @Controller
@@ -80,8 +78,12 @@ public class AccountGraphQlController {
 
 	@MutationMapping("addGameToAccount")
 	public RichAccountDto addGameToAccount(@Argument Long accountId, @Argument Long gameId) throws NotFoundException {
-		if (accountId == null || gameId == null) {
-			throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "ID is required");
+		if (accountId == null) {
+			throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "accountID is required");
+		}
+
+		if (gameId == null) {
+			throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "gameID is required");
 		}
 
 		accountService.addGameToAccount(accountId, gameId);
@@ -92,8 +94,12 @@ public class AccountGraphQlController {
 
 	@MutationMapping("unlistGameFromAccount")
 	public RichAccountDto unlistGameFromAccount(@Argument Long accountId, @Argument Long gameId) throws NotFoundException {
-		if (accountId == null || gameId == null) {
-			throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "ID is required");
+		if (accountId == null) {
+			throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "accountID is required");
+		}
+
+		if (gameId == null) {
+			throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "gameID is required");
 		}
 
 		accountService.unlistGameFromAccount(accountId, gameId);
@@ -102,21 +108,47 @@ public class AccountGraphQlController {
 		return result;
 	}
 
+	@QueryMapping("usernameTaken")
+	public boolean isUsernameTaken(@Argument String username) {
+		if (username == null || username.trim().isEmpty()) {
+			throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
+		}
+
+		return accountService.isUsernameTaken(username);
+	}
+	
+	@QueryMapping("usernameUsedByOtherAccount")
+	public boolean isUsernameUsedByOtherAccount(@Argument Long id, @Argument String username) throws NotFoundException {
+		if (id == null) {
+			throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "ID is required");
+		}
+
+		if (username == null || username.trim().isEmpty()) {
+			throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
+		}
+
+		return accountService.isUsernameUsedByOtherAccount(id, username);
+	}
+
 	@QueryMapping("emailTaken")
 	public boolean isEmailTaken(@Argument String email) {
-		if(email == null || email.trim().isEmpty()) {
+		if (email == null || email.trim().isEmpty()) {
 			throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
 		}
 
 		return accountService.isEmailTaken(email);
 	}
 
-	@QueryMapping("usernameTaken")
-	public boolean isUsernameTaken(@Argument String username) {
-		if(username == null || username.trim().isEmpty()) {
+	@QueryMapping("emailUsedByOtherAccount")
+	public boolean isEmailUsedByOtherAccount(@Argument Long id, @Argument String email) throws NotFoundException {
+		if (id == null) {
+			throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "ID is required");
+		}
+
+		if (email == null || email.trim().isEmpty()) {
 			throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
 		}
 
-		return accountService.isUsernameTaken(username);
+		return accountService.isEmailUsedByOtherAccount(id, email);
 	}
 }

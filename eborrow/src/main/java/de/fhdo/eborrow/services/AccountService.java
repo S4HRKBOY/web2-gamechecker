@@ -179,8 +179,25 @@ public class AccountService {
 		return accountRepository.existsByEmail(email);
 	}
 
+	public boolean isEmailUsedByOtherAccount(Long accountId, String email) throws NotFoundException {
+		if(!accountRepository.existsById(accountId)) {
+			throw new NotFoundException("No Account found with id " + accountId);
+		}
+
+		email = email.toLowerCase();
+		return accountRepository.existsByEmailInOtherAccount(accountId, email);
+	}
+
 	public boolean isUsernameTaken(String username) {
 		return accountRepository.existsByUsername(username);
+	}
+
+	public boolean isUsernameUsedByOtherAccount(Long accountId, String username) throws NotFoundException {
+		if(!accountRepository.existsById(accountId)) {
+			throw new NotFoundException("No Account found with id " + accountId);
+		}
+
+		return accountRepository.existsByUsernameInOtherAccount(accountId, username);
 	}
 
 	private Account transferAccountChanges(Account existingAccount, Account changes) {

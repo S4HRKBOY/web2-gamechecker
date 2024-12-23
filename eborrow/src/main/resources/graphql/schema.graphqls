@@ -14,7 +14,9 @@ type Query {
     accounts: [Account!]!
     account(id: ID!): Account
     emailTaken(email: String!): Boolean!
+    emailUsedByOtherAccount(id: ID!, email: String!): Boolean!
     usernameTaken(username: String!): Boolean!
+    usernameUsedByOtherAccount(id: ID!, username: String!): Boolean!
 }
 
 type Mutation {
