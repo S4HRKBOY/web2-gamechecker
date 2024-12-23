@@ -101,6 +101,27 @@ export async function isEmailTaken(email) {
     }
 }
 
+export async function isEmailUsedByOtherAccount(id, email) {
+    const query = `
+        {
+            emailUsedByOtherAccount(id: ${id}, email: "${email}")
+        }`;
+
+    try {
+        const response = await fetchGraphQL(query);
+        const json = await response.json();
+        if (json.errors) {
+            const errorMessages = bundleErrorMessages(json);
+            throw new Error(errorMessages);
+        }
+
+        return json.data.emailUsedByOtherAccount;
+    } catch (error) {
+        console.error(`Failed to check if email is already used by a different account`, error);
+        throw error;
+    }
+}
+
 export async function isUsernameTaken(username) {
     const query = `
         {
@@ -118,6 +139,27 @@ export async function isUsernameTaken(username) {
         return json.data.usernameTaken;
     } catch (error) {
         console.error(`Failed to check if username is already taken`, error);
+        throw error;
+    }
+}
+
+export async function isUsernameUsedByOtherAccount(id, username) {
+    const query = `
+        {
+            usernameUsedByOtherAccount(id: ${id}, username: "${username}")
+        }`;
+
+    try {
+        const response = await fetchGraphQL(query);
+        const json = await response.json();
+        if (json.errors) {
+            const errorMessages = bundleErrorMessages(json);
+            throw new Error(errorMessages);
+        }
+
+        return json.data.usernameUsedByOtherAccount;
+    } catch (error) {
+        console.error(`Failed to check if username is already used by a different account`, error);
         throw error;
     }
 }

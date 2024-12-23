@@ -45,6 +45,16 @@ export async function isEmailTaken(email) {
     }
 }
 
+export async function isEmailUsedByOtherAccount(id, email) {
+    try {
+        const response = await fetch(`//localhost:8080/account/email-taken/${id}?email=${email}`);
+
+        return await response.json();
+    } catch (err) {
+        console.error(`Failed to check if email is already used by a different account`, err);
+    }
+}
+
 export async function isUsernameTaken(username) {
     try {
         const response = await fetch(`//localhost:8080/account/username-taken?username=${username}`);
@@ -52,6 +62,17 @@ export async function isUsernameTaken(username) {
         return await response.json();
     } catch (err) {
         console.error(`Failed to check if username is already taken`, err);
+        throw err;
+    }
+}
+
+export async function isUsernameUsedByOtherAccount(id, username) {
+    try {
+        const response = await fetch(`//localhost:8080/account/username-taken/${id}?username=${username}`);
+
+        return await response.json();
+    } catch (err) {
+        console.error(`Failed to check if username is already used by a different account`, err);
         throw err;
     }
 }

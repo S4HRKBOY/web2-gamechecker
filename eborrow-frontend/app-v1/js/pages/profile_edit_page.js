@@ -110,7 +110,7 @@ function assignSubmitEvent() {
     document.querySelector(".update-form").addEventListener("submit", async (event) => {
         {
             event.preventDefault(); // needs to be done, else the form will be submitted before the fetch is done
-            const inputsValid = await validateInputs();
+            const inputsValid = await validateInputs(ID_ACCOUNT_TO_FETCH);
             if (inputsValid) {
                 const form = event.target;
 
@@ -149,7 +149,7 @@ function updatePreviewPicture() {
 }
 
 
-async function validateInputs() {
+async function validateInputs(accountId) {
     const passwordInput = document.querySelector(".update-form #password");
     const passwordConfirmInput = document.querySelector(".update-form #password-confirm");
     const fileInput = document.querySelector(".update-form #profile-pic-fileselect");
@@ -166,11 +166,11 @@ async function validateInputs() {
     }
 
     // async validation (requires server calls)
-    if (!await validateUsername(usernameInput)) {
+    if (!await validateUsername(accountId, usernameInput)) {
         isValid = false;
     }
 
-    if (!await validateEmail(emailInput)) {
+    if (!await validateEmail(accountId, emailInput)) {
         isValid = false;
     }
 
@@ -201,7 +201,7 @@ function validateProfilePic(fileInput) {
     return true;
 }
 
-async function validateEmail(emailInput) {
+async function validateEmail(accountId, emailInput) {
     const email = emailInput.value.toLowerCase();
     if (email === "") {
         emailInput.setCustomValidity("Bitte geben Sie eine E-Mail Adresse ein.");
@@ -210,10 +210,9 @@ async function validateEmail(emailInput) {
         return false;
     }
 
-    // TODO Zak: Theoretisch muesste man noch schauen, ob es sich um dieselbe Mail handelt, die bereits im Account hinterlegt war
     let emailTaken;
     try {
-        emailTaken = await accountRestController.isEmailTaken(email);
+        emailTaken = await accountRestController.isEmailUsedByOtherAccount(accountId, email);
 
         if (emailTaken !== false && emailTaken !== true) {
             throw new Error("Unexpected response from server.");
@@ -235,7 +234,7 @@ async function validateEmail(emailInput) {
     return true;
 }
 
-async function validateUsername(usernameInput) {
+async function validateUsername(accountId, usernameInput) {
     if (usernameInput.value === "") {
         usernameInput.setCustomValidity("Bitte geben Sie einen Benutzernamen ein.");
         usernameInput.reportValidity();
@@ -243,10 +242,9 @@ async function validateUsername(usernameInput) {
         return false;
     }
 
-    // TODO Zak: Theoretisch muesste man noch schauen, ob es sich um denselben username handelt, der bereits im Account hinterlegt war
     let usernameTaken;
     try {
-        usernameTaken = await accountRestController.isUsernameTaken(usernameInput.value);
+        usernameTaken = await accountRestController.isUsernameUsedByOtherAccount(accountId, usernameInput.value);
 
         if (usernameTaken !== false && usernameTaken !== true) {
             throw new Error("Unexpected response from server.");
