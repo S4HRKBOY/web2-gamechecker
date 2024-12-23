@@ -2,7 +2,8 @@
 
 import * as utils from "../utils/utils.js";
 import * as accountController from "../controller/accountRestController.js";
-import { SRC_DEFAULT_PROFILE_PIC, ID_ACCOUNT_TO_FETCH } from "../global.js";
+import Account from "../entities/Account.js";
+import { PATH_DEFAULT_PROFILE_PIC, ID_ACCOUNT_TO_FETCH } from "../global.js";
 
 // #region global variables
 let previewPicture = null;
@@ -48,36 +49,13 @@ function prefillFormInputs(account) {
     updateform.querySelector("#birthday").value = account.birthday;
     updateform.querySelector("#email").value = account.email;
     updateform.querySelector("#username").value = account.username;
-    updateform.querySelector(".profile-pic img").src = SRC_DEFAULT_PROFILE_PIC;
+    updateform.querySelector(".profile-pic img").src = PATH_DEFAULT_PROFILE_PIC;
 }
 
 function assignEvents() {
     assignResetValidityEvents();
     assignProfilePicSelectionEvent();
     assignSubmitEvent();
-}
-
-function assignProfilePicSelectionEvent() {
-    document.querySelector("#profile-pic-fileselect").addEventListener("change", (event) => {
-        const fileInput = event.target;
-        const file = fileInput.files[0]; // Get the selected file
-
-        if (!file) {
-            fileInput.value = ""; // Clear the invalid file input
-            clearPreviewPicture();
-
-            return;
-        }
-
-        if (!validateProfilePic(fileInput)) {
-            return;
-        }
-
-        utils.loadImage(event.target.files[0])
-            .then((img) => previewPicture = img)
-            .then(updatePreviewPicture)
-            .catch((err) => console.error(err));
-    });
 }
 
 function assignResetValidityEvents() {
@@ -103,23 +81,58 @@ function assignResetValidityEvents() {
     });
 }
 
+function assignProfilePicSelectionEvent() {
+    document.querySelector("#profile-pic-fileselect").addEventListener("change", (event) => {
+        const fileInput = event.target;
+        const file = fileInput.files[0]; // Get the selected file
+
+        if (!file) {
+            fileInput.value = ""; // Clear the invalid file input
+            clearPreviewPicture();
+
+            return;
+        }
+
+        if (!validateProfilePic(fileInput)) {
+            return;
+        }
+
+        utils.loadImage(event.target.files[0])
+            .then((img) => previewPicture = img)
+            .then(updatePreviewPicture)
+            .catch((err) => console.error(err));
+    });
+}
+
 function assignSubmitEvent() {
     document.querySelector(".update-form").addEventListener("submit", async (event) => {
         {
             event.preventDefault(); // needs to be done, else the form will be submitted before the fetch is done
             const inputsValid = await validateInputs();
-            if (!inputsValid) {
-                event.preventDefault();
+            if (inputsValid) {
+                const form = event.target;
+
+                const accountUpdates = new Account({
+                    id: ID_ACCOUNT_TO_FETCH,
+                    prename: form.prename.value,
+                    surname: form.surname.value,
+                    username: form.username.value,
+                    birthday: form.birthday.value,
+                    email: form.email.value,
+                    password: form.password.value,
+                    profilePicture: previewPicture
+                });
+
+                accountController.updateAccount(accountUpdates)
+                    .then(() => {
+                        window.location.href = form.action;
+                    })
+                    .catch((err) => {
+                        console.error(err)
+                        alert("Ein Fehler ist aufgetreten. Bitte versuchen Sie es später erneut.");
+                    }
+                    );
             }
-            else {
-                event.target.submit();
-            }
-            // wenn stattdessen clientseitig gerendert werden soll
-            // else {
-            //     postprocessInputs();
-            //     createAccount();
-            //     renderProfilePage();
-            // }
         }
     });
 }
@@ -130,7 +143,7 @@ function clearPreviewPicture() {
 }
 
 function updatePreviewPicture() {
-    document.querySelector(".profile-pic>img").src = previewPicture ? previewPicture : SRC_DEFAULT_PROFILE_PIC;
+    document.querySelector(".profile-pic>img").src = previewPicture ? `data:image/jpeg;base64,${previewPicture}` : PATH_DEFAULT_PROFILE_PIC;
 }
 
 
@@ -150,6 +163,7 @@ async function validateInputs() {
         isValid = false;
     }
 
+    // async validation (requires server calls)
     if (!await validateUsername(usernameInput)) {
         isValid = false;
     }
@@ -194,7 +208,7 @@ async function validateEmail(emailInput) {
         return false;
     }
 
-    // Zak: Theoretisch muesste man noch schauen, ob es sich um dieselbe Mail handelt, die bereits im Account hinterlegt war
+    // TODO Zak: Theoretisch muesste man noch schauen, ob es sich um dieselbe Mail handelt, die bereits im Account hinterlegt war
     let emailTaken;
     try {
         emailTaken = await accountController.isEmailTaken(email);
@@ -227,7 +241,7 @@ async function validateUsername(usernameInput) {
         return false;
     }
 
-    // Zak: Theoretisch muesste man noch schauen, ob es sich um denselben username handelt, der bereits im Account hinterlegt war
+    // TODO Zak: Theoretisch muesste man noch schauen, ob es sich um denselben username handelt, der bereits im Account hinterlegt war
     let usernameTaken;
     try {
         usernameTaken = await accountController.isUsernameTaken(usernameInput.value);
