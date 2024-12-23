@@ -23,9 +23,11 @@
         "file-label file-label file-label file-label"
         "file file preview-image preview-image"
         "delete delete submit submit"
+        ". . create create"
 }
 
 #submit,
+#create,
 #age,
 #publication,
 #delete {
@@ -135,6 +137,11 @@ label[for="file"] {
 
 #delete {
     grid-area: delete;
+}
+
+#create {
+    grid-area: create;
+    justify-self: end;
 }
 
 #genre {

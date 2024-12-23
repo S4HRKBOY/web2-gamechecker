@@ -1,7 +1,18 @@
 const path = "http://localhost:8080"
 
+function getId() {
+    const params = new URLSearchParams(window.location.search);
+    return params.get('id');
+}
+
 async function getGameData() {
-    const url = "http://localhost:8080/game/1";
+    const id = getId();
+
+    if (!id) {
+        return null;
+    }
+
+    const url = path + `/game/${id}`;
     try {
         const response = await fetch(url);
         if (!response.ok) {
@@ -47,7 +58,7 @@ async function populatePlatforms(platforms, gamePlatforms) {
         checkbox.name = 'platform';
         checkbox.value = platform;
 
-        if (gamePlatforms.includes(platform)) {
+        if (gamePlatforms != null && gamePlatforms.includes(platform)) {
             checkbox.checked = true;
         }
 
@@ -68,7 +79,7 @@ async function populateGenres(genres, gameGenres) {
         checkbox.name = 'genre';
         checkbox.value = genre;
 
-        if (gameGenres.includes(genre)) {
+        if (gameGenres != null && gameGenres.includes(genre)) {
             checkbox.checked = true;
         }
 
@@ -79,29 +90,33 @@ async function populateGenres(genres, gameGenres) {
 }
 
 async function populateAgeRatings(ageRatings, gameAgeRating) {
-    const age = document.getElementById('age'); 
-    age.innerHTML = ''; 
+    const age = document.getElementById('age');
+    age.innerHTML = '';
 
     ageRatings.forEach(ageRating => {
-        const option = document.createElement('option'); 
-        option.value = ageRating; 
-        if(gameAgeRating == ageRating) {
-            option.selected = true; 
+        const option = document.createElement('option');
+        option.value = ageRating;
+        if (gameAgeRating == ageRating) {
+            option.selected = true;
         }
         option.textContent = ageRating;
-        age.appendChild(option); 
-    }); 
+        age.appendChild(option);
+    });
 }
 
 async function populateImage(gameImage) {
     const imagearea = document.getElementById('imagearea');
+    imagearea.innerHTML = '';
     const legend = document.createElement('legend');
+    legend.textContent = 'Vorschaubild';
+    imagearea.appendChild(legend);
+
     const img = document.createElement('img');
-    img.id="gameImage"; 
-    img.src='data:image/jpg;base64,' + gameImage; 
-    img.alt="Game Image"; 
-    legend.textContent = 'Vorschaubild'; 
-    imagearea.appendChild(legend); 
+    img.id = "gameImage";
+    if (gameImage) {
+        img.src = 'data:image/jpg;base64,' + gameImage;
+        img.alt = "Game Image";
+    }
     imagearea.appendChild(img);
 }
 
@@ -110,19 +125,57 @@ let fillData = async function () {
     const data = await fetchDynamicData();
     const { allPlatforms, allGenres, allAgeRatings } = data;
 
-    populatePlatforms(allPlatforms, game.platforms);
-    populateGenres(allGenres, game.genres);
-    populateAgeRatings(allAgeRatings, game.ageRating); 
-    populateImage(game.gameImage); 
+    const headline = document.getElementById("headline");
+    const formButtons = document.getElementById("gameForm");
 
     if (game) {
+        populatePlatforms(allPlatforms, game.platforms);
+        populateGenres(allGenres, game.genres);
+        populateAgeRatings(allAgeRatings, game.ageRating);
+        populateImage(game.gameImage);
+        headline.textContent = "Spiel bearbeiten";
+        const updateButton = document.createElement('input');
+        const deleteButton = document.createElement('input');
+        updateButton.id = "submit";
+        updateButton.type = "submit";
+        updateButton.value = "Änderungen speichern";
+        deleteButton.id = "delete";
+        deleteButton.value = "Spiel löschen";
+        deleteButton.type = "button";
+        formButtons.appendChild(updateButton);
+        formButtons.appendChild(deleteButton);
         document.getElementById('title').value = game.title || '';
         document.getElementById('description').value = game.description || '';
         document.getElementById('publication').value = game.publicationDate || '';
         document.getElementById('developer').value = game.developer || '';
         document.getElementById('publisher').value = game.publisher || '';
+
+        deleteButton.addEventListener('click', function (event) {
+            event.preventDefault();
+            deleteGameData();
+        });
+
+        updateButton.addEventListener('click', function (event) {
+            event.preventDefault();
+            submitGameData('PUT');
+        });
+
     } else {
-        console.error('Failed to fetch game data');
+        populatePlatforms(allPlatforms, null);
+        populateGenres(allGenres, null);
+        populateAgeRatings(allAgeRatings, null);
+        populateImage(null);
+        headline.textContent = "Spiel anlegen";
+        const createButton = document.createElement('input');
+        createButton.id = "create";
+        createButton.type = "submit";
+        createButton.value = "Neues Spiel anlegen";
+        formButtons.appendChild(createButton);
+
+        createButton.addEventListener('click', function (event) {
+            event.preventDefault();
+            submitGameData('POST');
+        });
     }
 }
 
@@ -157,7 +210,7 @@ document.addEventListener('click', (event) => {
     }
 });
 
-fillData(); 
+fillData();
 
 function previewImage(event) {
     const fileInput = event.target;
@@ -182,15 +235,16 @@ function convertToBase64(file) {
     });
 }
 
-async function submitGameData() {
+async function submitGameData(method) {
     const gameImage = document.getElementById('file');
+    const id = getId();
     let base64Image = '';
     if (gameImage.files && gameImage.files[0]) {
         base64Image = await convertToBase64(gameImage.files[0]);
     }
 
     const gameData = {
-        id: 1,
+        id: id,
         title: document.getElementById('title').value,
         description: document.getElementById('description').value,
         publicationDate: document.getElementById('publication').value,
@@ -201,33 +255,65 @@ async function submitGameData() {
         ageRating: document.getElementById('age').value,
         gameImage: base64Image || document.getElementById('gameImage').src.split(',')[1],
     };
-    console.log(gameData); 
+    console.log(gameData);
 
-    const url = path +"/game/update-game/1"; 
+    let url = null;
+    if (method == 'PUT') {
+        url = path + `/game/update-game/${id}`;
+    }
+    else {
+        url = path + `/game/create-game`;
+    }
 
     try {
         const response = await fetch(url, {
-            method: 'PUT',
+            method: method,
             headers: {
-                'Content-Type': 'application/json', 
+                'Content-Type': 'application/json',
             },
             body: JSON.stringify(gameData),
         });
 
         if (!response.ok) {
-            throw new Error('Network error');
+            throw new Error(`Response status: ${response.status}`);
         }
+        const newViewResponse = await fetch("../html/start_page.html");
+        if (!newViewResponse.ok) {
+            throw new Error(`Failed to load new view: ${newViewResponse.status}`);
+        }
+        const newViewHtml = await newViewResponse.text();
+        document.body.innerHTML = newViewHtml;
+        const script = document.createElement('script');
+        script.src = "../js/startpage.js";
+        document.body.appendChild(script);
+
     } catch (error) {
-        console.error('Error:', error);
+        console.error('Error:', error.message);
     }
+
 }
 
-const gameForm = document.getElementById('gameForm');
-gameForm.addEventListener('submit', function(event) {
-    event.preventDefault(); 
-    submitGameData(); 
-});
+async function deleteGameData() {
+    const id = getId();
+    const url = path + `/game/delete-game/${id}`;
+    try {
+        const response = await fetch(url, {
+            method: 'DELETE',
+        });
+        if (!response.ok) {
+            throw new Error(`Response status: ${response.status}`);
+        }
+        const newViewResponse = await fetch("../html/start_page.html");
+        if (!newViewResponse.ok) {
+            throw new Error(`Failed to load new view: ${newViewResponse.status}`);
+        }
+        const newViewHtml = await newViewResponse.text();
+        document.body.innerHTML = newViewHtml;
+        const script = document.createElement('script');
+        script.src = "../js/startpage.js";
+        document.body.appendChild(script);
 
-gameForm.addEventListener('delete', function(event) {
-    event.preventDefault(); 
-});
+    } catch (error) {
+        console.error('Error:', error.message);
+    }
+}
