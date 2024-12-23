@@ -1,7 +1,8 @@
 'use strict';
 
 import * as utils from "../utils/utils.js";
-import * as accountController from "../controller/accountRestController.js";
+import * as accountRestController from "../controller/accountRestController.js";
+import * as accountGraphQLController from "../controller/accountGraphQLController.js";
 import Account from "../entities/Account.js";
 import { PATH_DEFAULT_PROFILE_PIC, ID_ACCOUNT_TO_FETCH } from "../global.js";
 
@@ -9,27 +10,28 @@ import { PATH_DEFAULT_PROFILE_PIC, ID_ACCOUNT_TO_FETCH } from "../global.js";
 let previewPicture = null;
 // #endregion
 
-accountController.getAccountById(ID_ACCOUNT_TO_FETCH)
-    .then(renderPage);
+accountGraphQLController.getAccountById(ID_ACCOUNT_TO_FETCH, 
+    ["id", "prename", "surname", "username", "birthday", "email"]
+).then(renderPage);
 
 // region functions
 function renderPage(account) {
-    setFormActions(account);
+    setFormActions(account.id);
     setFormValidationConstraints();
     prefillFormInputs(account);
     assignEvents();
 }
 
-function setFormActions(account) {
+function setFormActions(accountId) {
     const updateform = document.querySelector(".update-form");
-    updateform.action = `//localhost:8080/thymeleaf/account/${account.id}`;
+    updateform.action = `//localhost:8080/thymeleaf/account/${accountId}`;
     updateform.method = "get";
 
     const cancelLink = document.querySelector(".update-form .send-form-options .cancel-link");
-    cancelLink.href = `//localhost:8080/thymeleaf/account/${account.id}`;
+    cancelLink.href = `//localhost:8080/thymeleaf/account/${accountId}`;
 
     const deleteForm = document.querySelector(".delete-profile");
-    deleteForm.action = `//localhost:8080/thymeleaf/account/${account.id}`;
+    deleteForm.action = `//localhost:8080/thymeleaf/account/${accountId}`;
     updateform.method = "get";
 }
 
@@ -123,7 +125,7 @@ function assignSubmitEvent() {
                     profilePicture: previewPicture
                 });
 
-                accountController.updateAccount(accountUpdates)
+                accountRestController.updateAccount(accountUpdates)
                     .then(() => {
                         window.location.href = form.action;
                     })
@@ -131,7 +133,7 @@ function assignSubmitEvent() {
                         console.error(err)
                         alert("Ein Fehler ist aufgetreten. Bitte versuchen Sie es später erneut.");
                     }
-                    );
+                );
             }
         }
     });
@@ -211,7 +213,7 @@ async function validateEmail(emailInput) {
     // TODO Zak: Theoretisch muesste man noch schauen, ob es sich um dieselbe Mail handelt, die bereits im Account hinterlegt war
     let emailTaken;
     try {
-        emailTaken = await accountController.isEmailTaken(email);
+        emailTaken = await accountRestController.isEmailTaken(email);
 
         if (emailTaken !== false && emailTaken !== true) {
             throw new Error("Unexpected response from server.");
@@ -244,7 +246,7 @@ async function validateUsername(usernameInput) {
     // TODO Zak: Theoretisch muesste man noch schauen, ob es sich um denselben username handelt, der bereits im Account hinterlegt war
     let usernameTaken;
     try {
-        usernameTaken = await accountController.isUsernameTaken(usernameInput.value);
+        usernameTaken = await accountRestController.isUsernameTaken(usernameInput.value);
 
         if (usernameTaken !== false && usernameTaken !== true) {
             throw new Error("Unexpected response from server.");
