@@ -22,37 +22,39 @@ export default {
                     <section id="personal-data">
                         <h2>Persönliche Daten</h2>
                         <table>
-                            <tr>
-                                <td>Benutzername</td>
-                                <td>
-                                    <span>Kein Benutzername verfügbar</span>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>Vorname</td>
-                                <td>
-                                    <span>Kein Vorname verfügbar</span>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>Nachname</td>
-                                <td>
-                                    <span>Kein Nachname verfügbar</span>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>Geburtsdatum</td>
-                                <td>
-                                    <span>
-                                        Kein Geburtsdatum verfügbar</span>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>E-Mail</td>
-                                <td>
-                                    <span>Keine E-Mail verfügbar</span>
-                                </td>
-                            </tr>
+                            <tbody>
+                                <tr>
+                                    <td>Benutzername</td>
+                                    <td>
+                                        <span>Kein Benutzername verfügbar</span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>Vorname</td>
+                                    <td>
+                                        <span>Kein Vorname verfügbar</span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>Nachname</td>
+                                    <td>
+                                        <span>Kein Nachname verfügbar</span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>Geburtsdatum</td>
+                                    <td>
+                                        <span>
+                                            Kein Geburtsdatum verfügbar</span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>E-Mail</td>
+                                    <td>
+                                        <span>Keine E-Mail verfügbar</span>
+                                    </td>
+                                </tr>
+                            </tbody>
                         </table>
                     </section>
                 </section>
@@ -67,21 +69,23 @@ export default {
                     <span>Keine Spiele angepinnt</span> <!-- only if account.taggedGames.size() == 0" -->
                     <div class="overview">
                         <table class="overview-table-container">
-                            <tr class="overview-entry"> <!-- for each game : ${account.taggedGames} -->
-                                <td class="overview-image">
-                                    <RouterLink to="/game"> <!-- to="/game/${game.id}" -->
-                                        <img src="data:," alt="Vorzeigebild des Spiels">
-                                    </RouterLink>
-                                </td>
-                                <td class="overview-description">
-                                    <span>Kein Titel verfügbar</span>
-                                </td>
-                                <td class="unlist-button">
-                                    <form>
-                                        <button type="submit">entfernen</button>
-                                    </form>
-                                </td>
-                            </tr>
+                            <tbody>
+                                <tr class="overview-entry"> <!-- for each game : ${account.taggedGames} -->
+                                    <td class="overview-image">
+                                        <RouterLink to="/game"> <!-- to="/game/${game.id}" -->
+                                            <img src="data:," alt="Vorzeigebild des Spiels">
+                                        </RouterLink>
+                                    </td>
+                                    <td class="overview-description">
+                                        <span>Kein Titel verfügbar</span>
+                                    </td>
+                                    <td class="unlist-button">
+                                        <form>
+                                            <button type="submit">entfernen</button>
+                                        </form>
+                                    </td>
+                                </tr>
+                            </tbody>
                         </table>
                     </div>
                 </section>
