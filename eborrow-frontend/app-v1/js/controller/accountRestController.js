@@ -58,6 +58,7 @@ export async function isEmailTaken(email) {
         return await response.json();
     } catch (err) {
         console.error(`Failed to check if email is already taken`, err);
+        throw err;
     }
 }
 
@@ -68,6 +69,7 @@ export async function isEmailUsedByOtherAccount(id, email) {
         return await response.json();
     } catch (err) {
         console.error(`Failed to check if email is already used by a different account`, err);
+        throw err;
     }
 }
 
