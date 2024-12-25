@@ -1,11 +1,10 @@
-<script>
-import NavigationHeader from '../components/NavigationHeader.vue';
+<script setup>
+import NavigationHeader from '../components/NavigationHeader.vue'
+import { onMounted } from "vue";
+import { useRoute } from "vue-router";
 
-export default {
-    components: {
-        NavigationHeader
-    }
-}
+const route = useRoute();
+onMounted(async () => console.log("Id in route is: " + route.params.id));
 </script>
 
 <template>
@@ -65,7 +64,7 @@ export default {
                         </section>
                     </section>
                     <section class="send-form-options">
-                        <RouterLink to="/account" class="cancel-link">Abbrechen</RouterLink>
+                        <RouterLink to="/account/42" class="cancel-link">Abbrechen</RouterLink>
                         <button type="submit">Änderungen speichern</button>
                     </section>
                 </form>

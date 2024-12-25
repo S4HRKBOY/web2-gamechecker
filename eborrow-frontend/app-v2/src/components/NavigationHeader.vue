@@ -7,7 +7,8 @@
             <ul class="nav-links">
                 <li><RouterLink to="/home">Home</RouterLink></li>
                 <li><RouterLink to="/gameForm">Neues Spiel anlegen</RouterLink></li>
-                <li><RouterLink to="/account">Profil</RouterLink></li>
+                <!-- TODO Zak: Put the correct id into the link -->
+                <li><RouterLink to="/account/42">Profil</RouterLink></li>
                 <li><RouterLink to="/login">Logout</RouterLink></li>
             </ul>
         </nav>
