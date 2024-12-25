@@ -15,13 +15,23 @@ const router = createRouter({
       path: '/login',
       name: 'login',
       // component: LoginView, // eager loading
-      component: () => import('../views/LoginView.vue'), // lazy loading
+      component: () => import('../views/LoginView.vue') // lazy loading
     },
     {
       path: '/register',
       name: 'register',
-      component: () => import('../views/RegisterView.vue'),
+      component: () => import('../views/RegisterView.vue')
     },
+    {
+      path: '/account',
+      name: 'account',
+      component: () => import('../views/ProfileView.vue')
+    },
+    {
+      path: '/account/edit',
+      name: 'edit-account',
+      component: () => import('../views/ProfileEditView.vue')
+    }
   ],
 })
 

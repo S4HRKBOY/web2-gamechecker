@@ -7,7 +7,8 @@
                 <figure class="logo">
                     <img src="../assets/images/logo.svg" alt="Logo von Game-Tracker">
                 </figure>
-                <form class="login-form" action="./start_page.html" method="post">
+                <!-- TODO -->
+                <form class="login-form">
                     <div class="form-input"><input type="text" name="username" placeholder="Benutzername"></div>
                     <div class="form-input"><input type="password" name="password" placeholder="Passwort"></div>
                     <div class="form-button"><button type="submit">Login</button></div>

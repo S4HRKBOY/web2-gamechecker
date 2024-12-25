@@ -7,7 +7,8 @@
                 <figure class="logo">
                     <RouterLink to="/"><img src="../assets/images/logo.svg" alt="Logo von Game-Tracker"></RouterLink>
                 </figure>
-                <form class="register-form" action="./login_page.html" method="post">
+                <!-- TODO -->
+                <form class="register-form">
                     <fieldset>
                         <div class="form-input">
                             <label for="surname">Name</label>

@@ -4,6 +4,6 @@ import NavigationHeader from './components/NavigationHeader.vue'
 </script>
 
 <template>
-  <NavigationHeader /><!-- Zak: in die einzelnen Views einbauen, die einen NavigationHeader benoetigen -->
+  <!-- <NavigationHeader /> --> <!-- manche views besitzen keinen header -> als component in einzelne Views einbauen -->
   <RouterView />
 </template>
