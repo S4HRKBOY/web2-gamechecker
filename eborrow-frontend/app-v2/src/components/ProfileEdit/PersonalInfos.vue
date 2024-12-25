@@ -1,4 +1,21 @@
-<script></script>
+<script setup>
+import * as useAccountGraphQLApi from "@/composables/useAccountGraphQLApi.js";
+import { reactive } from "vue";
+import { ref, onMounted } from "vue";
+import { useRoute } from "vue-router";
+
+const route = useRoute();
+const accountData = reactive({});   // difference between reactive and ref: reactive is nested and used for objects
+onMounted(() => {
+    useAccountGraphQLApi.getAccountById(route.params.id,
+        ["id", "prename", "surname", "username", "birthday", "email"]
+    ).then(acc=> Object.assign(accountData, acc))
+    .catch(err => {
+        console.error(err);
+        alert("Ein Fehler ist aufgetreten. Bitte versuchen Sie es später erneut.");
+    })
+});
+</script>
 
 <template>
     <section class="set-personal-infos">
@@ -6,26 +23,26 @@
             <legend>Persönliche Daten</legend>
             <div class="form-input">
                 <label for="surname">Name</label>
-                <input type="text" id="surname" name="surname" required>
+                <input type="text" :value="accountData.surname" id="surname" name="surname" required>
             </div>
             <div class="form-input">
                 <label for="prename">Vorname</label>
-                <input type="text" id="prename" name="prename" required>
+                <input type="text" :value="accountData.prename" id="prename" name="prename" required>
             </div>
             <div class="form-input">
                 <label for="birthday">Geburtsdatum</label>
-                <input type="date" id="birthday" name="birthday">
+                <input type="date" :value="accountData.birthday" id="birthday" name="birthday">
             </div>
             <div class="form-input">
                 <label for="email">E-Mail Adresse</label>
-                <input type="email" id="email" name="email" required>
+                <input type="email" :value="accountData.email" id="email" name="email" required>
             </div>
         </fieldset>
         <fieldset>
             <legend>Anmeldeinformationen</legend>
             <div class="form-input">
                 <label for="username">Benutzername</label>
-                <input type="text" id="username" name="username" required>
+                <input type="text" :value="accountData.username" id="username" name="username" required>
             </div>
             <div class="form-input">
                 <label for="password">Passwort</label>

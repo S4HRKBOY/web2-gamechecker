@@ -2,14 +2,10 @@
 import NavigationHeader from '../components/NavigationHeader.vue';
 import PersonalInfos from '../components/ProfileEdit/PersonalInfos.vue';
 import ProfilePic from '../components/ProfileEdit/ProfilePic.vue';
-import { onMounted } from "vue";
 import { useRoute } from "vue-router";
 
 const route = useRoute();
-onMounted(async () => console.log("Id in route is: " + route.params.id));
-
-
-
+const id = route.params.id;
 </script>
 
 <template>
@@ -23,7 +19,7 @@ onMounted(async () => console.log("Id in route is: " + route.params.id));
                         <ProfilePic></ProfilePic>
                     </section>
                     <section class="send-form-options">
-                        <RouterLink to="/account/42" class="cancel-link">Abbrechen</RouterLink>
+                        <RouterLink :to="`/account/${id}`" class="cancel-link">Abbrechen</RouterLink>
                         <button type="submit">Änderungen speichern</button>
                     </section>
                 </form>
