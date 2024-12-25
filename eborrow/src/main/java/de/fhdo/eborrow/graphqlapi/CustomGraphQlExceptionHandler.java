@@ -9,9 +9,10 @@ import org.springframework.graphql.execution.ErrorType;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
+import org.springframework.web.method.annotation.HandlerMethodValidationException;
 
 @ControllerAdvice
-public class CustomGraphQlExceptionHandler{
+public class CustomGraphQlExceptionHandler {
 	@GraphQlExceptionHandler
 	public GraphQLError mapToResponseStatusException(Exception ex) {
 		HttpStatus status;
@@ -22,8 +23,10 @@ public class CustomGraphQlExceptionHandler{
 		} else if (ex instanceof IllegalArgumentException) {
 			status = HttpStatus.BAD_REQUEST;
 			message = "Illegal argument passed: " + ex.getMessage();
-		}
-		else if (ex instanceof MethodArgumentNotValidException) {
+		} else if (ex instanceof MethodArgumentNotValidException) {
+			status = HttpStatus.BAD_REQUEST;
+			message = "Validation failed: " + ex.getMessage();
+		} else if (ex instanceof HandlerMethodValidationException) {
 			status = HttpStatus.BAD_REQUEST;
 			message = "Validation failed: " + ex.getMessage();
 		} else if (ex instanceof DataIntegrityViolationException) {
