@@ -11,7 +11,8 @@ const routes = [
   { path: '/login', name: 'login', component: () => import('../views/LoginView.vue') },
   { path: '/register', name: 'register', component: () => import('../views/RegisterView.vue') },
   { path: '/account/:id', name: 'account', component: () => import('../views/ProfileView.vue') },
-  { path: '/account/edit/:id', name: 'edit-account', component: () => import('../views/ProfileEditView.vue') }
+  { path: '/account/edit/:id', name: 'edit-account', component: () => import('../views/ProfileEditView.vue') },
+  { path: '/home', name: 'home', component: () => import('@/views/StartPage.vue')}
 ];
 
 const router = createRouter({

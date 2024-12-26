@@ -1,8 +1,31 @@
-@import url(https://fonts.googleapis.com/css?family=Open+Sans);
-@import url('https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css');
+<script setup>
+    import NavigationHeader from '../components/NavigationHeader.vue';
+    import SearchBar from '../components/StartPage/SearchBar.vue';
+    import SortPanel from '../components/StartPage/SortPanel.vue';
+    import * as gamesRestApi from "../composables/useGamesRestApi.js"
+    import { onMounted } from "vue";
+    import { useRoute } from "vue-router";
+    const route = useRoute();
+    onMounted(() => {
+        console.log("Id in route is: " + route.params.id);
+        gamesRestApi.initGamesOverview();
+    });
+</script>
 
-/* STARTSEITE START */
+<template>
+    <NavigationHeader/>
+    <div class="main-page-container">
+        <SearchBar />
+        <SortPanel />
+        <div class="overview">
+            <table class="overview-table-container">
+            </table>
+        </div>
+    </div>
+</template>
 
+
+<style>
 header{
     display: grid;
     grid-template-areas: "logo links";
@@ -61,96 +84,6 @@ header{
     justify-items: center;
 }
 
-.search{
-    grid-area: search;
-    width: 66%;
-    display: flex;
-}
-
-.searchBox{
-    border: 3px solid #2b2929;
-    border-right: none;
-    padding: 5px;
-    width: 100%;
-    border-radius: 5px 0 0 5px;
-    outline: none;
-    color: #2b2929;
-}
-
-.searchButton{
-    width: 40px;
-    height: 36px;
-    border: 1px solid #2b2929;
-    background: #2b2929;
-    text-align: center;
-    color: #fff;
-    border-radius: 0 5px 5px 0;
-    cursor: pointer;
-    font-size: 20px;
-}
-
-.searchButton:hover{
-    width: 40px;
-    height: 36px;
-    border: 1px solid #2b2929;
-    background: #fff;
-    text-align: center;
-    color: #2b2929;
-    border-radius: 0 5px 5px 0;
-    cursor: pointer;
-    font-size: 20px;
-}
-
-.sort{
-    grid-area: sort;
-    width: 66%;
-}
-
-.filter-bar{
-    width: 100%;
-    height: 100px;
-    border: 3px solid #2b2929;
-    border-radius: 5px;
-    background-color: aliceblue;
-
-    display: grid;
-    grid-template-areas: "genre-filter date-filter apply-filter";
-    grid-template-columns: 30% 30% 30% auto;
-    align-items: center;
-    justify-items: center;
-                        
-}
-
-.genre-filter{
-    grid-area: genre-filter; 
-}
-
-.date-filter{
-    grid-area: date-filter;
-}
-
-.apply-filter{
-    grid-area: apply-filter;
-    width: 35%;
-    height: 50%;
-    border: 1px solid #2b2929;
-    background: #2b2929;
-    border-radius: 15px;
-    cursor: pointer;
-    color: #fff;
-}
-
-.apply-filter:hover{
-    grid-area: apply-filter;
-    width: 35%;
-    height: 50%;
-    border: 1px solid #2b2929;
-    background: #fff;
-    border-radius: 15px;
-    cursor: pointer;
-    color: #2b2929;
-}
-
 .overview{
     grid-area: overview;
     width: 66%;
@@ -195,5 +128,4 @@ header{
     place-content: center;
     display: block;
 }
-
-/* STARTSEITE ENDE */
+</style>
