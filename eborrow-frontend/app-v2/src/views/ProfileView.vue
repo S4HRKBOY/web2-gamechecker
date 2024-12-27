@@ -1,16 +1,18 @@
 <script setup>
+import { onMounted, reactive, computed, provide } from "vue";
+import { useRoute } from "vue-router";
+import router from "@/router";
+import * as useAccountApi from "@/composables/useAccountRestApi.js";
 import NavigationHeader from '../components/NavigationHeader.vue';
 import ProfileInfo from '../components/Profile/ProfileInfo.vue';
 import PinnedGames from '../components/Profile/PinnedGames.vue';
-import * as useAccountApi from "@/composables/useAccountRestApi.js";
 import PTH_DEFAULT_PROFILE_PIC from "@/assets/images/profile_pic_default.svg";
-import router from "@/router";
-import { onMounted, reactive, computed } from "vue";
-import { useRoute } from "vue-router";
 
 const route = useRoute();
 
 const account = reactive({});
+provide('account', account)
+
 const srcProfilePic = computed(() => account.profilePicture ? `data:image/jpeg;base64,${account.profilePicture}` : PTH_DEFAULT_PROFILE_PIC);
 
 onMounted(() => {

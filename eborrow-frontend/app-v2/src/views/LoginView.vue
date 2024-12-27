@@ -1,8 +1,8 @@
 <script setup>
-import * as useAccountApi from "@/composables/useAccountRestApi.js";
-import { RouterLink } from "vue-router";
 import { reactive } from "vue";
+import { RouterLink } from "vue-router";
 import router from "@/router";
+import * as useAccountApi from "@/composables/useAccountRestApi.js";
 
 const form = reactive({
     username: "",

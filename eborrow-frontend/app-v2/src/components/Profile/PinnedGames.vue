@@ -1,22 +1,9 @@
 <script setup>
+import { inject } from "vue";
 import * as useAccountApi from "@/composables/useAccountRestApi.js";
 import PTH_DEFAULT_GAME_PIC from "@/assets/images/logo.svg";
-import { onMounted } from "vue";
-import { useRoute } from "vue-router";
-import { reactive } from 'vue';
 
-const route = useRoute();
-// TODO: Reuse account from parent component
-const account = reactive({});
-
-onMounted(() => {
-    useAccountApi.getAccountById(route.params.id, true)
-        .then(acc => Object.assign(account, acc))
-        .catch(err => {
-            console.error(err);
-            alert("Ein Fehler ist aufgetreten. Bitte versuchen Sie es später erneut.");
-        })
-});
+const account = inject('account');
 
 function imgToSrc(img) {
     return img ? `data:image/jpeg;base64,${img}` : PTH_DEFAULT_GAME_PIC;

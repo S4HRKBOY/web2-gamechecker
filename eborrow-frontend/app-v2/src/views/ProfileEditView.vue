@@ -1,8 +1,8 @@
 <script setup>
+import { useRoute } from "vue-router";
 import NavigationHeader from '../components/NavigationHeader.vue';
 import PersonalInfos from '../components/ProfileEdit/PersonalInfos.vue';
 import ProfilePic from '../components/ProfileEdit/ProfilePic.vue';
-import { useRoute } from "vue-router";
 
 const route = useRoute();
 const id = route.params.id;

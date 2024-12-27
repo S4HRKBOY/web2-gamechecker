@@ -1,21 +1,7 @@
 <script setup>
-import * as useAccountApi from "@/composables/useAccountRestApi.js";
-import { onMounted } from "vue";
-import { useRoute } from "vue-router";
-import { reactive } from 'vue';
+import { inject } from "vue";
 
-const route = useRoute();
-// TODO: Reuse account from parent component
-const account = reactive({});
-
-onMounted(() => {
-    useAccountApi.getAccountById(route.params.id, true)
-        .then(acc => Object.assign(account, acc))
-        .catch(err => {
-            console.error(err);
-            alert("Ein Fehler ist aufgetreten. Bitte versuchen Sie es später erneut.");
-        })
-});
+const account = inject('account');
 </script>
 
 <template>
