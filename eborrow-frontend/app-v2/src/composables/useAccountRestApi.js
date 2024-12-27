@@ -1,5 +1,27 @@
 'use strict';
 
+export async function fetchAccountId(username, password) {
+    try {
+        const response = await fetch(`//localhost:8080/login`, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+                "Accept": "application/json"
+            },
+            body: JSON.stringify({ username, password })
+        });
+
+        if(response.status === 404) {
+            return null;
+        }
+
+        return await response.json();
+    } catch (err) {
+        console.error(`Failed to fetch account id with given username ${username}`, err);
+        throw err;
+    }
+}
+
 export async function getAccountById(id) {
     try {
         const response = await fetch(`//localhost:8080/account/${id}`);

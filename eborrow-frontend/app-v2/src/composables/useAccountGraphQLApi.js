@@ -12,6 +12,32 @@ const ACCOUNT_SELECTION_SET = [
     "publisher"
 ];
 
+export async function fetchAccountId(username, password) {
+    const query = `
+        {
+            accountId(username: "${username}", password: "${password}")
+        }`;
+
+    try {
+        const response = await fetchGraphQL(query);
+        const json = await response.json();
+
+        if (!json.errors) {
+            return json.data.accountId;
+        }
+
+        if (json.errors.length === 1 && json.errors[0].extensions.classification === "NOT_FOUND") {
+            return null;
+        }
+
+        const errorMessages = bundleErrorMessages(json);
+        throw new Error(errorMessages);
+    } catch (error) {
+        console.error(`Failed to fetch account id with given username ${username}`, error);
+        throw error;
+    }
+}
+
 export async function getAccountById(id, fields = []) {
     if (fields.length === 0) {
         fields = ACCOUNT_SELECTION_SET;
@@ -31,7 +57,6 @@ export async function getAccountById(id, fields = []) {
             const errorMessages = bundleErrorMessages(json)
             throw new Error(errorMessages);
         }
-
 
         return json.data.account;
     } catch (error) {
@@ -74,7 +99,6 @@ export async function updateAccount(account, fields = []) {
         console.error(`Failed to update account with id ${account.id}:`, error);
         throw error;
     }
-
 }
 
 export async function deleteAccount(id) {
