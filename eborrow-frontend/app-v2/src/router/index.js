@@ -3,15 +3,17 @@ import { createRouter, createWebHistory } from 'vue-router'
 // only necessary if using eager loading:
 // import LoginView from '../views/LoginView.vue'
 // import RegisterView from '../views/RegisterView.vue'
+// ...
 
 const routes = [
   // component: LoginView, // eager loading    
   // component: () => import('../views/LoginView.vue') // lazy loading
   { path: '/', redirect: '/login' },
-  { path: '/login', name: 'login', component: () => import('../views/LoginView.vue') },
-  { path: '/register', name: 'register', component: () => import('../views/RegisterView.vue') },
-  { path: '/account/:id', name: 'account', component: () => import('../views/ProfileView.vue') },
-  { path: '/account/edit/:id', name: 'edit-account', component: () => import('../views/ProfileEditView.vue') }
+  { path: '/login', name: 'login', component: () => import('@/views/LoginView.vue') },
+  { path: '/register', name: 'register', component: () => import('@/views/RegisterView.vue') },
+  { path: '/account/:id', name: 'account', component: () => import('@/views/ProfileView.vue') },
+  { path: '/account/edit/:id', name: 'edit-account', component: () => import('@/views/ProfileEditView.vue') },
+  { path: '/home', name: 'home', component: () => import('@/views/StartPage.vue')}
 ];
 
 const router = createRouter({

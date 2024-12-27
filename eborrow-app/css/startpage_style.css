@@ -114,7 +114,7 @@ header{
     background-color: aliceblue;
 
     display: grid;
-    grid-template-areas: "genre-filter platform-filter dev-filter apply-filter";
+    grid-template-areas: "genre-filter date-filter apply-filter";
     grid-template-columns: 30% 30% 30% auto;
     align-items: center;
     justify-items: center;
