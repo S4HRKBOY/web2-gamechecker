@@ -22,6 +22,24 @@ public class AccountGraphQlController {
 		this.accountService = accountService;
 	}
 
+	@QueryMapping("accountId")
+	public Long fetchAccountId(@Argument String username, @Argument String password) throws NotFoundException {
+		if (username == null || username.trim().isEmpty()) {
+			throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "username is required");
+		}
+
+		if (password == null || password.trim().isEmpty()) {
+			throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "password is required");
+		}
+
+		Long accountId = accountService.fetchAccountId(username, password);
+		if (accountId == null) {
+			throw new ResponseStatusException(HttpStatus.NOT_FOUND);
+		}
+
+		return accountId;
+	}
+	
 	@QueryMapping("accounts")
 	public Iterable<AccountDto> getAllAccounts() {
 		return accountService.getAccounts();

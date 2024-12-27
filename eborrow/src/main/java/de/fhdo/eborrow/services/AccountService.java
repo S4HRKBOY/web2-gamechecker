@@ -69,6 +69,19 @@ public class AccountService {
 		return richAccountDto;
 	}
 
+	public Long fetchAccountId(String username, String password) throws NotFoundException {
+		Account account = accountRepository.findByUsername(username);
+		if (account == null) {
+			throw new NotFoundException("No Account found with username " + username + " and given password.");
+		}
+
+		if (!account.getPassword().equals(password)) {
+			throw new NotFoundException("No Account found with username " + username + " and given password.");
+		}
+
+		return account.getId();
+	}
+
 	public void deleteAccount(Long id) throws NotFoundException {
 		if (!accountRepository.existsById(id)) {
 			throw new NotFoundException("No Account found with id " + id);
@@ -180,7 +193,7 @@ public class AccountService {
 	}
 
 	public boolean isEmailUsedByOtherAccount(Long accountId, String email) throws NotFoundException {
-		if(!accountRepository.existsById(accountId)) {
+		if (!accountRepository.existsById(accountId)) {
 			throw new NotFoundException("No Account found with id " + accountId);
 		}
 
@@ -193,7 +206,7 @@ public class AccountService {
 	}
 
 	public boolean isUsernameUsedByOtherAccount(Long accountId, String username) throws NotFoundException {
-		if(!accountRepository.existsById(accountId)) {
+		if (!accountRepository.existsById(accountId)) {
 			throw new NotFoundException("No Account found with id " + accountId);
 		}
 

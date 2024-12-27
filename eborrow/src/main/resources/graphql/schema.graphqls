@@ -13,6 +13,7 @@ type Query {
     allAgeRatings : [String!]!
     accounts: [Account!]!
     account(id: ID!): Account
+    accountId(username: String!, password: String!): ID
     emailTaken(email: String!): Boolean!
     emailUsedByOtherAccount(id: ID!, email: String!): Boolean!
     usernameTaken(username: String!): Boolean!
