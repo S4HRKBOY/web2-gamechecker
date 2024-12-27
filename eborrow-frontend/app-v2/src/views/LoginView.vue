@@ -1,4 +1,24 @@
-<script></script>
+<script setup>
+import * as useAccountApi from "@/composables/useAccountRestApi.js";
+import { RouterLink } from "vue-router";
+import { reactive } from "vue";
+import router from "@/router";
+
+const form = reactive({
+    username: "",
+    password: ""
+});
+
+async function onSubmitLogin() {
+    const accountId = await useAccountApi.fetchAccountId(form.username, form.password);
+    if(accountId === null) {
+        alert("Benutzername oder Passwort falsch.");
+        return;
+    }
+
+    router.push(`/account/${accountId}`);
+}
+</script>
 
 <template>
     <main>
@@ -7,10 +27,9 @@
                 <figure class="logo">
                     <img src="../assets/images/logo.svg" alt="Logo von Game-Tracker">
                 </figure>
-                <!-- TODO -->
-                <form class="login-form">
-                    <div class="form-input"><input type="text" name="username" placeholder="Benutzername"></div>
-                    <div class="form-input"><input type="password" name="password" placeholder="Passwort"></div>
+                <form class="login-form" @submit.prevent="onSubmitLogin">
+                    <div class="form-input"><input type="text" v-model="form.username" placeholder="Benutzername" required></div>
+                    <div class="form-input"><input type="password" v-model="form.password" placeholder="Passwort" required></div>
                     <div class="form-button"><button type="submit">Login</button></div>
                 </form>
             </section>
@@ -20,10 +39,6 @@
 </template>
 
 <style scoped>
-* {
-    box-sizing: border-box;
-}
-
 main {
     display: flex;
     flex-grow: 1;

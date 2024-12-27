@@ -1,7 +1,6 @@
 <script setup>
 import * as useAccountGraphQLApi from "@/composables/useAccountGraphQLApi.js";
-import { reactive } from "vue";
-import { ref, onMounted } from "vue";
+import { reactive, onMounted } from "vue";
 import { useRoute } from "vue-router";
 
 const route = useRoute();
