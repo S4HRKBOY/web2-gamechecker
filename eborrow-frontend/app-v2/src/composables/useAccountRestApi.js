@@ -11,7 +11,7 @@ export async function fetchAccountId(username, password) {
             body: JSON.stringify({ username, password })
         });
 
-        if(response.status === 404) {
+        if (response.status === 404) {
             return null;
         }
 
@@ -22,9 +22,10 @@ export async function fetchAccountId(username, password) {
     }
 }
 
-export async function getAccountById(id) {
+export async function getAccountById(id, withGames = false) {
+    const queryParam = withGames ? "?with-games" : "";
     try {
-        const response = await fetch(`//localhost:8080/account/${id}`);
+        const response = await fetch(`//localhost:8080/account/${id}${queryParam}`);
         const json = await response.json();
 
         return json;
@@ -67,6 +68,30 @@ export async function deleteAccount(id) {
         }
     } catch (err) {
         console.error(`Failed to delete account with id ${id}:`, err);
+        throw err;
+    }
+}
+
+export async function unlistGameFromAccount(accountId, gameId) {
+    try {
+        const response = await fetch(`//localhost:8080/account/unlist-game`, {
+            method: "PUT",
+            headers: {
+                "Content-Type": "application/json",
+                "Accept": "application/json"
+            },
+            body: JSON.stringify({
+                "account-Id": accountId,
+                "game-Id": gameId
+            })
+        });
+
+        if (!response.ok) {
+            const errorResponse = await response.json();
+            throw new Error(errorResponse.message);
+        }
+    } catch (err) {
+        console.error(`Failed to unlist game with id ${gameId} from account:`, err);
         throw err;
     }
 }

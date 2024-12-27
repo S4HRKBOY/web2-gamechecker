@@ -2,11 +2,25 @@
 import NavigationHeader from '../components/NavigationHeader.vue';
 import ProfileInfo from '../components/Profile/ProfileInfo.vue';
 import PinnedGames from '../components/Profile/PinnedGames.vue';
-import { onMounted } from "vue";
+import * as useAccountApi from "@/composables/useAccountRestApi.js";
+import PTH_DEFAULT_PROFILE_PIC from "@/assets/images/profile_pic_default.svg";
+import router from "@/router";
+import { onMounted, reactive, computed } from "vue";
 import { useRoute } from "vue-router";
 
 const route = useRoute();
-onMounted(async () => console.log("Id in route is: " + route.params.id));
+
+const account = reactive({});
+const srcProfilePic = computed(() => account.profilePicture ? `data:image/jpeg;base64,${account.profilePicture}` : PTH_DEFAULT_PROFILE_PIC);
+
+onMounted(() => {
+    useAccountApi.getAccountById(route.params.id, true)
+        .then(acc => Object.assign(account, acc))
+        .catch(err => {
+            console.error(err);
+            alert("Ein Fehler ist aufgetreten. Bitte versuchen Sie es später erneut.");
+        })
+});
 </script>
 
 <template>
@@ -14,18 +28,15 @@ onMounted(async () => console.log("Id in route is: " + route.params.id));
     <main>
         <article id="content">
             <h1>Mein Profil</h1>
-            <div class="publisher-account">(Redakteur-Account)</div> <!-- only if account.isPublisher()" -->
+            <div v-if="account.publisher" class="publisher-account">(Redakteur-Account)</div>
             <article id="infos">
                 <figure id="profile-pic">
-                    <img src="data:," alt="Profilbild">
+                    <img :src="srcProfilePic" alt="Profilbild">
                 </figure>
                 <ProfileInfo />
-                <!-- <form id="edit-profile-btn">
+                <form id="edit-profile-btn" @submit.prevent="router.push(`/account/edit/${account.id}`)">
                     <button type="submit">Profil bearbeiten</button>
-                </form> -->
-                <RouterLink to="/account/edit/42" id="edit-profile-btn" v-slot="navigate">
-                    <button type="submit" @click="href">Profil bearbeiten</button>
-                </RouterLink>
+                </form>
                 <PinnedGames />
             </article>
         </article>

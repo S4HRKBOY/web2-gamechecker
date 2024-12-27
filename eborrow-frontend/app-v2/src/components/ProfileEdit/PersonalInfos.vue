@@ -7,7 +7,7 @@ const route = useRoute();
 const accountData = reactive({});   // difference between reactive and ref: reactive is nested and used for objects
 onMounted(() => {
     useAccountGraphQLApi.getAccountById(route.params.id,
-        ["id", "prename", "surname", "username", "birthday", "email"]
+        ["prename", "surname", "username", "birthday", "email"]
     ).then(acc=> Object.assign(accountData, acc))
     .catch(err => {
         console.error(err);

@@ -1,23 +1,59 @@
-<script></script>
+<script setup>
+import * as useAccountApi from "@/composables/useAccountRestApi.js";
+import PTH_DEFAULT_GAME_PIC from "@/assets/images/logo.svg";
+import { onMounted } from "vue";
+import { useRoute } from "vue-router";
+import { reactive } from 'vue';
+
+const route = useRoute();
+// TODO: Reuse account from parent component
+const account = reactive({});
+
+onMounted(() => {
+    useAccountApi.getAccountById(route.params.id, true)
+        .then(acc => Object.assign(account, acc))
+        .catch(err => {
+            console.error(err);
+            alert("Ein Fehler ist aufgetreten. Bitte versuchen Sie es später erneut.");
+        })
+});
+
+function imgToSrc(img) {
+    return img ? `data:image/jpeg;base64,${img}` : PTH_DEFAULT_GAME_PIC;
+}
+
+function unlistGameFromAccount(gameId) {
+    useAccountApi.unlistGameFromAccount(account.id, gameId)
+        .then(() => {
+            // either remove the game from taggedGames or reload the account entirely
+            account.taggedGames = account.taggedGames.filter(game => game.id !== gameId);
+        })
+        .catch(err => {
+            console.error(err);
+            alert("Ein Fehler ist aufgetreten. Bitte versuchen Sie es später erneut.");
+        });
+}
+</script>
 
 <template>
     <section id="pinned-games">
         <h2>Angepinnte Spiele</h2>
-        <span>Keine Spiele angepinnt</span> <!-- only if account.taggedGames.size() == 0" -->
-        <div class="overview">
+        <span v-if="account.taggedGames && account.taggedGames.length === 0">Keine Spiele angepinnt</span>
+        <div v-else class="overview">
             <table class="overview-table-container">
                 <tbody>
-                    <tr class="overview-entry"> <!-- for each game : ${account.taggedGames} -->
+                    <tr v-for="game in account.taggedGames" class="overview-entry">
+                        <!-- for each game : ${account.taggedGames} -->
                         <td class="overview-image">
-                            <RouterLink to="/game"> <!-- to="/game/${game.id}" -->
-                                <img src="data:," alt="Vorzeigebild des Spiels">
+                            <RouterLink :to="`/game/${game.id}`"> <!-- to="/game/${game.id}" -->
+                                <img :src="imgToSrc(game.gameImage)" alt="Vorzeigebild des Spiels">
                             </RouterLink>
                         </td>
                         <td class="overview-description">
-                            <span>Kein Titel verfügbar</span>
+                            <span>{{ game.title }}</span>
                         </td>
                         <td class="unlist-button">
-                            <form>
+                            <form @submit.prevent="unlistGameFromAccount(game.id)">
                                 <button type="submit">entfernen</button>
                             </form>
                         </td>

@@ -3,7 +3,6 @@ import { ref, computed } from "vue";
 import PTH_DEFAULT_PROFILE_PIC from "@/assets/images/profile_pic_default.svg";
 
 const loadedImage = ref();
-
 const srcDisplayedImage = computed(() => loadedImage.value ? `data:image/jpeg;base64,${loadedImage.value}` : PTH_DEFAULT_PROFILE_PIC);
 
 function onProfilePicChange(event) {
