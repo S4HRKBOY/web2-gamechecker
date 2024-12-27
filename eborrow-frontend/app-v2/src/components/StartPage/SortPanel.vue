@@ -65,7 +65,7 @@
     </div>
 </template>
 
-<style>
+<style scoped>
     .sort{
         grid-area: sort;
         width: 66%;

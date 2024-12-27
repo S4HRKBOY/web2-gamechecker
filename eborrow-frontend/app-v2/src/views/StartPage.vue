@@ -25,7 +25,7 @@
 </template>
 
 
-<style>
+<style scoped>
 .main-page-container {
     display: grid;
     font-family: 'Open Sans', sans-serif;

@@ -64,7 +64,7 @@ function unlistGameFromAccount(gameId) {
     </section>
 </template>
 
-<style>
+<style scoped>
 #pinned-games {
     grid-area: pinned-games;
 }

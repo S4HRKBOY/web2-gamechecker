@@ -58,7 +58,7 @@ onMounted(() => {
     </section>
 </template>
 
-<style>
+<style scoped>
 #profile-info {
     grid-area: profile-info;
     place-self: center;

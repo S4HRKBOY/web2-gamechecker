@@ -15,7 +15,7 @@
     </header>
 </template>
 
-<style>
+<style scoped>
 header{
     display: grid;
     grid-template-areas: "logo links";

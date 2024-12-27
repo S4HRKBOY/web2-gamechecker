@@ -82,7 +82,7 @@ function validateProfilePic(fileInput) {
     </section>
 </template>
 
-<style>
+<style scoped>
 .set-profile-pic {
     grid-area: set-profile-pic;
 }

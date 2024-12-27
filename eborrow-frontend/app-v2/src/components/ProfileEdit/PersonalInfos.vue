@@ -55,7 +55,7 @@ onMounted(() => {
     </section>
 </template>
 
-<style>
+<style scoped>
 input:invalid,
 select:invalid {
     border-color: red;

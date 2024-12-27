@@ -43,7 +43,7 @@ onMounted(() => {
     </main>
 </template>
 
-<style>
+<style scoped>
 main {
     display: flex;
     flex: 1;

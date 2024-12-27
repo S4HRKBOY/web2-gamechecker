@@ -17,7 +17,7 @@
     </div>
 </template>
 
-<style>
+<style scoped>
     .search{
         grid-area: search;
         width: 66%;

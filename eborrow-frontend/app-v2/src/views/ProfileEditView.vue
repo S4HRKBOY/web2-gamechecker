@@ -31,7 +31,7 @@ const id = route.params.id;
     </main>
 </template>
 
-<style>
+<style scoped>
 main {
     display: flex;
     flex-grow: 1;
