@@ -26,52 +26,6 @@
 
 
 <style>
-header{
-    display: grid;
-    grid-template-areas: "logo links";
-    grid-template-columns: 30% auto;
-    grid-template-rows: auto;
-    align-items: center;
-    
-    position: sticky;
-    top: 0;
-    background-color: rgb(192, 192, 192);
-}
-
-.logo{
-    cursor: pointer;
-    grid-area: logo;
-    place-self: center;
-}
-
-.navigation{
-    grid-area: links;
-}
-
-.nav-links{
-    list-style: none;
-    display: flex;
-    align-items: center;
-    justify-items: center;
-    justify-content: space-evenly;
-}
-
-.nav-links li {
-    display: inline-block;
-    border: 1px solid #2b2929;
-    border-radius: 5px;
-    padding: 5px; 
-    background-color: #2b2929;
-}
-
-.nav-links li:hover {
-    display: inline-block;
-    border: 1px solid #2b2929;
-    border-radius: 5px;
-    padding: 5px; 
-    background-color: rgb(192, 192, 192);
-}
-
 .main-page-container {
     display: grid;
     font-family: 'Open Sans', sans-serif;
