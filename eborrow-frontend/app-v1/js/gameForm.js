@@ -269,26 +269,31 @@ async function submitGameData(method) {
     if (method == 'PUT') {
         url = path + `/game/update-game/${id}`;
     }
-    else {
+    else if (method == 'POST') {
         url = path + `/game/create-game`;
     }
 
-    try {
-        const response = await fetch(url, {
-            method: method,
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify(gameData),
-        });
+    if (url != null) {
+        try {
+            const response = await fetch(url, {
+                method: method,
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(gameData),
+            });
 
-        if (!response.ok) {
-            throw new Error(`Response status: ${response.status}`);
+            if (!response.ok) {
+                throw new Error(`Response status: ${response.status}`);
+            }
+        } catch (error) {
+            console.error('Error:', error.message);
         }
-    } catch (error) {
-        console.error('Error:', error.message);
+        window.location.href = "../html/start_page.html";
     }
-    window.location.href = "../html/start_page.html";
+    else {
+        alert("Es ist ein unbekannter Fehler aufgetreten. Formular konnte nicht abgeschickt werden.")
+    }
 }
 
 async function deleteGameData() {
