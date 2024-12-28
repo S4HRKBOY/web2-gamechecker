@@ -30,7 +30,7 @@ const account = inject('account');
                 <tr v-if="account.birthday">
                     <td>Geburtsdatum</td>
                     <td>
-                        <span>{{account.birthday}}</span>
+                        <span>{{ new Date(account.birthday).toLocaleDateString('de-DE', { day: '2-digit', month: '2-digit', year: 'numeric' }) }}</span>
                     </td>
                 </tr>
                 <tr v-if="account.email">

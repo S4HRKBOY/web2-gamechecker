@@ -101,9 +101,6 @@ function validateProfilePic(fileInput) {
 
 .form-input {
     display: flex;
-}
-
-.form-input>label {
-    flex-grow: 1;
+    justify-content: space-evenly;
 }
 </style>
