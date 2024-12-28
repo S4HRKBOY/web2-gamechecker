@@ -36,6 +36,8 @@ public class GameController {
     private ReviewService reviewService;
     private GameSearchService gameSearchService;
 
+    private Long accId = 1L; 
+
     @Autowired
     public GameController(GameService gameService, AccountService accountService, ReviewService reviewService,
             GameSearchService gameSearchService) {
@@ -48,7 +50,7 @@ public class GameController {
     @GetMapping("/home")
     public String getAll(Model model) throws NotFoundException {
         List<GameDto> gameDto = gameService.getAll();
-        RichAccountDto accountDto = accountService.getRichAccountById(1L);
+        RichAccountDto accountDto = accountService.getRichAccountById(accId);
         List<String> genres = gameService.getAllGenres(); 
         List<String> platforms = gameService.getAllPlatforms(); 
         model.addAttribute("genres", genres); 
@@ -63,7 +65,7 @@ public class GameController {
     @PostMapping("/game/filtered-games")
     public String getFilteredGames(@ModelAttribute FilterInfo filterInfo, Model model) throws NotFoundException {
         LOGGER.info(filterInfo.toString());
-        AccountDto accountDto = accountService.getAccountById(1L);
+        AccountDto accountDto = accountService.getAccountById(accId);
         List<GameDto> games = gameService.getAll();
 
         if(!Objects.equals(filterInfo.getGenre(), "All")){
@@ -92,7 +94,7 @@ public class GameController {
     @PostMapping("/game/games-search")
     public String getGamesByQuery(@ModelAttribute Query query, Model model) throws NotFoundException {
         LOGGER.info(query.getQuery());
-        AccountDto accountDto = accountService.getAccountById(1L);
+        AccountDto accountDto = accountService.getAccountById(accId);
         List<GameDto> games = gameSearchService.getGamesBySearchQuery(query.getQuery());
 
         List<String> genres = gameService.getAllGenres(); 
@@ -110,7 +112,7 @@ public class GameController {
     public String getGameById(@PathVariable Long id, Model model) throws NotFoundException {
         RichGameDto gameDto = gameService.getGameById(id);
         gameDto.getReviewsDto().sort(Comparator.comparing(ReviewDto::getId).reversed());
-        AccountDto accountDto = accountService.getAccountById(1L);
+        AccountDto accountDto = accountService.getAccountById(accId);
         boolean hasReviewed = reviewService.existsByAccountAndGame(accountDto.getId(), id);
         boolean editReview = false; 
         ReviewDto reviewDto = new ReviewDto();

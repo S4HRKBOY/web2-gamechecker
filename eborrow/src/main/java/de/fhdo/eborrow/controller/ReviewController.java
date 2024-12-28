@@ -29,6 +29,8 @@ public class ReviewController {
     private AccountService accountService;
     private ReviewService reviewService;
 
+    private Long accId = 1L; 
+
     @Autowired
     public ReviewController (GameService gameService, AccountService accountService, ReviewService reviewService) {
         this.gameService = gameService;
@@ -42,7 +44,7 @@ public class ReviewController {
         model.addAttribute("review", reviewDto);
         RichGameDto gameDto = gameService.getGameById(gameId);
         gameDto.getReviewsDto().sort(Comparator.comparing(ReviewDto::getId).reversed());
-        AccountDto accountDto = accountService.getAccountById(1L);
+        AccountDto accountDto = accountService.getAccountById(accId);
         boolean hasReviewed = reviewService.existsByAccountAndGame(accountDto.getId(), gameId);
         boolean editReview = false; 
         boolean accountHasGame = accountService.accountHasGame(accountId, gameId); 
