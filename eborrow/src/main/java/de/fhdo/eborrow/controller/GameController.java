@@ -111,7 +111,7 @@ public class GameController {
         RichGameDto gameDto = gameService.getGameById(id);
         gameDto.getReviewsDto().sort(Comparator.comparing(ReviewDto::getId).reversed());
         AccountDto accountDto = accountService.getAccountById(1L);
-        boolean hasReviewed = reviewService.existsByGameAndAccount(id, accountDto.getId());
+        boolean hasReviewed = reviewService.existsByAccountAndGame(accountDto.getId(), id);
         boolean editReview = false; 
         ReviewDto reviewDto = new ReviewDto();
         boolean accountHasGame = accountService.accountHasGame(accountDto.getId(), id); 
@@ -131,7 +131,7 @@ public class GameController {
         RichGameDto gameDto = gameService.getGameById(gameId);
         gameDto.getReviewsDto().sort(Comparator.comparing(ReviewDto::getId).reversed());
         AccountDto accountDto = accountService.getAccountById(accountId);
-        boolean hasReviewed = reviewService.existsByGameAndAccount(gameId, accountId);
+        boolean hasReviewed = reviewService.existsByAccountAndGame(accountId, gameId);
         boolean editReview = false; 
         ReviewDto reviewDto = new ReviewDto();
         reviewDto.setReviewDate(LocalDate.now());
@@ -151,7 +151,7 @@ public class GameController {
         RichGameDto gameDto = gameService.getGameById(gameId);
         gameDto.getReviewsDto().sort(Comparator.comparing(ReviewDto::getId).reversed());
         AccountDto accountDto = accountService.getAccountById(accountId);
-        boolean hasReviewed = reviewService.existsByGameAndAccount(gameId, accountId);
+        boolean hasReviewed = reviewService.existsByAccountAndGame(accountId, gameId);
         boolean editReview = false; 
         ReviewDto reviewDto = new ReviewDto();
         reviewDto.setReviewDate(LocalDate.now());

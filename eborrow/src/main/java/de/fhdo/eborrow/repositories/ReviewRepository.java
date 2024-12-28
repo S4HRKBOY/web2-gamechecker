@@ -11,5 +11,5 @@ public interface ReviewRepository extends CrudRepository<Review, Long> {
     Review findByGameIdAndAccountId(@Param("gameId") Long gameId, @Param("accountId") Long accountId);
 
     @Query(value = "SELECT EXISTS (SELECT 1 FROM review r WHERE r.game_id = :gameId AND r.account_id = :accountId)", nativeQuery = true)
-    boolean existsByGameAndAccount(@Param("gameId") Long gameId, @Param("accountId") Long accountId);
+    boolean existsByAccountAndGame(@Param("accountId") Long accountId, @Param("gameId") Long gameId);
 }

@@ -43,7 +43,7 @@ public class ReviewController {
         RichGameDto gameDto = gameService.getGameById(gameId);
         gameDto.getReviewsDto().sort(Comparator.comparing(ReviewDto::getId).reversed());
         AccountDto accountDto = accountService.getAccountById(1L);
-        boolean hasReviewed = reviewService.existsByGameAndAccount(gameId, accountDto.getId());
+        boolean hasReviewed = reviewService.existsByAccountAndGame(accountDto.getId(), gameId);
         boolean editReview = false; 
         boolean accountHasGame = accountService.accountHasGame(accountId, gameId); 
         model.addAttribute("game", gameDto);
@@ -60,7 +60,7 @@ public class ReviewController {
         RichGameDto gameDto = gameService.getGameById(gameId);
         gameDto.getReviewsDto().sort(Comparator.comparing(ReviewDto::getId).reversed());
         AccountDto accountDto = accountService.getAccountById(accountId);
-        boolean hasReviewed = reviewService.existsByGameAndAccount(gameId, accountId);
+        boolean hasReviewed = reviewService.existsByAccountAndGame(accountId, gameId);
         boolean accountHasGame = accountService.accountHasGame(accountId, gameId); 
         ReviewDto reviewDto = new ReviewDto();
         reviewDto.setReviewDate(LocalDate.now());
@@ -80,7 +80,7 @@ public class ReviewController {
         RichGameDto gameDto = gameService.getGameById(gameId);
         gameDto.getReviewsDto().sort(Comparator.comparing(ReviewDto::getId).reversed());
         AccountDto accountDto = accountService.getAccountById(accountId);
-        boolean hasReviewed = reviewService.existsByGameAndAccount(gameId, accountDto.getId());
+        boolean hasReviewed = reviewService.existsByAccountAndGame(accountDto.getId(), gameId);
         boolean accountHasGame = accountService.accountHasGame(accountId, gameId); 
         boolean editReview = true; 
         model.addAttribute("review", reviewDto); 
@@ -98,7 +98,7 @@ public class ReviewController {
         RichGameDto gameDto = gameService.getGameById(gameId);
         gameDto.getReviewsDto().sort(Comparator.comparing(ReviewDto::getId).reversed());
         AccountDto accountDto = accountService.getAccountById(accountId);
-        boolean hasReviewed = reviewService.existsByGameAndAccount(gameId, accountDto.getId());
+        boolean hasReviewed = reviewService.existsByAccountAndGame(accountDto.getId(), gameId);
         boolean accountHasGame = accountService.accountHasGame(accountId, gameId); 
         boolean editReview = false; 
         model.addAttribute("review", reviewDto); 

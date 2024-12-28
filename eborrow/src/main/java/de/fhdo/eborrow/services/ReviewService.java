@@ -80,8 +80,8 @@ public class ReviewService {
 	}
 
 
-	public boolean existsByGameAndAccount(Long gameId, Long accountId){
-		return reviewRepository.existsByGameAndAccount(gameId, accountId); 
+	public boolean existsByAccountAndGame(Long accountId, Long gameId){
+		return reviewRepository.existsByAccountAndGame(accountId, gameId); 
 	}
 
 }
