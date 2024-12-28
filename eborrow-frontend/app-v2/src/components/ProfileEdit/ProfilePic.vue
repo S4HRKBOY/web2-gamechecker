@@ -87,14 +87,6 @@ function validateProfilePic(fileInput) {
     grid-area: set-profile-pic;
 }
 
-.set-profile-pic {
-    grid-area: set-profile-pic;
-}
-
-.set-profile-pic .form-input>label {
-    text-align: end;
-}
-
 .profile-pic {
     justify-self: center;
 }
@@ -105,5 +97,13 @@ function validateProfilePic(fileInput) {
     object-fit: cover;
     object-position: 50%;
     border-radius: 50%;
+}
+
+.form-input {
+    display: flex;
+}
+
+.form-input>label {
+    flex-grow: 1;
 }
 </style>

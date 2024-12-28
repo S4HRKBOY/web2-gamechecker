@@ -1,11 +1,28 @@
 <script setup>
 import { useRoute } from "vue-router";
+import * as useAccountApi from "@/composables/useAccountRestApi.js";
 import NavigationHeader from '../components/NavigationHeader.vue';
 import PersonalInfos from '../components/ProfileEdit/PersonalInfos.vue';
 import ProfilePic from '../components/ProfileEdit/ProfilePic.vue';
+import router from "@/router";
 
 const route = useRoute();
-const id = route.params.id;
+const accountId = route.params.id;
+
+function deleteAccount() {
+    if (!confirm("Möchten Sie Ihr Profil wirklich löschen?")) {
+        return;
+    }
+
+    useAccountApi.deleteAccount(accountId)
+        .then(() => {
+            router.push("/login");
+        })
+        .catch((err) => {
+            console.error(err)
+            alert("Ein Fehler ist aufgetreten. Bitte versuchen Sie es später erneut.");
+        });
+}
 </script>
 
 <template>
@@ -19,11 +36,11 @@ const id = route.params.id;
                         <ProfilePic></ProfilePic>
                     </section>
                     <section class="send-form-options">
-                        <RouterLink :to="`/account/${id}`" class="cancel-link">Abbrechen</RouterLink>
+                        <RouterLink :to="`/account/${accountId}`" class="cancel-link">Abbrechen</RouterLink>
                         <button type="submit">Änderungen speichern</button>
                     </section>
                 </form>
-                <form class="delete-profile">
+                <form class="delete-profile" @submit.prevent="deleteAccount">
                     <button type="submit">Profil löschen</button>
                 </form>
             </section>
