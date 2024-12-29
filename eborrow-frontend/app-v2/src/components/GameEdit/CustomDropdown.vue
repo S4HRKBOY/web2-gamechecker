@@ -1,16 +1,17 @@
 <script setup>
-import { ref, onMounted, onBeforeUnmount  } from 'vue';
+import { ref, onMounted, onBeforeUnmount } from 'vue';
 
-defineProps({
+const props = defineProps({
   buttonText: { type: String },
   items: { type: Array, required: true },
   name: { type: String },
+  modelValue: { type: Array },
 });
 
 const isDropdownOpen = ref(false);
 const dropdownRef = ref(null);
-const selectedItems = ref([]);
-
+//const selectedItems = ref([...props.modelValue]);
+const emit = defineEmits(['update:modelValue']);
 
 const toggleDropdown = () => {
   isDropdownOpen.value = !isDropdownOpen.value;
@@ -30,6 +31,17 @@ onBeforeUnmount(() => {
   document.removeEventListener('click', closeDropdown);
 });
 
+const handleSelectionChange = (event, item) => {
+
+  let newSelection = [...props.modelValue];
+  if (event.target.checked) {
+    newSelection.push(item);
+  } else {
+    newSelection = newSelection.filter(i => i !== item);
+  }
+  emit('update:modelValue', newSelection);
+};
+
 </script>
 
 
@@ -38,8 +50,10 @@ onBeforeUnmount(() => {
     <button :id="`${name}`" @click.prevent="toggleDropdown">{{ buttonText }}</button>
     <div v-if="isDropdownOpen" class="dropdown-content" :id="`${name}-dropdown`">
       <div v-for="item in items" :key="item">
-        <label><input type="checkbox" :name="name" :value="item" v-model="selectedItems">
-          {{ item }}</label>
+        <label>
+          <input type="checkbox" :name="name" :value="item" :checked="modelValue.includes(item)" @change="handleSelectionChange($event, item)">
+          {{ item }}
+        </label>
       </div>
     </div>
   </div>

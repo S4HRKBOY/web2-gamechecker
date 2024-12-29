@@ -1,5 +1,6 @@
-import { ref } from "vue";
+import { ref, reactive } from "vue";
 import axios from 'axios';
+import { Game } from '../domain/game.js'
 
 const axiosInstance = axios.create({
   baseURL: 'http://localhost:8080',
@@ -10,18 +11,19 @@ const axiosInstance = axios.create({
 });
 
 export default function useGameApi() {
-  const game = ref({});
+  const game = reactive(Game());
   const platforms = ref([]);
   const genres = ref([]);
   const ageRatings = ref([]);
   const hasGame = ref(false);
   const hasReviewed = ref(false);
+  const newGameId = ref(null);
 
   //eiter use await or then, not both
   const getGameById = async (id) => {
     try {
       const response = await axiosInstance.get(`/game/${id}`)
-      game.value = response.data;
+      Object.assign(game, response.data);
     }
     catch (error) {
       console.log(error);
@@ -39,7 +41,9 @@ export default function useGameApi() {
 
   const createGame = async (gameData) => {
     try {
-      await axiosInstance.post(`/game/create-game`, gameData)
+      const response = await axiosInstance.post(`/game/create-game`, gameData);
+      console.log(response.data);
+      newGameId.value = response.data;
     } catch (error) {
       console.log(error);
     };
@@ -55,7 +59,7 @@ export default function useGameApi() {
 
   const getAllPlatforms = async () => {
     try {
-      const response = await axiosInstance.get(`/game/all-platforms`)
+      const response = await axiosInstance.get(`/game/all-platforms`);
       platforms.value = response.data;
     } catch (error) {
       console.log(error);
@@ -64,7 +68,7 @@ export default function useGameApi() {
 
   const getAllGenres = async () => {
     try {
-      const response = await axiosInstance.get(`/game/all-genres`)
+      const response = await axiosInstance.get(`/game/all-genres`);
       genres.value = response.data;
     } catch (error) {
       console.log(error);
@@ -73,7 +77,7 @@ export default function useGameApi() {
 
   const getAllAgeRatings = async () => {
     try {
-      const response = await axiosInstance.get(`/game/all-age-ratings`)
+      const response = await axiosInstance.get(`/game/all-age-ratings`);
       ageRatings.value = response.data;
     } catch (error) {
       console.log(error);
@@ -82,7 +86,7 @@ export default function useGameApi() {
 
   const accountHasGame = async () => {
     try {
-      const response = await axiosInstance.get(`/account/account-has-game`)
+      const response = await axiosInstance.get(`/account/account-has-game`);
       hasGame.value = response.data;
     } catch (error) {
       console.log(error);
@@ -91,7 +95,7 @@ export default function useGameApi() {
 
   const accountHasReviewed = async () => {
     try {
-      const response = await axiosInstance.get(`/review/exists-by-account-and-game`)
+      const response = await axiosInstance.get(`/review/exists-by-account-and-game`);
       hasReviewed.value = response.data;
     } catch (error) {
       console.log(error);
@@ -105,6 +109,7 @@ export default function useGameApi() {
     ageRatings,
     hasGame,
     hasReviewed,
+    newGameId,
     getGameById,
     deleteGameById,
     createGame,

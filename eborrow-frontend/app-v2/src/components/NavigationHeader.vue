@@ -1,6 +1,7 @@
 <script setup>
 import { account } from '../stores/store.js';
 const id = account.id;
+const publisher = account.publisher;
 </script>
 
 <template>
@@ -9,7 +10,7 @@ const id = account.id;
         <nav class="navigation">
             <ul class="nav-links">
                 <li><RouterLink to="/home">Home</RouterLink></li>
-                <li><RouterLink to="/game/create-game">Neues Spiel anlegen</RouterLink></li>
+                <li v-if="publisher"><RouterLink to="/game/create-game">Neues Spiel anlegen</RouterLink></li>
                 <!-- TODO Zak: Put the correct id into the link -->
                 <li><RouterLink :to="`/account/${id}`">Profil</RouterLink></li>
                 <li><RouterLink to="/login" @click="id = null">Logout</RouterLink></li>

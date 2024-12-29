@@ -16,7 +16,9 @@ async function onSubmitLogin() {
         alert("Benutzername oder Passwort falsch.");
         return;
     }
+    const publisher = await useAccountApi.getAccountById(accountId);
     account.id = accountId;
+    account.publisher = publisher.publisher;
     router.push(`/account/${accountId}`);
 }
 </script>

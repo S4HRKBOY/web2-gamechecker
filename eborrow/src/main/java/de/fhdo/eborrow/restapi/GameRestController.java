@@ -65,8 +65,8 @@ public class GameRestController {
 
     @PostMapping(value="/game/create-game", consumes={"application/json","application/xml"})
     @ResponseStatus(HttpStatus.CREATED)
-    public void createGame(@RequestBody GameDto gameDto) {
-        gameService.createGame(gameDto);
+    public Long createGame(@RequestBody GameDto gameDto) {
+        return gameService.createGame(gameDto);
     }
 
     @PutMapping(value="/game/update-game/{id}", consumes={"application/json","application/xml"})

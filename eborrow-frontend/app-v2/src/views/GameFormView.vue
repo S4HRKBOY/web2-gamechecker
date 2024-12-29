@@ -1,21 +1,48 @@
 <script setup>
-import { onMounted} from "vue";
+import { onMounted } from "vue";
 import { useRoute, useRouter } from 'vue-router'
-
-//const router = useRouter()
-const route = useRoute()
+import { account } from '../stores/store.js';
 import NavigationHeader from '../components/NavigationHeader.vue';
 import useGameApi from "@/composables/useGameApi";
 import CustomDropdown from "../components/GameEdit/CustomDropdown.vue";
 
-const { platforms, genres, ageRatings, getAllPlatforms, getAllGenres, getAllAgeRatings} = useGameApi();
+
+const route = useRoute();
+const router = useRouter();
+const gameId = route.params.id;
+
+const { platforms, genres, ageRatings, game, newGameId, getAllPlatforms, getAllGenres, getAllAgeRatings, getGameById, updateGame, deleteGameById, createGame } = useGameApi();
 onMounted(async () => {
   await getAllPlatforms();
   await getAllGenres();
   await getAllAgeRatings();
+  if (gameId) {
+    await getGameById(gameId);
+  };
 });
+console.log(account.publisher);
 
-const gameId = route.params.id;
+const handleSave = () => {
+  if (gameId) {
+    updateGame({ id: gameId, gameData: game });
+    router.push(`/game/${gameId}`);
+  }
+};
+
+const handleDelete = () => {
+  if (gameId) {
+    if (confirm('Are you sure you want to delete this game?')) {
+      deleteGameById(gameId);
+      router.push("/home");
+    }
+  }
+};
+
+const handleCreate = async () => {
+  await createGame(game);
+  router.push(`/game/${newGameId.value}`)
+};
+
 </script>
 
 <template>
@@ -26,35 +53,36 @@ const gameId = route.params.id;
     <main>
       <h1 v-if="gameId === undefined" id="headline">Spiel anlegen</h1>
       <h1 v-else id="headline">Spiel bearbeiten</h1>
-      <form id="gameForm" action="./detail_page.html">
+      <form id="gameForm" @submit.prevent>
         <label for="title">Spieletitel</label>
-        <input id="title" type="text" name="title" maxlength="255" required>
+        <input id="title" type="text" name="title" maxlength="255" v-model="game.title" required>
         <label for="platform">Plattform</label>
-        <CustomDropdown buttonText="Verfuegbare Plattformen auswaehlen" :items="platforms" name="platform">
+        <CustomDropdown buttonText="Verfuegbare Plattformen auswaehlen" :items="platforms" name="platform"
+          v-model="game.platforms">
         </CustomDropdown>
         <label for="description">Beschreibung</label>
-        <textarea id="description" name="description" required></textarea>
+        <textarea id="description" name="description" v-model="game.description" required></textarea>
         <label for="genre">Genre</label>
-        <CustomDropdown buttonText="Genre auswählen" :items="genres" name="genre">
+        <CustomDropdown buttonText="Genre auswählen" :items="genres" name="genre" v-model="game.genres">
         </CustomDropdown>
         <label for="publication">Veröffentlichung</label>
-        <input id="publication" type="date" name="publication" required>
+        <input id="publication" type="date" name="publication" v-model="game.publicationDate" required>
         <label for="developer">Entwickler</label>
-        <input id="developer" type="text" name="developer" maxlength="255" required>
+        <input id="developer" type="text" name="developer" maxlength="255" v-model="game.developer" required>
         <label for="publisher">Publisher</label>
-        <input id="publisher" type="text" name="publisher" maxlength="255" required>
+        <input id="publisher" type="text" name="publisher" maxlength="255" v-model="game.publisher" required>
         <label for="age">Altersfreigabe</label>
-        <select name="age" id="age">
-          <option v-for="(ageRating, index) in ageRatings" :key="ageRating" :value="index">{{ageRating}}</option>
+        <select name="age" id="age" v-model="game.ageRating">
+          <option v-for="ageRating in ageRatings" :key="ageRating" :value="ageRating">{{ ageRating }}</option>
         </select>
         <label for="file">Bild hochladen</label>
         <input id="file" type="file" name="file" accept="image/*">
         <fieldset id="imagearea">
           <legend>Vorschaubild</legend>
         </fieldset>
-        <input v-if="gameId === undefined" id="submit" type="submit" value="Neues Spiel anlegen">
-        <input v-if="gameId !== undefined" id="submit" type="submit" value="Änderungen speichern">
-        <input v-if="gameId !== undefined" id="delete" type="submit" value="Spiel löschen">
+        <input v-if="gameId === undefined" id="submit" type="submit" value="Neues Spiel anlegen" @click="handleCreate">
+        <input v-if="gameId !== undefined" id="submit" type="submit" value="Änderungen speichern" @click="handleSave">
+        <input v-if="gameId !== undefined" id="delete" type="submit" value="Spiel löschen" @click="handleDelete">
       </form>
     </main>
   </body>
