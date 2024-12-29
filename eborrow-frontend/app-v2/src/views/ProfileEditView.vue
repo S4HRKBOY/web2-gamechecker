@@ -2,16 +2,16 @@
 import { useRoute } from "vue-router";
 import * as useAccountApi from "@/composables/useAccountRestApi.js";
 import NavigationHeader from '../components/NavigationHeader.vue';
-import PersonalInfos from '../components/ProfileEdit/PersonalInfos.vue';
-import ProfilePic from '../components/ProfileEdit/ProfilePic.vue';
+import PersonalInfosEdit from '../components/ProfileEdit/PersonalInfosEdit.vue';
+import ProfilePicEdit from '../components/ProfileEdit/ProfilePicEdit.vue';
 import router from "@/router";
 import { ref, reactive, provide, onMounted } from "vue";
 
 const route = useRoute();
 
 // Refs for child components
-const personalInfos = ref(null);
-const profilePic = ref(null);
+const personalInfosEdit = ref(null);
+const profilePicEdit = ref(null);
 
 const account = reactive({});
 provide('account', account);
@@ -46,13 +46,13 @@ async function updateAccount() {
         return;
     }
 
-    const inputsPersonalInfos = personalInfos.value?.inputVals;
+    const inputsPersonalInfos = personalInfosEdit.value?.inputVals;
     if (!inputsPersonalInfos) {
         console.error("SOME ERROR MESSAGE");
         return;
     }
 
-    const loadedImage = profilePic.value?.loadedImage;
+    const loadedImage = profilePicEdit.value?.loadedImage;
     
     if (!loadedImage) {
         console.error("SOME ERROR MESSAGE");
@@ -83,11 +83,11 @@ async function updateAccount() {
 async function validateInputs() {
     let isValid = true;
 
-    if (!profilePic.value?.validateInputs()) {
+    if (!profilePicEdit.value?.validateInputs()) {
         isValid = false;
     }
 
-    if (!await personalInfos.value?.validateInputs()) {
+    if (!await personalInfosEdit.value?.validateInputs()) {
         isValid = false;
     }
 
@@ -102,8 +102,8 @@ async function validateInputs() {
             <section class="update-section">
                 <form class="update-form" @submit.prevent="updateAccount">
                     <section class="form-content">
-                        <PersonalInfos ref="personalInfos"></PersonalInfos>
-                        <ProfilePic ref="profilePic"></ProfilePic>
+                        <PersonalInfosEdit ref="personalInfosEdit"></PersonalInfosEdit>
+                        <ProfilePicEdit ref="profilePicEdit"></ProfilePicEdit>
                     </section>
                     <section class="send-form-options">
                         <RouterLink :to="`/account/${account.id}`" class="cancel-link">Abbrechen</RouterLink>
