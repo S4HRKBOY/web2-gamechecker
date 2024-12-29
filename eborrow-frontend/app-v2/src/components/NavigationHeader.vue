@@ -1,4 +1,7 @@
-<script></script>
+<script setup>
+import { account } from '../stores/store.js';
+const id = account.id;
+</script>
 
 <template>
     <header>
@@ -6,10 +9,10 @@
         <nav class="navigation">
             <ul class="nav-links">
                 <li><RouterLink to="/home">Home</RouterLink></li>
-                <li><RouterLink to="/gameForm">Neues Spiel anlegen</RouterLink></li>
+                <li><RouterLink to="/game/create-game">Neues Spiel anlegen</RouterLink></li>
                 <!-- TODO Zak: Put the correct id into the link -->
-                <li><RouterLink to="/account/42">Profil</RouterLink></li>
-                <li><RouterLink to="/login">Logout</RouterLink></li>
+                <li><RouterLink :to="`/account/${id}`">Profil</RouterLink></li>
+                <li><RouterLink to="/login" @click="id = null">Logout</RouterLink></li>
             </ul>
         </nav>
     </header>
@@ -25,6 +28,7 @@ header{
     position: sticky;
     top: 0;
     background-color: rgb(192, 192, 192);
+    z-index:99;
 }
 
 header>.logo-container{
@@ -48,7 +52,7 @@ header>.logo-container{
     display: inline-block;
     border: 1px solid #2b2929;
     border-radius: 5px;
-    padding: 5px; 
+    padding: 5px;
     background-color: #2b2929;
 }
 
@@ -56,7 +60,7 @@ header>.logo-container{
     display: inline-block;
     border: 1px solid #2b2929;
     border-radius: 5px;
-    padding: 5px; 
+    padding: 5px;
     background-color: rgb(192, 192, 192);
 }
 

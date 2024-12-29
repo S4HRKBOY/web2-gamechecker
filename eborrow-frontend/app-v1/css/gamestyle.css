@@ -179,7 +179,3 @@ label[for="file"] {
 .dropdown-content.open {
     display: block;
 }
-
-/*.dropdown:hover .dropdown-content {
-    display: block;
-}*/

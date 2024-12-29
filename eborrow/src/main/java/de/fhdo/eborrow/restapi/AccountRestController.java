@@ -181,4 +181,10 @@ public class AccountRestController {
 
 		return new ResponseEntity<>(emailExists, HttpStatus.OK);
 	}
+
+	@GetMapping(value = "account-has-game", produces={"application/json", "application/xml"})
+	@ResponseStatus(HttpStatus.OK)
+    public boolean accountHasGame(@PathVariable Long accountId, @PathVariable Long gameId) {
+        return accountService.accountHasGame(accountId, gameId);
+    }
 }

@@ -3,6 +3,7 @@ import { reactive } from "vue";
 import { RouterLink } from "vue-router";
 import router from "@/router";
 import * as useAccountApi from "@/composables/useAccountRestApi.js";
+import { account } from '../stores/store.js';
 
 const form = reactive({
     username: "",
@@ -15,7 +16,7 @@ async function onSubmitLogin() {
         alert("Benutzername oder Passwort falsch.");
         return;
     }
-
+    account.id = accountId;
     router.push(`/account/${accountId}`);
 }
 </script>

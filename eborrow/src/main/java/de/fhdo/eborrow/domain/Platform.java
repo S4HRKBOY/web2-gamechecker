@@ -25,6 +25,7 @@ public enum Platform {
                 return platform;
             }
         }
-       return DEFAULT; 
+        //return DEFAULT;
+        return null; 
     }
 }
