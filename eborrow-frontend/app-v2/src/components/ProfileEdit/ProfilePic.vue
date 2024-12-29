@@ -2,7 +2,8 @@
 import { ref, computed } from "vue";
 import PTH_DEFAULT_PROFILE_PIC from "@/assets/images/profile_pic_default.svg";
 
-const loadedImage = ref();
+const fileSelectInput = ref(null);
+const loadedImage = ref(null);
 const srcDisplayedImage = computed(() => loadedImage.value ? `data:image/jpeg;base64,${loadedImage.value}` : PTH_DEFAULT_PROFILE_PIC);
 
 function onProfilePicChange(event) {
@@ -16,7 +17,7 @@ function onProfilePicChange(event) {
         return;
     }
 
-    if (!validateProfilePic(fileInput)) {
+    if (!validateProfilePic(file)) {
         return;
     }
 
@@ -53,8 +54,11 @@ function loadImage(file) {
     });
 }
 
-function validateProfilePic(fileInput) {
-    const file = fileInput.files[0]; // Get the selected file
+function validateInputs() {
+    return validateProfilePic(fileSelectInput.value.files[0]);
+}
+
+function validateProfilePic(file) {
     if (file && !file.type.startsWith("image/")) {
         alert("Bitte wählen Sie eine gültige Bilddatei aus.");
         fileInput.value = ""; // Clear the invalid file input
@@ -65,6 +69,11 @@ function validateProfilePic(fileInput) {
 
     return true;
 }
+
+defineExpose({
+    loadedImage,
+    validateInputs
+});
 </script>
 
 <template>
@@ -75,8 +84,14 @@ function validateProfilePic(fileInput) {
             </figure>
             <div class="form-input">
                 <label for="profile-pic-fileselect">Profilbild</label>
-                <input type="file" accept="image/*" id="profile-pic-fileselect" name="profile-pic-fpath"
-                    @change="onProfilePicChange">
+                <input 
+                    type="file" 
+                    ref="fileSelectInput"
+                    @change="onProfilePicChange"
+                    id="profile-pic-fileselect" 
+                    name="profile-pic-fpath"
+                    accept="image/*"
+                    >
             </div>
         </fieldset>
     </section>

@@ -5,16 +5,32 @@ import NavigationHeader from '../components/NavigationHeader.vue';
 import PersonalInfos from '../components/ProfileEdit/PersonalInfos.vue';
 import ProfilePic from '../components/ProfileEdit/ProfilePic.vue';
 import router from "@/router";
+import { ref, reactive, provide, onMounted } from "vue";
 
 const route = useRoute();
-const accountId = route.params.id;
 
-function deleteAccount() {
+// Refs for child components
+const personalInfos = ref(null);
+const profilePic = ref(null);
+
+const account = reactive({});
+provide('account', account);
+
+onMounted(() => {
+    useAccountApi.getAccountById(route.params.id)
+        .then(acc => Object.assign(account, acc))
+        .catch(err => {
+            console.error(err);
+            alert("Ein Fehler ist aufgetreten. Bitte versuchen Sie es später erneut.");
+        });
+});
+
+async function deleteAccount() {
     if (!confirm("Möchten Sie Ihr Profil wirklich löschen?")) {
         return;
     }
 
-    useAccountApi.deleteAccount(accountId)
+    useAccountApi.deleteAccount(account.id)
         .then(() => {
             router.push("/login");
         })
@@ -23,6 +39,60 @@ function deleteAccount() {
             alert("Ein Fehler ist aufgetreten. Bitte versuchen Sie es später erneut.");
         });
 }
+
+async function updateAccount() {
+    const inputsValid = await validateInputs();
+    if (!inputsValid) {
+        return;
+    }
+
+    const inputsPersonalInfos = personalInfos.value?.inputVals;
+    if (!inputsPersonalInfos) {
+        console.error("SOME ERROR MESSAGE");
+        return;
+    }
+
+    const loadedImage = profilePic.value?.loadedImage;
+    
+    if (!loadedImage) {
+        console.error("SOME ERROR MESSAGE");
+        return;
+    }
+
+    const accountUpdates = {
+        id: account.id,
+        prename: inputsPersonalInfos.prename,
+        surname: inputsPersonalInfos.surname,
+        username: inputsPersonalInfos.username,
+        birthday: inputsPersonalInfos.birthday,
+        email: inputsPersonalInfos.email,
+        password: inputsPersonalInfos.password,
+        profilePicture: loadedImage
+    };
+
+    useAccountApi.updateAccount(accountUpdates)
+        .then(() => {
+            router.push(`/account/${account.id}`);
+        })
+        .catch((err) => {
+            console.error(err)
+            alert("Ein Fehler ist aufgetreten. Bitte versuchen Sie es später erneut.");
+        });
+}
+
+async function validateInputs() {
+    let isValid = true;
+
+    if (!profilePic.value?.validateInputs()) {
+        isValid = false;
+    }
+
+    if (!await personalInfos.value?.validateInputs()) {
+        isValid = false;
+    }
+
+    return isValid;
+}
 </script>
 
 <template>
@@ -30,13 +100,13 @@ function deleteAccount() {
     <main>
         <article id="content">
             <section class="update-section">
-                <form class="update-form">
+                <form class="update-form" @submit.prevent="updateAccount">
                     <section class="form-content">
-                        <PersonalInfos></PersonalInfos>
-                        <ProfilePic></ProfilePic>
+                        <PersonalInfos ref="personalInfos"></PersonalInfos>
+                        <ProfilePic ref="profilePic"></ProfilePic>
                     </section>
                     <section class="send-form-options">
-                        <RouterLink :to="`/account/${accountId}`" class="cancel-link">Abbrechen</RouterLink>
+                        <RouterLink :to="`/account/${account.id}`" class="cancel-link">Abbrechen</RouterLink>
                         <button type="submit">Änderungen speichern</button>
                     </section>
                 </form>
