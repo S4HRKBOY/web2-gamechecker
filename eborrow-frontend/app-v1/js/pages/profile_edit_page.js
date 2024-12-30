@@ -117,7 +117,6 @@ function assignProfilePicSelectionEvent() {
     });
 
     document.querySelector("#profile-pic-fileselect").addEventListener("cancel", (event) => {
-        console.log("cancel event");
         const fileInput = event.target;
         clearProfilePicSelection(fileInput);
     });

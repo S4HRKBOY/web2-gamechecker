@@ -1,9 +1,7 @@
 <script setup>
 import * as useAccountGraphQLApi from "@/composables/useAccountGraphQLApi.js";
-import { inject, onMounted, reactive, ref } from "vue";
-import { useRoute } from "vue-router";
+import { inject, reactive, ref } from "vue";
 
-const route = useRoute();
 const account = inject('account');
 const inputVals = reactive({
     prename: "",
@@ -22,23 +20,17 @@ const inputRefs = {
     passwordConfirm: ref(null)
 };
 
-onMounted(() => {
-    useAccountGraphQLApi.getAccountById(route.params.id,
-        ["prename", "surname", "username", "birthday", "email"]
-    ).then(acc => {
-        Object.assign(account, acc);
-        Object.assign(inputVals, acc);
-    })
-        .catch(err => {
-            console.error(err);
-            alert("Ein Fehler ist aufgetreten. Bitte versuchen Sie es später erneut.");
-        })
-});
+async function populateInputs(account) {
+    inputVals.prename = account.prename;
+    inputVals.surname = account.surname;
+    inputVals.birthday = account.birthday;
+    inputVals.email = account.email;
+    inputVals.username = account.username;
+}
 
 async function validateInputs() {
     // IDEE: Validierung als eigene Komponenten realisieren (z.B. jedes Input mit Validierung eine eigene SFC)
-    console.log("Validating personal infos...");
-    // TODO
+
     let isValid = true;
     if (!validatePasswords()) {
         isValid = false;
@@ -147,6 +139,7 @@ function yesterday() {
 
 defineExpose({
     inputVals,
+    populateInputs,
     validateInputs
 });
 </script>

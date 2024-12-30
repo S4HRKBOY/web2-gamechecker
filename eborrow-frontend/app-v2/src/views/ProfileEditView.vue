@@ -18,7 +18,11 @@ provide('account', account);
 
 onMounted(() => {
     useAccountApi.getAccountById(route.params.id)
-        .then(acc => Object.assign(account, acc))
+        .then(acc => {
+            Object.assign(account, acc);
+            personalInfosEdit.value.populateInputs(account);
+            profilePicEdit.value.populateInputs(account);
+        })
         .catch(err => {
             console.error(err);
             alert("Ein Fehler ist aufgetreten. Bitte versuchen Sie es später erneut.");
@@ -48,14 +52,13 @@ async function updateAccount() {
 
     const inputsPersonalInfos = personalInfosEdit.value?.inputVals;
     if (!inputsPersonalInfos) {
-        console.error("SOME ERROR MESSAGE");
+        console.error("inputs personal infos subcomponent cannot be read");
         return;
     }
 
     const loadedImage = profilePicEdit.value?.loadedImage;
-    
-    if (!loadedImage) {
-        console.error("SOME ERROR MESSAGE");
+    if (!profilePicEdit.value) {
+        console.error("loaded image subcomponent cannot be read");
         return;
     }
 

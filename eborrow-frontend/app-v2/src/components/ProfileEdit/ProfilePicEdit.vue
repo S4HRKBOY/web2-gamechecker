@@ -4,15 +4,22 @@ import PTH_DEFAULT_PROFILE_PIC from "@/assets/images/profile_pic_default.svg";
 
 const fileSelectInput = ref(null);
 const loadedImage = ref(null);
-const srcDisplayedImage = computed(() => loadedImage.value ? `data:image/jpeg;base64,${loadedImage.value}` : PTH_DEFAULT_PROFILE_PIC);
+const srcDisplayedImage = computed(() => {
+    return loadedImage.value ? `data:image/jpeg;base64,${loadedImage.value}` : PTH_DEFAULT_PROFILE_PIC;
+});
+
+function populateInputs(account) {
+    if (account.profilePicture) {
+        loadedImage.value = account.profilePicture;
+    }
+}
 
 function onProfilePicChange(event) {
     const fileInput = event.target;
     const file = fileInput.files[0]; // Get the selected file
 
     if (!file) {
-        fileInput.value = ""; // Clear the invalid file input
-        loadedImage.value = null;
+        clearProfilePic(fileInput);
 
         return;
     }
@@ -24,6 +31,11 @@ function onProfilePicChange(event) {
     loadImage(event.target.files[0])
         .then((img) => loadedImage.value = img)
         .catch((err) => console.error(err));
+}
+
+function clearProfilePic() {
+    fileSelectInput.value = ""; // Clear the invalid file input
+    loadedImage.value = null;
 }
 
 function loadImage(file) {
@@ -72,6 +84,7 @@ function validateProfilePic(file) {
 
 defineExpose({
     loadedImage,
+    populateInputs,
     validateInputs
 });
 </script>
@@ -88,6 +101,7 @@ defineExpose({
                     type="file" 
                     ref="fileSelectInput"
                     @change="onProfilePicChange"
+                    @cancel="clearProfilePic"
                     id="profile-pic-fileselect" 
                     name="profile-pic-fpath"
                     accept="image/*"
