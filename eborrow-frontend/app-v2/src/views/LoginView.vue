@@ -3,7 +3,6 @@ import { reactive } from "vue";
 import { RouterLink } from "vue-router";
 import router from "@/router";
 import * as useAccountApi from "@/composables/useAccountRestApi.js";
-import { account } from '../stores/store.js';
 
 const form = reactive({
     username: "",
@@ -17,8 +16,8 @@ async function onSubmitLogin() {
         return;
     }
     const publisher = await useAccountApi.getAccountById(accountId);
-    account.id = accountId;
-    account.publisher = publisher.publisher;
+    sessionStorage.setItem('accountId', JSON.stringify(accountId));
+    sessionStorage.setItem('publisher', JSON.stringify(publisher.publisher));
     router.push(`/account/${accountId}`);
 }
 </script>

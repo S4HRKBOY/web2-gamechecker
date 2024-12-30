@@ -177,7 +177,7 @@ public class ReviewRestController {
 		return new ResponseEntity<>(responseMessage,httpStatus);
 	}
 
-	@GetMapping(value = "exists-by-account-and-game", produces={"application/json", "application/xml"})
+	@GetMapping(value = "/exists-by-account-and-game/{accountId}/{gameId}", produces={"application/json", "application/xml"})
 	@ResponseStatus(HttpStatus.OK)
     public boolean existsByAccountAndGame(@PathVariable Long accountId, @PathVariable Long gameId) {
         return reviewService.existsByAccountAndGame(accountId, gameId);

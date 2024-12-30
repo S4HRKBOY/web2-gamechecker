@@ -1,5 +1,5 @@
 <script setup>
-const props = defineProps({
+const {modelValue} = defineProps({
   modelValue: { type: String },
 });
 const emit = defineEmits(['update:modelValue']);

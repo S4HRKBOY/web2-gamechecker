@@ -1,9 +1,51 @@
 <script setup>
-//import { useRoute, useRouter } from 'vue-router'
-
-//const router = useRouter()
-//const route = useRoute()
+import { onMounted } from "vue";
+import { useRoute, useRouter } from 'vue-router'
 import NavigationHeader from '../components/NavigationHeader.vue';
+import useGameApi from "@/composables/useGameApi";
+
+const router = useRouter();
+const route = useRoute();
+const gameId = route.params.id;
+const accountId = JSON.parse(sessionStorage.getItem('accountId'));
+const publisher = JSON.parse(sessionStorage.getItem('publisher'));
+
+const { game, hasGame, hasReviewed, getGameById, accountHasGame, accountHasReviewed, addGame, unlistGame } = useGameApi();
+
+onMounted(async () => {
+  await accountHasReviewed(accountId, gameId);
+  await accountHasGame(accountId, gameId);
+  await getGameById(gameId);
+  console.log(game);
+});
+
+console.log("Publisher "+ publisher);
+console.log("hasGame" + hasGame.value);
+
+const formatDate = (date) => {
+  const [year, month, day] = date.split('-');
+  return `${day}.${month}.${year}`;
+};
+
+const handleEdit = () => {
+  if (gameId) {
+    router.push(`/game/update-game/${gameId}`);
+  }
+};
+
+const handleAddOrRemove = async () => {
+  console.log("hasGame" + hasGame.value);
+  if(hasGame.value) {
+    await unlistGame(accountId, gameId);
+    hasGame.value = false;
+  }
+  else {
+    await addGame(accountId, gameId);
+    hasGame.value = true;
+  }
+}
+
+
 </script>
 
 <template>
@@ -11,46 +53,46 @@ import NavigationHeader from '../components/NavigationHeader.vue';
   <body>
     <NavigationHeader />
     <main>
-      <h1 class="headline">Call of Duty: Modern Warfare III</h1>
+      <h1 class="headline">{{ game.title }}</h1>
       <section class="detailContainer">
-        <img id="detailImage">
-        <form id="editGameButton">
-          <input type="submit" value="Bearbeiten">
-        </form>
-        <button id="addGameButton">Zu Liste hinzufügen</button>
+        <img v-if="game.gameImage" id="detailImage" :src="`data:image/jpg;base64,${game.gameImage}`" alt="Game Image">
+        <img v-else id="detailImage" src="../assets/images/dummy-image.jpg" alt="Game Image">
+        <button v-if="publisher" @click="handleEdit" id="editGameButton">Bearbeiten</button>
+        <button v-if="!hasGame" class="addOrRemoveGameButton" @click="handleAddOrRemove">Zu Liste hinzufügen</button>
+        <button v-else class="addOrRemoveGameButton" @click="handleAddOrRemove">Von Liste entfernen</button>
         <table id="detailInfo">
           <tr>
             <td>Plattform:</td>
-            <td></td>
+            <td>{{ game.platforms.join(', ') }}</td>
           </tr>
           <tr>
             <td>Genre:</td>
-            <td></td>
+            <td>{{ game.genres.join(', ') }}</td>
           </tr>
           <tr>
             <td>Veröffentlichung:</td>
-            <td></td>
+            <td>{{ formatDate(game.publicationDate) }}</td>
           </tr>
           <tr>
             <td>Entwickler:</td>
-            <td></td>
+            <td>{{ game.developer }}</td>
           </tr>
           <tr>
             <td>Publisher:</td>
-            <td></td>
+            <td>{{ game.publisher }}</td>
           </tr>
           <tr>
             <td>Altersfreigabe:</td>
-            <td></td>
+            <td>{{ game.ageRating }}</td>
           </tr>
         </table>
-        <p id="detailDescription">
+        <p id="detailDescription"> {{ game.description }}
         </p>
       </section>
 
-      <section>
+      <!--section>
         <h2 class="headline">Reviews</h2>
-        <form class="reviewForm" action="./detail_page.html">
+        <form class="reviewForm">
           <input type="text" id="reviewFormHeadline" name="reviewFormHeadline" placeholder="Titel" maxlength="100"
             required>
           <textarea id="reviewText" name="reviewText" maxlength="2000" required></textarea>
@@ -95,7 +137,7 @@ import NavigationHeader from '../components/NavigationHeader.vue';
             Balance-Probleme, und die Karten wirken uninspiriert. Insgesamt solide, aber nicht bahnbrechend."
           </p>
         </div>
-      </section>
+      </section!-->
     </main>
   </body>
 </template>
@@ -120,7 +162,7 @@ import NavigationHeader from '../components/NavigationHeader.vue';
   grid-template-columns: auto 60%;
   grid-template-rows: auto;
   grid-template-areas:
-    "editGameButton addGameButton"
+    "editGameButton addOrRemoveGameButton"
     "detailImage detailInfo"
     "detailDescription detailDescription"
 }
@@ -128,10 +170,11 @@ import NavigationHeader from '../components/NavigationHeader.vue';
 #editGameButton {
   justify-self: left;
   grid-area: editGameButton;
+  height: min-content;
 }
 
-#addGameButton {
-  grid-area: addGameButton;
+.addOrRemoveGameButton {
+  grid-area: addOrRemoveGameButton;
   justify-self: end;
   height: 2.2em;
   width: 16.2em;
@@ -240,6 +283,7 @@ textarea {
 
 .reviewHeadline {
   grid-area: reviewHeadline;
+
 }
 
 .reviewRating {

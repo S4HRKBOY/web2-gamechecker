@@ -1,7 +1,7 @@
 <script setup>
 import { onMounted, ref } from "vue";
 import { useRoute, useRouter } from 'vue-router'
-import { account } from '../stores/store.js';
+
 import NavigationHeader from '../components/NavigationHeader.vue';
 import useGameApi from "@/composables/useGameApi";
 import CustomDropdown from "../components/GameEdit/CustomDropdown.vue";
@@ -21,7 +21,6 @@ onMounted(async () => {
     await getGameById(gameId);
   };
 });
-console.log(account.publisher);
 
 const handleSave = () => {
   if (validateBeforeSubmit()) {

@@ -49,7 +49,7 @@ export default function useGameApi() {
     };
   };
 
-  const updateGame = async ({id, gameData}) => {
+  const updateGame = async ({ id, gameData }) => {
     try {
       await axiosInstance.put(`/game/update-game/${id}`, gameData)
     } catch (error) {
@@ -84,23 +84,45 @@ export default function useGameApi() {
     };
   };
 
-  const accountHasGame = async () => {
+  const accountHasGame = async (accountId, gameId) => {
     try {
-      const response = await axiosInstance.get(`/account/account-has-game`);
+      const response = await axiosInstance.get(`/account/account-has-game/${accountId}/${gameId}`);
       hasGame.value = response.data;
     } catch (error) {
       console.log(error);
     };
   };
 
-  const accountHasReviewed = async () => {
+  const accountHasReviewed = async (accountId, gameId) => {
     try {
-      const response = await axiosInstance.get(`/review/exists-by-account-and-game`);
+      const response = await axiosInstance.get(`/review/exists-by-account-and-game/${accountId}/${gameId}`);
       hasReviewed.value = response.data;
     } catch (error) {
       console.log(error);
     };
   };
+
+  const addGame = async (accountId, gameId) => {
+    try {
+      await axiosInstance.put(`/account/add-game`, {
+        'account-Id': accountId,
+        'game-Id': gameId
+      });
+    } catch (error) {
+      console.log(error);
+    };
+  };
+
+  const unlistGame = async (accountId, gameId) => {
+    try {
+      await axiosInstance.put(`/account/unlist-game`, {
+        'account-Id': accountId,
+        'game-Id': gameId
+      });
+    } catch (error) {
+      console.log(error);
+    };
+  }
 
   return {
     game,
@@ -119,6 +141,8 @@ export default function useGameApi() {
     getAllAgeRatings,
     accountHasGame,
     accountHasReviewed,
+    addGame,
+    unlistGame,
   };
 }
 

@@ -1,7 +1,11 @@
 <script setup>
-import { account } from '../stores/store.js';
-const id = account.id;
-const publisher = account.publisher;
+const id = JSON.parse(sessionStorage.getItem('accountId'));
+const publisher = JSON.parse(sessionStorage.getItem('publisher'));
+
+const logout = () => {
+  sessionStorage.setItem('accountId', '');
+  sessionStorage.setItem('publisher', '');
+}
 </script>
 
 <template>
@@ -13,7 +17,7 @@ const publisher = account.publisher;
                 <li v-if="publisher"><RouterLink to="/game/create-game">Neues Spiel anlegen</RouterLink></li>
                 <!-- TODO Zak: Put the correct id into the link -->
                 <li><RouterLink :to="`/account/${id}`">Profil</RouterLink></li>
-                <li><RouterLink to="/login" @click="id = null">Logout</RouterLink></li>
+                <li><RouterLink to="/login" @click=logout()>Logout</RouterLink></li>
             </ul>
         </nav>
     </header>

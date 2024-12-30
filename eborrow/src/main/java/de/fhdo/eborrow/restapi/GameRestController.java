@@ -12,18 +12,14 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
 import de.fhdo.eborrow.dto.AccountDto;
 import de.fhdo.eborrow.dto.GameDto;
 import de.fhdo.eborrow.dto.RichGameDto;
-import de.fhdo.eborrow.dto.ReviewDto;
-import de.fhdo.eborrow.dto.RichAccountDto;
 import de.fhdo.eborrow.services.AccountService;
 import de.fhdo.eborrow.services.GameService;
-import de.fhdo.eborrow.services.ReviewService;
 
 @RestController
 @CrossOrigin
@@ -33,14 +29,12 @@ public class GameRestController {
 
     private GameService gameService;
     private GameSearchService gameSearchService;
-    private ReviewService reviewService;
     private AccountService accountService;
 
     @Autowired
-    public GameRestController(GameService gameService, ReviewService reviewService, AccountService accountService,
+    public GameRestController(GameService gameService, AccountService accountService,
             GameSearchService gameSearchService) {
         this.gameService = gameService;
-        this.reviewService = reviewService;
         this.accountService = accountService;
         this.gameSearchService = gameSearchService;
     }
