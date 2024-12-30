@@ -5,7 +5,7 @@ import { account } from '../stores/store.js';
 import NavigationHeader from '../components/NavigationHeader.vue';
 import useGameApi from "@/composables/useGameApi";
 import CustomDropdown from "../components/GameEdit/CustomDropdown.vue";
-
+import GameImage from "../components/GameEdit/GameImage.vue";
 
 const route = useRoute();
 const router = useRouter();
@@ -116,10 +116,7 @@ const validateBeforeSubmit = () => {
           <option v-for="ageRating in ageRatings" :key="ageRating" :value="ageRating">{{ ageRating }}</option>
         </select>
         <label for="file">Bild hochladen</label>
-        <input id="file" type="file" name="file" accept="image/*">
-        <fieldset id="imagearea">
-          <legend>Vorschaubild</legend>
-        </fieldset>
+        <GameImage v-model="game.gameImage"></GameImage>
         <input v-if="gameId === undefined" id="submit" type="submit" value="Neues Spiel anlegen" @click="handleCreate">
         <input v-if="gameId !== undefined" id="submit" type="submit" value="Änderungen speichern" @click="handleSave">
         <input v-if="gameId !== undefined" id="delete" type="submit" value="Spiel löschen" @click="handleDelete">
@@ -171,20 +168,6 @@ textarea {
   padding: 10px 20px 10px 10px;
   text-align: justify;
   overflow-x: hidden;
-}
-
-#gameImage {
-  max-width: 100%;
-  max-height: 100%;
-}
-
-#imagearea {
-  grid-area: preview-image;
-  border: 1px solid hsl(0, 0%, 75%);
-  border-radius: 10px;
-  padding: 10px;
-  height: 300px;
-  text-align: center;
 }
 
 label[for="title"] {
