@@ -94,7 +94,7 @@ export async function updateAccount(account, fields = []) {
             throw new Error(errorMessages);
         }
 
-        return new Account(json.data.updateAccount);
+        return json.data.updateAccount;
     } catch (error) {
         console.error(`Failed to update account with id ${account.id}:`, error);
         throw error;

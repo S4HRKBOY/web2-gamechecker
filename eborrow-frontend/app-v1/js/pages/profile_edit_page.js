@@ -4,10 +4,10 @@ import * as utils from "../utils/utils.js";
 import * as accountRestController from "../controller/accountRestController.js";
 import * as accountGraphQLController from "../controller/accountGraphQLController.js";
 import Account from "../entities/Account.js";
-import { PATH_DEFAULT_PROFILE_PIC, getActiveAccountId, setActiveAccountId } from "../global.js";
+import { PATH_DEFAULT_PROFILE_PIC, setActiveAccountId } from "../global.js";
 
 // #region global variables
-let previewPicture = null;
+let profilePicture = null;
 // #endregion
 
 // const activeId = getActiveAccountId();
@@ -15,7 +15,7 @@ const idAccountToDelete = 2; // Since app-v1 has no login page, the app needs a 
 const activeId = idAccountToDelete;
 
 accountGraphQLController.getAccountById(activeId, 
-    ["id", "prename", "surname", "username", "birthday", "email"]
+    ["id", "prename", "surname", "username", "birthday", "email", "profilePicture"]
 ).then(renderPage)
     .catch((err) => {
     console.error(err)
@@ -27,6 +27,7 @@ function renderPage(account) {
     setFormRouting(account.id);
     setFormValidationConstraints();
     populateFormInputs(account);
+    populateImage(account);
     assignEvents(account.id);
 }
 
@@ -59,7 +60,10 @@ function populateFormInputs(account) {
     updateform.querySelector("#birthday").value = account.birthday;
     updateform.querySelector("#email").value = account.email;
     updateform.querySelector("#username").value = account.username;
-    updateform.querySelector(".profile-pic img").src = PATH_DEFAULT_PROFILE_PIC;
+}
+
+function populateImage(account) {
+    updateProfilePicture(account.profilePicture)
 }
 
 function assignEvents(accountId) {
@@ -98,8 +102,7 @@ function assignProfilePicSelectionEvent() {
         const file = fileInput.files[0]; // Get the selected file
 
         if (!file) {
-            fileInput.value = ""; // Clear the invalid file input
-            clearPreviewPicture();
+            clearProfilePicSelection(fileInput);
 
             return;
         }
@@ -109,10 +112,28 @@ function assignProfilePicSelectionEvent() {
         }
 
         utils.loadImage(event.target.files[0])
-            .then((img) => previewPicture = img)
-            .then(updatePreviewPicture)
+            .then(updateProfilePicture)
             .catch((err) => console.error(err));
     });
+
+    document.querySelector("#profile-pic-fileselect").addEventListener("cancel", (event) => {
+        const fileInput = event.target;
+        clearProfilePicSelection(fileInput);
+    });
+}
+
+function updateProfilePicture(picture) {
+    profilePicture = picture ?? null;
+    updatePreviewPicture();
+}
+
+function clearProfilePicSelection(fileInput) {
+    fileInput.value = ""; // Clear the invalid file input
+    updateProfilePicture(null);
+}
+
+function updatePreviewPicture() {
+    document.querySelector(".profile-pic>img").src = profilePicture ? `data:image/jpeg;base64,${profilePicture}` : PATH_DEFAULT_PROFILE_PIC;
 }
 
 function assignSubmitEvent(accountId) {
@@ -131,7 +152,7 @@ function assignSubmitEvent(accountId) {
                     birthday: form.birthday.value,
                     email: form.email.value,
                     password: form.password.value,
-                    profilePicture: previewPicture
+                    profilePicture: profilePicture
                 });
 
                 accountRestController.updateAccount(accountUpdates)
@@ -166,16 +187,6 @@ function assignDeleteEvent(accountId) {
         }
     });
 }
-
-function clearPreviewPicture() {
-    previewPicture = null;
-    updatePreviewPicture();
-}
-
-function updatePreviewPicture() {
-    document.querySelector(".profile-pic>img").src = previewPicture ? `data:image/jpeg;base64,${previewPicture}` : PATH_DEFAULT_PROFILE_PIC;
-}
-
 
 async function validateInputs(accountId) {
     const passwordInput = document.querySelector(".update-form #password");
@@ -220,8 +231,7 @@ function validateProfilePic(fileInput) {
     const file = fileInput.files[0]; // Get the selected file
     if (file && !file.type.startsWith("image/")) {
         alert("Bitte wählen Sie eine gültige Bilddatei aus.");
-        fileInput.value = ""; // Clear the invalid file input
-        clearPreviewPicture();
+        clearProfilePicSelection(fileInput);
 
         return false;
     }

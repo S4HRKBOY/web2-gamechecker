@@ -1,11 +1,101 @@
 <script setup>
 import { useRoute } from "vue-router";
+import * as useAccountApi from "@/composables/useAccountRestApi.js";
 import NavigationHeader from '../components/NavigationHeader.vue';
-import PersonalInfos from '../components/ProfileEdit/PersonalInfos.vue';
-import ProfilePic from '../components/ProfileEdit/ProfilePic.vue';
+import PersonalInfosEdit from '../components/ProfileEdit/PersonalInfosEdit.vue';
+import ProfilePicEdit from '../components/ProfileEdit/ProfilePicEdit.vue';
+import router from "@/router";
+import { ref, reactive, provide, onMounted } from "vue";
 
 const route = useRoute();
-const id = route.params.id;
+
+// Refs for child components
+const personalInfosEdit = ref(null);
+const profilePicEdit = ref(null);
+
+const account = reactive({});
+provide('account', account);
+
+onMounted(() => {
+    useAccountApi.getAccountById(route.params.id)
+        .then(acc => {
+            Object.assign(account, acc);
+            personalInfosEdit.value.populateInputs(account);
+            profilePicEdit.value.populateInputs(account);
+        })
+        .catch(err => {
+            console.error(err);
+            alert("Ein Fehler ist aufgetreten. Bitte versuchen Sie es später erneut.");
+        });
+});
+
+async function deleteAccount() {
+    if (!confirm("Möchten Sie Ihr Profil wirklich löschen?")) {
+        return;
+    }
+
+    useAccountApi.deleteAccount(account.id)
+        .then(() => {
+            router.push("/login");
+        })
+        .catch((err) => {
+            console.error(err)
+            alert("Ein Fehler ist aufgetreten. Bitte versuchen Sie es später erneut.");
+        });
+}
+
+async function updateAccount() {
+    const inputsValid = await validateInputs();
+    if (!inputsValid) {
+        return;
+    }
+
+    const inputsPersonalInfos = personalInfosEdit.value?.inputVals;
+    if (!inputsPersonalInfos) {
+        console.error("inputs personal infos subcomponent cannot be read");
+        return;
+    }
+
+    const loadedImage = profilePicEdit.value?.loadedImage;
+    if (!profilePicEdit.value) {
+        console.error("loaded image subcomponent cannot be read");
+        return;
+    }
+
+    const accountUpdates = {
+        id: account.id,
+        prename: inputsPersonalInfos.prename,
+        surname: inputsPersonalInfos.surname,
+        username: inputsPersonalInfos.username,
+        birthday: inputsPersonalInfos.birthday,
+        email: inputsPersonalInfos.email,
+        password: inputsPersonalInfos.password,
+        profilePicture: loadedImage
+    };
+
+    useAccountApi.updateAccount(accountUpdates)
+        .then(() => {
+            router.push(`/account/${account.id}`);
+        })
+        .catch((err) => {
+            console.error(err)
+            alert("Ein Fehler ist aufgetreten. Bitte versuchen Sie es später erneut.");
+        });
+}
+
+async function validateInputs() {
+    let isValid = true;
+
+    if (!profilePicEdit.value?.validateInputs()) {
+        isValid = false;
+    }
+
+    if (!await personalInfosEdit.value?.validateInputs()) {
+        isValid = false;
+    }
+
+    return isValid;
+}
 </script>
 
 <template>
@@ -13,17 +103,17 @@ const id = route.params.id;
     <main>
         <article id="content">
             <section class="update-section">
-                <form class="update-form">
+                <form class="update-form" @submit.prevent="updateAccount">
                     <section class="form-content">
-                        <PersonalInfos></PersonalInfos>
-                        <ProfilePic></ProfilePic>
+                        <PersonalInfosEdit ref="personalInfosEdit"></PersonalInfosEdit>
+                        <ProfilePicEdit ref="profilePicEdit"></ProfilePicEdit>
                     </section>
                     <section class="send-form-options">
-                        <RouterLink :to="`/account/${id}`" class="cancel-link">Abbrechen</RouterLink>
+                        <RouterLink :to="`/account/${account.id}`" class="cancel-link">Abbrechen</RouterLink>
                         <button type="submit">Änderungen speichern</button>
                     </section>
                 </form>
-                <form class="delete-profile">
+                <form class="delete-profile" @submit.prevent="deleteAccount">
                     <button type="submit">Profil löschen</button>
                 </form>
             </section>
