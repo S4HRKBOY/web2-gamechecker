@@ -4,7 +4,7 @@ export const Game = () => ({
   description:'',
   platforms: [],
   genres: [],
-  publicationDate: null,
+  publicationDate: '',
   ageRating: '',
   developer: '',
   publisher: '',

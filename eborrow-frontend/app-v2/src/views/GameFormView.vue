@@ -1,5 +1,5 @@
 <script setup>
-import { onMounted } from "vue";
+import { onMounted, ref } from "vue";
 import { useRoute, useRouter } from 'vue-router'
 import { account } from '../stores/store.js';
 import NavigationHeader from '../components/NavigationHeader.vue';
@@ -10,6 +10,7 @@ import CustomDropdown from "../components/GameEdit/CustomDropdown.vue";
 const route = useRoute();
 const router = useRouter();
 const gameId = route.params.id;
+let formIsValid = ref(true);
 
 const { platforms, genres, ageRatings, game, newGameId, getAllPlatforms, getAllGenres, getAllAgeRatings, getGameById, updateGame, deleteGameById, createGame } = useGameApi();
 onMounted(async () => {
@@ -23,9 +24,15 @@ onMounted(async () => {
 console.log(account.publisher);
 
 const handleSave = () => {
-  if (gameId) {
-    updateGame({ id: gameId, gameData: game });
-    router.push(`/game/${gameId}`);
+  if (validateBeforeSubmit()) {
+    if (gameId) {
+      updateGame({ id: gameId, gameData: game });
+      router.push(`/game/${gameId}`);
+    } else {
+      alert("Kein Spiel zum aktualisieren vorhanden.")
+    }
+  } else {
+    alert("Bitte alle Felder ausfüllen.")
   }
 };
 
@@ -39,9 +46,42 @@ const handleDelete = () => {
 };
 
 const handleCreate = async () => {
-  await createGame(game);
-  router.push(`/game/${newGameId.value}`)
+  if (validateBeforeSubmit()) {
+    await createGame(game);
+    router.push(`/game/${newGameId.value}`)
+  } else {
+    alert("Bitte alle Felder ausfüllen.")
+  }
 };
+
+const validateBeforeSubmit = () => {
+  formIsValid.value = true;
+  if (!game.title || game.title.trim() === '') {
+    formIsValid.value = false;
+  }
+  if (!game.description || game.description.trim() === '') {
+    formIsValid.value = false;
+  }
+  if (!game.platforms || game.platforms.length === 0) {
+    formIsValid.value = false;
+  }
+  if (!game.genres || game.genres.length === 0) {
+    formIsValid.value = false;
+  }
+  if (!game.publicationDate) {
+    formIsValid.value = false;
+  }
+  if (!game.ageRating) {
+    formIsValid.value = false;
+  }
+  if (!game.developer || game.developer.trim() === '') {
+    formIsValid.value = false;
+  }
+  if (!game.publisher || game.publisher.trim() === '') {
+    formIsValid.value = false;
+  }
+  return formIsValid.value;
+}
 
 </script>
 

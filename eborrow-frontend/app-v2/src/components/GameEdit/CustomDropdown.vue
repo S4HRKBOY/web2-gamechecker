@@ -47,7 +47,7 @@ const handleSelectionChange = (event, item) => {
 
 <template>
   <div class="dropdown" :id="`${name}-grid`" ref="dropdownRef">
-    <button :id="`${name}`" @click.prevent="toggleDropdown">{{ buttonText }}</button>
+    <button :id="`${name}`" class="dropdown-button" @click.prevent="toggleDropdown">{{ buttonText }}</button>
     <div v-if="isDropdownOpen" class="dropdown-content" :id="`${name}-dropdown`">
       <div v-for="item in items" :key="item">
         <label>
@@ -82,7 +82,7 @@ const handleSelectionChange = (event, item) => {
   margin-top: 10px;
 }
 
-button {
+.dropdown-button{
   width: 100%;
 }
 </style>
