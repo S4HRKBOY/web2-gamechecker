@@ -10,7 +10,7 @@ const logout = () => {
 
 <template>
     <header>
-        <RouterLink to="/" class="logo-container"><img class="logo" src="../assets/images/logo.svg" alt="logo"></RouterLink>
+        <RouterLink to="/home" class="logo-container"><img class="logo" src="../assets/images/logo.svg" alt="logo"></RouterLink>
         <nav class="navigation">
             <ul class="nav-links">
                 <li><RouterLink to="/home">Home</RouterLink></li>

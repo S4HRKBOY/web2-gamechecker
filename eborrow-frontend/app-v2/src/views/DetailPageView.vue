@@ -54,7 +54,7 @@ const handleAddOrRemove = async () => {
     <NavigationHeader />
     <main>
       <h1 class="headline">{{ game.title }}</h1>
-      <section class="detailContainer">
+      <div class="detailContainer">
         <img v-if="game.gameImage" id="detailImage" :src="`data:image/jpg;base64,${game.gameImage}`" alt="Game Image">
         <img v-else id="detailImage" src="../assets/images/dummy-image.jpg" alt="Game Image">
         <button v-if="publisher" @click="handleEdit" id="editGameButton">Bearbeiten</button>
@@ -88,7 +88,7 @@ const handleAddOrRemove = async () => {
         </table>
         <p id="detailDescription"> {{ game.description }}
         </p>
-      </section>
+      </div>
 
       <!--section>
         <h2 class="headline">Reviews</h2>

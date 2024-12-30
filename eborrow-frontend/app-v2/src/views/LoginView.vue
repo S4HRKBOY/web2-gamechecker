@@ -18,7 +18,7 @@ async function onSubmitLogin() {
     const publisher = await useAccountApi.getAccountById(accountId);
     sessionStorage.setItem('accountId', JSON.stringify(accountId));
     sessionStorage.setItem('publisher', JSON.stringify(publisher.publisher));
-    router.push(`/account/${accountId}`);
+    router.push(`/home`);
 }
 </script>
 
