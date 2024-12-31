@@ -145,6 +145,7 @@ const handleAddOrRemove = async () => {
 <style scoped>
 .headline {
   padding-left: 25%;
+  padding-right: 25%;
 }
 
 .detailContainer,
@@ -193,8 +194,9 @@ td {
 
 #detailImage {
   max-width: 100%;
-  max-height: 100%;
+  max-height: 300px;
   grid-area: detailImage;
+  justify-self: center;
 }
 
 #detailDescription {

@@ -5,11 +5,11 @@ import { useRoute, useRouter } from 'vue-router'
 import NavigationHeader from '../components/NavigationHeader.vue';
 import useGameApi from "@/composables/useGameApi";
 import CustomDropdown from "../components/GameEdit/CustomDropdown.vue";
-import GameImage from "../components/GameEdit/GameImage.vue";
 
 const route = useRoute();
 const router = useRouter();
 const gameId = route.params.id;
+
 let formIsValid = ref(true);
 
 const { platforms, genres, ageRatings, game, newGameId, getAllPlatforms, getAllGenres, getAllAgeRatings, getGameById, updateGame, deleteGameById, createGame } = useGameApi();
@@ -22,10 +22,10 @@ onMounted(async () => {
   };
 });
 
-const handleSave = () => {
+const handleSave = async () => {
   if (validateBeforeSubmit()) {
-    if (gameId) {
-      updateGame({ id: gameId, gameData: game });
+    if (game.id) {
+      await updateGame({ id: gameId, gameData: game });
       router.push(`/game/${gameId}`);
     } else {
       alert("Kein Spiel zum aktualisieren vorhanden.")
@@ -37,7 +37,7 @@ const handleSave = () => {
 
 const handleDelete = () => {
   if (gameId) {
-    if (confirm('Are you sure you want to delete this game?')) {
+    if (confirm("Spiel wird endgültig gelöscht.")) {
       deleteGameById(gameId);
       router.push("/home");
     }
@@ -82,6 +82,35 @@ const validateBeforeSubmit = () => {
   return formIsValid.value;
 }
 
+const hiddenFileInput = ref(null);
+
+const handleImageUpload = (event) => {
+  const file = event.target.files[0];
+  if (file) {
+    if (!file.type.startsWith("image/")) {
+      alert("Bitte eine gültige Bilddatei auswählen.");
+      return;
+    }
+    const reader = new FileReader();
+    reader.onload = () => {
+      game.gameImage = reader.result.split(",")[1];
+    };
+    reader.readAsDataURL(file);
+  }
+};
+
+const triggerFileInput = () => {
+  if (hiddenFileInput.value) {
+    hiddenFileInput.value.click();
+  }
+};
+
+const handleImageDelete = () => {
+  if(game.gameImage) {
+    game.gameImage = '';
+  }
+}
+
 </script>
 
 <template>
@@ -94,28 +123,35 @@ const validateBeforeSubmit = () => {
       <h1 v-else id="headline">Spiel bearbeiten</h1>
       <form id="gameForm" @submit.prevent>
         <label for="title">Spieletitel</label>
-        <input id="title" type="text" name="title" maxlength="255" v-model="game.title" required>
+        <input id="title" type="text" name="title" maxlength="150" v-model="game.title" required>
         <label for="platform">Plattform</label>
-        <CustomDropdown buttonText="Verfuegbare Plattformen auswaehlen" :items="platforms" name="platform"
+        <CustomDropdown id="platform-grid" buttonText="Verfügbare Plattformen auswählen" :items="platforms"
           v-model="game.platforms">
         </CustomDropdown>
         <label for="description">Beschreibung</label>
-        <textarea id="description" name="description" v-model="game.description" required></textarea>
+        <textarea id="description" name="description" v-model="game.description" maxlength="5000" required></textarea>
         <label for="genre">Genre</label>
-        <CustomDropdown buttonText="Genre auswählen" :items="genres" name="genre" v-model="game.genres">
+        <CustomDropdown id="genre-grid" buttonText="Genre auswählen" :items="genres" v-model="game.genres">
         </CustomDropdown>
         <label for="publication">Veröffentlichung</label>
         <input id="publication" type="date" name="publication" v-model="game.publicationDate" required>
         <label for="developer">Entwickler</label>
-        <input id="developer" type="text" name="developer" maxlength="255" v-model="game.developer" required>
+        <input id="developer" type="text" name="developer" maxlength="100" v-model="game.developer" required>
         <label for="publisher">Publisher</label>
-        <input id="publisher" type="text" name="publisher" maxlength="255" v-model="game.publisher" required>
+        <input id="publisher" type="text" name="publisher" maxlength="100" v-model="game.publisher" required>
         <label for="age">Altersfreigabe</label>
         <select name="age" id="age" v-model="game.ageRating">
           <option v-for="ageRating in ageRatings" :key="ageRating" :value="ageRating">{{ ageRating }}</option>
         </select>
-        <label for="file">Bild hochladen</label>
-        <GameImage v-model="game.gameImage"></GameImage>
+        <label for="file" @click.prevent>Bild hochladen</label>
+        <input id="hidden-file" type="file" name="file" accept="image/*" @change="handleImageUpload"
+          ref="hiddenFileInput">
+        <input id="file" type="button" @click="triggerFileInput" value="Bild auswählen" />
+        <fieldset id="imagearea">
+          <legend>Vorschaubild</legend>
+          <img v-if="game.gameImage" id="gameImage" :src="`data:image/jpg;base64,${game.gameImage}`" alt="Game Image" />
+        </fieldset>
+        <input v-if="game.gameImage" id="delete-image" type="button" value="Bild entfernen" @click="handleImageDelete">
         <input v-if="gameId === undefined" id="submit" type="submit" value="Neues Spiel anlegen" @click="handleCreate">
         <input v-if="gameId !== undefined" id="submit" type="submit" value="Änderungen speichern" @click="handleSave">
         <input v-if="gameId !== undefined" id="delete" type="submit" value="Spiel löschen" @click="handleDelete">
@@ -147,7 +183,7 @@ const validateBeforeSubmit = () => {
     "genre genre publication age"
     "developer-label developer-label publisher-label publisher-label"
     "developer developer publisher publisher"
-    "file-label file-label file-label file-label"
+    "file-label file-label delete-image delete-image"
     "file file preview-image preview-image"
     "delete delete submit submit"
 }
@@ -203,6 +239,8 @@ label[for="age"] {
 
 label[for="file"] {
   grid-area: file-label;
+  height: 1.5em;
+  align-content: end;
 }
 
 #title {
@@ -237,8 +275,11 @@ label[for="file"] {
   grid-area: age;
 }
 
-#file {
-  grid-area: file;
+#delete-image {
+  grid-area: delete-image;
+  width: fit-content;
+  justify-self: end;
+  height: fit-content;
 }
 
 #submit {
@@ -248,5 +289,29 @@ label[for="file"] {
 
 #delete {
   grid-area: delete;
+}
+
+#imagearea {
+  grid-area: preview-image;
+  border: 1px solid hsl(0, 0%, 75%);
+  border-radius: 10px;
+  padding: 10px;
+  height: 300px;
+  text-align: center;
+}
+
+#gameImage {
+  max-width: 100%;
+  max-height: 100%;
+}
+
+#hidden-file {
+  display: none;
+}
+
+#file {
+  height: fit-content;
+  grid-area: file;
+  width: 50%;
 }
 </style>

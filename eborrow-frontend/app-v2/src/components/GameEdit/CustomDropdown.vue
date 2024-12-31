@@ -4,7 +4,6 @@ import { ref, onMounted, onBeforeUnmount } from 'vue';
 const props = defineProps({
   buttonText: { type: String },
   items: { type: Array, required: true },
-  name: { type: String },
   modelValue: { type: Array },
 });
 
@@ -45,12 +44,12 @@ const handleSelectionChange = (event, item) => {
 
 
 <template>
-  <div class="dropdown" :id="`${name}-grid`" ref="dropdownRef">
-    <button :id="`${name}`" class="dropdown-button" @click.prevent="toggleDropdown">{{ buttonText }}</button>
-    <div v-if="isDropdownOpen" class="dropdown-content" :id="`${name}-dropdown`">
+  <div class="dropdown" ref="dropdownRef">
+    <button id="dropdown-button" @click.prevent="toggleDropdown">{{ buttonText }}</button>
+    <div v-if="isDropdownOpen" class="dropdown-content">
       <div v-for="item in items" :key="item">
         <label>
-          <input type="checkbox" :name="name" :value="item" :checked="modelValue.includes(item)" @change="handleSelectionChange($event, item)">
+          <input type="checkbox" :value="item" :checked="modelValue.includes(item)" @change="handleSelectionChange($event, item)">
           {{ item }}
         </label>
       </div>
@@ -81,7 +80,7 @@ const handleSelectionChange = (event, item) => {
   margin-top: 10px;
 }
 
-.dropdown-button{
+#dropdown-button{
   width: 100%;
 }
 </style>

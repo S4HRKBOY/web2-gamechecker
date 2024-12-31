@@ -1,8 +1,11 @@
 <script setup>
+import { ref } from "vue";
 const {modelValue} = defineProps({
   modelValue: { type: String },
 });
+
 const emit = defineEmits(['update:modelValue']);
+const hiddenFileInput = ref(null);
 
 const handleImageUpload = (event) => {
   const file = event.target.files[0];
@@ -14,10 +17,18 @@ const handleImageUpload = (event) => {
     reader.readAsDataURL(file);
   }
 };
+
+const triggerFileInput = () => {
+      if (hiddenFileInput.value) {
+        hiddenFileInput.value.click();
+      }
+    };
 </script>
 
 <template>
-  <input id="file" type="file" name="file" accept="image/*" @change="handleImageUpload">
+  <label for="file" @click.prevent>Bild hochladen</label>
+  <input id="hidden-file" type="file" name="file" accept="image/*" @change="handleImageUpload" ref="hiddenFileInput">
+  <input id="file" type="button" @click="triggerFileInput" value="Bild auswählen" />
   <fieldset id="imagearea" >
     <legend>Vorschaubild</legend>
     <img v-if="modelValue" id="gameImage" :src="`data:image/jpg;base64,${modelValue}`" alt="Game Image">
@@ -37,5 +48,19 @@ const handleImageUpload = (event) => {
 #gameImage {
   max-width: 100%;
   max-height: 100%;
+}
+
+#hidden-file {
+  display: none;
+}
+
+#file {
+  height: fit-content;
+  grid-area: file;
+  width: 50%;
+}
+
+label[for="file"] {
+  grid-area: file-label;
 }
 </style>
