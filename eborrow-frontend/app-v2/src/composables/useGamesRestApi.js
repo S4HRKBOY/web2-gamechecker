@@ -96,10 +96,6 @@ async function getGamesByFilter() {
     developerInput.value = "";
 }
 
-async function initSortBar(){
-    
-}
-
 async function initGamesOverview() {
     const games = await requestResource(allGamesEndpoint);
     handleGameFilling(games);

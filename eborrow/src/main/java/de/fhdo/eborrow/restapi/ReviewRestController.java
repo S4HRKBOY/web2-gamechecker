@@ -29,7 +29,7 @@ import java.util.Map;
 public class ReviewRestController {
 
 	private static final String SUCCESS_MESSAGE = "Operation was successful!";
-	private static final String PARSING_JSON_ERROR = "Error while trying parse provided json inside the http body!";
+	private static final String PARSING_JSON_ERROR = "Error while trying parse provided json inside the http body! Json is most likely malformed!";
 
 	private static final Logger LOGGER = LoggerFactory.getLogger(ReviewRestController.class);
 
@@ -98,8 +98,8 @@ public class ReviewRestController {
 		return new ResponseEntity<>(responseMessage, HttpStatus.OK);
 	}
 
-	@PostMapping(value = "/create-review", consumes = { MediaType.APPLICATION_JSON_VALUE }, produces = {
-			MediaType.APPLICATION_JSON_VALUE })
+	@PostMapping(value = "/create-review", consumes = { MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE }, produces = {
+			MediaType.APPLICATION_JSON_VALUE})
 	public ResponseEntity<ResponseMessage> createReview(HttpEntity<String> httpEntity, @RequestParam("gameId") Long gameId, @RequestParam("accountId") Long accountId) throws NotFoundException {
 		String json = httpEntity.getBody();
 		ResponseMessage responseMessage = new ResponseMessage();
@@ -140,8 +140,8 @@ public class ReviewRestController {
 	}
 
 	//TODO: Json benötigt ReviewDTO
-	@PutMapping(value = "/update-review/{reviewId}", consumes = { MediaType.APPLICATION_JSON_VALUE }, produces = {
-			MediaType.APPLICATION_JSON_VALUE })
+	@PutMapping(value = "/update-review/{reviewId}", consumes = { MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE }, produces = {
+			MediaType.APPLICATION_JSON_VALUE})
 	public ResponseEntity<ResponseMessage> updateReview(HttpEntity<String> httpEntity, @PathVariable("reviewId") Long reviewId) {
 		String json = httpEntity.getBody();
 		ResponseMessage responseMessage = new ResponseMessage();
