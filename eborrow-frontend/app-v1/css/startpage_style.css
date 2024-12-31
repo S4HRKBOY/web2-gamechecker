@@ -113,26 +113,43 @@ header{
     border-radius: 5px;
     background-color: aliceblue;
 
+    
     display: grid;
-    grid-template-areas: "genre-filter platform-filter dev-filter apply-filter";
-    grid-template-columns: 30% 30% 30% auto;
+    grid-template-areas:"genre-label  platform-label  dev-label  apply-filter" 
+                        "genre-filter platform-filter dev-filter apply-filter";
+    grid-template-columns: 25% 25% 25% auto;
+    grid-template-rows: auto;
     align-items: center;
-    justify-items: center;
-                        
+    justify-content: space-evenly;
+}
+
+.filter-bar label[for="genres"]{
+    grid-area: genre-label;
+}
+
+.filter-bar label[for="platform"]{
+    grid-area: platform-label;
+}
+
+.filter-bar label[for="dev"]{
+    grid-area: dev-label;
 }
 
 .genre-filter{
     grid-area: genre-filter; 
 }
 
-.date-filter{
-    grid-area: date-filter;
+.platform-filter{
+    grid-area: platform-filter;
+}
+
+.dev-filter{
+    grid-area: dev-filter;
 }
 
 .apply-filter{
     grid-area: apply-filter;
-    width: 35%;
-    height: 50%;
+    justify-self: stretch;
     border: 1px solid #2b2929;
     background: #2b2929;
     border-radius: 15px;
@@ -142,8 +159,6 @@ header{
 
 .apply-filter:hover{
     grid-area: apply-filter;
-    width: 35%;
-    height: 50%;
     border: 1px solid #2b2929;
     background: #fff;
     border-radius: 15px;
@@ -167,7 +182,7 @@ header{
     height: 10%;
     margin: 5%;
     display: grid;
-    grid-template-areas: "overview-image overview-description";
+    grid-template-areas: "overview-image overview-info";
     grid-template-columns: 50% 50%;
     grid-template-rows: auto;
     align-items: center;
@@ -189,11 +204,37 @@ header{
     display: block;
 }
 
-.overview-description{
-    grid-area: overview-description;
-    place-self: center;
-    place-content: center;
-    display: block;
+.overview-info{
+    grid-area: overview-info;
+    display: grid;
+    grid-template-areas: "game-title game-title"
+          "game-developer game-developer"
+          "game-genres game-platforms"
+    ;
+    grid-template-columns: 50% 50%;
+    grid-template-rows: 20% 10% auto;
+    justify-content: stretch;
+    justify-items: center;
+    align-items: center;
+    row-gap: 10%;
+
+}
+
+.game-title{
+    grid-area: game-title;
+    font-size: 150%;
+}
+
+.game-developer{
+    grid-area: game-developer;
+}
+
+.game-genres{
+    grid-area: game-genres;
+}
+
+.game-platforms{
+    grid-area: game-platforms
 }
 
 /* STARTSEITE ENDE */
