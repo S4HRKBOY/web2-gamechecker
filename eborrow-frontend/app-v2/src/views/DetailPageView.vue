@@ -19,7 +19,7 @@ onMounted(async () => {
   console.log(game);
 });
 
-console.log("Publisher "+ publisher);
+console.log("Publisher " + publisher);
 console.log("hasGame" + hasGame.value);
 
 const formatDate = (date) => {
@@ -35,7 +35,7 @@ const handleEdit = () => {
 
 const handleAddOrRemove = async () => {
   console.log("hasGame" + hasGame.value);
-  if(hasGame.value) {
+  if (hasGame.value) {
     await unlistGame(accountId, gameId);
     hasGame.value = false;
   }
@@ -61,30 +61,32 @@ const handleAddOrRemove = async () => {
         <button v-if="!hasGame" class="addOrRemoveGameButton" @click="handleAddOrRemove">Zu Liste hinzufügen</button>
         <button v-else class="addOrRemoveGameButton" @click="handleAddOrRemove">Von Liste entfernen</button>
         <table id="detailInfo">
-          <tr>
-            <td>Plattform:</td>
-            <td>{{ game.platforms.join(', ') }}</td>
-          </tr>
-          <tr>
-            <td>Genre:</td>
-            <td>{{ game.genres.join(', ') }}</td>
-          </tr>
-          <tr>
-            <td>Veröffentlichung:</td>
-            <td>{{ formatDate(game.publicationDate) }}</td>
-          </tr>
-          <tr>
-            <td>Entwickler:</td>
-            <td>{{ game.developer }}</td>
-          </tr>
-          <tr>
-            <td>Publisher:</td>
-            <td>{{ game.publisher }}</td>
-          </tr>
-          <tr>
-            <td>Altersfreigabe:</td>
-            <td>{{ game.ageRating }}</td>
-          </tr>
+          <tbody>
+            <tr>
+              <td>Plattform:</td>
+              <td>{{ game.platforms.join(', ') }}</td>
+            </tr>
+            <tr>
+              <td>Genre:</td>
+              <td>{{ game.genres.join(', ') }}</td>
+            </tr>
+            <tr>
+              <td>Veröffentlichung:</td>
+              <td>{{ formatDate(game.publicationDate) }}</td>
+            </tr>
+            <tr>
+              <td>Entwickler:</td>
+              <td>{{ game.developer }}</td>
+            </tr>
+            <tr>
+              <td>Publisher:</td>
+              <td>{{ game.publisher }}</td>
+            </tr>
+            <tr>
+              <td>Altersfreigabe:</td>
+              <td>{{ game.ageRating }}</td>
+            </tr>
+          </tbody>
         </table>
         <p id="detailDescription"> {{ game.description }}
         </p>

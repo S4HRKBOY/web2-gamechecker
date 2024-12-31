@@ -46,41 +46,43 @@
                 <button th:unless="${editReview}">Von Liste entfernen</button>
             </form>
             <table id="detailInfo">
-                <tr>
-                    <td>Plattform:</td>
-                    <td>
-                        <span th:each="platform, stat : ${game.platforms}">
-                            <span th:text="${platform}">Keine Plattform verfügbar</span>
-                            <span th:if="${!stat.last}">, </span>
-                        </span>
-                    </td>
-                </tr>
-                <tr>
-                    <td>Genre:</td>
-                    <td>
-                        <span th:each="genre, stat : ${game.genres}">
-                            <span th:text="${genre}">Keine Plattform verfügbar</span>
-                            <span th:if="${!stat.last}">, </span>
-                        </span>
-                    </td>
-                </tr>
-                <tr>
-                    <td>Veröffentlichung:</td>
-                    <td th:text="${#temporals.format(game.publicationDate, 'dd.MM.yyyy')}">Kein
-                        Veröffentlichungsdatum verfügbar</td>
-                </tr>
-                <tr>
-                    <td>Entwickler:</td>
-                    <td th:text="${game.developer}">Keine Entwickler verfügbar</td>
-                </tr>
-                <tr>
-                    <td>Publisher:</td>
-                    <td th:text="${game.publisher}">Keine Publisher verfügbar</td>
-                </tr>
-                <tr>
-                    <td>Altersfreigabe:</td>
-                    <td th:text="${game.ageRating}">Keine Altersfreigabe verfügbar</td>
-                </tr>
+                <tbody>
+                    <tr>
+                        <td>Plattform:</td>
+                        <td>
+                            <span th:each="platform, stat : ${game.platforms}">
+                                <span th:text="${platform}">Keine Plattform verfügbar</span>
+                                <span th:if="${!stat.last}">, </span>
+                            </span>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Genre:</td>
+                        <td>
+                            <span th:each="genre, stat : ${game.genres}">
+                                <span th:text="${genre}">Keine Plattform verfügbar</span>
+                                <span th:if="${!stat.last}">, </span>
+                            </span>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Veröffentlichung:</td>
+                        <td th:text="${#temporals.format(game.publicationDate, 'dd.MM.yyyy')}">Kein
+                            Veröffentlichungsdatum verfügbar</td>
+                    </tr>
+                    <tr>
+                        <td>Entwickler:</td>
+                        <td th:text="${game.developer}">Keine Entwickler verfügbar</td>
+                    </tr>
+                    <tr>
+                        <td>Publisher:</td>
+                        <td th:text="${game.publisher}">Keine Publisher verfügbar</td>
+                    </tr>
+                    <tr>
+                        <td>Altersfreigabe:</td>
+                        <td th:text="${game.ageRating}">Keine Altersfreigabe verfügbar</td>
+                    </tr>
+                <tbody>
             </table>
             <p id="detailDescription" th:text="${game.description}">Kein Beschreibung verfügbar</p>
         </section>
@@ -98,7 +100,8 @@
 
                 <input type="text" th:field="*{reviewHeadline}" id="reviewFormHeadline" name="reviewFormHeadline"
                     placeholder="Titel" maxlength="100" required>
-                <textarea th:field="*{reviewText}" id="reviewText" name="reviewText" maxlength="2000" required></textarea>
+                <textarea th:field="*{reviewText}" id="reviewText" name="reviewText" maxlength="2000"
+                    required></textarea>
                 <label for="recommendation">Deine Bewertung?</label>
                 <select th:field="*{rating}" name="recommendation" id="recommendation" required>
                     <option th:value="${1}" th:text="${1}">1</option>
@@ -117,8 +120,9 @@
 
             <!-- wird angezeigt, wenn ein Review bearbeitet werden soll und der Account kein Redaktuer-Account ist-->
             <form th:if="${editReview and !account.publisher}" class="reviewForm"
-                th:action="@{/thymeleaf/review/update-review/{reviewId}(reviewId=${review.id})}" th:object="${review}" method="POST">
-                
+                th:action="@{/thymeleaf/review/update-review/{reviewId}(reviewId=${review.id})}" th:object="${review}"
+                method="POST">
+
                 <input type="hidden" name="gameId" th:value="${game.id}" />
                 <input type="hidden" name="accountId" th:value="${account.id}" />
                 <input type="hidden" th:field="*{id}" th:value="${review.id}" />
@@ -126,7 +130,8 @@
 
                 <input type="text" th:field="*{reviewHeadline}" id="reviewFormHeadline" name="reviewFormHeadline"
                     placeholder="Titel" maxlength="100" required>
-                <textarea th:field="*{reviewText}" id="reviewText" name="reviewText" maxlength="2000" required></textarea>
+                <textarea th:field="*{reviewText}" id="reviewText" name="reviewText" maxlength="2000"
+                    required></textarea>
                 <label for="recommendation">Deine Bewertung?</label>
                 <select th:field="*{rating}" name="recommendation" id="recommendation" required>
                     <option th:value="${1}" th:text="${1}">1</option>
@@ -163,7 +168,8 @@
                     <button type="submit">Bearbeiten</button>
                 </form>
                 <form th:if="${review.accountDto.id == account.id}" id="deleteReviewButton"
-                    th:action="@{/thymeleaf/review/delete-review/{reviewId}(reviewId=${review.id})}" th:object="${review}" method="POST">
+                    th:action="@{/thymeleaf/review/delete-review/{reviewId}(reviewId=${review.id})}"
+                    th:object="${review}" method="POST">
                     <input type="hidden" name="gameId" th:value="${game.id}" />
                     <input type="hidden" name="accountId" th:value="${account.id}" />
                     <input type="hidden" th:field="*{id}" th:value="${review.id}" />
