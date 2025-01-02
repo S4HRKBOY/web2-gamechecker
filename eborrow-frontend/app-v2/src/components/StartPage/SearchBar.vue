@@ -3,8 +3,8 @@
     import { onMounted } from "vue";
 
     onMounted(() => {
-        const searchButton = document.querySelector(".searchButton");
-        searchButton.addEventListener("click", gamesRestApi.getGamesBySearchQuery());
+        //const searchButton = document.querySelector(".searchButton");
+        //searchButton.addEventListener("click", gamesRestApi.getGamesBySearchQuery());
     });
 </script>
 
