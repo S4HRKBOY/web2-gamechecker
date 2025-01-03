@@ -1,5 +1,5 @@
 <script setup>
-import { onMounted, ref, reactive } from "vue";
+import { onMounted, ref, reactive, computed } from "vue";
 import { useRoute, useRouter } from 'vue-router'
 import { reviewsDto } from '../domain/game.js'
 import NavigationHeader from '../components/NavigationHeader.vue';
@@ -32,7 +32,7 @@ onMounted(async () => {
   await accountHasReviewed(accountId, gameId);
   await accountHasGame(accountId, gameId);
   await getGameById(gameId);
-  //console.log(game);
+  console.log(game);
 });
 
 const formatDate = (date) => {
@@ -62,9 +62,9 @@ const handleAddOrRemove = async () => {
 const handleCreateReview = async () => {
   const date = new Date();
   date.toISOString().split('T')[0];
-  review.reviewDate= date;
+  review.reviewDate = date;
   if (validateBeforeSubmit()) {
-    review = await createReview({reviewData: review, gameId: gameId, accountId: accountId});
+    review = await createReview({ reviewData: review, gameId: gameId, accountId: accountId });
     console.log("review");
     console.log(review)
     game.reviewsDto.push(review);
@@ -120,6 +120,25 @@ const validateBeforeSubmit = () => {
   }
   return formIsValid.value;
 }
+
+const sortedReviews = computed(() => {
+  const userReview = game.reviewsDto.find(review => review.accountDto.id === accountId);
+  const otherReviews = game.reviewsDto.filter(review => review.accountDto.id !== accountId);
+  otherReviews.sort((a, b) => {
+    const dateA = new Date(a.reviewDate);
+    const dateB = new Date(b.reviewDate);
+    if (dateA !== dateB) {
+      return dateB - dateA;
+    }
+    return a.id - b.id;
+  });
+  if (userReview) {
+    return [userReview, ...otherReviews];
+  } else {
+    return otherReviews;
+  }
+});
+
 </script>
 
 <template>
@@ -183,12 +202,11 @@ const validateBeforeSubmit = () => {
           <input v-if="editReviewMode" class="submit" type="submit" value="Review veröffentlichen"
             @click="handleUpdateReview(review)">
           <input v-else class="submit" type="submit" value="Review veröffentlichen" @click="handleCreateReview">
-          <input v-if="editReviewMode" class="cancel" type="submit" value="Abbrechen"
-            @click="handleCancelReview">
+          <input v-if="editReviewMode" class="cancel" type="submit" value="Abbrechen" @click="handleCancelReview">
         </form>
 
         <div v-if="!editReviewMode">
-          <div class="reviewContainer" v-for="rev in game.reviewsDto" :key="rev.id">
+          <div class="reviewContainer" v-for="rev in sortedReviews" :key="rev.id">
             <img v-if="review.accountDto.profilePicture" class="reviewImage"
               :src="`data:image/jpg;base64,${rev.accountDto.profilePicture}`" alt="Profilbild">
             <img v-else class="reviewImage" src="../assets/images/profile_pic_default.svg" alt="Profilbild">
@@ -206,6 +224,10 @@ const validateBeforeSubmit = () => {
           </div>
         </div>
 
+        <div v-if="game.reviewsDto.length === 0" class="emptyReviewContainer">
+          <p>Es sind noch keine Reviews vorhanden.</p>
+        </div>
+
       </section>
     </main>
   </body>
@@ -219,7 +241,8 @@ const validateBeforeSubmit = () => {
 
 .reviewForm,
 .reviewContainer,
-.detailContainer {
+.detailContainer,
+.emptyReviewContainer {
   display: grid;
   margin: 1% 25% 1% 25%;
   border: 1px solid black;
