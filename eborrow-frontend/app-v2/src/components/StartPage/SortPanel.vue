@@ -1,64 +1,37 @@
 <script setup>
     import * as gamesRestApi from "@/composables/useGamesRestApi.js"
-    import { onMounted } from "vue";
+    import { onMounted, ref, defineEmits } from "vue";
+    
+    const genres = ref([]);
+    const platforms = ref([]);
 
-    const allGenresEndpoint = "http://localhost:8080/game/all-genres";
-    const allPlatformsEndpoint = "http://localhost:8080/game/all-platforms";
+    const emit = defineEmits(['apply-filter']);
+
+    function applyFilter(){
+        emit('apply-filter');
+    }
 
     onMounted(async () => {
-        const genres = await gamesRestApi.requestResource(allGenresEndpoint);
-        const genreSelection = document.querySelector(".genre-filter");
-        genreSelection.innerHTML = '';
-
-        const allGenres = document.createElement("option");
-        allGenres.setAttribute("value", "All");
-        allGenres.appendChild(document.createTextNode("All"));
-        genreSelection.appendChild(allGenres);
-
-        for (var i = 0; i < genres.length; i++) {
-            const option = document.createElement("option");
-            option.setAttribute("value", genres[i]);
-            const optionTextNode = document.createTextNode(genres[i]);
-            option.appendChild(optionTextNode);
-            genreSelection.appendChild(option);
-        }
-
-        const platforms = await gamesRestApi.requestResource(allPlatformsEndpoint);
-        const platformsSelection = document.querySelector(".platform-filter");
-        platformsSelection.innerHTML = '';
-
-        const allPlatforms = document.createElement("option");
-        allPlatforms.setAttribute("value", "All");
-        allPlatforms.appendChild(document.createTextNode("All"));
-        platformsSelection.appendChild(allPlatforms);
-
-        for (var i = 0; i < platforms.length; i++) {
-            const option = document.createElement("option");
-            option.setAttribute("value", platforms[i]);
-            const optionTextNode = document.createTextNode(platforms[i]);
-            option.appendChild(optionTextNode);
-            platformsSelection.appendChild(option);
-        }
-
-        const filterButton = document.querySelector(".apply-filter");
-        filterButton.addEventListener("click", gamesRestApi.getGamesByFilter());
+        genres.value = await gamesRestApi.getAvailableGenres();
+        platforms.value = await gamesRestApi.getAvailablePlatforms();
     });
 
-    
 </script>
 
 <template>
     <div class="sort">
         <div class="filter-bar">
+            <label for="genres">Genres: </label>
             <select name="genres" id="genres" class="genre-filter">
+                <option v-for="genre in genres" v-bind:value="genre">{{genre}}</option>
             </select>
+            <label for="platform">Platform: </label>
             <select name="platform" id="platform" class="platform-filter">
+                <option v-for="platform in platforms" v-bind:value="platform">{{platform}}</option>
             </select>
-            <div class="dev-filter">
-                <label for="dev">Developer: </label>
-                <input type="text" id="dev" name="developer" class="dev-input">
-            </div>
-            <button type="submit" class="apply-filter">
+            <label for="dev">Developer: </label>
+            <input type="text" id="dev" name="developer" class="dev-input">
+            <button @click="applyFilter" type="submit" class="apply-filter">
                 <i class="fa fa-filter"></i>
             </button>
         </div>
@@ -66,53 +39,68 @@
 </template>
 
 <style scoped>
-    .sort{
-        grid-area: sort;
-        width: 66%;
-    }
+.sort{
+    grid-area: sort;
+    width: 66%;    
+}
 
-    .filter-bar{
-        width: 100%;
-        height: 100px;
-        border: 3px solid #2b2929;
-        border-radius: 5px;
-        background-color: aliceblue;
+.filter-bar{
+    width: 100%;
+    height: 100px;
+    border: 3px solid #2b2929;
+    border-radius: 5px;
+    background-color: aliceblue;
 
-        display: grid;
-        grid-template-areas: "genre-filter platform-filter dev-filter apply-filter";
-        grid-template-columns: 30% 30% 30% auto;
-        align-items: center;
-        justify-items: center;
-                            
-    }
+    
+    display: grid;
+    grid-template-areas:"genre-label  platform-label  dev-label  apply-filter" 
+                        "genre-filter platform-filter dev-filter apply-filter";
+    grid-template-columns: 25% 25% 25% auto;
+    grid-template-rows: 50% auto;
+    align-items: center;
+    justify-content: space-evenly;
+}
 
-    .genre-filter{
-        grid-area: genre-filter; 
-    }
+.filter-bar label[for="genres"]{
+    grid-area: genre-label;
+}
 
-    .date-filter{
-        grid-area: date-filter;
-    }
+.filter-bar label[for="platform"]{
+    grid-area: platform-label;
+}
 
-    .apply-filter{
-        grid-area: apply-filter;
-        width: 35%;
-        height: 50%;
-        border: 1px solid #2b2929;
-        background: #2b2929;
-        border-radius: 15px;
-        cursor: pointer;
-        color: #fff;
-    }
+.filter-bar label[for="dev"]{
+    grid-area: dev-label;
+}
 
-    .apply-filter:hover{
-        grid-area: apply-filter;
-        width: 35%;
-        height: 50%;
-        border: 1px solid #2b2929;
-        background: #fff;
-        border-radius: 15px;
-        cursor: pointer;
-        color: #2b2929;
-    }
+.genre-filter{
+    grid-area: genre-filter; 
+}
+
+.platform-filter{
+    grid-area: platform-filter;
+}
+
+.dev-filter{
+    grid-area: dev-filter;
+}
+
+.apply-filter{
+    grid-area: apply-filter;
+    justify-self: stretch;
+    border: 1px solid #2b2929;
+    background: #2b2929;
+    border-radius: 15px;
+    cursor: pointer;
+    color: #fff;
+}
+
+.apply-filter:hover{
+    grid-area: apply-filter;
+    border: 1px solid #2b2929;
+    background: #fff;
+    border-radius: 15px;
+    cursor: pointer;
+    color: #2b2929;
+}
 </style>

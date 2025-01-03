@@ -1,17 +1,18 @@
 <script setup>
-    import * as gamesRestApi from "@/composables/useGamesRestApi.js"
-    import { onMounted } from "vue";
+    import { defineEmits } from "vue";
 
-    onMounted(() => {
-        const searchButton = document.querySelector(".searchButton");
-        searchButton.addEventListener("click", gamesRestApi.getGamesBySearchQuery());
-    });
+    const emit = defineEmits(['apply-search']);
+
+    function applySearch(){
+        emit('apply-search')
+    }
+
 </script>
 
 <template>
     <div class="search">
         <input type="text" class="searchBox" placeholder="Search for games!">
-        <button type="submit" class="searchButton">
+        <button @click="applySearch" type="submit" class="searchButton">
             <i class="fa fa-search"></i>
         </button>
     </div>

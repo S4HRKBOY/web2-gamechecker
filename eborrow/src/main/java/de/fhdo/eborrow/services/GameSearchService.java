@@ -79,7 +79,6 @@ public class GameSearchService {
 		results = gameDtos.stream().filter(gameDto -> {
 			FuzzyScore fuzzyScore = new FuzzyScore(Locale.ENGLISH);
 			int score = fuzzyScore.fuzzyScore(gameDto.getTitle(), query);
-			System.out.println(score);
 			return score >= minScoreNeeded;
 		}).toList();
 
