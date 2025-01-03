@@ -1,6 +1,5 @@
 package de.fhdo.eborrow.restapi;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import de.fhdo.eborrow.converters.GameMapper;
 import de.fhdo.eborrow.domain.Game;
@@ -13,7 +12,6 @@ import javassist.NotFoundException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -29,7 +27,7 @@ import java.util.Map;
 public class ReviewRestController {
 
 	private static final String SUCCESS_MESSAGE = "Operation was successful!";
-	private static final String PARSING_JSON_ERROR = "Error while trying parse provided json inside the http body!";
+	private static final String PARSING_JSON_ERROR = "Error while trying parse provided json inside the http body! Json is most likely malformed!";
 
 	private static final Logger LOGGER = LoggerFactory.getLogger(ReviewRestController.class);
 
@@ -47,40 +45,29 @@ public class ReviewRestController {
 		this.reviewService = reviewService;
 	}
 
-	@GetMapping("/reviews")
-	public ResponseEntity<ResponseMessage> allReviews(){
-		ResponseMessage responseMessage = new ResponseMessage();
-		Map<String, Object> results = new HashMap<>();
+	@GetMapping(value = "/reviews", produces = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE})
+	public ResponseEntity<List<ReviewDto>> allReviews() throws NotFoundException {
+		List<ReviewDto> reviewDtoList = reviewService.getAll();
 
-		responseMessage.setStatus(200);
-		responseMessage.setMessage("Operation Successful!");
-		results.put("results", reviewService.getAll());
-		responseMessage.setResponse(results);
-
-		return new ResponseEntity<>(responseMessage, HttpStatus.OK);
-	}
-
-	@GetMapping("/{reviewId}")
-	public ResponseEntity<ResponseMessage> reviewById(@PathVariable("reviewId") Long reviewId){
-		ResponseMessage responseMessage = new ResponseMessage();
-		ReviewDto reviewDto = reviewService.getReviewById(reviewId);
-		Map<String, Object> results = new HashMap<>();
-		HttpStatus httpStatus = null;
-		if(reviewDto != null){
-			responseMessage.setStatus(200);
-			responseMessage.setMessage("Operation Successful!");
-			results.put("results", reviewDto);
-			responseMessage.setResponse(results);
-			httpStatus = HttpStatus.OK;
-		}else{
-			responseMessage.setStatus(400);
-			responseMessage.setMessage(String.format("Could not get the review for the id: %s!", reviewId));
-			httpStatus = HttpStatus.BAD_REQUEST;
+		if(reviewDtoList == null){
+			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 		}
-		return new ResponseEntity<>(responseMessage, httpStatus);
+
+		return new ResponseEntity<>(reviewDtoList, HttpStatus.OK);
 	}
 
-	@GetMapping("/accounts-games")
+	@GetMapping(value = "/{reviewId}", produces = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE})
+	public ResponseEntity<ReviewDto> reviewById(@PathVariable("reviewId") Long reviewId) throws NotFoundException {
+		ReviewDto reviewDto = reviewService.getReviewById(reviewId);
+
+		if(reviewDto == null){
+			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+		}
+
+		return new ResponseEntity<>(reviewDto, HttpStatus.OK);
+	}
+
+	@GetMapping(value =  "/accounts-games", produces = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE})
 	public ResponseEntity<ResponseMessage> getAccountsAndGames(){
 		ResponseMessage responseMessage = new ResponseMessage();
 		responseMessage.setStatus(200);
@@ -98,83 +85,42 @@ public class ReviewRestController {
 		return new ResponseEntity<>(responseMessage, HttpStatus.OK);
 	}
 
-	@PostMapping(value = "/create-review", consumes = { MediaType.APPLICATION_JSON_VALUE }, produces = {
-			MediaType.APPLICATION_JSON_VALUE })
-	public ResponseEntity<ResponseMessage> createReview(HttpEntity<String> httpEntity, @RequestParam("gameId") Long gameId, @RequestParam("accountId") Long accountId) throws NotFoundException {
-		String json = httpEntity.getBody();
-		ResponseMessage responseMessage = new ResponseMessage();
-		HttpStatus httpStatus;
-		ReviewDto reviewDto = null;
-		try {
-			reviewDto = objectMapper.readValue(json, ReviewDto.class);
-		} catch (JsonProcessingException e) {
-			LOGGER.error(PARSING_JSON_ERROR);
+	@PostMapping(value = "/create-review", consumes = { MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE }, produces = {
+			MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE})
+	public ResponseEntity<ReviewDto> createReview(@RequestBody ReviewDto reviewDto, @RequestParam("gameId") Long gameId, @RequestParam("accountId") Long accountId) throws NotFoundException {
+		if(reviewDto == null || gameId == null || accountId == null){
+			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 		}
 
-		Long id = reviewService.addReview(reviewDto, gameId, accountId);
-
-		if(id == null){
-			responseMessage.setStatus(400);
-			responseMessage.setMessage("Error occurred while trying to create a new review!");
-			httpStatus = HttpStatus.BAD_REQUEST;
-		}else{
-			responseMessage.setStatus(200);
-			httpStatus = HttpStatus.OK;
-			responseMessage.setMessage(SUCCESS_MESSAGE);
-			Map<String, Object> result = new HashMap<>();
-			result.put("review", reviewService.getReviewById(id));
-			responseMessage.setResponse(result);
+		Long reviewId = reviewService.addReview(reviewDto, gameId, accountId);
+		if(reviewId == null){
+			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 		}
 
-		return new ResponseEntity<>(responseMessage,httpStatus);
+		return new ResponseEntity<>(reviewService.getReviewById(reviewId), HttpStatus.CREATED);
 	}
 
 	//TODO: Json benötigt ReviewDTO im HTTP-Body
-	@DeleteMapping("/delete-review/{reviewId}")
-	public ResponseEntity<ResponseMessage> deleteReview(@PathVariable("reviewId") Long reviewId) {
+	@DeleteMapping(value = "/delete-review/{reviewId}", produces = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE})
+	public ResponseEntity<Void> deleteReview(@PathVariable("reviewId") Long reviewId) throws NotFoundException  {
+		if(reviewId == null){
+			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+		}
+
 		reviewService.deleteReviewById(reviewId);
-		ResponseMessage responseMessage = new ResponseMessage();
-		responseMessage.setMessage(SUCCESS_MESSAGE);
-		responseMessage.setStatus(200);
-		return new ResponseEntity<>(responseMessage, HttpStatus.OK);
+		return new ResponseEntity<>(HttpStatus.OK);
 	}
 
 	//TODO: Json benötigt ReviewDTO
-	@PutMapping(value = "/update-review/{reviewId}", consumes = { MediaType.APPLICATION_JSON_VALUE }, produces = {
-			MediaType.APPLICATION_JSON_VALUE })
-	public ResponseEntity<ResponseMessage> updateReview(HttpEntity<String> httpEntity, @PathVariable("reviewId") Long reviewId) {
-		String json = httpEntity.getBody();
-		ResponseMessage responseMessage = new ResponseMessage();
-		HttpStatus httpStatus = null;
-		ReviewDto reviewDto = null;
-		try {
-			reviewDto = objectMapper.readValue(json, ReviewDto.class);
-		} catch (JsonProcessingException e) {
-			LOGGER.error(PARSING_JSON_ERROR);
-		}
-		if(reviewDto != null){
-			Long id = reviewService.updateReview(reviewDto);
-
-			if(id == null){
-				responseMessage.setStatus(400);
-				responseMessage.setMessage("Error occurred while trying to update review!");
-				httpStatus = HttpStatus.BAD_REQUEST;
-			}else{
-				responseMessage.setStatus(200);
-				httpStatus = HttpStatus.OK;
-				responseMessage.setMessage(SUCCESS_MESSAGE);
-				Map<String, Object> result = new HashMap<>();
-				result.put("review", reviewService.getReviewById(id));
-				responseMessage.setResponse(result);
-			}
-		}else{
-			responseMessage.setStatus(400);
-			responseMessage.setMessage("Error occurred while trying to update review!");
-			httpStatus = HttpStatus.BAD_REQUEST;
+	@PutMapping(value = "/update-review/{reviewId}", consumes = { MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE }, produces = {
+			MediaType.APPLICATION_JSON_VALUE})
+	public ResponseEntity<ReviewDto> updateReview(@PathVariable Long reviewId, @RequestBody ReviewDto reviewDto) throws NotFoundException {
+		if(reviewDto == null || reviewDto.getId() == null || !reviewId.equals(reviewDto.getId())){
+			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 		}
 
-
-		return new ResponseEntity<>(responseMessage,httpStatus);
+		reviewService.updateReview(reviewDto);
+		return new ResponseEntity<>(reviewService.getReviewById(reviewId), HttpStatus.OK);
 	}
 
 	@GetMapping(value = "/exists-by-account-and-game/{accountId}/{gameId}", produces={"application/json", "application/xml"})
