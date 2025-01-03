@@ -1,6 +1,7 @@
 <script setup>
-import { onMounted } from "vue";
+import { onMounted, ref, reactive } from "vue";
 import { useRoute, useRouter } from 'vue-router'
+import { reviewsDto } from '../domain/game.js'
 import NavigationHeader from '../components/NavigationHeader.vue';
 import useGameApi from "@/composables/useGameApi";
 
@@ -10,31 +11,44 @@ const gameId = route.params.id;
 const accountId = JSON.parse(sessionStorage.getItem('accountId'));
 const publisher = JSON.parse(sessionStorage.getItem('publisher'));
 
-const { game, hasGame, hasReviewed, getGameById, accountHasGame, accountHasReviewed, addGame, unlistGame } = useGameApi();
+let formIsValid = ref(true);
+let editReviewMode = ref(false);
+let review = reactive(reviewsDto());
+
+const { game,
+  hasGame,
+  hasReviewed,
+  createReview,
+  updateReview,
+  getGameById,
+  accountHasGame,
+  accountHasReviewed,
+  addGame,
+  unlistGame,
+  deleteReviewById } = useGameApi();
+
 
 onMounted(async () => {
   await accountHasReviewed(accountId, gameId);
   await accountHasGame(accountId, gameId);
   await getGameById(gameId);
-  console.log(game);
+  //console.log(game);
 });
 
-console.log("Publisher " + publisher);
-console.log("hasGame" + hasGame.value);
-
 const formatDate = (date) => {
-  const [year, month, day] = date.split('-');
-  return `${day}.${month}.${year}`;
+  if (date) {
+    const [year, month, day] = date.split('-');
+    return `${day}.${month}.${year}`;
+  }
 };
 
-const handleEdit = () => {
+const handleGameEdit = () => {
   if (gameId) {
     router.push(`/game/update-game/${gameId}`);
   }
 };
 
 const handleAddOrRemove = async () => {
-  console.log("hasGame" + hasGame.value);
   if (hasGame.value) {
     await unlistGame(accountId, gameId);
     hasGame.value = false;
@@ -45,7 +59,67 @@ const handleAddOrRemove = async () => {
   }
 }
 
+const handleCreateReview = async () => {
+  const date = new Date();
+  date.toISOString().split('T')[0];
+  review.reviewDate= date;
+  if (validateBeforeSubmit()) {
+    review = await createReview({reviewData: review, gameId: gameId, accountId: accountId});
+    console.log("review");
+    console.log(review)
+    game.reviewsDto.push(review);
+    hasReviewed.value = !hasReviewed.value;
+  } else {
+    alert("Bitte alle Felder ausfüllen.")
+  }
+};
 
+const handleUpdateReview = async (rev) => {
+  if (validateBeforeSubmit()) {
+    if (review.id) {
+      const updatedReview = await updateReview({ reviewId: review.id, reviewData: review });
+      Object.assign(rev, updatedReview);
+      handleEditReview(review);
+    } else {
+      alert("Kein Review zum aktualisieren vorhanden.")
+    }
+  } else {
+    alert("Bitte alle Felder ausfüllen.")
+  }
+};
+
+const handleDeleteReview = async (id) => {
+  if (confirm("Review wird endgültig gelöscht.")) {
+    await deleteReviewById(id);
+    await getGameById(gameId);
+    game.reviewsDto = game.reviewsDto.filter(review => review.id !== id);
+    review = reactive(reviewsDto());
+    hasReviewed.value = !hasReviewed.value;
+  }
+};
+
+const handleEditReview = async (reviewToEdit) => {
+  editReviewMode.value = !editReviewMode.value;
+  Object.assign(review, reviewToEdit);
+};
+
+const handleCancelReview = () => {
+  editReviewMode.value = !editReviewMode.value;
+}
+
+const validateBeforeSubmit = () => {
+  formIsValid.value = true;
+  if (!review.reviewHeadline || review.reviewHeadline.trim() === '') {
+    formIsValid.value = false;
+  }
+  if (!review.reviewText || review.reviewText.trim() === '') {
+    formIsValid.value = false;
+  }
+  if (!review.rating || review.rating === '') {
+    formIsValid.value = false;
+  }
+  return formIsValid.value;
+}
 </script>
 
 <template>
@@ -58,8 +132,8 @@ const handleAddOrRemove = async () => {
         <div class="detailContainer">
           <img v-if="game.gameImage" id="detailImage" :src="`data:image/jpg;base64,${game.gameImage}`" alt="Game Image">
           <img v-else id="detailImage" src="../assets/images/dummy-image.jpg" alt="Game Image">
-          <button v-if="publisher" @click="handleEdit" id="editGameButton">Bearbeiten</button>
-          <button v-if="!hasGame" class="addOrRemoveGameButton" @click="handleAddOrRemove">Zu Liste hinzufügen</button>
+          <button v-if="publisher" @click="handleGameEdit" id="editGameButton">Bearbeiten</button>
+          <button v-if="!hasGame" class="addOrRemoveGameButton" @click="handleAddOrRemove">Zur Liste hinzufügen</button>
           <button v-else class="addOrRemoveGameButton" @click="handleAddOrRemove">Von Liste entfernen</button>
           <table id="detailInfo">
             <tbody>
@@ -96,51 +170,42 @@ const handleAddOrRemove = async () => {
 
       <section>
         <h2 class="headline">Reviews</h2>
-        <form class="reviewForm">
-          <input type="text" id="reviewFormHeadline" name="reviewFormHeadline" placeholder="Titel" maxlength="100"
-            required>
-          <textarea id="reviewText" name="reviewText" maxlength="2000" required></textarea>
+
+        <form v-if="(!hasReviewed && !publisher) || editReviewMode" class="reviewForm" @submit.prevent>
+          <input type="text" class="reviewFormHeadline" name="reviewFormHeadline" placeholder="Titel" maxlength="100"
+            required v-model="review.reviewHeadline">
+          <textarea class="reviewText" name="reviewText" maxlength="2000" v-model="review.reviewText"
+            required></textarea>
           <label for="recommendation">Deine Bewertung?</label>
-          <select name="recommendation" id="recommendation" required>
-            <option value="">--</option>
-            <option value="1">1</option>
-            <option value="2">2</option>
-            <option value="3">3</option>
-            <option value="4">4</option>
-            <option value="5">5</option>
-            <option value="6">6</option>
-            <option value="7">7</option>
-            <option value="8">8</option>
-            <option value="9">9</option>
-            <option value="10">10</option>
+          <select name="recommendation" class="recommendation" v-model="review.rating" required>
+            <option v-for="n in 10" :key=n :value=n>{{ n }}</option>
           </select>
-          <input id="submit" type="submit" value="Review veröffentlichen">
+          <input v-if="editReviewMode" class="submit" type="submit" value="Review veröffentlichen"
+            @click="handleUpdateReview(review)">
+          <input v-else class="submit" type="submit" value="Review veröffentlichen" @click="handleCreateReview">
+          <input v-if="editReviewMode" class="cancel" type="submit" value="Abbrechen"
+            @click="handleCancelReview">
         </form>
-        <div class="reviewContainer">
-          <img class="reviewImage" src="../images/profile_pic_default.svg" alt="Profilbild">
-          <p class="reviewUsername">codfan#1</p>
-          <time class="reviewDate">07.11.2024</time>
-          <h3 class="reviewHeadline">Mega Game</h3>
-          <p class="reviewRating">Bewertung: 9/10</p>
-          <p class="reviewContent">"Call of Duty: Modern Warfare 3 bietet eine spannende Kampagne mit
-            packender Story und intensiven Action-Momenten. Der Mehrspieler-Modus überzeugt mit gutem
-            Waffenbalancing, neuen Maps und abwechslungsreichen Spielmodi. Ein großartiger Shooter, der die
-            Reihe gelungen fortsetzt."
-          </p>
-          <button id="deleteReviewButton">Löschen</button>
-          <button id="editReviewButton">Bearbeiten</button>
+
+        <div v-if="!editReviewMode">
+          <div class="reviewContainer" v-for="rev in game.reviewsDto" :key="rev.id">
+            <img v-if="review.accountDto.profilePicture" class="reviewImage"
+              :src="`data:image/jpg;base64,${rev.accountDto.profilePicture}`" alt="Profilbild">
+            <img v-else class="reviewImage" src="../assets/images/profile_pic_default.svg" alt="Profilbild">
+
+            <p class="reviewUsername">{{ rev.accountDto.username }}</p>
+            <time class="reviewDate">{{ formatDate(rev.reviewDate) }}</time>
+            <h3 class="reviewHeadline">{{ rev.reviewHeadline }}</h3>
+            <p class="reviewRating">Bewertung: {{ rev.rating }}/10</p>
+            <p class="reviewContent"> {{ rev.reviewText }}
+            </p>
+            <button v-if="rev.accountDto.id === accountId" id="deleteReviewButton"
+              @click="handleDeleteReview(rev.id)">Löschen</button>
+            <button v-if="rev.accountDto.id === accountId" id="editReviewButton"
+              @click="handleEditReview(rev)">Bearbeiten</button>
+          </div>
         </div>
-        <div class="reviewContainer">
-          <img class="reviewImage" src="../images/profile_pic_default.svg" alt="Profilbild">
-          <p class="reviewUsername">gamer89</p>
-          <time class="reviewDate">07.11.2024</time>
-          <h3 class="reviewHeadline">Könnte besser sein</h3>
-          <p class="reviewRating">Bewertung: 3/10</p>
-          <p class="reviewContent">"Call of Duty: Modern Warfare 3 fühlt sich in der Kampagne oft wie eine
-            Wiederholung der Vorgänger an, ohne neue frische Ideen. Der Mehrspieler-Modus hat noch immer
-            Balance-Probleme, und die Karten wirken uninspiriert. Insgesamt solide, aber nicht bahnbrechend."
-          </p>
-        </div>
+
       </section>
     </main>
   </body>
@@ -152,9 +217,9 @@ const handleAddOrRemove = async () => {
   padding-right: 25%;
 }
 
-.detailContainer,
 .reviewForm,
-.reviewContainer {
+.reviewContainer,
+.detailContainer {
   display: grid;
   margin: 1% 25% 1% 25%;
   border: 1px solid black;
@@ -203,8 +268,13 @@ td {
   justify-self: center;
 }
 
-#detailDescription {
-  grid-area: detailDescription;
+textarea {
+  overflow-y: scroll;
+  height: 100px;
+  resize: none;
+  padding: 10px 20px 10px 10px;
+  text-align: justify;
+  overflow-x: hidden;
 }
 
 .reviewForm {
@@ -214,15 +284,7 @@ td {
     "reviewFormHeadline reviewFormHeadline recommendation-label"
     "reviewText reviewText recommendation"
     "reviewText reviewText ."
-    ". . submit"
-}
-
-#reviewFormHeadline {
-  grid-area: reviewFormHeadline;
-}
-
-#reviewText {
-  grid-area: reviewText;
+    "cancel . submit"
 }
 
 label[for="recommendation"] {
@@ -230,13 +292,26 @@ label[for="recommendation"] {
   justify-self: end;
 }
 
-#recommendation {
+.recommendation {
   grid-area: recommendation;
   justify-self: end;
 }
 
-#submit {
+.reviewFormHeadline {
+  grid-area: reviewFormHeadline;
+}
+
+.reviewText {
+  grid-area: reviewText;
+}
+
+.submit {
   grid-area: submit;
+}
+
+.cancel {
+  grid-area: cancel;
+  max-width: fit-content;
 }
 
 #editReviewButton {
@@ -253,13 +328,8 @@ label[for="recommendation"] {
   margin-top: 20px;
 }
 
-textarea {
-  overflow-y: scroll;
-  height: 100px;
-  resize: none;
-  padding: 10px 20px 10px 10px;
-  text-align: justify;
-  overflow-x: hidden;
+#detailDescription {
+  grid-area: detailDescription;
 }
 
 .reviewContainer {
@@ -289,7 +359,6 @@ textarea {
 
 .reviewHeadline {
   grid-area: reviewHeadline;
-
 }
 
 .reviewRating {

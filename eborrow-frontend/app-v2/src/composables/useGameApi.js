@@ -1,6 +1,6 @@
 import { ref, reactive } from "vue";
 import axios from 'axios';
-import { Game } from '../domain/game.js'
+import { gameDto, reviewsDto } from '../domain/game.js'
 
 const axiosInstance = axios.create({
   baseURL: 'http://localhost:8080',
@@ -11,13 +11,14 @@ const axiosInstance = axios.create({
 });
 
 export default function useGameApi() {
-  const game = reactive(Game());
+  const game = reactive(gameDto());
   const platforms = ref([]);
   const genres = ref([]);
   const ageRatings = ref([]);
   const hasGame = ref(false);
   const hasReviewed = ref(false);
   const newGameId = ref(null);
+  const review = reactive(reviewsDto());
 
   //eiter use await or then, not both
   const getGameById = async (id) => {
@@ -124,6 +125,48 @@ export default function useGameApi() {
     };
   }
 
+  const createReview = async ({ reviewData, gameId, accountId }) => {
+    try {
+      const response = await axiosInstance.post(`/review/create-review?gameId=`
+        + gameId + `&accountId=` + accountId,
+        reviewData
+      );
+      return response.data;
+    }
+    catch (error) {
+      console.log(error);
+    }
+  };
+
+  const deleteReviewById = async (id) => {
+    try {
+      await axiosInstance.delete(`/review/delete-review/${id}`)
+    }
+    catch (error) {
+      console.log(error);
+    };
+  };
+
+  const updateReview = async ({ reviewId, reviewData }) => {
+    try {
+      const response = await axiosInstance.put(`/review/update-review/${reviewId}`, reviewData);
+      return response.data;
+    }
+    catch (error) {
+      console.log(error);
+    };
+  }
+
+  const getReviewById = async (id) => {
+    try {
+      const response = await axiosInstance.get(`/review/${id}`);
+      Object.assign(review, response.data);
+    } catch (error) {
+      console.log(error);
+    };
+  }
+
+
   return {
     game,
     platforms,
@@ -132,6 +175,7 @@ export default function useGameApi() {
     hasGame,
     hasReviewed,
     newGameId,
+    review,
     getGameById,
     deleteGameById,
     createGame,
@@ -143,6 +187,11 @@ export default function useGameApi() {
     accountHasReviewed,
     addGame,
     unlistGame,
+    createReview,
+    deleteReviewById,
+    updateReview,
+    getReviewById
   };
 }
+
 

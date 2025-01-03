@@ -11,8 +11,22 @@ const router = useRouter();
 const gameId = route.params.id;
 
 let formIsValid = ref(true);
+let hiddenFileInput = ref(null);
 
-const { platforms, genres, ageRatings, game, newGameId, getAllPlatforms, getAllGenres, getAllAgeRatings, getGameById, updateGame, deleteGameById, createGame } = useGameApi();
+const {
+  platforms,
+  genres,
+  ageRatings,
+  game,
+  newGameId,
+  getAllPlatforms,
+  getAllGenres,
+  getAllAgeRatings,
+  getGameById,
+  updateGame,
+  deleteGameById,
+  createGame } = useGameApi();
+
 onMounted(async () => {
   await getAllPlatforms();
   await getAllGenres();
@@ -35,10 +49,10 @@ const handleSave = async () => {
   }
 };
 
-const handleDelete = () => {
+const handleDelete = async () => {
   if (gameId) {
     if (confirm("Spiel wird endgültig gelöscht.")) {
-      deleteGameById(gameId);
+      await deleteGameById(gameId);
       router.push("/home");
     }
   }
@@ -81,8 +95,6 @@ const validateBeforeSubmit = () => {
   }
   return formIsValid.value;
 }
-
-const hiddenFileInput = ref(null);
 
 const handleImageUpload = (event) => {
   const file = event.target.files[0];
@@ -146,7 +158,7 @@ const handleImageDelete = () => {
         <label for="file" @click.prevent>Bild hochladen</label>
         <input id="hidden-file" type="file" name="file" accept="image/*" @change="handleImageUpload"
           ref="hiddenFileInput">
-        <input id="file" type="button" @click="triggerFileInput" value="Bild auswählen" />
+        <input id="file" type="button" name="file" @click="triggerFileInput" value="Bild auswählen" />
         <fieldset id="imagearea">
           <legend>Vorschaubild</legend>
           <img v-if="game.gameImage" id="gameImage" :src="`data:image/jpg;base64,${game.gameImage}`" alt="Game Image" />

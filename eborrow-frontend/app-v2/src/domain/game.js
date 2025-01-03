@@ -1,4 +1,4 @@
-export const Game = () => ({
+export const gameDto = () => ({
   id: '',
   title: '',
   description:'',
@@ -9,24 +9,24 @@ export const Game = () => ({
   developer: '',
   publisher: '',
   gameImage: '',
-  reviews: [Review()]
+  reviewsDto: [reviewsDto()]
 })
 
-export const Review = () => ({
+export const reviewsDto = () => ({
   id: '',
   reviewHeadline: '',
   reviewText: '',
-  reviewRating: null,
-  reviewDate: null,
-  account: Account()
+  rating: '',
+  reviewDate: '',
+  accountDto: accountDto()
 })
 
-export const Account = () =>({
+export const accountDto = () =>({
   id: '',
   prename: '',
   surname: '',
   username: '',
-  birthday: null,
+  birthday: '',
   email: '',
   profilePicture: '',
   publisher: ''
