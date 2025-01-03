@@ -27,7 +27,6 @@ const { game,
   unlistGame,
   deleteReviewById } = useGameApi();
 
-
 onMounted(async () => {
   await accountHasReviewed(accountId, gameId);
   await accountHasGame(accountId, gameId);
@@ -76,9 +75,12 @@ const handleCreateReview = async () => {
 
 const handleUpdateReview = async (rev) => {
   if (validateBeforeSubmit()) {
-    if (review.id) {
-      const updatedReview = await updateReview({ reviewId: review.id, reviewData: review });
-      Object.assign(rev, updatedReview);
+    if (rev.id) {
+      const updatedReview = await updateReview({ reviewId: rev.id, reviewData: rev });
+      const index = game.reviewsDto.findIndex(review => review.accountDto.id === accountId);
+      if (index !== -1) {
+        game.reviewsDto.splice(index, 1, updatedReview);
+      }
       handleEditReview(review);
     } else {
       alert("Kein Review zum aktualisieren vorhanden.")
@@ -100,7 +102,9 @@ const handleDeleteReview = async (id) => {
 
 const handleEditReview = async (reviewToEdit) => {
   editReviewMode.value = !editReviewMode.value;
-  Object.assign(review, reviewToEdit);
+  if (editReviewMode.value) {
+    Object.assign(review, reviewToEdit);
+  }
 };
 
 const handleCancelReview = () => {
@@ -202,12 +206,12 @@ const sortedReviews = computed(() => {
           <input v-if="editReviewMode" class="submit" type="submit" value="Review veröffentlichen"
             @click="handleUpdateReview(review)">
           <input v-else class="submit" type="submit" value="Review veröffentlichen" @click="handleCreateReview">
-          <input v-if="editReviewMode" class="cancel" type="submit" value="Abbrechen" @click="handleCancelReview">
+          <button v-if="editReviewMode" class="cancel" @click="handleCancelReview">Abbrechen</button>
         </form>
 
         <div v-if="!editReviewMode">
           <div class="reviewContainer" v-for="rev in sortedReviews" :key="rev.id">
-            <img v-if="review.accountDto.profilePicture" class="reviewImage"
+            <img v-if="rev.accountDto.profilePicture" class="reviewImage"
               :src="`data:image/jpg;base64,${rev.accountDto.profilePicture}`" alt="Profilbild">
             <img v-else class="reviewImage" src="../assets/images/profile_pic_default.svg" alt="Profilbild">
 
@@ -349,6 +353,7 @@ label[for="recommendation"] {
   justify-self: left;
   height: fit-content;
   margin-top: 20px;
+  color: red;
 }
 
 #detailDescription {

@@ -118,8 +118,16 @@ const triggerFileInput = () => {
 };
 
 const handleImageDelete = () => {
-  if(game.gameImage) {
+  if (game.gameImage) {
     game.gameImage = '';
+  }
+}
+
+const handleCancel = () => {
+  if (gameId) {
+    router.push(`/game/${gameId}`)
+  } else {
+    router.push(`/home`)
   }
 }
 
@@ -131,8 +139,11 @@ const handleImageDelete = () => {
     <NavigationHeader />
 
     <main>
-      <h1 v-if="gameId === undefined" id="headline">Spiel anlegen</h1>
-      <h1 v-else id="headline">Spiel bearbeiten</h1>
+      <div class="headline">
+        <h1 v-if="gameId === undefined" id="headline">Spiel anlegen</h1>
+        <h1 v-else id="headline">Spiel bearbeiten</h1>
+        <input type="submit" value="Abbrechen" id="cancel" @click="handleCancel">
+      </div>
       <form id="gameForm" @submit.prevent>
         <label for="title">Spieletitel</label>
         <input id="title" type="text" name="title" maxlength="150" v-model="game.title" required>
@@ -177,6 +188,10 @@ const handleImageDelete = () => {
   padding-left: 25%;
 }
 
+.headline {
+  display: flex;
+}
+
 #gameForm {
   display: grid;
   margin: 0 25% 0 25%;
@@ -197,15 +212,16 @@ const handleImageDelete = () => {
     "developer developer publisher publisher"
     "file-label file-label delete-image delete-image"
     "file file preview-image preview-image"
-    "delete delete submit submit"
+    "delete delete cancel submit"
 }
 
 #submit,
 #age,
 #publication,
-#delete {
+#delete,
+#cancel {
   height: fit-content;
-  width: fit-content
+  width: fit-content;
 }
 
 textarea {
@@ -301,6 +317,13 @@ label[for="file"] {
 
 #delete {
   grid-area: delete;
+  color: red;
+}
+
+#cancel {
+  display: flex;
+  align-self: self-end;
+  margin: 25px;
 }
 
 #imagearea {
