@@ -1,9 +1,15 @@
 <script setup>
     import * as gamesRestApi from "@/composables/useGamesRestApi.js"
-    import { onMounted, ref } from "vue";
+    import { onMounted, ref, defineEmits } from "vue";
     
     const genres = ref([]);
     const platforms = ref([]);
+
+    const emit = defineEmits(['apply-filter']);
+
+    function applyFilter(){
+        emit('apply-filter');
+    }
 
     onMounted(async () => {
         genres.value = await gamesRestApi.getAvailableGenres();
@@ -25,7 +31,7 @@
             </select>
             <label for="dev">Developer: </label>
             <input type="text" id="dev" name="developer" class="dev-input">
-            <button type="submit" class="apply-filter">
+            <button @click="applyFilter" type="submit" class="apply-filter">
                 <i class="fa fa-filter"></i>
             </button>
         </div>

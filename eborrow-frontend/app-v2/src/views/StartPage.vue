@@ -9,7 +9,15 @@
     import * as gamesRestApi from "../composables/useGamesRestApi.js"
     
     import PTH_DEFAULT_GAME_PIC from "@/assets/images/logo.svg";
-    
+
+    async function onSearchButtonPressed(){
+        games.value = await gamesRestApi.getGamesBySearchQuery();
+    }
+
+    async function onFilterButtonPressed(){
+        games.value = await gamesRestApi.getGamesByFilter();
+    }
+
     function imgToSrc(img) {
         return img ? `data:image/jpeg;base64,${img}` : PTH_DEFAULT_GAME_PIC;
     }
@@ -27,8 +35,8 @@
 <template>
     <NavigationHeader/>
     <div class="main-page-container">
-        <SearchBar />
-        <SortPanel />
+        <SearchBar @apply-search="onSearchButtonPressed"/>
+        <SortPanel @apply-filter="onFilterButtonPressed"/>
         <div class="overview">
             <table class="overview-table-container">
                 <tbody>
@@ -38,6 +46,7 @@
                                 <img :src="imgToSrc(game.gameImage)" alt="Vorzeigebild des Spiels">
                             </RouterLink>
                         </td>
+                        {{console.log(game.title)}}
                         <td class="overview-info">
                             <div class="game-title">{{game.title}}</div>
                             <div class="game-developer">{{game.developer}}</div>
