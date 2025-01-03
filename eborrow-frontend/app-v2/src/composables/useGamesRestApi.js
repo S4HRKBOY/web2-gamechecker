@@ -107,6 +107,7 @@ async function getAllGamesGraphQL(){
     const body = JSON.stringify({
         query: `{
           games {
+                id
                 description
                 title
                 gameImage

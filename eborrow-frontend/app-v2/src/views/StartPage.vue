@@ -1,20 +1,24 @@
 <script setup>
+    import { onMounted } from "vue";
+    import { ref } from 'vue';
+    import { useRoute } from "vue-router";
+    
     import NavigationHeader from '../components/NavigationHeader.vue';
     import SearchBar from '../components/StartPage/SearchBar.vue';
     import SortPanel from '../components/StartPage/SortPanel.vue';
     import * as gamesRestApi from "../composables/useGamesRestApi.js"
-    import { onMounted } from "vue";
-    import { useRoute } from "vue-router";
+    
     import PTH_DEFAULT_GAME_PIC from "@/assets/images/logo.svg";
     
     function imgToSrc(img) {
         return img ? `data:image/jpeg;base64,${img}` : PTH_DEFAULT_GAME_PIC;
     }
     
+    const games = ref([])
     const route = useRoute();
 
     onMounted(async () => {
-        const games = await gamesRestApi.getAllGamesGraphQL();
+        games.value = await gamesRestApi.getAllGamesGraphQL();
         console.log(games);
         console.log("Id in route is: " + route.params.id);
     });
@@ -39,14 +43,18 @@
                             <div class="game-developer">{{game.developer}}</div>
                             <div class="game-genres">
                                 Genres: 
-                                <ul v-for="genre in game.genres">
-                                    <li>{{genre}}</li>
+                                <ul class="genre-list">
+                                    <li v-for="genre in game.genres">
+                                        {{genre}}
+                                    </li>
                                 </ul>
                             </div>
                             <div class="game-platforms">
                                 Platforms:
-                                <ul v-for="platform in game.platforms">
-                                    <li>{{platform}}</li>
+                                <ul class="platform-list">
+                                    <li v-for="platform in game.platforms">
+                                        {{platform}}
+                                    </li>
                                 </ul>
                             </div>
                         </td>
@@ -84,10 +92,9 @@
 
 .overview-entry{
     width:  100%;
-    height: 10%;
     margin: 5%;
     display: grid;
-    grid-template-areas: "overview-image overview-description";
+    grid-template-areas: "overview-image overview-info";
     grid-template-columns: 50% 50%;
     grid-template-rows: auto;
     align-items: center;
@@ -128,6 +135,7 @@
 .game-title{
     grid-area: game-title;
     font-size: 150%;
+    padding-bottom: 10%;
 }
 
 .game-developer{
@@ -138,7 +146,44 @@
     grid-area: game-genres;
 }
 
+.genre-list{
+    display: inline;
+    list-style: none;
+    padding: 0px;
+}
+
+.genre-list li{
+    display: inline;
+}
+
+.genre-list li::after{
+    content: ", ";
+}
+
+.genre-list li:last-child::after{
+    content: "";
+}
+
 .game-platforms{
     grid-area: game-platforms
 }
+
+.platform-list{
+    display: inline;
+    list-style: none;
+    padding: 0px;
+}
+
+.platform-list li{
+    display: inline;
+}
+
+.platform-list li::after{
+    content: ", ";
+}
+
+.platform-list li:last-child::after{
+    content: "";
+}
+
 </style>

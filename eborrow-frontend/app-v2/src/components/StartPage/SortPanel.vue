@@ -1,20 +1,27 @@
 <script setup>
     import * as gamesRestApi from "@/composables/useGamesRestApi.js"
+    import { onMounted, ref } from "vue";
+    
+    const genres = ref([]);
+    const platforms = ref([]);
 
-    const genres = await gamesRestApi.getAvailableGenres();
-    const platforms = await gamesRestApi.getAvailablePlatforms();
+    onMounted(async () => {
+        genres.value = await gamesRestApi.getAvailableGenres();
+        platforms.value = await gamesRestApi.getAvailablePlatforms();
+    });
+
 </script>
 
 <template>
     <div class="sort">
         <div class="filter-bar">
             <label for="genres">Genres: </label>
-            <select v-for="genre in genres" name="genres" id="genres" class="genre-filter">
-                <option v-bind:value="genre">{{genre}}</option>
+            <select name="genres" id="genres" class="genre-filter">
+                <option v-for="genre in genres" v-bind:value="genre">{{genre}}</option>
             </select>
             <label for="platform">Platform: </label>
-            <select v-for="platform in platforms" name="platform" id="platform" class="platform-filter">
-                <option v-bind:value="platform">{{platform}}</option>
+            <select name="platform" id="platform" class="platform-filter">
+                <option v-for="platform in platforms" v-bind:value="platform">{{platform}}</option>
             </select>
             <label for="dev">Developer: </label>
             <input type="text" id="dev" name="developer" class="dev-input">
@@ -43,7 +50,7 @@
     grid-template-areas:"genre-label  platform-label  dev-label  apply-filter" 
                         "genre-filter platform-filter dev-filter apply-filter";
     grid-template-columns: 25% 25% 25% auto;
-    grid-template-rows: auto;
+    grid-template-rows: 50% auto;
     align-items: center;
     justify-content: space-evenly;
 }
