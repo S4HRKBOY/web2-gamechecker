@@ -39,31 +39,32 @@ public class DummyDataBootstrap implements ApplicationListener<ContextRefreshedE
     public void initData() {
         Game game1 = new Game(1L, "Baldurs Gate 3",
                 "Stelle deine Gruppe zusammen und kehre in die Vergessenen Reiche zurück. Erlebe eine Geschichte von Freundschaft und Verrat, von Opfer und Überleben – und die Verlockung absoluter Macht.",
-                Arrays.asList(Platform.WINDOWS, Platform.PLAYSTATION_4, Platform.PLAYSTATION_5, Platform.XBOX_ONE,
+                Arrays.asList(Platform.MAC_OS, Platform.PLAYSTATION_5, Platform.WINDOWS, Platform.XBOX_ONE,
                         Platform.XBOX_SERIES),
                 Arrays.asList(Genre.ROLE_PLAYING),
                 LocalDate.of(2023, 8, 3), AgeRating.USK_18, "Larian Studios", "Larian Studios",
                 readImage("BaldursGate3.jpg"));
         Game game2 = new Game(2L, "Call of Duty: Modern Warfare III",
                 "Call of Duty ist eine weltweit bekannte Ego-Shooter-Spielreihe, die die Spieler in intensive und realistische Kriegsszenarien versetzt. Mit atemberaubender Grafik und fesselnden Storylines erleben Spieler historische und moderne Schlachten. Ob im Einzelspieler-Storymodus oder in actiongeladenen Multiplayer-Schlachten – Call of Duty bietet Adrenalin pur.",
-                Arrays.asList(Platform.WINDOWS, Platform.PLAYSTATION_4, Platform.PLAYSTATION_5, Platform.XBOX_ONE,
+                Arrays.asList(Platform.MAC_OS,  Platform.PLAYSTATION_4, Platform.PLAYSTATION_5, Platform.WINDOWS, Platform.XBOX_ONE,
                         Platform.XBOX_SERIES),
-                Arrays.asList(Genre.SHOOTER),
+                Arrays.asList(Genre.ACTION, Genre.SHOOTER),
                 LocalDate.of(2023, 11, 10), AgeRating.USK_18, "Sledgehammer Games, Treyarch, Infinity Ward",
                 "Activision",
                 readImage("callOfDuty3.jpg"));
         Game game3 = new Game(3L, "Elden Ring",
-                "Set in the Lands Between, players control a customizable player character on a quest to repair the Elden Ring and become the new Elden Lord.",
-                Arrays.asList(Platform.WINDOWS, Platform.PLAYSTATION_4, Platform.PLAYSTATION_5, Platform.XBOX_ONE,
+                "Das Zwischenland ist Teil eines riesigen Kontinents, auf dem offene Weiten und riesige Dungeons mit komplexer dreidimensionaler Gestaltung nahtlos ineinander übergehen. Erlebt den Reiz, beim Erkunden auf unbekannte und überwältigende Bedrohungen zu stoßen.\r\n" + //
+                                        "Meistert das Gelände und deckt seine Geheimnisse auf, um euren Feinden gewachsen zu sein, mächtige Endbosse zu bezwingen oder eindringende Spieler in die Falle zu locken.",
+                Arrays.asList(Platform.PLAYSTATION_4, Platform.PLAYSTATION_5, Platform.WINDOWS, Platform.XBOX_ONE,
                         Platform.XBOX_SERIES),
-                Arrays.asList(Genre.ROLE_PLAYING),
+                Arrays.asList(Genre.ACTION, Genre.ROLE_PLAYING),
                 LocalDate.of(2022, 2, 25), AgeRating.USK_16, "From Software", "Bandai Namco",
                 readImage("EldenRing.jpg"));
 
-        Review game1Review1 = new Review(null, "Gut", "Voll gut.", 10, LocalDate.now());
-        Review game1Review2 = new Review(null, "Edel", "Echt edel", 8, LocalDate.now());
-        Review game2Review1 = new Review(null, "Voll gut", "10 von 10", 9, LocalDate.now());
-        Review game2Review2 = new Review(null, "Doof", "Kacke viel zu schwer.", 2, LocalDate.now());
+        Review game1Review1 = new Review(null, "Bahnbrechend", "Baldur's Gate 3 ist ein Meisterwerk! Die tiefgründige Story, fesselnde Charaktere und taktischen Kämpfe machen es zu einem Must-Play für RPG-Fans. Die Entscheidungen haben echte Konsequenzen, und die Grafik ist atemberaubend. Larian Studios hat einen neuen Maßstab für das Genre gesetzt!", 10, LocalDate.of(2024, 12, 28));
+        Review game1Review2 = new Review(null, "Es hätte so viel mehr sein können!", "Die ersten beiden Akte von Baldur's Gate 3 begeistern mit spannender Story und starken Charakteren, sind jedoch nicht frei von Bugs, die den Spielfluss stören. Im dritten Akt wird der Entwicklungsdruck deutlich: unfertige Inhalte, abrupte Übergänge und weiterhin ungelöste Fehler trüben das Erlebnis.", 5, LocalDate.of(2025, 1, 1));
+        Review game2Review1 = new Review(null, "Mega Game", "Call of Duty: Modern Warfare 3 bietet eine spannende Kampagne mit packender Story und intensiven Action-Momenten. Der Mehrspieler-Modus überzeugt mit gutem Waffenbalancing, neuen Maps und abwechslungsreichen Spielmodi. Ein großartiger Shooter, der die Reihe gelungen fortsetzt.", 9, LocalDate.of(2025, 1, 3));
+        Review game2Review2 = new Review(null, "Könnte besser sein", "Call of Duty: Modern Warfare 3 fühlt sich in der Kampagne oft wie eine Wiederholung der Vorgänger an, ohne neue frische Ideen. Der Mehrspieler-Modus hat noch immer Balance-Probleme, und die Karten wirken uninspiriert. Insgesamt solide, aber nicht bahnbrechend.", 2, LocalDate.of(2024, 12, 15));
 
         initAccounts();
 

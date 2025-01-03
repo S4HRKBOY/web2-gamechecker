@@ -1,10 +1,11 @@
 package de.fhdo.eborrow.domain;
 
 public enum Platform {
+    MAC_OS("macOS"),
     NINTENDO_SWITCH("Nintendo Switch"),
-    WINDOWS("Windows"),
     PLAYSTATION_4("Playstation 4"),
     PLAYSTATION_5("Playstation 5"),
+    WINDOWS("Windows"),
     XBOX_ONE("XBox One"),
     XBOX_SERIES("XBox Series"),
     DEFAULT("Unbekannt");
