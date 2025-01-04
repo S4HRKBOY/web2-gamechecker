@@ -42,7 +42,7 @@ public class ReviewController {
     public String createReview(@ModelAttribute ReviewDto reviewDto, @RequestParam("gameId") Long gameId, @RequestParam("accountId") Long accountId, Model model) throws NotFoundException {
         reviewService.addReview(reviewDto, gameId, accountId);
         model.addAttribute("review", reviewDto);
-        RichGameDto gameDto = gameService.getGameById(gameId);
+        RichGameDto gameDto = gameService.getRichGameById(gameId);
         gameDto.getReviewsDto().sort(Comparator.comparing(ReviewDto::getId).reversed());
         AccountDto accountDto = accountService.getAccountById(accId);
         boolean hasReviewed = reviewService.existsByAccountAndGame(accountDto.getId(), gameId);
@@ -59,7 +59,7 @@ public class ReviewController {
     @PostMapping("/delete-review/{reviewId}")
     public String deleteReview(@PathVariable("reviewId") Long reviewId, Long gameId, Long accountId, Model model) throws NotFoundException {
         reviewService.deleteReviewById(reviewId);
-        RichGameDto gameDto = gameService.getGameById(gameId);
+        RichGameDto gameDto = gameService.getRichGameById(gameId);
         gameDto.getReviewsDto().sort(Comparator.comparing(ReviewDto::getId).reversed());
         AccountDto accountDto = accountService.getAccountById(accountId);
         boolean hasReviewed = reviewService.existsByAccountAndGame(accountId, gameId);
@@ -79,7 +79,7 @@ public class ReviewController {
     @GetMapping("/update-review/{reviewId}")
     public String getUpdateReview(@PathVariable("reviewId") Long reviewId, Long gameId, Long accountId, Model model) throws NotFoundException {
         ReviewDto reviewDto = reviewService.getReviewById(reviewId);
-        RichGameDto gameDto = gameService.getGameById(gameId);
+        RichGameDto gameDto = gameService.getRichGameById(gameId);
         gameDto.getReviewsDto().sort(Comparator.comparing(ReviewDto::getId).reversed());
         AccountDto accountDto = accountService.getAccountById(accountId);
         boolean hasReviewed = reviewService.existsByAccountAndGame(accountDto.getId(), gameId);
@@ -97,7 +97,7 @@ public class ReviewController {
     @PostMapping("/update-review/{reviewId}")
     public String updateReview( @ModelAttribute ReviewDto reviewDto, @PathVariable("reviewId") Long reviewId, Long gameId, Long accountId, Model model) throws NotFoundException {
         reviewService.updateReview(reviewDto); 
-        RichGameDto gameDto = gameService.getGameById(gameId);
+        RichGameDto gameDto = gameService.getRichGameById(gameId);
         gameDto.getReviewsDto().sort(Comparator.comparing(ReviewDto::getId).reversed());
         AccountDto accountDto = accountService.getAccountById(accountId);
         boolean hasReviewed = reviewService.existsByAccountAndGame(accountDto.getId(), gameId);

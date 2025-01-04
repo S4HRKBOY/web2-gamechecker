@@ -20,7 +20,7 @@ const { game,
   hasReviewed,
   createReview,
   updateReview,
-  getGameById,
+  getRichGameById,
   accountHasGame,
   accountHasReviewed,
   addGame,
@@ -30,7 +30,7 @@ const { game,
 onMounted(async () => {
   await accountHasReviewed(accountId, gameId);
   await accountHasGame(accountId, gameId);
-  await getGameById(gameId);
+  await getRichGameById(gameId);
   console.log(game);
 });
 
@@ -93,7 +93,7 @@ const handleUpdateReview = async (rev) => {
 const handleDeleteReview = async (id) => {
   if (confirm("Review wird endgültig gelöscht.")) {
     await deleteReviewById(id);
-    await getGameById(gameId);
+    await getRichGameById(gameId);
     game.reviewsDto = game.reviewsDto.filter(review => review.id !== id);
     review = reactive(reviewsDto());
     hasReviewed.value = !hasReviewed.value;

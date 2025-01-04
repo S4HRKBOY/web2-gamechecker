@@ -110,7 +110,7 @@ public class GameController {
 
     @GetMapping("/game/{id}")
     public String getGameById(@PathVariable Long id, Model model) throws NotFoundException {
-        RichGameDto gameDto = gameService.getGameById(id);
+        RichGameDto gameDto = gameService.getRichGameById(id);
         gameDto.getReviewsDto().sort(Comparator.comparing(ReviewDto::getId).reversed());
         AccountDto accountDto = accountService.getAccountById(accId);
         boolean hasReviewed = reviewService.existsByAccountAndGame(accountDto.getId(), id);
@@ -130,7 +130,7 @@ public class GameController {
     @PostMapping("/game/unlist-game")
 	public String unlistGameFromAccount(@RequestParam("accountId") Long accountId, @RequestParam("gameId") Long gameId, Model model) throws NotFoundException {
 		accountService.unlistGameFromAccount(accountId, gameId);
-        RichGameDto gameDto = gameService.getGameById(gameId);
+        RichGameDto gameDto = gameService.getRichGameById(gameId);
         gameDto.getReviewsDto().sort(Comparator.comparing(ReviewDto::getId).reversed());
         AccountDto accountDto = accountService.getAccountById(accountId);
         boolean hasReviewed = reviewService.existsByAccountAndGame(accountId, gameId);
@@ -150,7 +150,7 @@ public class GameController {
     @PostMapping("/game/add-game")
 	public String addGameToAccount(@RequestParam("accountId") Long accountId, @RequestParam("gameId") Long gameId, Model model) throws NotFoundException {
 		accountService.addGameToAccount(accountId, gameId);
-        RichGameDto gameDto = gameService.getGameById(gameId);
+        RichGameDto gameDto = gameService.getRichGameById(gameId);
         gameDto.getReviewsDto().sort(Comparator.comparing(ReviewDto::getId).reversed());
         AccountDto accountDto = accountService.getAccountById(accountId);
         boolean hasReviewed = reviewService.existsByAccountAndGame(accountId, gameId);

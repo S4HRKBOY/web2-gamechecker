@@ -33,9 +33,14 @@ public class GameService {
         return gameRepository.save(game).getId();
     }
 
-    public RichGameDto getGameById(Long id) {
+    public RichGameDto getRichGameById(Long id) {
         Game game = gameRepository.findById(id).orElseThrow(() -> new RuntimeException("Spiel nicht gefunden"));
         return GameMapper.gameToRichDto(game);
+    }
+
+    public GameDto getGameById(Long id) {
+        Game game = gameRepository.findById(id).orElseThrow(() -> new RuntimeException("Spiel nicht gefunden"));
+        return GameMapper.gameToDto(game);
     }
 
     @Transactional
@@ -91,7 +96,7 @@ public class GameService {
     }
 
     public void addReview(ReviewDto reviewDto, Long gameId) {
-        RichGameDto gameDto = getGameById(gameId);
+        RichGameDto gameDto = getRichGameById(gameId);
         gameDto.getReviewsDto().add(reviewDto);
         gameRepository.save(GameMapper.richDtoToGame(gameDto));
     }

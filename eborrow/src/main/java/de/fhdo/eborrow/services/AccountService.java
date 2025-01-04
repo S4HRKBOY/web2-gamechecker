@@ -1,12 +1,10 @@
 package de.fhdo.eborrow.services;
 
 import de.fhdo.eborrow.converters.AccountMapper;
-import de.fhdo.eborrow.converters.GameMapper;
 import de.fhdo.eborrow.domain.Account;
 import de.fhdo.eborrow.dto.AccountDto;
 import de.fhdo.eborrow.dto.GameDto;
 import de.fhdo.eborrow.dto.RichAccountDto;
-import de.fhdo.eborrow.dto.RichGameDto;
 import de.fhdo.eborrow.repositories.AccountRepository;
 import javassist.NotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -114,13 +112,11 @@ public class AccountService {
 			throw new NotFoundException("No Account found with id " + accountId);
 		}
 
-		// TODO Zak: Lieber eine Service Methode fuer Laden aller Games als GameDto statt RichGameDto nutzen
-		RichGameDto richGameDto = gameService.getGameById(gameId);
-		if (richGameDto == null) {
+		GameDto gameDto = gameService.getGameById(gameId);
+		if (gameDto == null) {
 			throw new NotFoundException("No Game found with id " + gameId);
 		}
 
-		GameDto gameDto = GameMapper.gameToDto(GameMapper.richDtoToGame(richGameDto));
 		addGameToAccount(richAccountDto, gameDto);
 	}
 

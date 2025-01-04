@@ -27,7 +27,7 @@ public class GameGraphQlController {
 
     @QueryMapping("game")
     public RichGameDto getGameById(@Argument Long id) {
-        return gameService.getGameById(id);
+        return gameService.getRichGameById(id);
     }
 
     @QueryMapping("allGenres")
@@ -56,13 +56,13 @@ public class GameGraphQlController {
     }
 
     @MutationMapping("createGame")
-    public RichGameDto createGame(@Argument GameDto game) {
+    public GameDto createGame(@Argument GameDto game) {
         Long gameId = gameService.createGame(game);
         return gameService.getGameById(gameId);
     }
 
     @MutationMapping("updateGame")
-    public RichGameDto updateGame(@Argument GameDto game) {
+    public GameDto updateGame(@Argument GameDto game) {
         Long id = gameService.updateGame(game); 
         return gameService.getGameById(id);
     }

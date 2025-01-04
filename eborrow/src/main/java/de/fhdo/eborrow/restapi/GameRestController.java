@@ -47,7 +47,13 @@ public class GameRestController {
 
     @GetMapping(value="/game/{id}", produces={"application/json", "application/xml"})
     @ResponseStatus(HttpStatus.OK)
-    public RichGameDto getGameById(@PathVariable Long id) {
+    public RichGameDto getRichGameById(@PathVariable Long id) {
+        return gameService.getRichGameById(id);
+    }
+
+    @GetMapping(value="/game/get-game/{id}", produces={"application/json", "application/xml"})
+    @ResponseStatus(HttpStatus.OK)
+    public GameDto getGameById(@PathVariable Long id) {
         return gameService.getGameById(id);
     }
 

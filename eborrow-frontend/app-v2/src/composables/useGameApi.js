@@ -21,9 +21,19 @@ export default function useGameApi() {
   const review = reactive(reviewsDto());
 
   //eiter use await or then, not both
-  const getGameById = async (id) => {
+  const getRichGameById = async (id) => {
     try {
       const response = await axiosInstance.get(`/game/${id}`)
+      Object.assign(game, response.data);
+    }
+    catch (error) {
+      console.log(error);
+    }
+  };
+
+  const getGameById = async (id) => {
+    try {
+      const response = await axiosInstance.get(`/game/get-game/${id}`)
       Object.assign(game, response.data);
     }
     catch (error) {
@@ -177,6 +187,7 @@ export default function useGameApi() {
     newGameId,
     review,
     getGameById,
+    getRichGameById,
     deleteGameById,
     createGame,
     updateGame,

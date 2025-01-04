@@ -74,11 +74,11 @@ public class ReviewRestController {
 		responseMessage.setMessage("Operation Successful!");
 
 		Map<String, Object> results = new HashMap<>();
-		List<GameDto> gameDtos = new ArrayList<>();
-		gameService.getAll().forEach(richGameDto -> {
-			Game game = GameMapper.richDtoToGame(gameService.getGameById(richGameDto.getId()));
-			gameDtos.add(GameMapper.gameToDto(game));
-		});
+		List<GameDto> gameDtos = gameService.getAll();
+		//gameService.getAll().forEach(richGameDto -> {
+		//	Game game = GameMapper.richDtoToGame(gameService.getRichGameById(richGameDto.getId()));
+		//	gameDtos.add(GameMapper.gameToDto(game));
+		//});
 		results.put("games", gameDtos);
 		results.put("accounts", accountService.getRichAccounts());
 		responseMessage.setResponse(results);
