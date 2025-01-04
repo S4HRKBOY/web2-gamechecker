@@ -226,8 +226,8 @@ const handleCancel = () => {
 
 textarea {
   overflow-y: scroll;
-  height: 150px;
-  resize: none;
+  min-height: 150px;
+  resize: vertical;
   padding: 10px 20px 10px 10px;
   text-align: justify;
   overflow-x: hidden;

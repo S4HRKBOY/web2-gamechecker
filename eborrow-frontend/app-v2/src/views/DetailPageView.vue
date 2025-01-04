@@ -136,7 +136,7 @@ const sortedReviews = computed(() => {
     }
     return a.id - b.id;
   });
-  if (userReview) {
+  if (userReview && !editReviewMode.value) {
     return [userReview, ...otherReviews];
   } else {
     return otherReviews;
@@ -197,7 +197,7 @@ const sortedReviews = computed(() => {
         <form v-if="(!hasReviewed && !publisher) || editReviewMode" class="reviewForm" @submit.prevent>
           <input type="text" class="reviewFormHeadline" name="reviewFormHeadline" placeholder="Titel" maxlength="100"
             required v-model="review.reviewHeadline">
-          <textarea class="reviewText" name="reviewText" maxlength="2000" v-model="review.reviewText"
+          <textarea class="reviewText" name="reviewText" maxlength="2000" v-model="review.reviewText" placeholder="Schreibe ein Review!"
             required></textarea>
           <label for="recommendation">Deine Bewertung?</label>
           <select name="recommendation" class="recommendation" v-model="review.rating" required>
@@ -209,23 +209,21 @@ const sortedReviews = computed(() => {
           <button v-if="editReviewMode" class="cancel" @click="handleCancelReview">Abbrechen</button>
         </form>
 
-        <div v-if="!editReviewMode">
-          <div class="reviewContainer" v-for="rev in sortedReviews" :key="rev.id">
-            <img v-if="rev.accountDto.profilePicture" class="reviewImage"
-              :src="`data:image/jpg;base64,${rev.accountDto.profilePicture}`" alt="Profilbild">
-            <img v-else class="reviewImage" src="../assets/images/profile_pic_default.svg" alt="Profilbild">
+        <div class="reviewContainer" v-for="rev in sortedReviews" :key="rev.id">
+          <img v-if="rev.accountDto.profilePicture" class="reviewImage"
+            :src="`data:image/jpg;base64,${rev.accountDto.profilePicture}`" alt="Profilbild">
+          <img v-else class="reviewImage" src="../assets/images/profile_pic_default.svg" alt="Profilbild">
 
-            <p class="reviewUsername">{{ rev.accountDto.username }}</p>
-            <time class="reviewDate">{{ formatDate(rev.reviewDate) }}</time>
-            <h3 class="reviewHeadline">{{ rev.reviewHeadline }}</h3>
-            <p class="reviewRating">Bewertung: {{ rev.rating }}/10</p>
-            <p class="reviewContent"> {{ rev.reviewText }}
-            </p>
-            <button v-if="rev.accountDto.id === accountId" id="deleteReviewButton"
-              @click="handleDeleteReview(rev.id)">Löschen</button>
-            <button v-if="rev.accountDto.id === accountId" id="editReviewButton"
-              @click="handleEditReview(rev)">Bearbeiten</button>
-          </div>
+          <p class="reviewUsername">{{ rev.accountDto.username }}</p>
+          <time class="reviewDate">{{ formatDate(rev.reviewDate) }}</time>
+          <h3 class="reviewHeadline">{{ rev.reviewHeadline }}</h3>
+          <p class="reviewRating">Bewertung: {{ rev.rating }}/10</p>
+          <p class="reviewContent"> {{ rev.reviewText }}
+          </p>
+          <button v-if="rev.accountDto.id === accountId" id="deleteReviewButton"
+            @click="handleDeleteReview(rev.id)">Löschen</button>
+          <button v-if="rev.accountDto.id === accountId" id="editReviewButton"
+            @click="handleEditReview(rev)">Bearbeiten</button>
         </div>
 
         <div v-if="game.reviewsDto.length === 0" class="emptyReviewContainer">
@@ -297,8 +295,8 @@ td {
 
 textarea {
   overflow-y: scroll;
-  height: 100px;
-  resize: none;
+  min-height: 100px;
+  resize: vertical;
   padding: 10px 20px 10px 10px;
   text-align: justify;
   overflow-x: hidden;
@@ -358,6 +356,7 @@ label[for="recommendation"] {
 
 #detailDescription {
   grid-area: detailDescription;
+  hyphens: auto;
 }
 
 .reviewContainer {
@@ -387,6 +386,7 @@ label[for="recommendation"] {
 
 .reviewHeadline {
   grid-area: reviewHeadline;
+  hyphens: auto;
 }
 
 .reviewRating {
@@ -396,6 +396,7 @@ label[for="recommendation"] {
 
 .reviewContent {
   grid-area: reviewContent;
+  hyphens: auto;
 }
 
 .reviewContainer p,
