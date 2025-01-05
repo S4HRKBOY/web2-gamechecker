@@ -1,5 +1,6 @@
 package de.fhdo.eborrow.restapi;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
@@ -20,12 +21,11 @@ import de.fhdo.eborrow.dto.GameDto;
 import de.fhdo.eborrow.dto.RichGameDto;
 import de.fhdo.eborrow.services.AccountService;
 import de.fhdo.eborrow.services.GameService;
+import jakarta.validation.Valid;
 
 @RestController
 @CrossOrigin
 public class GameRestController {
-
-    private static final Logger LOGGER = LoggerFactory.getLogger(GameRestController.class);
 
     private GameService gameService;
     private GameSearchService gameSearchService;
@@ -39,37 +39,68 @@ public class GameRestController {
         this.gameSearchService = gameSearchService;
     }
 
-    @GetMapping(value="/home", produces={"application/json", "application/xml"})
+    @GetMapping(value = "/home", produces = { "application/json", "application/xml" })
     @ResponseStatus(HttpStatus.OK)
     public List<GameDto> getAll() {
         return gameService.getAll();
     }
 
-    @GetMapping(value="/game/{id}", produces={"application/json", "application/xml"})
+    @GetMapping(value = "/game/{id}", produces = { "application/json", "application/xml" })
     @ResponseStatus(HttpStatus.OK)
     public RichGameDto getRichGameById(@PathVariable Long id) {
         return gameService.getRichGameById(id);
     }
 
-    @GetMapping(value="/game/get-game/{id}", produces={"application/json", "application/xml"})
+    @GetMapping(value = "/game/get-game/{id}", produces = { "application/json", "application/xml" })
     @ResponseStatus(HttpStatus.OK)
     public GameDto getGameById(@PathVariable Long id) {
         return gameService.getGameById(id);
     }
 
-    @DeleteMapping(value="/game/delete-game/{id}")
+    @DeleteMapping(value = "/game/delete-game/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void deleteGameById(@PathVariable Long id) {
         gameService.deleteGameById(id);
     }
 
-    @PostMapping(value="/game/create-game", consumes={"application/json","application/xml"})
+    @PostMapping(value = "/game/create-game", produces = { "application/json", "application/xml" }, consumes = {
+            "application/json", "application/xml", })
     @ResponseStatus(HttpStatus.CREATED)
-    public Long createGame(@RequestBody GameDto gameDto) {
+    public Long createGame(@Valid @RequestBody GameDto gameDto) {
+        List<String> reason = new ArrayList<>();
+        if (gameDto.getTitle() == null || gameDto.getTitle().isEmpty()) {
+            reason.add(" Spieletitel");
+        }
+        if (gameDto.getDescription() == null || gameDto.getDescription().isEmpty()) {
+            reason.add(" Beschreibung");
+        }
+        if (gameDto.getPlatforms() == null || gameDto.getPlatforms().isEmpty()) {
+            reason.add(" Plattform");
+        }
+        if (gameDto.getGenres() == null || gameDto.getGenres().isEmpty()) {
+            reason.add(" Genre");
+        }
+        if (gameDto.getPublicationDate() == null) {
+            reason.add(" Veröffentlichungsdatum");
+        }
+        if (gameDto.getAgeRating() == null || gameDto.getAgeRating().isEmpty()) {
+            reason.add(" Altersfreigabe");
+        }
+        if (gameDto.getDeveloper() == null || gameDto.getDeveloper().isEmpty()) {
+            reason.add(" Developer");
+        }
+        if (gameDto.getPublisher() == null || gameDto.getPublisher().isEmpty()) {
+            reason.add(" Publisher");
+        }
+        if (reason.size() != 0) {
+            String result = String.join(",", reason);
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST,
+                    "Folgende Felder dürfen nicht leer sein:" + result + ".");
+        }
         return gameService.createGame(gameDto);
     }
 
-    @PutMapping(value="/game/update-game/{id}", consumes={"application/json","application/xml"})
+    @PutMapping(value = "/game/update-game/{id}", consumes = { "application/json", "application/xml" })
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void updateGame(@PathVariable Long id, @RequestBody GameDto gameDto) {
         if (id != null && gameDto.getId() != null && gameDto.getId().equals(id)) {
@@ -89,12 +120,15 @@ public class GameRestController {
             games = games.stream().filter(gameDto -> gameDto.getGenres().contains(filterInfo.getGenre())).toList();
         }
 
-        if (filterInfo.getDeveloper() != null && !filterInfo.getDeveloper().isEmpty() && !filterInfo.getDeveloper().isBlank()) {
-            games = games.stream().filter(gameDto -> gameDto.getDeveloper().equalsIgnoreCase(filterInfo.getDeveloper())).toList();
+        if (filterInfo.getDeveloper() != null && !filterInfo.getDeveloper().isEmpty()
+                && !filterInfo.getDeveloper().isBlank()) {
+            games = games.stream().filter(gameDto -> gameDto.getDeveloper().equalsIgnoreCase(filterInfo.getDeveloper()))
+                    .toList();
         }
 
         if (!Objects.equals(filterInfo.getPlatform(), "All")) {
-            games = games.stream().filter(gameDto -> gameDto.getPlatforms().contains(filterInfo.getPlatform())).toList();
+            games = games.stream().filter(gameDto -> gameDto.getPlatforms().contains(filterInfo.getPlatform()))
+                    .toList();
         }
 
         return games;
@@ -108,19 +142,19 @@ public class GameRestController {
         return gameSearchService.getGamesBySearchQuery(query.getQuery());
     }
 
-    @GetMapping("/game/all-platforms")
+    @GetMapping(value = "/game/all-platforms", produces = { "application/json", "application/xml" })
     @ResponseStatus(HttpStatus.OK)
     public List<String> getAllPlatforms() {
         return gameService.getAllPlatforms();
     }
 
-    @GetMapping(value="/game/all-genres", produces={"application/json", "application/xml"})
+    @GetMapping(value = "/game/all-genres", produces = { "application/json", "application/xml" })
     @ResponseStatus(HttpStatus.OK)
     public List<String> getAllGenres() {
         return gameService.getAllGenres();
     }
 
-    @GetMapping(value="/game/all-age-ratings", produces={"application/json", "application/xml"})
+    @GetMapping(value = "/game/all-age-ratings", produces = { "application/json", "application/xml" })
     @ResponseStatus(HttpStatus.OK)
     public List<String> getAllAgeRatings() {
         return gameService.getAllAgeRatings();

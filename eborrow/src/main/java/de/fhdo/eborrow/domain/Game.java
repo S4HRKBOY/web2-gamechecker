@@ -16,24 +16,35 @@ public class Game {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
+    @Column(nullable = false)
     private String title;
+
+    @Column(nullable = false)
     @Lob
     private String description;
 
+    @Column(nullable = false)
     @ElementCollection 
     @Enumerated(EnumType.STRING)
     private List<Platform> platforms; 
 
+    @Column(nullable = false)
     @ElementCollection 
     @Enumerated(EnumType.STRING)
     private List<Genre> genres;
 
+    @Column(nullable = false)
     @DateTimeFormat
     private LocalDate publicationDate;
 
+    @Column(nullable = false)
     @Enumerated(EnumType.STRING)
     private AgeRating ageRating;
+
+    @Column(nullable = false)
     private String developer;
+
+    @Column(nullable = false)
     private String publisher;
 
     @Lob

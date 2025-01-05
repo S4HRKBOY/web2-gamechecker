@@ -62,10 +62,10 @@ public class GameService {
         Game updatedGame = gameRepository.findById(game.getId())
                 .orElseThrow(() -> new RuntimeException("Spiel nicht gefunden"));
 
-        if (game.getTitle() != null) {
+        if (game.getTitle() != null && !game.getTitle().isEmpty()) {
             updatedGame.setTitle(game.getTitle());
         }
-        if (game.getDescription() != null) {
+        if (game.getDescription() != null && !game.getDescription().isEmpty()) {
             updatedGame.setDescription(game.getDescription());
         }
 
@@ -82,11 +82,10 @@ public class GameService {
         if (game.getAgeRating() != null) {
             updatedGame.setAgeRating(game.getAgeRating());
         }
-
-        if (game.getDeveloper() != null) {
+        if (game.getDeveloper() != null && !game.getDeveloper().isEmpty()) {
             updatedGame.setDeveloper(game.getDeveloper());
         }
-        if (game.getPublisher() != null) {
+        if (game.getPublisher() != null && !game.getPublisher().isEmpty()) {
             updatedGame.setPublisher(game.getPublisher());
         }
         if (game.getGameImage() != null) {
