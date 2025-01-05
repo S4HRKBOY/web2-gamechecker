@@ -169,4 +169,9 @@ public class AccountGraphQlController {
 
 		return accountService.isEmailUsedByOtherAccount(id, email);
 	}
+
+	@QueryMapping("accountHasGame")
+	public Boolean accountHasGame(@Argument Long accountId, @Argument Long gameId) {
+		return accountService.accountHasGame(accountId, gameId);
+	}
 }

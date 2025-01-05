@@ -6,6 +6,7 @@ schema {
 type Query {
     games: [Game!]!
     game(id: ID!): Game
+    richGame(id: ID!): RichGame
     review(id: ID!): Review
     reviews: [Review!]!
     allGenres : [String!]!
@@ -18,6 +19,8 @@ type Query {
     emailUsedByOtherAccount(id: ID!, email: String!): Boolean!
     usernameTaken(username: String!): Boolean!
     usernameUsedByOtherAccount(id: ID!, username: String!): Boolean!
+    existsByAccountAndGame(accountId: ID!, gameId: ID!): Boolean!
+    accountHasGame(accountId: ID!, gameId: ID!): Boolean!
 }
 
 type Mutation {
@@ -45,8 +48,21 @@ type Game {
     ageRating: String
     developer: String
     publisher: String
-    reviews: [Review]
     gameImage: String
+}
+
+type RichGame {
+    id: ID!
+    title: String
+    description: String
+    platforms: [String]
+    genres: [String]
+    publicationDate: String
+    ageRating: String
+    developer: String
+    publisher: String
+    gameImage: String
+    reviews: [Review]
 }
 
 type Account {
@@ -62,12 +78,26 @@ type Account {
     taggedGames: [Game]
 }
 
+# brauchen wir nur RichGame und RichAccount in GraphQL oder auch Game und Account?  
+type ThinAccount {
+    id: ID!
+    prename: String
+    surname: String
+    birthday: String
+    username: String
+    email: String
+    password: String
+    profilePicture: String
+    publisher: Boolean
+}
+
 type Review {
   id: ID!
   reviewHeadline: String
   reviewText: String
   rating: Int
   reviewDate: String
+  account: ThinAccount
 }
 
 # TODO Zak: Festlegen, was Non-Nullable ist
