@@ -20,6 +20,8 @@ type Query {
     usernameUsedByOtherAccount(id: ID!, username: String!): Boolean!
     existsByAccountAndGame(accountId: ID!, gameId: ID!): Boolean!
     accountHasGame(accountId: ID!, gameId: ID!): Boolean!
+    gamesByQuery(query: queryInput!): [Game!]!
+    gamesByFilter(filterInfo: filterInfoInput!): [Game!]!
 }
 
 type Mutation {
@@ -134,4 +136,14 @@ input updateAccountInput {
   email: String!
   password: String!
   profilePicture: String
+}
+
+input queryInput {
+    query: String!
+}
+
+input filterInfoInput{
+    genre: String!
+    platform: String!
+    developer: String!
 }

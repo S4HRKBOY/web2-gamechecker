@@ -1,9 +1,12 @@
 package de.fhdo.eborrow.graphqlapi;
 
+import de.fhdo.eborrow.controller.wrapper.FilterInfo;
+import de.fhdo.eborrow.controller.wrapper.Query;
 import de.fhdo.eborrow.domain.Review;
 import de.fhdo.eborrow.dto.GameDto;
 import de.fhdo.eborrow.dto.ReviewDto;
 import de.fhdo.eborrow.dto.RichGameDto;
+import de.fhdo.eborrow.services.GameSearchService;
 import de.fhdo.eborrow.services.GameService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.graphql.data.method.annotation.Argument;
@@ -13,14 +16,18 @@ import org.springframework.graphql.data.method.annotation.SchemaMapping;
 import org.springframework.stereotype.Controller;
 
 import java.util.List;
+import java.util.Objects;
 
 @Controller
 public class GameGraphQlController {
+
     private GameService gameService;
+    private GameSearchService gameSearchService;
 
     @Autowired
-    public GameGraphQlController(GameService gameService) {
+    public GameGraphQlController(GameService gameService, GameSearchService gameSearchService) {
         this.gameService = gameService;
+        this.gameSearchService = gameSearchService;
     }
 
     @QueryMapping("games")
@@ -73,5 +80,18 @@ public class GameGraphQlController {
     @SchemaMapping(typeName = "Game", field = "reviews")
     public List<ReviewDto> reviews(RichGameDto richGame) {
         return richGame.getReviewsDto();
+    }
+
+    @QueryMapping("gamesByQuery")
+    public List<GameDto> getGamesByQuery(@Argument Query query){
+        if (Objects.equals(query.getQuery(), "")) {
+            return gameService.getAll();
+        }
+        return gameSearchService.getGamesBySearchQuery(query.getQuery());
+    }
+
+    @QueryMapping("gamesByFilter")
+    public List<GameDto> getGamesByFilter(@Argument FilterInfo filterInfo){
+        return gameSearchService.getGamesByFilterInfo(filterInfo);
     }
 }

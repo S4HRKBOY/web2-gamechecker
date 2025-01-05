@@ -8,6 +8,8 @@ const gamesByFilterParamsURL = "http://localhost:8080/game/filtered-games";
 
 const graphQLURL = "http:///localhost:8080/graphql";
 
+const gameFormURL = "./gameForm.html"
+
 function handleGameFilling(games) {
     const table = document.querySelector(".overview-table-container");
     table.innerHTML = '';
@@ -23,10 +25,16 @@ function handleGameFilling(games) {
         entryImage.appendChild(document.createElement("a"));
 
         const imageSource = `data:image/jpeg;base64,` + game["gameImage"];
+        
+        const gameImageLink = document.createElement("a");
+        gameImageLink.setAttribute("href", gameFormURL);
+
         const gameImage = document.createElement("img");
         gameImage.setAttribute("src", imageSource);
-        entryImage.appendChild(gameImage);
 
+        gameImageLink.appendChild(gameImage);
+        entryImage.appendChild(gameImageLink);
+        
         const entryInfo = document.createElement("td");
         entryInfo.setAttribute("class", "overview-info")
 
@@ -123,7 +131,7 @@ async function getGamesByFilter() {
     const developerInput = document.querySelector(".dev-input");
     let developer;
 
-    developer = developer == null ? "" : developerInput.value;
+    developer = developerInput.value;
 
     try{
         const myHeaders = new Headers();

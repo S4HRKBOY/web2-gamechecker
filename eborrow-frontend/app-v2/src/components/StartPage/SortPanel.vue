@@ -23,10 +23,12 @@
         <div class="filter-bar">
             <label for="genres">Genres: </label>
             <select name="genres" id="genres" class="genre-filter">
+                <option value="all">All</option>
                 <option v-for="genre in genres" v-bind:value="genre">{{genre}}</option>
             </select>
             <label for="platform">Platform: </label>
             <select name="platform" id="platform" class="platform-filter">
+                <option value="all">All</option>
                 <option v-for="platform in platforms" v-bind:value="platform">{{platform}}</option>
             </select>
             <label for="dev">Developer: </label>
