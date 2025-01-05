@@ -33,7 +33,7 @@ onMounted(async () => {
   try {
     await getRichGameById(gameId)
   }
-  catch (error) {
+  catch {
     alert("Ein Fehler ist aufgetreten.");
     router.push(`/home`);
   };

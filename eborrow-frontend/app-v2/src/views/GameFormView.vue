@@ -35,7 +35,7 @@ onMounted(async () => {
     try {
       await getGameById(gameId);
     }
-    catch (error) {
+    catch {
       alert("Ein Fehler ist aufgetreten.");
       router.push(`/home`);
     }
@@ -200,7 +200,7 @@ const handleCancel = () => {
 
 #gameForm {
   display: grid;
-  margin: 0 25% 0 25%;
+  margin: 0 25% 5% 25%;
   border: 1px solid hsl(0, 0%, 50%);
   box-shadow: rgba(0, 0, 0, 0.15) 1.95px 1.95px 2.6px;
   padding: 10px;
