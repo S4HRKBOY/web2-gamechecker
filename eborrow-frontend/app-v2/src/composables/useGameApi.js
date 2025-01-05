@@ -20,14 +20,14 @@ export default function useGameApi() {
   const newGameId = ref(null);
   const review = reactive(reviewsDto());
 
-  //eiter use await or then, not both
   const getRichGameById = async (id) => {
     try {
       const response = await axiosInstance.get(`/game/${id}`)
       Object.assign(game, response.data);
     }
     catch (error) {
-      console.log(error);
+      console.error(`Failed to load game with id ${id}:`, error);
+      throw error;
     }
   };
 
@@ -37,7 +37,8 @@ export default function useGameApi() {
       Object.assign(game, response.data);
     }
     catch (error) {
-      console.log(error);
+      console.error(`Failed to load game with id ${id}:`, error);
+      throw error;
     }
   };
 
@@ -46,8 +47,8 @@ export default function useGameApi() {
       await axiosInstance.delete(`/game/delete-game/${id}`)
     }
     catch (error) {
-      console.log(error);
-    };
+      console.error(`Failed to delete game with id ${id}:`, error);
+    }
   };
 
   const createGame = async (gameData) => {
@@ -55,17 +56,18 @@ export default function useGameApi() {
       const response = await axiosInstance.post(`/game/create-game`, gameData);
       console.log(response.data);
       newGameId.value = response.data;
-    } catch (error) {
-      console.log(error);
-    };
+    }
+    catch (error) {
+      console.error(`Failed to create game:`, error);
+    }
   };
 
   const updateGame = async ({ id, gameData }) => {
     try {
       await axiosInstance.put(`/game/update-game/${id}`, gameData)
     } catch (error) {
-      console.log(error);
-    };
+      console.error(`Failed to update game:`, error);
+    }
   };
 
   const getAllPlatforms = async () => {
@@ -73,8 +75,8 @@ export default function useGameApi() {
       const response = await axiosInstance.get(`/game/all-platforms`);
       platforms.value = response.data;
     } catch (error) {
-      console.log(error);
-    };
+      console.error(`Failed to get all platforms:`, error);
+    }
   };
 
   const getAllGenres = async () => {
@@ -82,8 +84,8 @@ export default function useGameApi() {
       const response = await axiosInstance.get(`/game/all-genres`);
       genres.value = response.data;
     } catch (error) {
-      console.log(error);
-    };
+      console.error(`Failed to get all genres:`, error);
+    }
   };
 
   const getAllAgeRatings = async () => {
@@ -91,8 +93,8 @@ export default function useGameApi() {
       const response = await axiosInstance.get(`/game/all-age-ratings`);
       ageRatings.value = response.data;
     } catch (error) {
-      console.log(error);
-    };
+      console.error(`Failed to get all age ratings:`, error);
+    }
   };
 
   const accountHasGame = async (accountId, gameId) => {
@@ -100,8 +102,8 @@ export default function useGameApi() {
       const response = await axiosInstance.get(`/account/account-has-game/${accountId}/${gameId}`);
       hasGame.value = response.data;
     } catch (error) {
-      console.log(error);
-    };
+      console.error(`Failed to create game:`, error);
+    }
   };
 
   const accountHasReviewed = async (accountId, gameId) => {
@@ -109,8 +111,8 @@ export default function useGameApi() {
       const response = await axiosInstance.get(`/review/exists-by-account-and-game/${accountId}/${gameId}`);
       hasReviewed.value = response.data;
     } catch (error) {
-      console.log(error);
-    };
+      console.error(`Failed to check if account has reviewed the game:`, error);
+    }
   };
 
   const addGame = async (accountId, gameId) => {
@@ -120,8 +122,8 @@ export default function useGameApi() {
         'game-Id': gameId
       });
     } catch (error) {
-      console.log(error);
-    };
+      console.error(`Failed to add game to account :`, error);
+    }
   };
 
   const unlistGame = async (accountId, gameId) => {
@@ -131,8 +133,8 @@ export default function useGameApi() {
         'game-Id': gameId
       });
     } catch (error) {
-      console.log(error);
-    };
+      console.error(`Failed to unlist game from account:`, error);
+    }
   }
 
   const createReview = async ({ reviewData, gameId, accountId }) => {
@@ -144,7 +146,7 @@ export default function useGameApi() {
       return response.data;
     }
     catch (error) {
-      console.log(error);
+      console.error(`Failed to create review:`, error);
     }
   };
 
@@ -153,8 +155,8 @@ export default function useGameApi() {
       await axiosInstance.delete(`/review/delete-review/${id}`)
     }
     catch (error) {
-      console.log(error);
-    };
+      console.error(`Failed to delete review with id: ${id}:`, error);
+    }
   };
 
   const updateReview = async ({ reviewId, reviewData }) => {
@@ -163,8 +165,8 @@ export default function useGameApi() {
       return response.data;
     }
     catch (error) {
-      console.log(error);
-    };
+      console.error(`Failed to update review with id: ${reviewId}`, error);
+    }
   }
 
   const getReviewById = async (id) => {
@@ -172,8 +174,8 @@ export default function useGameApi() {
       const response = await axiosInstance.get(`/review/${id}`);
       Object.assign(review, response.data);
     } catch (error) {
-      console.log(error);
-    };
+      console.error(`Failed to load review with id: ${id}`, error);
+    }
   }
 
 

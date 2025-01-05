@@ -30,7 +30,13 @@ const { game,
 onMounted(async () => {
   await accountHasReviewed(accountId, gameId);
   await accountHasGame(accountId, gameId);
-  await getRichGameById(gameId);
+  try {
+    await getRichGameById(gameId)
+  }
+  catch (error) {
+    alert("Ein Fehler ist aufgetreten.");
+    router.push(`/home`);
+  };
   console.log(game);
 });
 
@@ -93,7 +99,6 @@ const handleUpdateReview = async (rev) => {
 const handleDeleteReview = async (id) => {
   if (confirm("Review wird endgültig gelöscht.")) {
     await deleteReviewById(id);
-    await getRichGameById(gameId);
     game.reviewsDto = game.reviewsDto.filter(review => review.id !== id);
     review = reactive(reviewsDto());
     hasReviewed.value = !hasReviewed.value;
@@ -197,8 +202,8 @@ const sortedReviews = computed(() => {
         <form v-if="(!hasReviewed && !publisher) || editReviewMode" class="reviewForm" @submit.prevent>
           <input type="text" class="reviewFormHeadline" name="reviewFormHeadline" placeholder="Titel" maxlength="100"
             required v-model="review.reviewHeadline">
-          <textarea class="reviewText" name="reviewText" maxlength="2000" v-model="review.reviewText" placeholder="Schreibe ein Review!"
-            required></textarea>
+          <textarea class="reviewText" name="reviewText" maxlength="2000" v-model="review.reviewText"
+            placeholder="Schreibe ein Review!" required></textarea>
           <label for="recommendation">Deine Bewertung?</label>
           <select name="recommendation" class="recommendation" v-model="review.rating" required>
             <option v-for="n in 10" :key=n :value=n>{{ n }}</option>
@@ -247,10 +252,10 @@ const sortedReviews = computed(() => {
 .emptyReviewContainer {
   display: grid;
   margin: 1% 25% 1% 25%;
-  border: 1px solid black;
-  border-radius: 10px;
+  border: 1px solid hsl(0, 0%, 50%);
   padding: 10px;
   gap: 10px;
+  box-shadow: rgba(0, 0, 0, 0.15) 1.95px 1.95px 2.6px;
 }
 
 .detailContainer {
@@ -291,6 +296,7 @@ td {
   max-height: 300px;
   grid-area: detailImage;
   justify-self: center;
+  box-shadow: rgb(192, 192, 192) 5px 5px, rgba(192, 192, 192, 0.3) 10px 10px, rgba(192, 192, 192, 0.2) 15px 15px, rgba(192, 192, 192, 0.1) 20px 20px, rgba(192, 192, 192, 0.05) 25px 25px;
 }
 
 textarea {
@@ -360,7 +366,7 @@ label[for="recommendation"] {
 }
 
 .reviewContainer {
-  grid-template-columns: 3% auto auto;
+  grid-template-columns: 4% auto auto;
   grid-template-rows: auto;
   grid-template-areas:
     "reviewImage reviewUsername reviewDate"
@@ -370,13 +376,21 @@ label[for="recommendation"] {
 }
 
 .reviewImage {
-  max-width: 30px;
-  max-height: 30px;
+  width: 40px;
+  height: 40px;
   grid-area: reviewImage;
+  object-fit: cover;
+  object-position: 50%;
+  border-radius: 50%;
+  box-shadow: rgba(192, 192, 192) 1.95px 1.95px 2.6px;
 }
 
 .reviewUsername {
   grid-area: reviewUsername;
+  align-self:center;
+  letter-spacing: 1px;
+  font-size: larger;
+  color: rgba(0, 0, 0, 0.8);
 }
 
 .reviewDate {

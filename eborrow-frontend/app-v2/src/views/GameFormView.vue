@@ -32,7 +32,13 @@ onMounted(async () => {
   await getAllGenres();
   await getAllAgeRatings();
   if (gameId) {
-    await getGameById(gameId);
+    try {
+      await getGameById(gameId);
+    }
+    catch (error) {
+      alert("Ein Fehler ist aufgetreten.");
+      router.push(`/home`);
+    }
   };
 });
 
@@ -195,8 +201,8 @@ const handleCancel = () => {
 #gameForm {
   display: grid;
   margin: 0 25% 0 25%;
-  border: 1px solid black;
-  border-radius: 10px;
+  border: 1px solid hsl(0, 0%, 50%);
+  box-shadow: rgba(0, 0, 0, 0.15) 1.95px 1.95px 2.6px;
   padding: 10px;
   gap: 10px;
   grid-template-columns: 24% 24% 24% 24%;
@@ -329,7 +335,6 @@ label[for="file"] {
 #imagearea {
   grid-area: preview-image;
   border: 1px solid hsl(0, 0%, 75%);
-  border-radius: 10px;
   padding: 10px;
   height: 300px;
   text-align: center;
