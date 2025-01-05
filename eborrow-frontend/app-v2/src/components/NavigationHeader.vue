@@ -1,11 +1,23 @@
 <script setup>
-const id = JSON.parse(sessionStorage.getItem('accountId'));
-const publisher = JSON.parse(sessionStorage.getItem('publisher'));
+  import { useRouter } from 'vue-router';
 
-const logout = () => {
-  sessionStorage.setItem('accountId', '');
-  sessionStorage.setItem('publisher', '');
-}
+  let id;
+  let logout
+  let publisher;
+  const router = useRouter();
+  try {
+    id = JSON.parse(sessionStorage.getItem('accountId'));
+    publisher = JSON.parse(sessionStorage.getItem('publisher'));
+
+    logout = () => {
+      sessionStorage.setItem('accountId', '');
+      sessionStorage.setItem('publisher', '');
+    };
+  } catch (error) {
+    console.error(error);
+    alert('Ein Fehler ist aufgetreten. Bitte versuchen Sie es später erneut.');
+    router.push('/login');
+  }
 </script>
 
 <template>

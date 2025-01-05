@@ -8,8 +8,14 @@ import useGameApi from "@/composables/useGameApi";
 const router = useRouter();
 const route = useRoute();
 const gameId = route.params.id;
-const accountId = JSON.parse(sessionStorage.getItem('accountId'));
-const publisher = JSON.parse(sessionStorage.getItem('publisher'));
+let accountId;
+let publisher;
+try {
+  accountId = JSON.parse(sessionStorage.getItem('accountId'));
+  publisher = JSON.parse(sessionStorage.getItem('publisher'));
+} catch (error) {
+  console.error(error);
+}
 
 let formIsValid = ref(true);
 let editReviewMode = ref(false);
@@ -152,92 +158,90 @@ const sortedReviews = computed(() => {
 
 <template>
 
-  <body>
-    <NavigationHeader />
-    <main>
-      <section>
-        <h1 class="headline">{{ game.title }}</h1>
-        <div class="detailContainer">
-          <img v-if="game.gameImage" id="detailImage" :src="`data:image/jpg;base64,${game.gameImage}`" alt="Game Image">
-          <img v-else id="detailImage" src="../assets/images/dummy-image.jpg" alt="Game Image">
-          <button v-if="publisher" @click="handleGameEdit" id="editGameButton">Bearbeiten</button>
-          <button v-if="!hasGame" class="addOrRemoveGameButton" @click="handleAddOrRemove">Zur Liste hinzufügen</button>
-          <button v-else class="addOrRemoveGameButton" @click="handleAddOrRemove">Von Liste entfernen</button>
-          <table id="detailInfo">
-            <tbody>
-              <tr>
-                <td>Plattform:</td>
-                <td>{{ game.platforms.join(', ') }}</td>
-              </tr>
-              <tr>
-                <td>Genre:</td>
-                <td>{{ game.genres.join(', ') }}</td>
-              </tr>
-              <tr>
-                <td>Veröffentlichung:</td>
-                <td>{{ formatDate(game.publicationDate) }}</td>
-              </tr>
-              <tr>
-                <td>Entwickler:</td>
-                <td>{{ game.developer }}</td>
-              </tr>
-              <tr>
-                <td>Publisher:</td>
-                <td>{{ game.publisher }}</td>
-              </tr>
-              <tr>
-                <td>Altersfreigabe:</td>
-                <td>{{ game.ageRating }}</td>
-              </tr>
-            </tbody>
-          </table>
-          <p id="detailDescription"> {{ game.description }}
-          </p>
-        </div>
-      </section>
+  <NavigationHeader />
+  <main>
+    <section>
+      <h1 class="headline">{{ game.title }}</h1>
+      <div class="detailContainer">
+        <img v-if="game.gameImage" id="detailImage" :src="`data:image/jpg;base64,${game.gameImage}`" alt="Game Image">
+        <img v-else id="detailImage" src="../assets/images/dummy-image.jpg" alt="Game Image">
+        <button v-if="publisher" @click="handleGameEdit" id="editGameButton">Bearbeiten</button>
+        <button v-if="!hasGame" class="addOrRemoveGameButton" @click="handleAddOrRemove">Zur Liste hinzufügen</button>
+        <button v-else class="addOrRemoveGameButton" @click="handleAddOrRemove">Von Liste entfernen</button>
+        <table id="detailInfo">
+          <tbody>
+            <tr>
+              <td>Plattform:</td>
+              <td>{{ game.platforms.join(', ') }}</td>
+            </tr>
+            <tr>
+              <td>Genre:</td>
+              <td>{{ game.genres.join(', ') }}</td>
+            </tr>
+            <tr>
+              <td>Veröffentlichung:</td>
+              <td>{{ formatDate(game.publicationDate) }}</td>
+            </tr>
+            <tr>
+              <td>Entwickler:</td>
+              <td>{{ game.developer }}</td>
+            </tr>
+            <tr>
+              <td>Publisher:</td>
+              <td>{{ game.publisher }}</td>
+            </tr>
+            <tr>
+              <td>Altersfreigabe:</td>
+              <td>{{ game.ageRating }}</td>
+            </tr>
+          </tbody>
+        </table>
+        <p id="detailDescription"> {{ game.description }}
+        </p>
+      </div>
+    </section>
 
-      <section>
-        <h2 class="headline">Reviews</h2>
+    <section>
+      <h2 class="headline">Reviews</h2>
 
-        <form v-if="(!hasReviewed && !publisher) || editReviewMode" class="reviewForm" @submit.prevent>
-          <input type="text" class="reviewFormHeadline" name="reviewFormHeadline" placeholder="Titel" maxlength="100"
-            required v-model="review.reviewHeadline">
-          <textarea class="reviewText" name="reviewText" maxlength="2000" v-model="review.reviewText"
-            placeholder="Schreibe ein Review!" required></textarea>
-          <label for="recommendation">Deine Bewertung?</label>
-          <select name="recommendation" class="recommendation" v-model="review.rating" required>
-            <option v-for="n in 10" :key=n :value=n>{{ n }}</option>
-          </select>
-          <input v-if="editReviewMode" class="submit" type="submit" value="Review veröffentlichen"
-            @click="handleUpdateReview(review)">
-          <input v-else class="submit" type="submit" value="Review veröffentlichen" @click="handleCreateReview">
-          <button v-if="editReviewMode" class="cancel" @click="handleCancelReview">Abbrechen</button>
-        </form>
+      <form v-if="(!hasReviewed && !publisher) || editReviewMode" class="reviewForm" @submit.prevent>
+        <input type="text" class="reviewFormHeadline" name="reviewFormHeadline" placeholder="Titel" maxlength="100"
+          required v-model="review.reviewHeadline">
+        <textarea class="reviewText" name="reviewText" maxlength="2000" v-model="review.reviewText"
+          placeholder="Schreibe ein Review!" required></textarea>
+        <label for="recommendation">Deine Bewertung?</label>
+        <select name="recommendation" class="recommendation" v-model="review.rating" required>
+          <option v-for="n in 10" :key=n :value=n>{{ n }}</option>
+        </select>
+        <input v-if="editReviewMode" class="submit" type="submit" value="Review veröffentlichen"
+          @click="handleUpdateReview(review)">
+        <input v-else class="submit" type="submit" value="Review veröffentlichen" @click="handleCreateReview">
+        <button v-if="editReviewMode" class="cancel" @click="handleCancelReview">Abbrechen</button>
+      </form>
 
-        <div class="reviewContainer" v-for="rev in sortedReviews" :key="rev.id">
-          <img v-if="rev.accountDto.profilePicture" class="reviewImage"
-            :src="`data:image/jpg;base64,${rev.accountDto.profilePicture}`" alt="Profilbild">
-          <img v-else class="reviewImage" src="../assets/images/profile_pic_default.svg" alt="Profilbild">
+      <div class="reviewContainer" v-for="rev in sortedReviews" :key="rev.id">
+        <img v-if="rev.accountDto.profilePicture" class="reviewImage"
+          :src="`data:image/jpg;base64,${rev.accountDto.profilePicture}`" alt="Profilbild">
+        <img v-else class="reviewImage" src="../assets/images/profile_pic_default.svg" alt="Profilbild">
 
-          <p class="reviewUsername">{{ rev.accountDto.username }}</p>
-          <time class="reviewDate">{{ formatDate(rev.reviewDate) }}</time>
-          <h3 class="reviewHeadline">{{ rev.reviewHeadline }}</h3>
-          <p class="reviewRating">Bewertung: {{ rev.rating }}/10</p>
-          <p class="reviewContent"> {{ rev.reviewText }}
-          </p>
-          <button v-if="rev.accountDto.id === accountId" id="deleteReviewButton"
-            @click="handleDeleteReview(rev.id)">Löschen</button>
-          <button v-if="rev.accountDto.id === accountId" id="editReviewButton"
-            @click="handleEditReview(rev)">Bearbeiten</button>
-        </div>
+        <p class="reviewUsername">{{ rev.accountDto.username }}</p>
+        <time class="reviewDate">{{ formatDate(rev.reviewDate) }}</time>
+        <h3 class="reviewHeadline">{{ rev.reviewHeadline }}</h3>
+        <p class="reviewRating">Bewertung: {{ rev.rating }}/10</p>
+        <p class="reviewContent"> {{ rev.reviewText }}
+        </p>
+        <button v-if="rev.accountDto.id === accountId" id="deleteReviewButton"
+          @click="handleDeleteReview(rev.id)">Löschen</button>
+        <button v-if="rev.accountDto.id === accountId" id="editReviewButton"
+          @click="handleEditReview(rev)">Bearbeiten</button>
+      </div>
 
-        <div v-if="game.reviewsDto.length === 0" class="emptyReviewContainer">
-          <p>Es sind noch keine Reviews vorhanden.</p>
-        </div>
+      <div v-if="game.reviewsDto.length === 0" class="emptyReviewContainer">
+        <p>Es sind noch keine Reviews vorhanden.</p>
+      </div>
 
-      </section>
-    </main>
-  </body>
+    </section>
+  </main>
 </template>
 
 <style scoped>

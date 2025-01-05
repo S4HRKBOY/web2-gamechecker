@@ -13,6 +13,8 @@ body {
     min-height: 100vh;
 }
 
+button,
+input[type="submit"],
 .logo {
     cursor: pointer;
 }
