@@ -25,9 +25,9 @@ import de.fhdo.eborrow.services.ReviewService;
 @RequestMapping("/thymeleaf/review")
 public class ReviewController {
 
-    private GameService gameService;
-    private AccountService accountService;
-    private ReviewService reviewService;
+    private final GameService    gameService;
+    private final AccountService accountService;
+    private final ReviewService  reviewService;
 
     private Long accId = 1L; 
 

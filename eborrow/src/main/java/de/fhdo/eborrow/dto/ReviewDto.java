@@ -2,11 +2,6 @@ package de.fhdo.eborrow.dto;
 
 import java.time.LocalDate;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
-
-import de.fhdo.eborrow.domain.Game;
-
-//TODO: GameID oder game?!
 public class ReviewDto {
 
 	private Long id;
@@ -18,8 +13,6 @@ public class ReviewDto {
 	private int rating;
 
 	private LocalDate reviewDate;
-
-	//private GameDto gameDto;
 
 	private AccountDto accountDto;
 
@@ -64,14 +57,6 @@ public class ReviewDto {
 	public void setReviewDate(LocalDate reviewDate) {
 		this.reviewDate = reviewDate;
 	}
-
-	// public GameDto getGameDto() {
-	// 	return gameDto;
-	// }
-
-	// public void setGameDto(GameDto gameDto) {
-	// 	this.gameDto = gameDto;
-	// }
 
 	public AccountDto getAccountDto() {
 		return accountDto;

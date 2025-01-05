@@ -76,6 +76,9 @@
 
 
 <style scoped>
+@import url(https://fonts.googleapis.com/css?family=Open+Sans);
+@import url('https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css');
+
 .main-page-container {
     display: grid;
     font-family: 'Open Sans', sans-serif;

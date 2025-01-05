@@ -30,11 +30,6 @@ public class Review {
 	@DateTimeFormat
 	private LocalDate reviewDate;
 
-	//@ManyToOne
-	//@OnDelete(action = OnDeleteAction.CASCADE)
-    //@JoinColumn(name = "game_id", nullable = false)
-	//private Game game;
-
 	@ManyToOne
 	@OnDelete(action = OnDeleteAction.CASCADE)
     @JoinColumn(name = "account_id")

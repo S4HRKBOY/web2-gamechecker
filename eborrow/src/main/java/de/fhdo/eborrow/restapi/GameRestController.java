@@ -29,13 +29,10 @@ public class GameRestController {
 
     private GameService gameService;
     private GameSearchService gameSearchService;
-    private AccountService accountService;
 
     @Autowired
-    public GameRestController(GameService gameService, AccountService accountService,
-            GameSearchService gameSearchService) {
+    public GameRestController(GameService gameService, GameSearchService gameSearchService) {
         this.gameService = gameService;
-        this.accountService = accountService;
         this.gameSearchService = gameSearchService;
     }
 
@@ -113,25 +110,7 @@ public class GameRestController {
 
     @PostMapping(value = "/game/filtered-games", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     public List<GameDto> getFilteredGames(@RequestBody FilterInfo filterInfo) throws NotFoundException {
-        AccountDto accountDto = accountService.getAccountById(1L);
-        List<GameDto> games = gameService.getAll();
-
-        if (!Objects.equals(filterInfo.getGenre(), "All")) {
-            games = games.stream().filter(gameDto -> gameDto.getGenres().contains(filterInfo.getGenre())).toList();
-        }
-
-        if (filterInfo.getDeveloper() != null && !filterInfo.getDeveloper().isEmpty()
-                && !filterInfo.getDeveloper().isBlank()) {
-            games = games.stream().filter(gameDto -> gameDto.getDeveloper().equalsIgnoreCase(filterInfo.getDeveloper()))
-                    .toList();
-        }
-
-        if (!Objects.equals(filterInfo.getPlatform(), "All")) {
-            games = games.stream().filter(gameDto -> gameDto.getPlatforms().contains(filterInfo.getPlatform()))
-                    .toList();
-        }
-
-        return games;
+        return gameSearchService.getGamesByFilterInfo(filterInfo);
     }
 
     @PostMapping(value = "/game/games-search", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)

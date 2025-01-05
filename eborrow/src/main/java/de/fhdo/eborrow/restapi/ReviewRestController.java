@@ -26,17 +26,9 @@ import java.util.Map;
 @RequestMapping("/review")
 public class ReviewRestController {
 
-	private static final String SUCCESS_MESSAGE = "Operation was successful!";
-	private static final String PARSING_JSON_ERROR = "Error while trying parse provided json inside the http body! Json is most likely malformed!";
-
-	private static final Logger LOGGER = LoggerFactory.getLogger(ReviewRestController.class);
-
 	private GameService    gameService;
 	private AccountService accountService;
 	private ReviewService  reviewService;
-
-	private ObjectMapper objectMapper = new ObjectMapper();
-
 
 	@Autowired
 	public ReviewRestController(GameService gameService, AccountService accountService, ReviewService reviewService){
@@ -65,24 +57,6 @@ public class ReviewRestController {
 		}
 
 		return new ResponseEntity<>(reviewDto, HttpStatus.OK);
-	}
-
-	@GetMapping(value =  "/accounts-games", produces = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE})
-	public ResponseEntity<ResponseMessage> getAccountsAndGames(){
-		ResponseMessage responseMessage = new ResponseMessage();
-		responseMessage.setStatus(200);
-		responseMessage.setMessage("Operation Successful!");
-
-		Map<String, Object> results = new HashMap<>();
-		List<GameDto> gameDtos = gameService.getAll();
-		//gameService.getAll().forEach(richGameDto -> {
-		//	Game game = GameMapper.richDtoToGame(gameService.getRichGameById(richGameDto.getId()));
-		//	gameDtos.add(GameMapper.gameToDto(game));
-		//});
-		results.put("games", gameDtos);
-		results.put("accounts", accountService.getRichAccounts());
-		responseMessage.setResponse(results);
-		return new ResponseEntity<>(responseMessage, HttpStatus.OK);
 	}
 
 	@PostMapping(value = "/create-review", consumes = { MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE }, produces = {
