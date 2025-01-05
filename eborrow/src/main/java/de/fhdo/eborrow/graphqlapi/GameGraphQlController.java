@@ -28,14 +28,9 @@ public class GameGraphQlController {
         return gameService.getAll();
     }
 
-    @QueryMapping("richGame")
+    @QueryMapping("game")
     public RichGameDto getRichGameById(@Argument Long id) {
         return gameService.getRichGameById(id);
-    }
-
-    @QueryMapping("game")
-    public GameDto getGameById(@Argument Long id) {
-        return gameService.getGameById(id);
     }
 
     @QueryMapping("allGenres")
@@ -75,7 +70,7 @@ public class GameGraphQlController {
         return gameService.getGameById(id);
     }
 
-    @SchemaMapping(typeName = "RichGame", field = "reviews")
+    @SchemaMapping(typeName = "Game", field = "reviews")
     public List<ReviewDto> reviews(RichGameDto richGame) {
         return richGame.getReviewsDto();
     }
