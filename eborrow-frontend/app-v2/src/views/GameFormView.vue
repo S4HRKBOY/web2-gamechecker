@@ -140,53 +140,49 @@ const handleCancel = () => {
 </script>
 
 <template>
-
-  <body>
-    <NavigationHeader />
-
-    <main>
-      <div class="headline">
-        <h1 v-if="gameId === undefined" id="headline">Spiel anlegen</h1>
-        <h1 v-else id="headline">Spiel bearbeiten</h1>
-        <input type="submit" value="Abbrechen" id="cancel" @click="handleCancel">
-      </div>
-      <form id="gameForm" @submit.prevent>
-        <label for="title">Spieletitel</label>
-        <input id="title" type="text" name="title" maxlength="150" v-model="game.title" required>
-        <label for="platform">Plattform</label>
-        <CustomDropdown id="platform-grid" buttonText="Verfügbare Plattformen auswählen" :items="platforms"
-          v-model="game.platforms">
-        </CustomDropdown>
-        <label for="description">Beschreibung</label>
-        <textarea id="description" name="description" v-model="game.description" maxlength="5000" required></textarea>
-        <label for="genre">Genre</label>
-        <CustomDropdown id="genre-grid" buttonText="Genre auswählen" :items="genres" v-model="game.genres">
-        </CustomDropdown>
-        <label for="publication">Veröffentlichung</label>
-        <input id="publication" type="date" name="publication" v-model="game.publicationDate" required>
-        <label for="developer">Entwickler</label>
-        <input id="developer" type="text" name="developer" maxlength="100" v-model="game.developer" required>
-        <label for="publisher">Publisher</label>
-        <input id="publisher" type="text" name="publisher" maxlength="100" v-model="game.publisher" required>
-        <label for="age">Altersfreigabe</label>
-        <select name="age" id="age" v-model="game.ageRating">
-          <option v-for="ageRating in ageRatings" :key="ageRating" :value="ageRating">{{ ageRating }}</option>
-        </select>
-        <label for="file" @click.prevent>Bild hochladen</label>
-        <input id="hidden-file" type="file" name="file" accept="image/*" @change="handleImageUpload"
-          ref="hiddenFileInput">
-        <input id="file" type="button" name="file" @click="triggerFileInput" value="Bild auswählen" />
-        <fieldset id="imagearea">
-          <legend>Vorschaubild</legend>
-          <img v-if="game.gameImage" id="gameImage" :src="`data:image/jpg;base64,${game.gameImage}`" alt="Game Image" />
-        </fieldset>
-        <input v-if="game.gameImage" id="delete-image" type="button" value="Bild entfernen" @click="handleImageDelete">
-        <input v-if="gameId === undefined" id="submit" type="submit" value="Neues Spiel anlegen" @click="handleCreate">
-        <input v-if="gameId !== undefined" id="submit" type="submit" value="Änderungen speichern" @click="handleSave">
-        <input v-if="gameId !== undefined" id="delete" type="submit" value="Spiel löschen" @click="handleDelete">
-      </form>
-    </main>
-  </body>
+  <NavigationHeader />
+  <main>
+    <div class="headline">
+      <h1 v-if="gameId === undefined" id="headline">Spiel anlegen</h1>
+      <h1 v-else id="headline">Spiel bearbeiten</h1>
+      <input type="submit" value="Abbrechen" id="cancel" @click="handleCancel">
+    </div>
+    <form id="gameForm" @submit.prevent>
+      <label for="title">Spieletitel</label>
+      <input id="title" type="text" name="title" maxlength="150" v-model="game.title" required>
+      <label for="platform">Plattform</label>
+      <CustomDropdown id="platform-grid" buttonText="Verfügbare Plattformen auswählen" :items="platforms"
+        v-model="game.platforms">
+      </CustomDropdown>
+      <label for="description">Beschreibung</label>
+      <textarea id="description" name="description" v-model="game.description" maxlength="5000" required></textarea>
+      <label for="genre">Genre</label>
+      <CustomDropdown id="genre-grid" buttonText="Genre auswählen" :items="genres" v-model="game.genres">
+      </CustomDropdown>
+      <label for="publication">Veröffentlichung</label>
+      <input id="publication" type="date" name="publication" v-model="game.publicationDate" required>
+      <label for="developer">Entwickler</label>
+      <input id="developer" type="text" name="developer" maxlength="100" v-model="game.developer" required>
+      <label for="publisher">Publisher</label>
+      <input id="publisher" type="text" name="publisher" maxlength="100" v-model="game.publisher" required>
+      <label for="age">Altersfreigabe</label>
+      <select name="age" id="age" v-model="game.ageRating">
+        <option v-for="ageRating in ageRatings" :key="ageRating" :value="ageRating">{{ ageRating }}</option>
+      </select>
+      <label for="file" @click.prevent>Bild hochladen</label>
+      <input id="hidden-file" type="file" name="file" accept="image/*" @change="handleImageUpload"
+        ref="hiddenFileInput">
+      <input id="file" type="button" name="file" @click="triggerFileInput" value="Bild auswählen" />
+      <fieldset id="imagearea">
+        <legend>Vorschaubild</legend>
+        <img v-if="game.gameImage" id="gameImage" :src="`data:image/jpg;base64,${game.gameImage}`" alt="Game Image" />
+      </fieldset>
+      <input v-if="game.gameImage" id="delete-image" type="button" value="Bild entfernen" @click="handleImageDelete">
+      <input v-if="gameId === undefined" id="submit" type="submit" value="Neues Spiel anlegen" @click="handleCreate">
+      <input v-if="gameId !== undefined" id="submit" type="submit" value="Änderungen speichern" @click="handleSave">
+      <input v-if="gameId !== undefined" id="delete" type="submit" value="Spiel löschen" @click="handleDelete">
+    </form>
+  </main>
 </template>
 
 <style scoped>
