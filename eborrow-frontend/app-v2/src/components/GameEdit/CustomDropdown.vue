@@ -46,7 +46,7 @@ const handleSelectionChange = (event, item) => {
 <template>
   <div class="dropdown" ref="dropdownRef">
     <input type="button" id="dropdown-button" @click.prevent="toggleDropdown" :value="buttonText">
-    <div v-if="isDropdownOpen" class="dropdown-content">
+    <div v-show="isDropdownOpen" class="dropdown-content">
       <div v-for="item in items" :key="item">
         <label>
           <input type="checkbox" :value="item" :checked="modelValue.includes(item)" @change="handleSelectionChange($event, item)">
