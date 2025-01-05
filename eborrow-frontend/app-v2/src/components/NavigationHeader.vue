@@ -1,23 +1,27 @@
 <script setup>
-  import { useRouter } from 'vue-router';
+import { useRouter } from 'vue-router';
 
-  let id;
-  let logout
-  let publisher;
-  const router = useRouter();
-  try {
-    id = JSON.parse(sessionStorage.getItem('accountId'));
-    publisher = JSON.parse(sessionStorage.getItem('publisher'));
+let id;
+let publisher;
+const router = useRouter();
 
-    logout = () => {
-      sessionStorage.setItem('accountId', '');
-      sessionStorage.setItem('publisher', '');
-    };
-  } catch (error) {
-    console.error(error);
-    alert('Ein Fehler ist aufgetreten. Bitte versuchen Sie es später erneut.');
-    router.push('/login');
+try {
+  if(sessionStorage.getItem('accountId') === null || sessionStorage.getItem('publisher') === null) {
+    throw new Error('No account data found.');
   }
+
+  id = JSON.parse(sessionStorage.getItem('accountId'));
+  publisher = JSON.parse(sessionStorage.getItem('publisher'));
+} catch (error) {
+  console.error(error);
+  alert('Ein Fehler ist aufgetreten. Bitte versuchen Sie es später erneut.');
+  router.push('/login');
+}
+
+function logout() {
+  sessionStorage.setItem('accountId', '');
+  sessionStorage.setItem('publisher', '');
+}
 </script>
 
 <template>
