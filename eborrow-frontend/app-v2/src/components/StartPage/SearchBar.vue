@@ -1,5 +1,5 @@
 <script setup>
-    import { defineEmits, reactive, useTemplateRef } from "vue";
+    import { defineEmits, reactive } from "vue";
 
     const emit = defineEmits(['apply-search']);
     const query = reactive({searchQuery:""});

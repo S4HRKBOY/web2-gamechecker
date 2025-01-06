@@ -33,12 +33,12 @@
             <label for="genres">Genres: </label>
             <select v-model="filterInfo.genre" name="genres" id="genres" class="genre-filter">
                 <option value="All">All</option>
-                <option v-for="genre in genres" v-bind:value="genre">{{genre}}</option>
+                <option v-for="genre in genres" v-bind:key="genre" v-bind:value="genre">{{genre}}</option>
             </select>
             <label for="platform">Platform: </label>
             <select v-model="filterInfo.platform" name="platform" id="platform" class="platform-filter">
                 <option value="All">All</option>
-                <option v-for="platform in platforms" v-bind:value="platform">{{platform}}</option>
+                <option v-for="platform in platforms" v-bind:key="platform" v-bind:value="platform">{{platform}}</option>
             </select>
             <label for="dev">Developer: </label>
             <input v-model="filterInfo.developer" type="text" id="dev" name="developer" class="dev-input">

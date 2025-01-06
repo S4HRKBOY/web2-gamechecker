@@ -40,7 +40,7 @@
         <div class="overview">
             <div class="overview-table-container">
                 <ul>
-                    <li v-for="game in games" class="overview-entry">
+                    <li v-for="game in games" :key="game.id" class="overview-entry">
                         <div class="overview-image">
                             <RouterLink :to="`/game/${game.id}`"> <!-- to="/game/${game.id}" -->
                                 <img :src="imgToSrc(game.gameImage)" alt="Vorzeigebild des Spiels">
