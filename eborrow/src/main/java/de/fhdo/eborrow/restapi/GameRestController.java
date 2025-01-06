@@ -109,7 +109,7 @@ public class GameRestController {
     }
 
     @PostMapping(value = "/game/filtered-games", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-    public List<GameDto> getFilteredGames(@RequestBody FilterInfo filterInfo) throws NotFoundException {
+    public List<GameDto> getFilteredGames(@RequestBody FilterInfo filterInfo) {
         return gameSearchService.getGamesByFilterInfo(filterInfo);
     }
 

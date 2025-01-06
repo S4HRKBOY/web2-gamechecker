@@ -1,44 +1,29 @@
 package de.fhdo.eborrow.restapi;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-import de.fhdo.eborrow.converters.GameMapper;
-import de.fhdo.eborrow.domain.Game;
-import de.fhdo.eborrow.dto.GameDto;
 import de.fhdo.eborrow.dto.ReviewDto;
-import de.fhdo.eborrow.services.AccountService;
-import de.fhdo.eborrow.services.GameService;
 import de.fhdo.eborrow.services.ReviewService;
 import javassist.NotFoundException;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 @RestController
 @RequestMapping("/review")
 public class ReviewRestController {
 
-	private GameService    gameService;
-	private AccountService accountService;
 	private ReviewService  reviewService;
 
 	@Autowired
-	public ReviewRestController(GameService gameService, AccountService accountService, ReviewService reviewService){
-		this.gameService = gameService;
-		this.accountService = accountService;
+	public ReviewRestController(ReviewService reviewService){
 		this.reviewService = reviewService;
 	}
 
 	@GetMapping(value = "/reviews", produces = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE})
-	public ResponseEntity<List<ReviewDto>> allReviews() throws NotFoundException {
+	public ResponseEntity<List<ReviewDto>> allReviews() {
 		List<ReviewDto> reviewDtoList = reviewService.getAll();
 
 		if(reviewDtoList == null){
@@ -49,7 +34,7 @@ public class ReviewRestController {
 	}
 
 	@GetMapping(value = "/{reviewId}", produces = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE})
-	public ResponseEntity<ReviewDto> reviewById(@PathVariable("reviewId") Long reviewId) throws NotFoundException {
+	public ResponseEntity<ReviewDto> reviewById(@PathVariable("reviewId") Long reviewId) {
 		ReviewDto reviewDto = reviewService.getReviewById(reviewId);
 
 		if(reviewDto == null){
@@ -74,9 +59,8 @@ public class ReviewRestController {
 		return new ResponseEntity<>(reviewService.getReviewById(reviewId), HttpStatus.CREATED);
 	}
 
-	//TODO: Json benötigt ReviewDTO im HTTP-Body
 	@DeleteMapping(value = "/delete-review/{reviewId}", produces = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE})
-	public ResponseEntity<Void> deleteReview(@PathVariable("reviewId") Long reviewId) throws NotFoundException  {
+	public ResponseEntity<Void> deleteReview(@PathVariable("reviewId") Long reviewId) {
 		if(reviewId == null){
 			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 		}
@@ -85,10 +69,9 @@ public class ReviewRestController {
 		return new ResponseEntity<>(HttpStatus.OK);
 	}
 
-	//TODO: Json benötigt ReviewDTO
 	@PutMapping(value = "/update-review/{reviewId}", consumes = { MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE }, produces = {
 			MediaType.APPLICATION_JSON_VALUE})
-	public ResponseEntity<ReviewDto> updateReview(@PathVariable Long reviewId, @RequestBody ReviewDto reviewDto) throws NotFoundException {
+	public ResponseEntity<ReviewDto> updateReview(@PathVariable Long reviewId, @RequestBody ReviewDto reviewDto) {
 		if(reviewDto == null || reviewDto.getId() == null || !reviewId.equals(reviewDto.getId())){
 			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 		}
