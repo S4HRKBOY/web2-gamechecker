@@ -7,6 +7,8 @@ const inputVals = inject('inputVals');
 
 const inputRef = ref(null);
 
+defineExpose({validateEmail});
+
 async function validateEmail(accountId) {
     const emailInput = inputRef.value;
     const emailLowercase = inputVals.email.toLowerCase();
@@ -43,8 +45,6 @@ async function validateEmail(accountId) {
 function resetValidity() {   
     inputRef.value.setCustomValidity('')
 }
-
-defineExpose({validateEmail});
 </script>
 
 <template>
@@ -61,17 +61,6 @@ defineExpose({validateEmail});
     </div>
 </template>
 
-<style>
-.form-input {
-    display: flex;
-    column-gap: 10px;
-}
-
-.form-input>label {
-    flex: 2;
-}
-
-.form-input>input {
-    flex: 3;
-}
+<style scoped>
+@import 'src/assets/css/inputs/inputs.css';
 </style>

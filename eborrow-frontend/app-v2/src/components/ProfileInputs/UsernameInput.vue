@@ -7,6 +7,8 @@ const inputVals = inject('inputVals');
 
 const inputRef = ref(null);
 
+defineExpose({validateUsername});
+
 async function validateUsername(accountId) {
     const usernameInput = inputRef.value;
 
@@ -43,8 +45,6 @@ async function validateUsername(accountId) {
 function resetValidity() {   
     inputRef.value.setCustomValidity('')
 }
-
-defineExpose({validateUsername});
 </script>
 
 <template>
@@ -62,17 +62,6 @@ defineExpose({validateUsername});
     </div>
 </template>
 
-<style>
-.form-input {
-    display: flex;
-    column-gap: 10px;
-}
-
-.form-input>label {
-    flex: 2;
-}
-
-.form-input>input {
-    flex: 3;
-}
+<style scoped>
+@import 'src/assets/css/inputs/inputs.css';
 </style>

@@ -57,7 +57,7 @@ const handleSelectionChange = (event, item) => {
   </div>
 </template>
 
-<style>
+<style scoped>
 .dropdown {
   position: relative;
   display: block;
