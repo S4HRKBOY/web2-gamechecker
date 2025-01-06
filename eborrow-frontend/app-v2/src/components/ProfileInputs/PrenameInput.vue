@@ -11,6 +11,8 @@ const inputVals = inject('inputVals');
             type="text" 
             id="prename" 
             name="prename" 
+            minlength="2"
+            maxlength="50"
             required
             v-model="inputVals.prename">
     </div>

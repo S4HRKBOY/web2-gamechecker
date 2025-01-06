@@ -60,6 +60,7 @@ function resetValidity() {
             type="email"
             id="email"
             name="email"
+            maxlength="100"
             required
             v-model="inputVals.email"
             ref="inputRef"
