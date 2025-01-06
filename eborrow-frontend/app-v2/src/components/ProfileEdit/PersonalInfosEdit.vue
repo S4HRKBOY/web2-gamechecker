@@ -1,14 +1,14 @@
 <script setup>
-import * as useAccountGraphQLApi from "@/composables/useAccountGraphQLApi.js";
-import { inject, reactive, ref } from "vue";
+import { inject, provide, reactive, ref } from "vue";
 import EmailInput from "../ProfileInputs/EmailInput.vue";
-import { provide } from "vue";
+import UsernameInput from "../ProfileInputs/UsernameInput.vue";
 
 // Injected properties
 const account = inject('account');
 
 // Refs for child components
 const emailInputComp = ref(null);
+const usernameInputComp = ref(null);
 
 const inputVals = reactive({
     prename: "",
@@ -21,8 +21,6 @@ const inputVals = reactive({
 });
 
 const inputRefs = {
-    email: ref(null),
-    username: ref(null),
     password: ref(null),
     passwordConfirm: ref(null)
 };
@@ -39,7 +37,7 @@ function populateInputs(account) {
     inputVals.prename = account.prename;
     inputVals.surname = account.surname;
     inputVals.birthday = account.birthday;
-    emailInputComp.value.populateInput(account.email);
+    inputVals.email = account.email;
     inputVals.username = account.username;
 }
 
@@ -79,36 +77,7 @@ async function validateEmail(accountId) {
 }
 
 async function validateUsername(accountId) {
-    const usernameInput = inputRefs.username.value;
-
-    if (!usernameInput.value) {
-        usernameInput.setCustomValidity("Bitte geben Sie einen Benutzernamen ein.");
-        usernameInput.reportValidity();
-
-        return false;
-    }
-
-    let usernameTaken;
-    try {
-        usernameTaken = await useAccountGraphQLApi.isUsernameUsedByOtherAccount(accountId, usernameInput.value);
-
-        if (usernameTaken !== false && usernameTaken !== true) {
-            throw new Error("Unexpected response from server.");
-        }
-    } catch (err) {
-        console.error(err);
-
-        return false;
-    }
-
-    if (usernameTaken === true) {
-        usernameInput.setCustomValidity("Dieser Benutzername ist bereits vergeben.");
-        usernameInput.reportValidity();
-
-        return false;
-    }
-
-    return true;
+    return usernameInputComp.value.validateUsername(accountId);
 }
 
 function yesterday() {
@@ -156,7 +125,8 @@ function yesterday() {
         </fieldset>
         <fieldset>
             <legend>Anmeldeinformationen</legend>
-            <div class="form-input">
+            <UsernameInput ref="usernameInputComp" />
+            <!-- <div class="form-input">
                 <label for="username">Benutzername</label>
                 <input 
                     type="text" 
@@ -166,7 +136,7 @@ function yesterday() {
                     id="username" 
                     name="username" 
                     required>
-            </div>
+            </div> -->
             <div class="form-input">
                 <label for="password">Passwort</label>
                 <input

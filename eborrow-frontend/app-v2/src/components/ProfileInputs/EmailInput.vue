@@ -7,10 +7,6 @@ const inputVals = inject('inputVals');
 
 const inputRef = ref(null);
 
-function populateInput(mail) {
-    inputVals.email = mail;
-}
-
 async function validateEmail(accountId) {
     const emailInput = inputRef.value;
     const emailLowercase = inputVals.email.toLowerCase();
@@ -48,10 +44,7 @@ function resetValidity() {
     inputRef.value.setCustomValidity('')
 }
 
-defineExpose({
-    populateInput,
-    validateEmail
-});
+defineExpose({validateEmail});
 </script>
 
 <template>
