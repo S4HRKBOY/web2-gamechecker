@@ -1,0 +1,17 @@
+input:invalid,select:invalid {
+    border-color: red;
+    outline: none;
+}
+
+.form-input {
+    display: flex;
+    column-gap: 10px;
+}
+
+.form-input>label {
+    flex: 2;
+}
+
+.form-input>input {
+    flex: 3;
+}

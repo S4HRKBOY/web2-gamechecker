@@ -10,12 +10,12 @@
     
     import PTH_DEFAULT_GAME_PIC from "@/assets/images/logo.svg";
 
-    async function onSearchButtonPressed(){
-        games.value = await gamesRestApi.getGamesBySearchQuery();
+    async function onSearchButtonPressed(query){
+        games.value = await gamesRestApi.getGamesBySearchQuery(query);
     }
 
-    async function onFilterButtonPressed(){
-        games.value = await gamesRestApi.getGamesByFilter();
+    async function onFilterButtonPressed(filterInfo){
+        games.value = await gamesRestApi.getGamesByFilter(filterInfo);
     }
 
     function imgToSrc(img) {
@@ -38,38 +38,29 @@
         <SearchBar @apply-search="onSearchButtonPressed"/>
         <SortPanel @apply-filter="onFilterButtonPressed"/>
         <div class="overview">
-            <table class="overview-table-container">
-                <tbody>
-                    <tr v-for="game in games" class="overview-entry">
-                        <td class="overview-image">
+            <div class="overview-table-container">
+                <ul>
+                    <li v-for="game in games" :key="game.id" class="overview-entry">
+                        <div class="overview-image">
                             <RouterLink :to="`/game/${game.id}`"> <!-- to="/game/${game.id}" -->
                                 <img :src="imgToSrc(game.gameImage)" alt="Vorzeigebild des Spiels">
                             </RouterLink>
-                        </td>
-                        {{console.log(game.title)}}
-                        <td class="overview-info">
+                        </div>
+                        <div class="overview-info">
                             <div class="game-title">{{game.title}}</div>
                             <div class="game-developer">{{game.developer}}</div>
                             <div class="game-genres">
                                 Genres: 
-                                <ul class="genre-list">
-                                    <li v-for="genre in game.genres">
-                                        {{genre}}
-                                    </li>
-                                </ul>
+                                {{ game.genres.join(', ')}}
                             </div>
                             <div class="game-platforms">
                                 Platforms:
-                                <ul class="platform-list">
-                                    <li v-for="platform in game.platforms">
-                                        {{platform}}
-                                    </li>
-                                </ul>
+                                {{ game.platforms.join(', ')}}
                             </div>
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
+                        </div>
+                    </li>
+                </ul>
+            </div>
         </div>
     </div>
 </template>
@@ -111,8 +102,8 @@
     grid-template-rows: auto;
     align-items: center;
 
-    justify-items: normal;
-    justify-content: space-between;
+    justify-items: start;
+    justify-content: center;
     align-items: center;
 }
 
@@ -139,7 +130,7 @@
     grid-template-rows: 20% 10% auto;
     justify-content: stretch;
     justify-items: center;
-    align-items: center;
+    align-items: start;
     row-gap: 10%;
 
 }
@@ -158,44 +149,8 @@
     grid-area: game-genres;
 }
 
-.genre-list{
-    display: inline;
-    list-style: none;
-    padding: 0px;
-}
-
-.genre-list li{
-    display: inline;
-}
-
-.genre-list li::after{
-    content: ", ";
-}
-
-.genre-list li:last-child::after{
-    content: "";
-}
-
 .game-platforms{
     grid-area: game-platforms
-}
-
-.platform-list{
-    display: inline;
-    list-style: none;
-    padding: 0px;
-}
-
-.platform-list li{
-    display: inline;
-}
-
-.platform-list li::after{
-    content: ", ";
-}
-
-.platform-list li:last-child::after{
-    content: "";
 }
 
 </style>

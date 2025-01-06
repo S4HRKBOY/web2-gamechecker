@@ -65,6 +65,36 @@ export async function getAccountById(id, fields = []) {
     }
 }
 
+export async function createAccount(account) {
+    const mutation = `
+        mutation {
+            createAccount(account: {
+                prename: "${account.prename}"
+                surname: "${account.surname}"
+                birthday: ${account.birthday ? `"${account.birthday}"` : null}
+                username: "${account.username}"
+                email: "${account.email}"
+                password: "${account.password}"
+            }) {
+                id
+            }
+        }`;
+
+    try {
+        const response = await fetchGraphQL(mutation);
+        const json = await response.json();
+        if (json.errors) {
+            const errorMessages = bundleErrorMessages(json)
+            throw new Error(errorMessages);
+        }
+
+        return json.data.createAccount.id;
+    } catch (error) {
+        console.error(`Failed to create account:`, error);
+        throw error;
+    }
+}
+
 export async function updateAccount(account, fields = []) {
     if (fields.length === 0) {
         fields = ACCOUNT_SELECTION_SET;

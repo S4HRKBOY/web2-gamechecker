@@ -1,4 +1,93 @@
-<script setup></script>
+<script setup>
+import SurnameInput from '@/components/ProfileInputs/SurnameInput.vue';
+import PrenameInput from '@/components/ProfileInputs/PrenameInput.vue';
+import UsernameInput from '@/components/ProfileInputs/UsernameInput.vue';
+import BirthdayInput from '@/components/ProfileInputs/BirthdayInput.vue';
+import EmailInput from '@/components/ProfileInputs/EmailInput.vue';
+import PasswordInputs from '@/components/ProfileInputs/PasswordInputs.vue';
+import { provide, ref, reactive } from 'vue';
+import router from "@/router";
+import * as useAccountApi from "@/composables/useAccountRestApi.js";
+
+const inputComps = {
+    email: ref(null),
+    username: ref(null),
+    password: ref(null)
+};
+
+const inputVals = reactive({
+    prename: "",
+    surname: "",
+    username: "",
+    birthday: "",
+    email: "",
+    password: "",
+    passwordConfirm: ""
+});
+
+provide('inputVals', inputVals);
+
+async function createAccount() {
+    let inputsValid;
+    try {
+        inputsValid = await validateInputs();
+    } catch (error) {
+        console.error(error);
+        alert("Ein Fehler ist aufgetreten. Bitte versuchen Sie es später erneut.");
+    }
+
+    if (!inputsValid) {
+        return;
+    }
+
+    const account = {
+        prename: inputVals.prename,
+        surname: inputVals.surname,
+        username: inputVals.username,
+        birthday: inputVals.birthday,
+        email: inputVals.email,
+        password: inputVals.password
+    };
+
+    useAccountApi.createAccount(account)
+        .then(() => {
+            router.push(`/login`);
+        })
+        .catch((err) => {
+            console.error(err);
+            alert("Ein Fehler ist aufgetreten. Bitte versuchen Sie es später erneut.");
+        });
+}
+
+async function validateInputs() {
+    let isValid = true;
+    if (!validatePasswords()) {
+        isValid = false;
+    }
+
+    if (!await validateUsername()) {
+        isValid = false;
+    }
+
+    if (!await validateEmail()) {
+        isValid = false;
+    }
+
+    return isValid;
+}
+
+function validatePasswords() {
+    return inputComps.password.value.validatePasswords();
+}
+
+async function validateEmail() {
+    return await inputComps.email.value.validateEmail();
+}
+
+async function validateUsername() {
+    return await inputComps.username.value.validateUsername();
+}
+</script>
 
 <template>
     <main>
@@ -8,38 +97,16 @@
                     <RouterLink to="/"><img src="../assets/images/logo.svg" alt="Logo von Game-Tracker"></RouterLink>
                 </figure>
                 <!-- TODO -->
-                <form class="register-form">
+                <form class="register-form" @submit.prevent="createAccount">
                     <fieldset>
-                        <div class="form-input">
-                            <label for="surname">Name</label>
-                            <input type="text" id="surname" name="surname">
-                        </div>
-                        <div class="form-input">
-                            <label for="prename">Vorname</label>
-                            <input type="text" id="prename" name="prename">
-                        </div>
-                        <div class="form-input">
-                            <label for="username">Benutzername</label>
-                            <input type="text" id="username" name="username">
-                        </div>
-                        <div class="form-input">
-                            <label for="birthday">Geburtsdatum</label>
-                            <input type="date" id="birthday" name="birthday" value="2000-01-01">
-                        </div>
+                        <SurnameInput />
+                        <PrenameInput />
+                        <UsernameInput :ref="inputComps.username" />
+                        <BirthdayInput />
                     </fieldset>
                     <fieldset>
-                        <div class="form-input">
-                            <label for="email">E-Mail Adresse</label>
-                            <input type="email" id="email" name="email">
-                        </div>
-                        <div class="form-input">
-                            <label for="password">Passwort</label>
-                            <input type="password" id="password" name="password">
-                        </div>
-                        <div class="form-input">
-                            <label for="password-confirm">Passwort wiederholen</label>
-                            <input type="password" id="password-confirm">
-                        </div>
+                        <EmailInput :ref="inputComps.email" />
+                        <PasswordInputs :ref="inputComps.password" />
                     </fieldset>
                     <div class="form-button"><button type="submit">KOMM IN
                             DIE GRUPPE!</button></div>
@@ -100,24 +167,6 @@ main {
     border: 1px solid hsl(0, 0%, 75%);
     border-radius: 5px;
     padding: 15px;
-}
-
-.form-input {
-    display: flex;
-}
-
-.form-input>label {
-    flex: 1;
-}
-
-.form-input>input {
-    flex: 2;
-}
-
-.form-input>* {
-    display: block;
-    width: 100%;
-    height: 100%;
 }
 
 .form-button {

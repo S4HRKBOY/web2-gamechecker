@@ -1,7 +1,6 @@
 package de.fhdo.eborrow.graphqlapi;
 
-import de.fhdo.eborrow.dto.AccountDto;
-import de.fhdo.eborrow.dto.RichAccountDto;
+import de.fhdo.eborrow.dto.*;
 import de.fhdo.eborrow.services.AccountService;
 import jakarta.validation.Valid;
 import javassist.NotFoundException;
@@ -9,9 +8,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.graphql.data.method.annotation.Argument;
 import org.springframework.graphql.data.method.annotation.MutationMapping;
 import org.springframework.graphql.data.method.annotation.QueryMapping;
+import org.springframework.graphql.data.method.annotation.SchemaMapping;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.server.ResponseStatusException;
+
+import java.util.List;
 
 @Controller
 public class AccountGraphQlController {
@@ -173,5 +175,10 @@ public class AccountGraphQlController {
 	@QueryMapping("accountHasGame")
 	public Boolean accountHasGame(@Argument Long accountId, @Argument Long gameId) {
 		return accountService.accountHasGame(accountId, gameId);
+	}
+
+	@SchemaMapping(typeName = "Account", field = "taggedGames")
+	public List<GameDto> taggedGames(RichAccountDto richAccountDto) {
+		return richAccountDto.getTaggedGames();
 	}
 }

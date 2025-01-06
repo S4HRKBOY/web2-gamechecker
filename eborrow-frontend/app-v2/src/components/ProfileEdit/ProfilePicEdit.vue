@@ -25,6 +25,8 @@ function onProfilePicChange(event) {
     }
 
     if (!validateProfilePic(file)) {
+        alert("Bitte wählen Sie eine gültige Bilddatei aus.");
+
         return;
     }
 
@@ -72,9 +74,7 @@ function validateInputs() {
 
 function validateProfilePic(file) {
     if (file && !file.type.startsWith("image/")) {
-        alert("Bitte wählen Sie eine gültige Bilddatei aus.");
-        // ZAK TODO: GUCKEN, das wird hier ja gar nicht implementiert
-        fileInput.value = ""; // Clear the invalid file input
+        fileSelectInput.value.value = ""; // Clear the invalid file input
         loadedImage.value = null;
 
         return false;

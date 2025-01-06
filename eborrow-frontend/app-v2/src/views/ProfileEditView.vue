@@ -10,8 +10,10 @@ import { ref, reactive, provide, onMounted } from "vue";
 const route = useRoute();
 
 // Refs for child components
-const personalInfosEdit = ref(null);
-const profilePicEdit = ref(null);
+const inputRefs = {
+    personalInfosEdit: ref(null),
+    profilePicEdit: ref(null)
+};
 
 const account = reactive({});
 provide('account', account);
@@ -20,8 +22,8 @@ onMounted(() => {
     useAccountApi.getAccountById(route.params.id)
         .then(acc => {
             Object.assign(account, acc);
-            personalInfosEdit.value.populateInputs(account);
-            profilePicEdit.value.populateInputs(account);
+            inputRefs.personalInfosEdit.value.populateInputs(account);
+            inputRefs.profilePicEdit.value.populateInputs(account);
         })
         .catch(err => {
             console.error(err);
@@ -47,19 +49,26 @@ async function deleteAccount() {
 }
 
 async function updateAccount() {
-    const inputsValid = await validateInputs();
+    let inputsValid;
+    try {
+        inputsValid = await validateInputs();
+    } catch (error) {
+        console.error(error);
+        alert("Ein Fehler ist aufgetreten. Bitte versuchen Sie es später erneut.");
+    }
+
     if (!inputsValid) {
         return;
     }
 
-    const inputsPersonalInfos = personalInfosEdit.value?.inputVals;
+    const inputsPersonalInfos = inputRefs.personalInfosEdit.value?.inputVals;
     if (!inputsPersonalInfos) {
         console.error("inputs personal infos subcomponent cannot be read");
         return;
     }
 
-    const loadedImage = profilePicEdit.value?.loadedImage;
-    if (!profilePicEdit.value) {
+    const loadedImage = inputRefs.profilePicEdit.value?.loadedImage;
+    if (!inputRefs.profilePicEdit.value) {
         console.error("loaded image subcomponent cannot be read");
         return;
     }
@@ -88,11 +97,11 @@ async function updateAccount() {
 async function validateInputs() {
     let isValid = true;
 
-    if (!profilePicEdit.value?.validateInputs()) {
+    if (!inputRefs.profilePicEdit.value?.validateInputs()) {
         isValid = false;
     }
 
-    if (!await personalInfosEdit.value?.validateInputs()) {
+    if (!await inputRefs.personalInfosEdit.value?.validateInputs()) {
         isValid = false;
     }
 
@@ -107,8 +116,8 @@ async function validateInputs() {
             <section class="update-section">
                 <form class="update-form" @submit.prevent="updateAccount">
                     <section class="form-content">
-                        <PersonalInfosEdit ref="personalInfosEdit"></PersonalInfosEdit>
-                        <ProfilePicEdit ref="profilePicEdit"></ProfilePicEdit>
+                        <PersonalInfosEdit :ref="inputRefs.personalInfosEdit"></PersonalInfosEdit>
+                        <ProfilePicEdit :ref="inputRefs.profilePicEdit"></ProfilePicEdit>
                     </section>
                     <section class="send-form-options">
                         <RouterLink :to="`/account/${account.id}`" class="cancel-link">Abbrechen</RouterLink>

@@ -29,10 +29,9 @@ function unlistGameFromAccount(gameId) {
         <div v-else class="overview">
             <table class="overview-table-container">
                 <tbody>
-                    <tr v-for="game in account.taggedGames" class="overview-entry">
-                        <!-- for each game : ${account.taggedGames} -->
+                    <tr v-for="game in account.taggedGames" :key="game.id" class="overview-entry">
                         <td class="overview-image">
-                            <RouterLink :to="`/game/${game.id}`"> <!-- to="/game/${game.id}" -->
+                            <RouterLink :to="`/game/${game.id}`">
                                 <img :src="imgToSrc(game.gameImage)" alt="Vorzeigebild des Spiels">
                             </RouterLink>
                         </td>

@@ -1,14 +1,23 @@
 <script setup>
     import * as gamesRestApi from "@/composables/useGamesRestApi.js"
-    import { onMounted, ref, defineEmits } from "vue";
+    import { onMounted, ref, defineEmits, reactive } from "vue";
     
     const genres = ref([]);
     const platforms = ref([]);
 
     const emit = defineEmits(['apply-filter']);
 
+    const filterInfo = reactive({
+        genre: "All",
+        platform: "All",
+        developer: ""
+    });
+
     function applyFilter(){
-        emit('apply-filter');
+        emit('apply-filter', filterInfo);
+        filterInfo.genre = "All";
+        filterInfo.platform = "All";
+        filterInfo.developer = "";
     }
 
     onMounted(async () => {
@@ -22,17 +31,17 @@
     <div class="sort">
         <div class="filter-bar">
             <label for="genres">Genres: </label>
-            <select name="genres" id="genres" class="genre-filter">
-                <option value="all">All</option>
-                <option v-for="genre in genres" v-bind:value="genre">{{genre}}</option>
+            <select v-model="filterInfo.genre" name="genres" id="genres" class="genre-filter">
+                <option value="All">All</option>
+                <option v-for="genre in genres" v-bind:key="genre" v-bind:value="genre">{{genre}}</option>
             </select>
             <label for="platform">Platform: </label>
-            <select name="platform" id="platform" class="platform-filter">
-                <option value="all">All</option>
-                <option v-for="platform in platforms" v-bind:value="platform">{{platform}}</option>
+            <select v-model="filterInfo.platform" name="platform" id="platform" class="platform-filter">
+                <option value="All">All</option>
+                <option v-for="platform in platforms" v-bind:key="platform" v-bind:value="platform">{{platform}}</option>
             </select>
             <label for="dev">Developer: </label>
-            <input type="text" id="dev" name="developer" class="dev-input">
+            <input v-model="filterInfo.developer" type="text" id="dev" name="developer" class="dev-input">
             <button @click="applyFilter" type="submit" class="apply-filter">
                 <i class="fa fa-filter"></i>
             </button>

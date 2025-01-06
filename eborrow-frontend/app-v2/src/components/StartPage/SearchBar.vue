@@ -1,17 +1,20 @@
 <script setup>
-    import { defineEmits } from "vue";
+    import { defineEmits, reactive } from "vue";
 
     const emit = defineEmits(['apply-search']);
+    const query = reactive({searchQuery:""});
 
     function applySearch(){
-        emit('apply-search')
+        console.log(query.searchQuery);
+        emit('apply-search', query.searchQuery);
+        query.searchQuery = "";
     }
 
 </script>
 
 <template>
     <div class="search">
-        <input type="text" class="searchBox" placeholder="Search for games!">
+        <input v-model="query.searchQuery" type="text" class="searchBox" placeholder="Search for games!">
         <button @click="applySearch" type="submit" class="searchButton">
             <i class="fa fa-search"></i>
         </button>
