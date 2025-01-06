@@ -9,7 +9,7 @@ const inputRef = ref(null);
 
 defineExpose({validateUsername});
 
-async function validateUsername(accountId) {
+async function validateUsername(accountId = null) {
     const usernameInput = inputRef.value;
 
     if (!usernameInput.value) {
@@ -21,7 +21,13 @@ async function validateUsername(accountId) {
 
     let usernameTaken;
     try {
-        usernameTaken = await useAccountGraphQLApi.isUsernameUsedByOtherAccount(accountId, usernameInput.value);
+        if(accountId !== null 
+            && accountId !== '' 
+            && Number.isInteger(Number(accountId))) {
+            usernameTaken = await useAccountGraphQLApi.isUsernameUsedByOtherAccount(accountId, usernameInput.value);
+        } else {
+            usernameTaken = await useAccountGraphQLApi.isUsernameTaken(usernameInput.value);
+        }
 
         if (usernameTaken !== false && usernameTaken !== true) {
             throw new Error("Unexpected response from server.");
@@ -39,6 +45,7 @@ async function validateUsername(accountId) {
         return false;
     }
 
+    console.log("Username is valid");
     return true;
 }
 

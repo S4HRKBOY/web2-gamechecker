@@ -65,11 +65,11 @@ function validatePasswords() {
 }
 
 async function validateEmail(accountId) {
-    return inputComps.email.value.validateEmail(accountId);
+    return await inputComps.email.value.validateEmail(accountId);
 }
 
 async function validateUsername(accountId) {
-    return inputComps.username.value.validateUsername(accountId);
+    return await inputComps.username.value.validateUsername(accountId);
 }
 </script>
 

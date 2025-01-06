@@ -35,6 +35,27 @@ export async function getAccountById(id, withGames = false) {
     }
 }
 
+export async function createAccount(account) {
+    try {
+        const response = await fetch(`//localhost:8080/account/create-account`, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+                "Accept": "application/json"
+            },
+            body: JSON.stringify(account)
+        });
+
+        if (!response.ok) {
+            const errorResponse = await response.json();
+            throw new Error(errorResponse.message);
+        }
+    } catch (err) {
+        console.error(`Failed to create account:`, err);
+        throw err;
+    }
+}
+
 export async function updateAccount(account) {
     try {
         const response = await fetch(`//localhost:8080/account/edit/${account.id}`, {

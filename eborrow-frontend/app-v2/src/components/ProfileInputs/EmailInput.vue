@@ -9,7 +9,7 @@ const inputRef = ref(null);
 
 defineExpose({validateEmail});
 
-async function validateEmail(accountId) {
+async function validateEmail(accountId = null) {
     const emailInput = inputRef.value;
     const emailLowercase = inputVals.email.toLowerCase();
     if (!emailLowercase) {
@@ -21,7 +21,13 @@ async function validateEmail(accountId) {
 
     let emailTaken;
     try {
-        emailTaken = await useAccountGraphQLApi.isEmailUsedByOtherAccount(accountId, emailLowercase);
+        if(accountId !== null 
+            && accountId !== '' 
+            && Number.isInteger(Number(accountId))) {
+            emailTaken = await useAccountGraphQLApi.isEmailUsedByOtherAccount(accountId, emailLowercase);
+        } else {
+            emailTaken = await useAccountGraphQLApi.isEmailTaken(emailLowercase);
+        }
 
         if (emailTaken !== false && emailTaken !== true) {
             throw new Error("Unexpected response from server.");
