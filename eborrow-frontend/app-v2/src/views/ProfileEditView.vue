@@ -36,6 +36,8 @@ async function deleteAccount() {
 
     useAccountApi.deleteAccount(account.id)
         .then(() => {
+            sessionStorage.setItem('accountId', '');
+            sessionStorage.setItem('publisher', '');
             router.push("/login");
         })
         .catch((err) => {
