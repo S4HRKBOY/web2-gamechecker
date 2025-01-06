@@ -104,20 +104,15 @@ main {
 
 .form-input {
     display: flex;
+    column-gap: 10px;
 }
 
 .form-input>label {
-    flex: 1;
-}
-
-.form-input>input {
     flex: 2;
 }
 
-.form-input>* {
-    display: block;
-    width: 100%;
-    height: 100%;
+.form-input>input {
+    flex: 3;
 }
 
 .form-button {

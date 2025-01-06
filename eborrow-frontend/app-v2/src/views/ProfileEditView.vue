@@ -45,7 +45,14 @@ async function deleteAccount() {
 }
 
 async function updateAccount() {
-    const inputsValid = await validateInputs();
+    let inputsValid;
+    try {
+        inputsValid = await validateInputs();
+    } catch (error) {
+        console.error(error);
+        alert("Ein Fehler ist aufgetreten. Bitte versuchen Sie es später erneut.");
+    }
+
     if (!inputsValid) {
         return;
     }

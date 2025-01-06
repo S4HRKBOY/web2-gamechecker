@@ -1,8 +1,15 @@
 <script setup>
 import * as useAccountGraphQLApi from "@/composables/useAccountGraphQLApi.js";
 import { inject, reactive, ref } from "vue";
+import EmailInput from "../ProfileInputs/EmailInput.vue";
+import { provide } from "vue";
 
+// Injected properties
 const account = inject('account');
+
+// Refs for child components
+const emailInputComp = ref(null);
+
 const inputVals = reactive({
     prename: "",
     surname: "",
@@ -20,17 +27,23 @@ const inputRefs = {
     passwordConfirm: ref(null)
 };
 
-async function populateInputs(account) {
+// Provide properties for child components and expose functions to parent component
+provide('inputVals', inputVals);
+defineExpose({
+    inputVals,
+    populateInputs,
+    validateInputs
+});
+
+function populateInputs(account) {
     inputVals.prename = account.prename;
     inputVals.surname = account.surname;
     inputVals.birthday = account.birthday;
-    inputVals.email = account.email;
+    emailInputComp.value.populateInput(account.email);
     inputVals.username = account.username;
 }
 
 async function validateInputs() {
-    // IDEE: Validierung als eigene Komponenten realisieren (z.B. jedes Input mit Validierung eine eigene SFC)
-
     let isValid = true;
     if (!validatePasswords()) {
         isValid = false;
@@ -39,7 +52,7 @@ async function validateInputs() {
     if (!await validateUsername(account.id)) {
         isValid = false;
     }
-    
+
     if (!await validateEmail(account.id)) {
         isValid = false;
     }
@@ -62,37 +75,7 @@ function validatePasswords() {
 }
 
 async function validateEmail(accountId) {
-    const emailInput = inputRefs.email.value;
-    const email = emailInput.value.toLowerCase();
-    if (!email) {
-        emailInput.setCustomValidity("Bitte geben Sie eine E-Mail Adresse ein.");
-        emailInput.reportValidity();
-
-        return false;
-    }
-
-    let emailTaken;
-    try {
-        emailTaken = await useAccountGraphQLApi.isEmailUsedByOtherAccount(accountId, email);
-
-        if (emailTaken !== false && emailTaken !== true) {
-            throw new Error("Unexpected response from server.");
-        }
-    } catch (err) {
-        console.error(err);
-        alert("Ein Fehler ist aufgetreten. Bitte versuchen Sie es später erneut.");
-
-        return false;
-    }
-
-    if (emailTaken === true) {
-        emailInput.setCustomValidity("Diese E-Mail Adresse wird bereits verwendet.");
-        emailInput.reportValidity();
-
-        return false;
-    }
-
-    return true;
+    return emailInputComp.value.validateEmail(accountId);
 }
 
 async function validateUsername(accountId) {
@@ -114,7 +97,6 @@ async function validateUsername(accountId) {
         }
     } catch (err) {
         console.error(err);
-        alert("Ein Fehler ist aufgetreten. Bitte versuchen Sie es später erneut.");
 
         return false;
     }
@@ -136,12 +118,6 @@ function yesterday() {
 
     return yesterday;
 }
-
-defineExpose({
-    inputVals,
-    populateInputs,
-    validateInputs
-});
 </script>
 
 <template>
@@ -165,7 +141,8 @@ defineExpose({
                     name="birthday"
                     :max="yesterday()">
             </div>
-            <div class="form-input">
+            <EmailInput ref="emailInputComp" />
+            <!-- <div class="form-input">
                 <label for="email">E-Mail Adresse</label>
                 <input 
                 type="email" 
@@ -175,7 +152,7 @@ defineExpose({
                 id="email" 
                 name="email" 
                 required>
-            </div>
+            </div> -->
         </fieldset>
         <fieldset>
             <legend>Anmeldeinformationen</legend>

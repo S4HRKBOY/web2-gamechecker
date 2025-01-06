@@ -25,6 +25,8 @@ function onProfilePicChange(event) {
     }
 
     if (!validateProfilePic(file)) {
+        alert("Bitte wählen Sie eine gültige Bilddatei aus.");
+
         return;
     }
 
@@ -74,7 +76,6 @@ function validateProfilePic(file) {
     if (file && !file.type.startsWith("image/")) {
         fileSelectInput.value.value = ""; // Clear the invalid file input
         loadedImage.value = null;
-        alert("Bitte wählen Sie eine gültige Bilddatei aus.");
 
         return false;
     }
