@@ -169,19 +169,6 @@ main {
     padding: 15px;
 }
 
-.form-input {
-    display: flex;
-    column-gap: 10px;
-}
-
-.form-input>label {
-    flex: 2;
-}
-
-.form-input>input {
-    flex: 3;
-}
-
 .form-button {
     display: flex;
     flex-grow: 3;

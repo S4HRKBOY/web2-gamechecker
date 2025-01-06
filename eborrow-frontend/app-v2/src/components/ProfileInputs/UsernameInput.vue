@@ -70,5 +70,5 @@ function resetValidity() {
 </template>
 
 <style scoped>
-@import 'src/assets/css/inputs/inputs.css';
+@import '../../assets/css/inputs/inputs.css';
 </style>
