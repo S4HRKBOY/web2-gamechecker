@@ -23,10 +23,7 @@ async function requestResource(url) {
     return result;
 }
 
-async function getGamesBySearchQuery(){
-    const searchBox = document.querySelector(".searchBox");
-    const searchQuery = searchBox.value;
-    
+async function getGamesBySearchQuery(searchQuery){    
     let result;
     try{
         const myHeaders = new Headers();
@@ -42,21 +39,13 @@ async function getGamesBySearchQuery(){
         console.error(error.message)
     }
     console.log(result);
-    searchBox.value = "";
     return result;
 }
 
-async function getGamesByFilter() {
-    const generesSelect = document.querySelector(".genre-filter");
-    const genre = generesSelect.options[generesSelect.selectedIndex].text;
-
-    const platformSelect = document.querySelector(".platform-filter");
-    const platform = platformSelect.options[platformSelect.selectedIndex].text;
-
-    const developerInput = document.querySelector(".dev-input");
-    let developer;
-
-    developer = developerInput.value;
+async function getGamesByFilter(filterInfo) {    
+    const genre = filterInfo.genre;
+    const platform = filterInfo.platform;
+    const developer = filterInfo.developer;
 
     let result;
     try{
@@ -76,7 +65,6 @@ async function getGamesByFilter() {
         console.error(error.message)
     }
 
-    developerInput.value = "";
     return result;
 }
 
