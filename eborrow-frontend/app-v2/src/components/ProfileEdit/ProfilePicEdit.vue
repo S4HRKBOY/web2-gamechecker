@@ -114,16 +114,12 @@ defineExpose({
 
 <style scoped>
 .set-profile-pic {
-    grid-area: set-profile-pic;
-}
-
-.profile-pic {
-    justify-self: center;
+    flex: 1;
 }
 
 .profile-pic img {
-    width: 288px;
-    height: 288px;
+    width: 16vw;
+    height: 16vw;
     object-fit: cover;
     object-position: 50%;
     border-radius: 50%;

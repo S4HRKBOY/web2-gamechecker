@@ -7,19 +7,14 @@ import java.util.Objects;
 import de.fhdo.eborrow.controller.wrapper.FilterInfo;
 import de.fhdo.eborrow.controller.wrapper.Query;
 import de.fhdo.eborrow.services.GameSearchService;
-import javassist.NotFoundException;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
-import de.fhdo.eborrow.dto.AccountDto;
 import de.fhdo.eborrow.dto.GameDto;
 import de.fhdo.eborrow.dto.RichGameDto;
-import de.fhdo.eborrow.services.AccountService;
 import de.fhdo.eborrow.services.GameService;
 import jakarta.validation.Valid;
 

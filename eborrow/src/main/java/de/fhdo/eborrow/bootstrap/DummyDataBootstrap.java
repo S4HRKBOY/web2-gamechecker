@@ -3,7 +3,6 @@ package de.fhdo.eborrow.bootstrap;
 import de.fhdo.eborrow.domain.*;
 import de.fhdo.eborrow.domain.builder.AccountBuilder;
 import de.fhdo.eborrow.repositories.AccountRepository;
-import de.fhdo.eborrow.repositories.ReviewRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationListener;
 import org.springframework.context.event.ContextRefreshedEvent;
@@ -21,14 +20,12 @@ public class DummyDataBootstrap implements ApplicationListener<ContextRefreshedE
 
     private final AccountRepository accountRepository;
     private final GameRepository gameRepository;
-    private final ReviewRepository reviewRepository;
 
-    @Autowired
-    public DummyDataBootstrap(AccountRepository accountRepository, GameRepository gameRepository, ReviewRepository reviewRepository) {
+	@Autowired
+    public DummyDataBootstrap(AccountRepository accountRepository, GameRepository gameRepository) {
         this.gameRepository = gameRepository;
         this.accountRepository = accountRepository;
-        this.reviewRepository = reviewRepository;
-    }
+	}
 
     @Override
     public void onApplicationEvent(ContextRefreshedEvent event) {

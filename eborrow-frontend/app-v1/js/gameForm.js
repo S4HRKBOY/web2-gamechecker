@@ -20,7 +20,6 @@ async function getGameData() {
         }
 
         const json = await response.json();
-        console.log(json);
         return json;
     } catch (error) {
         console.error(error.message);
@@ -263,7 +262,6 @@ async function submitGameData(method) {
         ageRating: document.getElementById('age').value,
         gameImage: base64Image || document.getElementById('gameImage').src.split(',')[1],
     };
-    console.log(gameData);
 
     let url = null;
     if (method == 'PUT') {

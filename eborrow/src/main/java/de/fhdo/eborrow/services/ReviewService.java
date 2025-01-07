@@ -3,7 +3,6 @@ package de.fhdo.eborrow.services;
 import de.fhdo.eborrow.converters.ReviewMapper;
 import de.fhdo.eborrow.domain.Review;
 import de.fhdo.eborrow.dto.ReviewDto;
-import de.fhdo.eborrow.repositories.GameRepository;
 import de.fhdo.eborrow.repositories.ReviewRepository;
 import javassist.NotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,17 +12,15 @@ import java.util.List;
 
 @Service
 public class ReviewService {
-	private ReviewRepository reviewRepository;
-	private GameService gameService;
-	private AccountService accountService; 
-	private GameRepository gameRepository; 
+	private final ReviewRepository reviewRepository;
+	private final GameService gameService;
+	private final AccountService accountService;
 
 	@Autowired
-	public ReviewService(ReviewRepository reviewRepository, GameService gameService, AccountService accountService, GameRepository gameRepository){
+	public ReviewService(ReviewRepository reviewRepository, GameService gameService, AccountService accountService){
 		this.reviewRepository = reviewRepository;
 		this.gameService = gameService;
-		this.accountService = accountService; 
-		this.gameRepository = gameRepository; 
+		this.accountService = accountService;
 	}
 
 	public Long addReview(ReviewDto reviewDto, Long gameId, Long accountId) throws NotFoundException {
@@ -47,16 +44,6 @@ public class ReviewService {
 		return reviewDtos;
 	}
 
-//	 public List<ReviewDto> getAllReviewsToGame(Long id){
-//	 	List<ReviewDto> reviewDtos = new ArrayList<>();
-//	 	reviewRepository.findAll().forEach(review -> {
-//	 		if(Objects.equals(review.getGame().getId(), id)){
-//	 			reviewDtos.add(ReviewMapper.convertReviewToDto(review));
-//	 		}
-//	 	});
-//	 	return reviewDtos;
-//	 }
-
 	public Long updateReview(ReviewDto reviewDto) {
 		Review reviewToUpdate;
 
@@ -64,7 +51,6 @@ public class ReviewService {
 			reviewToUpdate = reviewRepository.findById(reviewDto.getId()).get();
 		} else {
 			reviewToUpdate = new Review();
-			// reviewToUpdate.setGame(GameMapper.dtoToGame(gameService.getGameById(reviewDto.getGameDto().getId())));
 		}
 
 		if(reviewDto.getReviewHeadline() != null){

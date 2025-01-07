@@ -113,21 +113,19 @@ async function validateInputs() {
     <NavigationHeader />
     <main>
         <article id="content">
-            <section class="update-section">
-                <form class="update-form" @submit.prevent="updateAccount">
-                    <section class="form-content">
-                        <PersonalInfosEdit :ref="inputRefs.personalInfosEdit"></PersonalInfosEdit>
-                        <ProfilePicEdit :ref="inputRefs.profilePicEdit"></ProfilePicEdit>
-                    </section>
-                    <section class="send-form-options">
-                        <RouterLink :to="`/account/${account.id}`" class="cancel-link">Abbrechen</RouterLink>
-                        <button type="submit">Änderungen speichern</button>
-                    </section>
-                </form>
-                <form class="delete-profile" @submit.prevent="deleteAccount">
-                    <button type="submit">Profil löschen</button>
-                </form>
-            </section>
+            <form @submit.prevent="updateAccount">
+                <section class="form-content">
+                    <PersonalInfosEdit :ref="inputRefs.personalInfosEdit"></PersonalInfosEdit>
+                    <ProfilePicEdit :ref="inputRefs.profilePicEdit"></ProfilePicEdit>
+                </section>
+                <section class="send-form-options">
+                    <RouterLink :to="`/account/${account.id}`" class="cancel-link">Abbrechen</RouterLink>
+                    <button type="submit">Änderungen speichern</button>
+                </section>
+            </form>
+            <form class="delete-profile" @submit.prevent="deleteAccount">
+                <button type="submit">Profil löschen</button>
+            </form>
         </article>
     </main>
 </template>
@@ -145,9 +143,7 @@ main {
 }
 
 .form-content {
-    display: grid;
-    grid-template-areas: "set-personal-infos set-profile-pic";
-    grid-template-columns: 2fr 1fr;
+    display: flex;
     gap: 15px;
 }
 
@@ -170,7 +166,12 @@ fieldset {
     top: -21px;
 }
 
-.delete-profile>* {
+.delete-profile>button {
     color: red;
+}
+
+.cancel-link {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    text-decoration: none;
 }
 </style>

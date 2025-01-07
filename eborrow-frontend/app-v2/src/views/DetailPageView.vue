@@ -43,7 +43,6 @@ onMounted(async () => {
     alert("Ein Fehler ist aufgetreten.");
     router.push(`/home`);
   };
-  console.log(game);
 });
 
 const formatDate = (date) => {
@@ -76,8 +75,6 @@ const handleCreateReview = async () => {
   review.reviewDate = date;
   if (validateBeforeSubmit()) {
     review = await createReview({ reviewData: review, gameId: gameId, accountId: accountId });
-    console.log("review");
-    console.log(review)
     game.reviewsDto.push(review);
     hasReviewed.value = !hasReviewed.value;
   } else {

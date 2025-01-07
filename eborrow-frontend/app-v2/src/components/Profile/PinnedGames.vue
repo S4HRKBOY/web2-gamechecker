@@ -1,9 +1,12 @@
 <script setup>
-import { inject } from "vue";
+import { inject, computed } from "vue";
 import * as useAccountApi from "@/composables/useAccountRestApi.js";
 import PTH_DEFAULT_GAME_PIC from "@/assets/images/logo.svg";
 
 const account = inject('account');
+const gamesSorted = computed(() => {
+    return account.taggedGames?.toSorted((a, b) => a.title.localeCompare(b.title));
+})
 
 function imgToSrc(img) {
     return img ? `data:image/jpeg;base64,${img}` : PTH_DEFAULT_GAME_PIC;
@@ -26,34 +29,29 @@ function unlistGameFromAccount(gameId) {
     <section id="pinned-games">
         <h2>Angepinnte Spiele</h2>
         <span v-if="account.taggedGames && account.taggedGames.length === 0">Keine Spiele angepinnt</span>
-        <div v-else class="overview">
-            <table class="overview-table-container">
-                <tbody>
-                    <tr v-for="game in account.taggedGames" :key="game.id" class="overview-entry">
-                        <td class="overview-image">
-                            <RouterLink :to="`/game/${game.id}`">
-                                <img :src="imgToSrc(game.gameImage)" alt="Vorzeigebild des Spiels">
-                            </RouterLink>
-                        </td>
-                        <td class="overview-description">
-                            <span>{{ game.title }}</span>
-                        </td>
-                        <td class="unlist-button">
-                            <form @submit.prevent="unlistGameFromAccount(game.id)">
-                                <button type="submit">entfernen</button>
-                            </form>
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
-        </div>
+        <table v-else>
+            <tbody>
+                <tr v-for="game in gamesSorted" :key="game.id" class="overview-entry">
+                    <td class="overview-image">
+                        <RouterLink :to="`/game/${game.id}`">
+                            <img :src="imgToSrc(game.gameImage)" alt="Vorzeigebild des Spiels">
+                        </RouterLink>
+                    </td>
+                    <td class="overview-description">
+                        <span>{{ game.title }}</span>
+                    </td>
+                    <td class="unlist-button">
+                        <form @submit.prevent="unlistGameFromAccount(game.id)">
+                            <button type="submit">entfernen</button>
+                        </form>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
     </section>
 </template>
 
 <style scoped>
-#pinned-games {
-    grid-area: pinned-games;
-}
 
 #pinned-games table {
     border-collapse: collapse;
@@ -61,54 +59,25 @@ function unlistGameFromAccount(gameId) {
 }
 
 #pinned-games th,
-#pinned-games td {
-    padding: 10px;
-    text-align: center;
-}
-
-#pinned-games th,
 #pinned-games tr:not(:last-child) {
     border-bottom: 1px solid black;
 }
 
-.overview {
-    margin-top: 1%;
-}
-
-.overview-table-container {
-    width: 100%;
-    height: 100%;
-}
-
-.overview-entry {
-    width: 100%;
-    height: 10%;
-    padding: 2.5%;
-    display: grid;
-    grid-template-areas: "overview-image overview-description unlist-button";
-    grid-template-columns: 2fr 4fr 1fr;
-}
-
-.overview-image {
-    grid-area: overview-image;
-    max-height: 250px;
-    display: block;
-}
-
 .overview-image img {
-    max-width: 100%;
-    max-height: 250px;
-    display: block;
+    width: 16vw;
+    height: 16vw;
+    object-fit: contain;
+    object-position: 50%;
 }
 
 .overview-description {
-    grid-area: overview-description;
-    place-self: center;
-    display: block;
+    text-align: center;
+    width: 100%;
+    font-size: 120%;
+    font-family: 'Open Sans', sans-serif;
 }
 
 .unlist-button {
-    grid-area: unlist-button;
-    place-self: center;
+    align-self: center;
 }
 </style>

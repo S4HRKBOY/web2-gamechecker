@@ -92,8 +92,8 @@ async function validateUsername(accountId) {
 
 <style scoped>
 .set-personal-infos {
+    flex: 2;
     display: flex;
-    grid-area: set-personal-infos;
     flex-direction: column;
 }
 

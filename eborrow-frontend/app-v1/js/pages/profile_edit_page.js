@@ -6,9 +6,7 @@ import * as accountGraphQLController from "../controller/accountGraphQLControlle
 import Account from "../entities/Account.js";
 import { PATH_DEFAULT_PROFILE_PIC, setActiveAccountId } from "../global.js";
 
-// #region global variables
 let profilePicture = null;
-// #endregion
 
 // const activeId = getActiveAccountId();
 const idAccountToDelete = 3; // Since app-v1 has no login page, the app needs a different active account after deletion to work with

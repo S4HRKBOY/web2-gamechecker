@@ -29,8 +29,6 @@ public class AccountMapper {
 		return accountDtoBuilder.build();
 	}
 
-	// TODO Zak: "DRY Prinzip": Lasst uns ueberlegen, ob wir den doppelten Code nicht vermeiden koennen
-	// (Beispiele: RichAccountDto extends AccountDto oder RichAccountDto.getAccountDto() (Composition over inheritance) )
 	public static RichAccountDto accountToRichDto(Account account) {
 		RichAccountDtoBuilder richAccountDtoBuilder = new RichAccountDtoBuilder()
 				.setId(account.getId())
@@ -53,7 +51,6 @@ public class AccountMapper {
 	}
 
 	public static Account dtoToAccount(AccountDto accountDto) {
-		// Zak: Das ist ziemlich fehleranfaellig, da die Liste an taggedGames nicht gesetzt und somit auf null gesetzt wird
 		AccountBuilder accountBuilder = new AccountBuilder()
 				.setId(accountDto.getId())
 				.setPrename(accountDto.getPrename())
@@ -61,7 +58,7 @@ public class AccountMapper {
 				.setBirthday(accountDto.getBirthday())
 				.setUsername(accountDto.getUsername())
 				.setEmail(accountDto.getEmail())
-				.setPassword(accountDto.getPassword()) // TODO Zak: Passwort sollte nicht zum Frontend im Klartext uebertragen werden (oder auf null setzen)
+				.setPassword(accountDto.getPassword())
 				.setPublisher(accountDto.isPublisher());
 
 		String profilePicture = accountDto.getProfilePicture();

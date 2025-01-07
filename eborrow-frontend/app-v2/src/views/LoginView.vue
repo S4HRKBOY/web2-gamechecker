@@ -29,7 +29,7 @@ async function onSubmitLogin() {
                 <figure class="logo">
                     <img src="../assets/images/logo.svg" alt="Logo von Game-Tracker">
                 </figure>
-                <form class="login-form" @submit.prevent="onSubmitLogin">
+                <form @submit.prevent="onSubmitLogin">
                     <div class="form-input"><input type="text" v-model="form.username" placeholder="Benutzername" required></div>
                     <div class="form-input"><input type="password" v-model="form.password" placeholder="Passwort" required></div>
                     <div class="form-button"><button type="submit">Login</button></div>
@@ -57,7 +57,6 @@ main {
 
 .login-section {
     display: flex;
-    justify-content: center;
 }
 
 .logo {
@@ -68,31 +67,31 @@ main {
     width: 100%;
 }
 
-.login-form {
-    display: flex;
+form {
     flex: 3;
+    display: flex;
     flex-direction: column;
     gap: 10px;
 }
 
-.login-form>* {
-    flex: 1;
+.form-input {
+    flex: 4;
 }
 
 .form-input>* {
-    display: block;
     width: 100%;
     height: 100%;
 }
 
 .form-button {
+    flex: 5;
     display: flex;
     justify-content: center;
     align-items: center;
 }
 
 .form-button>* {
-    width: 62%;
+    width: 60%;
     height: 80%;
 }
 
@@ -100,6 +99,6 @@ main {
     display: block;
     margin-top: 10px;
     font-size: smaller;
-    text-align: center;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;    text-align: center;
 }
 </style>

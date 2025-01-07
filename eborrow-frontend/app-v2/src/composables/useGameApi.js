@@ -54,7 +54,6 @@ export default function useGameApi() {
   const createGame = async (gameData) => {
     try {
       const response = await axiosInstance.post(`/game/create-game`, gameData);
-      console.log(response.data);
       newGameId.value = response.data;
     }
     catch (error) {

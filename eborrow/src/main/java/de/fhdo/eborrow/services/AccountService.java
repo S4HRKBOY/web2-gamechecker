@@ -88,9 +88,6 @@ public class AccountService {
 		accountRepository.deleteById(id);
 	}
 
-	// TODO Zak: Alternativer Ansatz fuer saubere Trennung: Ein UpdateAccount Objekt aus dem Request erzeugen, in dem nur die zu aendernden Felder gesetzt sind
-	// und dann die Werte auf das existierende Objekt im Repository ueberfuehren
-
 	// use in case the id in accountChanges is guaranteed to match the id in the database 
 	public void updateAccount(AccountDto accountChanges) throws NotFoundException {
 		updateAccount(accountChanges.getId(), accountChanges);
@@ -217,7 +214,7 @@ public class AccountService {
 		existingAccount.setEmail(changes.getEmail());
 		existingAccount.setPassword(changes.getPassword());
 		existingAccount.setProfilePicture(changes.getProfilePicture());
-		// Zak: Auch Update von taggedGames und publisher hier mit anbieten?
+		// publisher flag is updated seperately 
 
 		return existingAccount;
 	}

@@ -22,7 +22,6 @@ fieldset {
     padding: 10px;
 }
 
-/*input-styling*/
 input:invalid,
 select:invalid {
   border-color: red;

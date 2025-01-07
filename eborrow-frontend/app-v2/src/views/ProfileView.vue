@@ -30,17 +30,19 @@ onMounted(() => {
     <main>
         <article id="content">
             <h1>Mein Profil</h1>
-            <div v-if="account.publisher" class="publisher-account">(Redakteur-Account)</div>
-            <article id="infos">
-                <figure id="profile-pic">
+            <div v-if="account.publisher" class="publisher-account">Redakteur-Account</div>
+            <section class="account-data">
+                <figure class="profile-pic">
                     <img :src="srcProfilePic" alt="Profilbild">
                 </figure>
-                <ProfileInfo />
-                <form id="edit-profile-btn" @submit.prevent="router.push(`/account/edit/${account.id}`)">
-                    <button type="submit">Profil bearbeiten</button>
-                </form>
-                <PinnedGames />
-            </article>
+                <section class="info-section">
+                    <ProfileInfo />
+                    <form class="edit-profile-button" @submit.prevent="router.push(`/account/edit/${account.id}`)">
+                        <button type="submit">Profil bearbeiten</button>
+                    </form>
+                </section>
+            </section>
+            <PinnedGames />
         </article>
     </main>
 </template>
@@ -50,7 +52,6 @@ main {
     display: flex;
     flex: 1;
     justify-content: center;
-    align-items: center;
 }
 
 #content {
@@ -65,39 +66,35 @@ h1 {
 .publisher-account {
     color: red;
     text-align: center;
+    font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+    margin-top: -2vh;
 }
 
-#infos {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    grid-template-areas: "profile-pic profile-info"
-        "profile-pic edit-profile-btn"
-        "pinned-games pinned-games";
+.account-data {
+    display: flex;
     gap: 0 5vw;
 }
 
-#edit-profile-btn {
-    grid-area: edit-profile-btn;
+.info-section {
+    display: flex;
+    flex-direction: column;
+}
+
+.edit-profile-button {
+    flex: 1;
     display: flex;
     justify-content: center;
     align-items: center;
-    width: 100%;
-    height: 100%;
 }
 
-#edit-profile-btn>button {
-    width: 40%;
-    height: 100%;
+.edit-profile-button>button {
+    width: 60%;
+    height: 60%;
 }
 
-#profile-pic {
-    grid-area: profile-pic;
-    justify-self: center;
-}
-
-#profile-pic img {
-    width: 288px;
-    height: 288px;
+.profile-pic img {
+    width: 16vw;
+    height: 16vw;
     object-fit: cover;
     object-position: 50%;
     border-radius: 50%;

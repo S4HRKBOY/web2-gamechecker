@@ -1,7 +1,6 @@
 <script setup>
     import { onMounted } from "vue";
     import { ref } from 'vue';
-    import { useRoute } from "vue-router";
     
     import NavigationHeader from '../components/NavigationHeader.vue';
     import SearchBar from '../components/StartPage/SearchBar.vue';
@@ -23,12 +22,9 @@
     }
     
     const games = ref([])
-    const route = useRoute();
 
     onMounted(async () => {
         games.value = await gamesRestApi.getAllGamesGraphQL();
-        console.log(games);
-        console.log("Id in route is: " + route.params.id);
     });
 </script>
 
@@ -42,7 +38,7 @@
                 <ul>
                     <li v-for="game in games" :key="game.id" class="overview-entry">
                         <div class="overview-image">
-                            <RouterLink :to="`/game/${game.id}`"> <!-- to="/game/${game.id}" -->
+                            <RouterLink :to="`/game/${game.id}`">
                                 <img :src="imgToSrc(game.gameImage)" alt="Vorzeigebild des Spiels">
                             </RouterLink>
                         </div>
