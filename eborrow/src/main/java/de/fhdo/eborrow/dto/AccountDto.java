@@ -1,8 +1,6 @@
 package de.fhdo.eborrow.dto;
 
 import de.fhdo.eborrow.dto.builder.AccountDtoBuilder;
-import jakarta.validation.constraints.Email;
-import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.*;
 
 import java.time.LocalDate;

@@ -3,7 +3,6 @@ package de.fhdo.eborrow.services;
 import de.fhdo.eborrow.converters.ReviewMapper;
 import de.fhdo.eborrow.domain.Review;
 import de.fhdo.eborrow.dto.ReviewDto;
-import de.fhdo.eborrow.repositories.GameRepository;
 import de.fhdo.eborrow.repositories.ReviewRepository;
 import javassist.NotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;

@@ -2,7 +2,6 @@ package de.fhdo.eborrow.graphqlapi;
 
 import de.fhdo.eborrow.controller.wrapper.FilterInfo;
 import de.fhdo.eborrow.controller.wrapper.Query;
-import de.fhdo.eborrow.domain.Review;
 import de.fhdo.eborrow.dto.GameDto;
 import de.fhdo.eborrow.dto.ReviewDto;
 import de.fhdo.eborrow.dto.RichGameDto;

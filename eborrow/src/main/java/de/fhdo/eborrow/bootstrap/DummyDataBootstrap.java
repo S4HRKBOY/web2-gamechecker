@@ -3,7 +3,6 @@ package de.fhdo.eborrow.bootstrap;
 import de.fhdo.eborrow.domain.*;
 import de.fhdo.eborrow.domain.builder.AccountBuilder;
 import de.fhdo.eborrow.repositories.AccountRepository;
-import de.fhdo.eborrow.repositories.ReviewRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationListener;
 import org.springframework.context.event.ContextRefreshedEvent;
