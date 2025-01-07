@@ -26,7 +26,7 @@ function logout() {
 
 <template>
   <header>
-    <nav class="navigation">
+    <nav>
       <RouterLink to="/home" class="logo"><img class="logo" src="../assets/images/logo.svg" alt="logo">
       </RouterLink>
       <RouterLink class="home" to="/home">Home</RouterLink>
@@ -46,7 +46,7 @@ header {
   z-index: 99;
 }
 
-.navigation {
+nav {
   display: grid;
   grid-template-columns: 45% 25% 10% 10% 10%;
   grid-template-areas:
@@ -63,13 +63,13 @@ header {
   margin-left: 50px;
 }
 
-.navigation {
+nav {
   list-style: none;
   padding-left: 0;
   border-bottom: 1px solid rgba(0, 0, 0, 0.24);
 }
 
-.navigation a:not(.logo) {
+nav a:not(.logo) {
   display: block;
   text-decoration: none;
   color: black;
@@ -81,11 +81,11 @@ header {
   box-shadow: rgba(0, 0, 0, 0.16) 0px 3px 6px, rgba(0, 0, 0, 0.23) 0px 3px 6px;
 }
 
-.navigation a:not(.logo):hover {
+nav a:not(.logo):hover {
   text-decoration: underline;
 }
 
-.navigation a:not(.logo) {
+nav a:not(.logo) {
     transform: scale(0.98);
     box-shadow: rgba(0, 0, 0, 0.16) 0px 2px 3px, rgba(0, 0, 0, 0.23) 0px 2px 3px;
 }

@@ -32,7 +32,7 @@ function resetValidity() {
 
 <template>
     <div class="form-input">
-        <label for="password">Passwort</label>
+        <label for="password">Neues Passwort</label>
         <input
             type="password"
             id="password" 

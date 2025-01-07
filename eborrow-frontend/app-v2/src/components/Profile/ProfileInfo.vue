@@ -46,12 +46,7 @@ const account = inject('account');
 
 <style scoped>
 #profile-info {
-    grid-area: profile-info;
-    place-self: center;
-}
-
-#profile-info {
-    margin: 1em;
+    margin: 1em 0;
     border: 1px solid black;
     border-radius: 10px;
     padding: 10px;
@@ -67,16 +62,6 @@ const account = inject('account');
 }
 
 #profile-info td {
-    vertical-align: top;
     padding: 5px 10px;
-}
-
-#profile-info ul {
-    margin: 0;
-    padding: 0;
-}
-
-#profile-info li {
-    list-style: none;
 }
 </style>

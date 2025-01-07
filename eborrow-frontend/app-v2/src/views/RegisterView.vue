@@ -96,8 +96,7 @@ async function validateUsername() {
                 <figure class="logo">
                     <RouterLink to="/"><img src="../assets/images/logo.svg" alt="Logo von Game-Tracker"></RouterLink>
                 </figure>
-                <!-- TODO -->
-                <form class="register-form" @submit.prevent="createAccount">
+                <form @submit.prevent="createAccount">
                     <fieldset>
                         <SurnameInput />
                         <PrenameInput />
@@ -108,8 +107,7 @@ async function validateUsername() {
                         <EmailInput :ref="inputComps.email" />
                         <PasswordInputs :ref="inputComps.password" />
                     </fieldset>
-                    <div class="form-button"><button type="submit">KOMM IN
-                            DIE GRUPPE!</button></div>
+                    <div class="form-button"><button type="submit">KOMM IN DIE GRUPPE!</button></div>
                 </form>
             </section>
             <RouterLink to="/login" class="login-link">Ich habe bereits einen Account</RouterLink>
@@ -118,10 +116,6 @@ async function validateUsername() {
 </template>
 
 <style scoped>
-* {
-    box-sizing: border-box;
-}
-
 main {
     display: flex;
     flex-grow: 1;
@@ -149,41 +143,39 @@ main {
     width: 100%;
 }
 
-.register-form {
-    display: flex;
+form {
     flex: 3;
-    flex-direction: column;
-    gap: 10px;
 }
 
-.register-form>* {
-    flex: 1;
+form>*:not(:first-child):not(:last-child) {
+    margin: 2vh 0;
 }
 
-.register-form fieldset {
-    display: flex;
-    flex-direction: column;
-    gap: 2vh;
+fieldset {
     border: 1px solid hsl(0, 0%, 75%);
     border-radius: 5px;
     padding: 15px;
 }
 
-.form-button {
-    display: flex;
-    flex-grow: 3;
-    justify-content: center;
-    align-items: center;
+fieldset>*:not(:first-child):not(:last-child) {
+    margin: 2vh 0;
 }
 
-.form-button>* {
-    width: 62%;
+.form-button {
+    flex: 3;
+    display: flex;
+    justify-content: center;
+}
+
+.form-button>button {
+    width: 60%;
 }
 
 .login-link {
     display: block;
     margin-top: 10px;
     font-size: smaller;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     text-align: center;
 }
 </style>
