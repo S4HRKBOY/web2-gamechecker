@@ -75,8 +75,6 @@ type Review {
   account: Account
 }
 
-# TODO Zak: Festlegen, was Non-Nullable ist
-
 input createGameInput {
   title: String!
   description: String!

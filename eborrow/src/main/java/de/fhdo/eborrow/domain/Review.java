@@ -10,7 +10,6 @@ import com.fasterxml.jackson.annotation.JsonBackReference;
 
 import java.time.LocalDate;
 
-//TODO: Rating Bounds
 @Entity
 @Table(name = "review", uniqueConstraints = @UniqueConstraint(columnNames = {"game_id", "account_id"}))
 public class Review {
@@ -77,14 +76,6 @@ public class Review {
 	public void setReviewDate(LocalDate reviewDate) {
 		this.reviewDate = reviewDate;
 	}
-
-	// public Game getGame() {
-	// 	return game;
-	// }
-
-	// public void setGame(Game game) {
-	// 	this.game = game;
-	// }
 
 	public Account getAccount() {
 		return account;
