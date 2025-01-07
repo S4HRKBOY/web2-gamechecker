@@ -45,7 +45,6 @@ async function validateUsername(accountId = null) {
         return false;
     }
 
-    console.log("Username is valid");
     return true;
 }
 

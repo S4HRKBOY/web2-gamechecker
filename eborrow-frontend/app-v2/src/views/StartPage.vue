@@ -1,7 +1,6 @@
 <script setup>
     import { onMounted } from "vue";
     import { ref } from 'vue';
-    import { useRoute } from "vue-router";
     
     import NavigationHeader from '../components/NavigationHeader.vue';
     import SearchBar from '../components/StartPage/SearchBar.vue';
@@ -23,12 +22,9 @@
     }
     
     const games = ref([])
-    const route = useRoute();
 
     onMounted(async () => {
         games.value = await gamesRestApi.getAllGamesGraphQL();
-        console.log(games);
-        console.log("Id in route is: " + route.params.id);
     });
 </script>
 

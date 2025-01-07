@@ -5,7 +5,6 @@
     const query = reactive({searchQuery:""});
 
     function applySearch(){
-        console.log(query.searchQuery);
         emit('apply-search', query.searchQuery);
         query.searchQuery = "";
     }

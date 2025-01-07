@@ -16,7 +16,6 @@ async function requestResource(url) {
             throw new Error(`Response status: ${response.status}`);
         }
         result = await response.json();
-        console.log(result);
     } catch (error) {
         console.error(error.message)
     }
@@ -38,7 +37,6 @@ async function getGamesBySearchQuery(searchQuery){
     }catch (error) {
         console.error(error.message)
     }
-    console.log(result);
     return result;
 }
 
@@ -99,7 +97,6 @@ async function getAllGamesGraphQL(){
     }catch (error) {
         console.error(error.message)
     }
-    console.log(result);
     return result;
 }
 

@@ -1,7 +1,6 @@
 @import url(https://fonts.googleapis.com/css?family=Open+Sans);
 @import url('https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css');
 
-/* STARTSEITE START */
 .main-page-container {
     display: grid;
     font-family: 'Open Sans', sans-serif;
@@ -189,5 +188,3 @@
 .game-platforms{
     grid-area: game-platforms
 }
-
-/* STARTSEITE ENDE */

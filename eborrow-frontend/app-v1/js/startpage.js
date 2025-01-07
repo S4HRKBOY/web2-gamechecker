@@ -92,7 +92,6 @@ async function requestResource(url) {
             throw new Error(`Response status: ${response.status}`);
         }
         result = await response.json();
-        console.log(result);
     } catch (error) {
         console.error(error.message)
     }
