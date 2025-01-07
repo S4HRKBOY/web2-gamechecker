@@ -13,17 +13,15 @@ import java.util.List;
 
 @Service
 public class ReviewService {
-	private ReviewRepository reviewRepository;
-	private GameService gameService;
-	private AccountService accountService; 
-	private GameRepository gameRepository; 
+	private final ReviewRepository reviewRepository;
+	private final GameService gameService;
+	private final AccountService accountService;
 
 	@Autowired
-	public ReviewService(ReviewRepository reviewRepository, GameService gameService, AccountService accountService, GameRepository gameRepository){
+	public ReviewService(ReviewRepository reviewRepository, GameService gameService, AccountService accountService){
 		this.reviewRepository = reviewRepository;
 		this.gameService = gameService;
-		this.accountService = accountService; 
-		this.gameRepository = gameRepository; 
+		this.accountService = accountService;
 	}
 
 	public Long addReview(ReviewDto reviewDto, Long gameId, Long accountId) throws NotFoundException {

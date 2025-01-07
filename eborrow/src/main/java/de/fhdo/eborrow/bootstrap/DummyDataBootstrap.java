@@ -21,14 +21,12 @@ public class DummyDataBootstrap implements ApplicationListener<ContextRefreshedE
 
     private final AccountRepository accountRepository;
     private final GameRepository gameRepository;
-    private final ReviewRepository reviewRepository;
 
-    @Autowired
-    public DummyDataBootstrap(AccountRepository accountRepository, GameRepository gameRepository, ReviewRepository reviewRepository) {
+	@Autowired
+    public DummyDataBootstrap(AccountRepository accountRepository, GameRepository gameRepository) {
         this.gameRepository = gameRepository;
         this.accountRepository = accountRepository;
-        this.reviewRepository = reviewRepository;
-    }
+	}
 
     @Override
     public void onApplicationEvent(ContextRefreshedEvent event) {
