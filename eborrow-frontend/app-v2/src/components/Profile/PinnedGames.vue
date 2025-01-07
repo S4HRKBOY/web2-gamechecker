@@ -4,6 +4,9 @@ import * as useAccountApi from "@/composables/useAccountRestApi.js";
 import PTH_DEFAULT_GAME_PIC from "@/assets/images/logo.svg";
 
 const account = inject('account');
+const gamesSorted = computed(() => {
+    return account.taggedGames?.toSorted((a, b) => a.title.localeCompare(b.title));
+})
 
 function imgToSrc(img) {
     return img ? `data:image/jpeg;base64,${img}` : PTH_DEFAULT_GAME_PIC;
@@ -29,7 +32,7 @@ function unlistGameFromAccount(gameId) {
         <div v-else class="overview">
             <table class="overview-table-container">
                 <tbody>
-                    <tr v-for="game in account.taggedGames" :key="game.id" class="overview-entry">
+                    <tr v-for="game in gamesSorted" :key="game.id" class="overview-entry">
                         <td class="overview-image">
                             <RouterLink :to="`/game/${game.id}`">
                                 <img :src="imgToSrc(game.gameImage)" alt="Vorzeigebild des Spiels">
