@@ -11,7 +11,7 @@ let profilePicture = null;
 // #endregion
 
 // const activeId = getActiveAccountId();
-const idAccountToDelete = 2; // Since app-v1 has no login page, the app needs a different active account after deletion to work with
+const idAccountToDelete = 3; // Since app-v1 has no login page, the app needs a different active account after deletion to work with
 const activeId = idAccountToDelete;
 
 accountGraphQLController.getAccountById(activeId, 

@@ -27,7 +27,7 @@ function handleGameFilling(games) {
         const imageSource = `data:image/jpeg;base64,` + game["gameImage"];
         
         const gameImageLink = document.createElement("a");
-        gameImageLink.setAttribute("href", gameFormURL);
+        gameImageLink.setAttribute("href", gameFormURL + `?id=${game.id}`);
 
         const gameImage = document.createElement("img");
         gameImage.setAttribute("src", imageSource);
@@ -160,6 +160,7 @@ async function requestAllGamesGraphQL(){
     const body = JSON.stringify({
         query: `{
           games {
+                id
                 description
                 title
                 gameImage

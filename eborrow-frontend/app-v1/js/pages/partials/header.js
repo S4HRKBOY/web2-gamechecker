@@ -21,7 +21,7 @@ function createHeader(account) {
             <ul class="nav-links">
                 <li><a href="../html/start_page.html">Home</a></li>
                 ${account.publisher ? `<li><a href="gameForm.html">Neues Spiel anlegen</a></li>` : ""}
-                <li><a href="//localhost:8080/thymeleaf/account/${account.id}">Profil</a></li>
+                <li><a href="profile_edit_page.html">Profil</a></li>
                 <li><a href="#">Logout</a></li>
             </ul>
         </nav>`;
