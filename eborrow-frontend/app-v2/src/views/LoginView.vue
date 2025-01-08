@@ -10,7 +10,16 @@ const form = reactive({
 });
 
 async function onSubmitLogin() {
-    const accountId = await useAccountApi.fetchAccountId(form.username, form.password);
+    let accountId;
+    try {
+        accountId = await useAccountApi.fetchAccountId(form.username, form.password);
+    } catch (error) {
+        console.error(error);
+        alert("Ein Fehler ist aufgetreten. Bitte versuchen Sie es später erneut.");
+
+        return;
+    }
+
     if(accountId === null) {
         alert("Benutzername oder Passwort falsch.");
         return;
