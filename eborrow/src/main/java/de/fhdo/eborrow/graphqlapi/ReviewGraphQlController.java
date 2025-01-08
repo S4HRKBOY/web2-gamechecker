@@ -17,12 +17,10 @@ import java.util.List;
 @Controller
 public class ReviewGraphQlController {
 
-	private GameService gameService;
 	private ReviewService reviewService;
 
 	@Autowired
 	public ReviewGraphQlController(GameService gameService, ReviewService reviewService){
-		this.gameService = gameService;
 		this.reviewService = reviewService;
 	}
 
