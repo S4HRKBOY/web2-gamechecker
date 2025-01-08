@@ -17,11 +17,20 @@ const srcProfilePic = computed(() => account.profilePicture ? `data:image/jpeg;b
 
 onMounted(() => {
     useAccountApi.getAccountById(route.params.id, true)
-        .then(acc => Object.assign(account, acc))
-        .catch(err => {
+        .then(acc => {
+            account.id = acc.id;
+            account.prename = acc.prename;
+            account.surname = acc.surname;
+            account.birthday = acc.birthday;
+            account.username = acc.username;
+            account.email = acc.email;
+            account.password = acc.password;
+            account.profilePicture = acc.profilePicture;
+            account.taggedGames = acc.taggedGames;
+        }).catch(err => {
             console.error(err);
             alert("Ein Fehler ist aufgetreten. Bitte versuchen Sie es später erneut.");
-        })
+        });
 });
 </script>
 
