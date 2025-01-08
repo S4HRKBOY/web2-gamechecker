@@ -19,7 +19,6 @@ public class AccountDtoBuilder{
 
     private List<RichGameDto> taggedGames;
 
-    // region getter
     public Long getId() {
         return id;
     }
@@ -109,7 +108,6 @@ public class AccountDtoBuilder{
         this.taggedGames = taggedGames;
         return this;
     }
-    // endregion
 
     public AccountDto build() {
         validateInputs();
