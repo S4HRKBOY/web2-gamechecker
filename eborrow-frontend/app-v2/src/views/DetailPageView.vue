@@ -4,6 +4,7 @@ import { useRoute, useRouter } from 'vue-router'
 import { reviewsDto } from '../domain/game.js'
 import NavigationHeader from '../components/NavigationHeader.vue';
 import useGameApi from "@/composables/useGameApi";
+import PTH_DEFAULT_GAME_PIC from '@/assets/images/dummy-image.jpg'
 
 const router = useRouter();
 const route = useRoute();
@@ -151,6 +152,10 @@ const sortedReviews = computed(() => {
   }
 });
 
+function imgToSrc(img) {
+  return img ? `data:image/jpeg;base64,${img}` : PTH_DEFAULT_GAME_PIC
+}
+
 </script>
 
 <template>
@@ -160,8 +165,7 @@ const sortedReviews = computed(() => {
     <section>
       <h1 class="headline">{{ game.title }}</h1>
       <div class="detailContainer">
-        <img v-if="game.gameImage" id="detailImage" :src="`data:image/jpg;base64,${game.gameImage}`" alt="Game Image">
-        <img v-else id="detailImage" src="../assets/images/dummy-image.jpg" alt="Game Image">
+        <img id="detailImage" :src="imgToSrc(game.gameImage)" alt="Game Image" />
         <button v-if="publisher" @click="handleGameEdit" id="editGameButton">Bearbeiten</button>
         <button v-if="!hasGame" class="addOrRemoveGameButton" @click="handleAddOrRemove">Zur Liste hinzufügen</button>
         <button v-else class="addOrRemoveGameButton" @click="handleAddOrRemove">Von Liste entfernen</button>
