@@ -4,6 +4,8 @@ Dieses Dokument soll einen kurzen Einstieg in die verschiedenen Teilprojekte geb
 
 Ein kurzer Hinweis vorweg: Aufgrund von Änderungen in der Projektstruktur gab es eine Namensänderung des Projekts von E-Borrow auf GameTracker und in GitHub heißt es GameChecker.
 
+Das Projektwiki mit Projektsteckbrief befindet sich hier https://github.com/S4HRKBOY/web2-gamechecker/wiki/Dokumentation
+
 ## Projektstruktur
 
 Das gesamte Praktikum für das Modul befindet sich auf dem main Branch. Es ist wie folgt aufgebaut: 
