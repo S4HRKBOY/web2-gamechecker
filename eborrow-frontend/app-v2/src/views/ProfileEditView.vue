@@ -120,21 +120,21 @@ async function validateInputs() {
 <template>
     <NavigationHeader />
     <main>
-        <article id="content">
+        <div id="content">
             <form @submit.prevent="updateAccount">
-                <section class="form-content">
+                <div class="form-content">
                     <PersonalInfosEdit :ref="inputRefs.personalInfosEdit"></PersonalInfosEdit>
                     <ProfilePicEdit :ref="inputRefs.profilePicEdit"></ProfilePicEdit>
-                </section>
-                <section class="send-form-options">
+                </div>
+                <div class="send-form-options">
                     <RouterLink :to="`/account/${account.id}`" class="cancel-link">Abbrechen</RouterLink>
                     <button type="submit">Änderungen speichern</button>
-                </section>
+                </div>
             </form>
             <form class="delete-profile" @submit.prevent="deleteAccount">
                 <button type="submit">Profil löschen</button>
             </form>
-        </article>
+        </div>
     </main>
 </template>
 

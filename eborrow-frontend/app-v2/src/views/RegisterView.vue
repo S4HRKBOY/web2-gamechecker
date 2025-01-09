@@ -91,8 +91,8 @@ async function validateUsername() {
 
 <template>
     <main>
-        <article id="content">
-            <section class="register-section">
+        <div id="content">
+            <div class="register-section">
                 <figure class="logo">
                     <RouterLink to="/"><img src="../assets/images/logo.svg" alt="Logo von Game-Tracker"></RouterLink>
                 </figure>
@@ -109,9 +109,9 @@ async function validateUsername() {
                     </fieldset>
                     <div class="form-button"><button type="submit">Registrieren!</button></div>
                 </form>
-            </section>
+            </div>
             <RouterLink to="/login" class="login-link">Ich habe bereits einen Account</RouterLink>
-        </article>
+        </div>
     </main>
 </template>
 

@@ -91,7 +91,7 @@ defineExpose({
 </script>
 
 <template>
-    <section class="set-profile-pic">
+    <div class="set-profile-pic">
         <fieldset>
             <figure class="profile-pic">
                 <img :src="srcDisplayedImage" alt="Profilbild">
@@ -105,11 +105,10 @@ defineExpose({
                     @cancel="clearProfilePic"
                     id="profile-pic-fileselect" 
                     name="profile-pic-fpath"
-                    accept="image/*"
-                    >
+                    accept="image/*">
             </div>
         </fieldset>
-    </section>
+    </div>
 </template>
 
 <style scoped>

@@ -74,7 +74,7 @@ async function validateUsername(accountId) {
 </script>
 
 <template>
-    <section class="set-personal-infos">
+    <div class="set-personal-infos">
         <fieldset>
             <legend>Persönliche Daten</legend>
             <SurnameInput />
@@ -87,7 +87,7 @@ async function validateUsername(accountId) {
             <UsernameInput :ref="inputComps.username" />
             <PasswordInputs :ref="inputComps.password" />
         </fieldset>
-    </section>
+    </div>
 </template>
 
 <style scoped>

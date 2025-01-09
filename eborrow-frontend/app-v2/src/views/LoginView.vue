@@ -33,8 +33,8 @@ async function onSubmitLogin() {
 
 <template>
     <main>
-        <article id="content">
-            <section class="login-section">
+        <div id="content">
+            <div class="login-section">
                 <figure class="logo">
                     <img src="../assets/images/logo.svg" alt="Logo von Game-Tracker">
                 </figure>
@@ -43,9 +43,9 @@ async function onSubmitLogin() {
                     <div class="form-input"><input type="password" v-model="form.password" placeholder="Passwort" required></div>
                     <div class="form-button"><button type="submit">Login</button></div>
                 </form>
-            </section>
+            </div>
             <RouterLink to="/register" class="register-link">Neuen Account registrieren</RouterLink>
-        </article>
+        </div>
     </main>
 </template>
 

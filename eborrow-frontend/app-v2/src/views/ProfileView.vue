@@ -41,17 +41,17 @@ onMounted(() => {
         <article id="content">
             <h1>Mein Profil</h1>
             <div v-if="account.publisher" class="publisher-account">Redakteur-Account</div>
-            <section class="account-data">
+            <div class="account-data">
                 <figure class="profile-pic">
                     <img :src="srcProfilePic" alt="Profilbild">
                 </figure>
-                <section class="info-section">
+                <div class="info-section">
                     <ProfileInfo />
                     <form class="edit-profile-button" @submit.prevent="router.push(`/account/edit/${account.id}`)">
                         <button type="submit">Profil bearbeiten</button>
                     </form>
-                </section>
-            </section>
+                </div>
+            </div>
             <PinnedGames />
         </article>
     </main>
