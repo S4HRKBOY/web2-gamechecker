@@ -48,11 +48,10 @@ header {
 
 nav {
   display: grid;
-  grid-template-columns: 45% 25% 10% 10% 10%;
   grid-template-areas:
     "logo home create-game profile logout";
   align-items: center;
-  padding: 0.8em 0.8em;
+  padding: 0.6em;;
   background-color: rgb(192, 192, 192);
   box-shadow: rgba(50, 50, 93, 0.25) 0px 13px 27px -5px, rgba(0, 0, 0, 0.3) 0px 8px 16px -8px;
   gap: 10px;
@@ -83,11 +82,6 @@ nav a:not(.logo) {
 
 nav a:not(.logo):hover {
   text-decoration: underline;
-}
-
-nav a:not(.logo) {
-    transform: scale(0.98);
-    box-shadow: rgba(0, 0, 0, 0.16) 0px 2px 3px, rgba(0, 0, 0, 0.23) 0px 2px 3px;
 }
 
 .home {
