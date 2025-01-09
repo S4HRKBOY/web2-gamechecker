@@ -2,7 +2,7 @@
 import { reactive } from "vue";
 import { RouterLink } from "vue-router";
 import router from "@/router";
-import * as useAccountApi from "@/composables/useAccountRestApi.js";
+import * as useAccountApi from "@/composables/useAccountGraphQLApi.js";
 
 const form = reactive({
     username: "",
@@ -24,7 +24,7 @@ async function onSubmitLogin() {
         alert("Benutzername oder Passwort falsch.");
         return;
     }
-    const publisher = await useAccountApi.getAccountById(accountId);
+    const publisher = await useAccountApi.getAccountById(accountId, ['publisher']);
     sessionStorage.setItem('accountId', JSON.stringify(accountId));
     sessionStorage.setItem('publisher', JSON.stringify(publisher.publisher));
     router.push({ name: 'home' });

@@ -1,6 +1,6 @@
 <script setup>
 import { ref } from 'vue';
-import * as useAccountGraphQLApi from "@/composables/useAccountGraphQLApi.js";
+import * as useAccountApi from "@/composables/useAccountRestApi.js";
 import { inject } from 'vue';
 
 const inputVals = inject('inputVals');
@@ -24,9 +24,9 @@ async function validateEmail(accountId = null) {
         if(accountId !== null 
             && accountId !== '' 
             && Number.isInteger(Number(accountId))) {
-            emailTaken = await useAccountGraphQLApi.isEmailUsedByOtherAccount(accountId, emailLowercase);
+            emailTaken = await useAccountApi.isEmailUsedByOtherAccount(accountId, emailLowercase);
         } else {
-            emailTaken = await useAccountGraphQLApi.isEmailTaken(emailLowercase);
+            emailTaken = await useAccountApi.isEmailTaken(emailLowercase);
         }
 
         if (emailTaken !== false && emailTaken !== true) {
