@@ -3,7 +3,8 @@ import { onMounted, ref, computed } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import NavigationHeader from '../components/NavigationHeader.vue'
 import useGameApi from '@/composables/useGameApi'
-import PTH_DEFAULT_GAME_PIC from '@/assets/images/dummy-image.jpg'
+import PTH_DEFAULT_GAME_PIC from '@/assets/images/logo.svg'
+import PTH_DEFAULT_USER_PIC from '@/assets/images/profile_pic_default.svg'
 
 const router = useRouter()
 const route = useRoute()
@@ -90,11 +91,15 @@ const handleAddOrRemove = async () => {
 }
 
 const handleCreateReview = async () => {
-  const date = new Date();
+  const date = new Date()
   date.toISOString().split('T')[0]
-  review.value.reviewDate = date;
+  review.value.reviewDate = date
   if (validateBeforeSubmit()) {
-    review.value = await createReview({ reviewData: review.value, gameId: gameId, accountId: accountId })
+    review.value = await createReview({
+      reviewData: review.value,
+      gameId: gameId,
+      accountId: accountId,
+    })
     game.value.reviewsDto.push(review.value)
     hasReviewed.value = !hasReviewed.value
   } else {
@@ -123,14 +128,14 @@ const handleDeleteReview = async (id) => {
   if (confirm('Review wird endgültig gelöscht.')) {
     await deleteReviewById(id)
     game.value.reviewsDto = game.value.reviewsDto.filter((review) => review.id !== id)
-    review.value = ({
+    review.value = {
       id: '',
       reviewHeadline: '',
       reviewText: '',
       rating: '',
       reviewDate: '',
       accountDto: {},
-    })
+    }
     hasReviewed.value = !hasReviewed.value
   }
 }
@@ -138,7 +143,7 @@ const handleDeleteReview = async (id) => {
 const handleEditReview = async (reviewToEdit) => {
   editReviewMode.value = !editReviewMode.value
   if (editReviewMode.value) {
-    review.value = reviewToEdit;
+    review.value = reviewToEdit
   }
 }
 
@@ -275,22 +280,21 @@ function imgToSrc(img) {
         <button v-if="editReviewMode" class="cancel" @click="handleCancelReview">Abbrechen</button>
       </form>
 
-      <div class="reviewContainer" v-for="rev in sortedReviews" :key="rev.id">
+      <article class="reviewContainer" v-for="rev in sortedReviews" :key="rev.id">
         <img
-          v-if="rev.accountDto?.profilePicture"
           class="reviewImage"
-          :src="`data:image/jpg;base64,${rev.accountDto.profilePicture}`"
-          alt="Profilbild"
-        />
-        <img
-          v-else
-          class="reviewImage"
-          src="../assets/images/profile_pic_default.svg"
+          :src="
+            rev.accountDto?.profilePicture
+              ? `data:image/jpg;base64,${rev.accountDto?.profilePicture}`
+              : PTH_DEFAULT_USER_PIC
+          "
           alt="Profilbild"
         />
 
         <p class="reviewUsername">{{ rev.accountDto?.username }}</p>
-        <time class="reviewDate">{{ formatDate(rev.reviewDate) }}</time>
+        <p class="reviewDate">
+          <time :datetime="rev.reviewDate">{{ formatDate(rev.reviewDate) }}</time>
+        </p>
         <h3 class="reviewHeadline">{{ rev.reviewHeadline }}</h3>
         <p class="reviewRating">Bewertung: {{ rev.rating }}/10</p>
         <p class="reviewContent">{{ rev.reviewText }}</p>
@@ -308,7 +312,7 @@ function imgToSrc(img) {
         >
           Bearbeiten
         </button>
-      </div>
+      </article>
 
       <div v-if="game.reviewsDto.length === 0" class="emptyReviewContainer">
         <p>Es sind noch keine Reviews vorhanden.</p>
@@ -321,6 +325,7 @@ function imgToSrc(img) {
 .headline {
   padding-left: 25%;
   padding-right: 25%;
+  font-size: 2em;
 }
 
 .reviewForm,
@@ -373,12 +378,7 @@ td {
   max-height: 300px;
   grid-area: detailImage;
   justify-self: center;
-  box-shadow:
-    rgb(192, 192, 192) 5px 5px,
-    rgba(192, 192, 192, 0.3) 10px 10px,
-    rgba(192, 192, 192, 0.2) 15px 15px,
-    rgba(192, 192, 192, 0.1) 20px 20px,
-    rgba(192, 192, 192, 0.05) 25px 25px;
+  align-self: center;
 }
 
 textarea {
@@ -472,6 +472,7 @@ label[for='recommendation'] {
   align-self: center;
   letter-spacing: 1px;
   font-size: larger;
+  padding-left: 10px;
   color: rgba(0, 0, 0, 0.8);
 }
 

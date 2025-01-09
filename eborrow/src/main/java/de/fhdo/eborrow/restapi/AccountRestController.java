@@ -130,7 +130,7 @@ public class AccountRestController {
 		return new ResponseEntity<>(HttpStatus.NO_CONTENT);
 	}
 
-	@GetMapping("/account/username-taken")
+	@GetMapping(value = "/account/username-taken", produces = {"application/json", "application/xml"})
 	public ResponseEntity<Boolean> isUsernameTaken(@RequestParam String username) {
 		if (username == null || username.trim().isEmpty()) {
 			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
@@ -141,7 +141,7 @@ public class AccountRestController {
 		return new ResponseEntity<>(usernameExists, HttpStatus.OK);
 	}
 
-	@GetMapping("/account/username-taken/{id}")
+	@GetMapping(value = "/account/username-taken/{id}", produces = {"application/json", "application/xml"})
 	public ResponseEntity<Boolean> isUsernameUsedByOtherAccount(@PathVariable Long id, @RequestParam String username) throws NotFoundException {
 		if (username == null || username.trim().isEmpty()) {
 			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
@@ -156,7 +156,7 @@ public class AccountRestController {
 		return new ResponseEntity<>(usernameExists, HttpStatus.OK);
 	}
 
-	@GetMapping("/account/email-taken")
+	@GetMapping(value = "/account/email-taken", produces = {"application/json", "application/xml"})
 	public ResponseEntity<Boolean> isEmailTaken(@RequestParam @Email String email) {
 		if (email == null || email.trim().isEmpty()) {
 			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
@@ -167,7 +167,7 @@ public class AccountRestController {
 		return new ResponseEntity<>(emailExists, HttpStatus.OK);
 	}
 
-	@GetMapping("/account/email-taken/{id}")
+	@GetMapping(value = "/account/email-taken/{id}", produces = {"application/json", "application/xml"})
 	public ResponseEntity<Boolean> isEmailUsedByOtherAccount(@PathVariable Long id, @RequestParam @Email String email) throws NotFoundException {
 		if (email == null || email.trim().isEmpty()) {
 			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);

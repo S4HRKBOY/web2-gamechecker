@@ -1,7 +1,7 @@
 <script setup>
     import * as gamesRestApi from "@/composables/useGamesRestApi.js"
     import { onMounted, ref, defineEmits, reactive } from "vue";
-    
+
     const genres = ref([]);
     const platforms = ref([]);
 
@@ -35,12 +35,12 @@
                 <option value="All">All</option>
                 <option v-for="genre in genres" v-bind:key="genre" v-bind:value="genre">{{genre}}</option>
             </select>
-            <label for="platform">Platform: </label>
+            <label for="platform">Plattform: </label>
             <select v-model="filterInfo.platform" name="platform" id="platform" class="platform-filter">
                 <option value="All">All</option>
                 <option v-for="platform in platforms" v-bind:key="platform" v-bind:value="platform">{{platform}}</option>
             </select>
-            <label for="dev">Developer: </label>
+            <label for="dev">Entwickler: </label>
             <input v-model="filterInfo.developer" type="text" id="dev" name="developer" class="dev-input">
             <button @click="applyFilter" type="submit" class="apply-filter">
                 <i class="fa fa-filter"></i>
@@ -52,24 +52,23 @@
 <style scoped>
 .sort{
     grid-area: sort;
-    width: 66%;    
+    width: 60%;
 }
 
 .filter-bar{
     width: 100%;
     height: 100px;
-    border: 3px solid #2b2929;
+    border: 2px solid #2b2929;
     border-radius: 5px;
     background-color: aliceblue;
-
-    
     display: grid;
-    grid-template-areas:"genre-label  platform-label  dev-label  apply-filter" 
+    grid-template-areas:"genre-label  platform-label  dev-label  apply-filter"
                         "genre-filter platform-filter dev-filter apply-filter";
     grid-template-columns: 25% 25% 25% auto;
     grid-template-rows: 50% auto;
     align-items: center;
     justify-content: space-evenly;
+    box-shadow: rgba(0, 0, 0, 0.16) 0px 3px 6px, rgba(0, 0, 0, 0.23) 0px 3px 6px;
 }
 
 .filter-bar label[for="genres"]{
@@ -85,7 +84,7 @@
 }
 
 .genre-filter{
-    grid-area: genre-filter; 
+    grid-area: genre-filter;
 }
 
 .platform-filter{

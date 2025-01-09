@@ -22,12 +22,12 @@ async function requestResource(url) {
     return result;
 }
 
-async function getGamesBySearchQuery(searchQuery){    
+async function getGamesBySearchQuery(searchQuery){
     let result;
     try{
         const myHeaders = new Headers();
         myHeaders.append("Content-Type", "application/json");
-    
+
         const response = await fetch(gamesBySearchQueryURL, {
             method: "POST",
             body: JSON.stringify({ query: searchQuery }),
@@ -40,16 +40,15 @@ async function getGamesBySearchQuery(searchQuery){
     return result;
 }
 
-async function getGamesByFilter(filterInfo) {    
+async function getGamesByFilter(filterInfo) {
     const genre = filterInfo.genre;
     const platform = filterInfo.platform;
     const developer = filterInfo.developer;
-
     let result;
     try{
         const myHeaders = new Headers();
         myHeaders.append("Content-Type", "application/json");
-    
+
         const response = await fetch(gamesByFilterParamsURL, {
             method: "POST",
             body: JSON.stringify({  genre: genre,
@@ -68,7 +67,7 @@ async function getGamesByFilter(filterInfo) {
 
 async function getAllGamesGraphQL(){
     let result;
-    
+
     const body = JSON.stringify({
         query: `{
           games {
@@ -82,11 +81,11 @@ async function getAllGamesGraphQL(){
             }
         }`,
     });
-    
+
     try{
         const myHeaders = new Headers();
         myHeaders.append("Content-Type", "application/json");
-    
+
         const response = await fetch(graphQLURL, {
             method: "POST",
             body: body,
