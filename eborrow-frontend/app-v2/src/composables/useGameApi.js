@@ -1,6 +1,5 @@
-import { ref, reactive } from "vue";
+import { ref } from "vue";
 import axios from 'axios';
-import { gameDto, reviewsDto } from '../domain/game.js'
 
 const axiosInstance = axios.create({
   baseURL: 'http://localhost:8080',
@@ -11,19 +10,17 @@ const axiosInstance = axios.create({
 });
 
 export default function useGameApi() {
-  const game = reactive(gameDto());
   const platforms = ref([]);
   const genres = ref([]);
   const ageRatings = ref([]);
   const hasGame = ref(false);
   const hasReviewed = ref(false);
   const newGameId = ref(null);
-  const review = reactive(reviewsDto());
 
   const getRichGameById = async (id) => {
     try {
       const response = await axiosInstance.get(`/game/${id}`)
-      Object.assign(game, response.data);
+      return response.data;
     }
     catch (error) {
       console.error(`Failed to load game with id ${id}:`, error);
@@ -34,7 +31,7 @@ export default function useGameApi() {
   const getGameById = async (id) => {
     try {
       const response = await axiosInstance.get(`/game/get-game/${id}`)
-      Object.assign(game, response.data);
+      return response.data;
     }
     catch (error) {
       console.error(`Failed to load game with id ${id}:`, error);
@@ -168,25 +165,14 @@ export default function useGameApi() {
     }
   }
 
-  const getReviewById = async (id) => {
-    try {
-      const response = await axiosInstance.get(`/review/${id}`);
-      Object.assign(review, response.data);
-    } catch (error) {
-      console.error(`Failed to load review with id: ${id}`, error);
-    }
-  }
-
 
   return {
-    game,
     platforms,
     genres,
     ageRatings,
     hasGame,
     hasReviewed,
     newGameId,
-    review,
     getGameById,
     getRichGameById,
     deleteGameById,
@@ -202,7 +188,6 @@ export default function useGameApi() {
     createReview,
     deleteReviewById,
     updateReview,
-    getReviewById
   };
 }
 

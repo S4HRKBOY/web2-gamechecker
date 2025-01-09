@@ -10,14 +10,26 @@ const route = useRoute();
 const router = useRouter();
 const gameId = route.params.id;
 
-let formIsValid = ref(true);
-let hiddenFileInput = ref(null);
+const formIsValid = ref(true);
+const hiddenFileInput = ref(null);
+
+const game = ref({
+  id: '',
+  title: '',
+  description:'',
+  platforms: [],
+  genres: [],
+  publicationDate: '',
+  ageRating: '',
+  developer: '',
+  publisher: '',
+  gameImage: '',
+})
 
 const {
   platforms,
   genres,
   ageRatings,
-  game,
   newGameId,
   getAllPlatforms,
   getAllGenres,
@@ -33,7 +45,7 @@ onMounted(async () => {
   await getAllAgeRatings();
   if (gameId) {
     try {
-      await getGameById(gameId);
+      game.value = await getGameById(gameId);
     }
     catch {
       alert("Ein Fehler ist aufgetreten.");
@@ -44,8 +56,8 @@ onMounted(async () => {
 
 const handleSave = async () => {
   if (validateBeforeSubmit()) {
-    if (game.id) {
-      await updateGame({ id: gameId, gameData: game });
+    if (game.value.id) {
+      await updateGame({ id: gameId, gameData: game.value });
       router.push(`/game/${gameId}`);
     } else {
       alert("Kein Spiel zum aktualisieren vorhanden.")
@@ -66,7 +78,7 @@ const handleDelete = async () => {
 
 const handleCreate = async () => {
   if (validateBeforeSubmit()) {
-    await createGame(game);
+    await createGame(game.value);
     router.push(`/game/${newGameId.value}`)
   } else {
     alert("Bitte alle Felder ausfüllen.")
@@ -75,28 +87,28 @@ const handleCreate = async () => {
 
 const validateBeforeSubmit = () => {
   formIsValid.value = true;
-  if (!game.title || game.title.trim() === '') {
+  if (!game.value.title || game.value.title.trim() === '') {
     formIsValid.value = false;
   }
-  if (!game.description || game.description.trim() === '') {
+  if (!game.value.description || game.value.description.trim() === '') {
     formIsValid.value = false;
   }
-  if (!game.platforms || game.platforms.length === 0) {
+  if (!game.value.platforms || game.value.platforms.length === 0) {
     formIsValid.value = false;
   }
-  if (!game.genres || game.genres.length === 0) {
+  if (!game.value.genres || game.value.genres.length === 0) {
     formIsValid.value = false;
   }
-  if (!game.publicationDate) {
+  if (!game.value.publicationDate) {
     formIsValid.value = false;
   }
-  if (!game.ageRating) {
+  if (!game.value.ageRating) {
     formIsValid.value = false;
   }
-  if (!game.developer || game.developer.trim() === '') {
+  if (!game.value.developer || game.value.developer.trim() === '') {
     formIsValid.value = false;
   }
-  if (!game.publisher || game.publisher.trim() === '') {
+  if (!game.value.publisher || game.value.publisher.trim() === '') {
     formIsValid.value = false;
   }
   return formIsValid.value;
@@ -111,7 +123,7 @@ const handleImageUpload = (event) => {
     }
     const reader = new FileReader();
     reader.onload = () => {
-      game.gameImage = reader.result.split(",")[1];
+      game.value.gameImage = reader.result.split(",")[1];
     };
     reader.readAsDataURL(file);
   }
@@ -124,8 +136,8 @@ const triggerFileInput = () => {
 };
 
 const handleImageDelete = () => {
-  if (game.gameImage) {
-    game.gameImage = '';
+  if (game.value.gameImage) {
+    game.value.gameImage = '';
   }
 }
 

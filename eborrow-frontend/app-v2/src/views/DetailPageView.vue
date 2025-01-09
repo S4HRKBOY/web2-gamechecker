@@ -1,28 +1,48 @@
 <script setup>
-import { onMounted, ref, reactive, computed } from "vue";
+import { onMounted, ref, computed } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
-import { reviewsDto } from '../domain/game.js'
-import NavigationHeader from '../components/NavigationHeader.vue';
-import useGameApi from "@/composables/useGameApi";
+import NavigationHeader from '../components/NavigationHeader.vue'
+import useGameApi from '@/composables/useGameApi'
 import PTH_DEFAULT_GAME_PIC from '@/assets/images/dummy-image.jpg'
 
-const router = useRouter();
-const route = useRoute();
-const gameId = route.params.id;
-let accountId;
-let publisher;
+const router = useRouter()
+const route = useRoute()
+const gameId = route.params.id
+let accountId
+let publisher
 try {
-  accountId = JSON.parse(sessionStorage.getItem('accountId'));
-  publisher = JSON.parse(sessionStorage.getItem('publisher'));
+  accountId = JSON.parse(sessionStorage.getItem('accountId'))
+  publisher = JSON.parse(sessionStorage.getItem('publisher'))
 } catch (error) {
-  console.error(error);
+  console.error(error)
 }
 
-let formIsValid = ref(true);
-let editReviewMode = ref(false);
-let review = reactive(reviewsDto());
+const formIsValid = ref(true)
+const editReviewMode = ref(false)
+const review = ref({
+  id: '',
+  reviewHeadline: '',
+  reviewText: '',
+  rating: '',
+  reviewDate: '',
+  accountDto: {},
+})
 
-const { game,
+const game = ref({
+  id: '',
+  title: '',
+  description: '',
+  platforms: [],
+  genres: [],
+  publicationDate: '',
+  ageRating: '',
+  developer: '',
+  publisher: '',
+  gameImage: '',
+  reviewsDto: [],
+})
+
+const {
   hasGame,
   hasReviewed,
   createReview,
@@ -32,134 +52,138 @@ const { game,
   accountHasReviewed,
   addGame,
   unlistGame,
-  deleteReviewById } = useGameApi();
+  deleteReviewById,
+} = useGameApi()
 
 onMounted(async () => {
-  await accountHasReviewed(accountId, gameId);
-  await accountHasGame(accountId, gameId);
+  await accountHasReviewed(accountId, gameId)
+  await accountHasGame(accountId, gameId)
   try {
-    await getRichGameById(gameId)
+    game.value = await getRichGameById(gameId)
+  } catch {
+    alert('Ein Fehler ist aufgetreten.')
+    router.push(`/home`)
   }
-  catch {
-    alert("Ein Fehler ist aufgetreten.");
-    router.push(`/home`);
-  };
-});
+})
 
 const formatDate = (date) => {
   if (date) {
-    const [year, month, day] = date.split('-');
-    return `${day}.${month}.${year}`;
+    const [year, month, day] = date.split('-')
+    return `${day}.${month}.${year}`
   }
-};
+}
 
 const handleGameEdit = () => {
   if (gameId) {
-    router.push(`/game/update-game/${gameId}`);
+    router.push(`/game/update-game/${gameId}`)
   }
-};
+}
 
 const handleAddOrRemove = async () => {
   if (hasGame.value) {
-    await unlistGame(accountId, gameId);
-    hasGame.value = false;
-  }
-  else {
-    await addGame(accountId, gameId);
-    hasGame.value = true;
+    await unlistGame(accountId, gameId)
+    hasGame.value = false
+  } else {
+    await addGame(accountId, gameId)
+    hasGame.value = true
   }
 }
 
 const handleCreateReview = async () => {
   const date = new Date();
-  date.toISOString().split('T')[0];
-  review.reviewDate = date;
+  date.toISOString().split('T')[0]
+  review.value.reviewDate = date;
   if (validateBeforeSubmit()) {
-    review = await createReview({ reviewData: review, gameId: gameId, accountId: accountId });
-    game.reviewsDto.push(review);
-    hasReviewed.value = !hasReviewed.value;
+    review.value = await createReview({ reviewData: review.value, gameId: gameId, accountId: accountId })
+    game.value.reviewsDto.push(review.value)
+    hasReviewed.value = !hasReviewed.value
   } else {
-    alert("Bitte alle Felder ausfüllen.")
+    alert('Bitte alle Felder ausfüllen.')
   }
-};
+}
 
 const handleUpdateReview = async (rev) => {
   if (validateBeforeSubmit()) {
     if (rev.id) {
-      const updatedReview = await updateReview({ reviewId: rev.id, reviewData: rev });
-      const index = game.reviewsDto.findIndex(review => review.accountDto.id === accountId);
+      const updatedReview = await updateReview({ reviewId: rev.id, reviewData: rev })
+      const index = game.value.reviewsDto.findIndex((review) => review.accountDto.id === accountId)
       if (index !== -1) {
-        game.reviewsDto.splice(index, 1, updatedReview);
+        game.value.reviewsDto.splice(index, 1, updatedReview)
       }
-      handleEditReview(review);
+      handleEditReview(review)
     } else {
-      alert("Kein Review zum aktualisieren vorhanden.")
+      alert('Kein Review zum aktualisieren vorhanden.')
     }
   } else {
-    alert("Bitte alle Felder ausfüllen.")
+    alert('Bitte alle Felder ausfüllen.')
   }
-};
+}
 
 const handleDeleteReview = async (id) => {
-  if (confirm("Review wird endgültig gelöscht.")) {
-    await deleteReviewById(id);
-    game.reviewsDto = game.reviewsDto.filter(review => review.id !== id);
-    review = reactive(reviewsDto());
-    hasReviewed.value = !hasReviewed.value;
+  if (confirm('Review wird endgültig gelöscht.')) {
+    await deleteReviewById(id)
+    game.value.reviewsDto = game.value.reviewsDto.filter((review) => review.id !== id)
+    review.value = ({
+      id: '',
+      reviewHeadline: '',
+      reviewText: '',
+      rating: '',
+      reviewDate: '',
+      accountDto: {},
+    })
+    hasReviewed.value = !hasReviewed.value
   }
-};
+}
 
 const handleEditReview = async (reviewToEdit) => {
-  editReviewMode.value = !editReviewMode.value;
+  editReviewMode.value = !editReviewMode.value
   if (editReviewMode.value) {
-    Object.assign(review, reviewToEdit);
+    review.value = reviewToEdit;
   }
-};
+}
 
 const handleCancelReview = () => {
-  editReviewMode.value = !editReviewMode.value;
+  editReviewMode.value = !editReviewMode.value
 }
 
 const validateBeforeSubmit = () => {
-  formIsValid.value = true;
-  if (!review.reviewHeadline || review.reviewHeadline.trim() === '') {
-    formIsValid.value = false;
+  formIsValid.value = true
+  if (!review.value.reviewHeadline || review.value.reviewHeadline.trim() === '') {
+    formIsValid.value = false
   }
-  if (!review.reviewText || review.reviewText.trim() === '') {
-    formIsValid.value = false;
+  if (!review.value.reviewText || review.value.reviewText.trim() === '') {
+    formIsValid.value = false
   }
-  if (!review.rating || review.rating === '') {
-    formIsValid.value = false;
+  if (!review.value.rating || review.value.rating === '') {
+    formIsValid.value = false
   }
-  return formIsValid.value;
+  return formIsValid.value
 }
 
 const sortedReviews = computed(() => {
-  const userReview = game.reviewsDto.find(review => review.accountDto.id === accountId);
-  const otherReviews = game.reviewsDto.filter(review => review.accountDto.id !== accountId);
+  const userReview = game.value.reviewsDto.find((review) => review.accountDto?.id === accountId)
+  const otherReviews = game.value.reviewsDto.filter((review) => review.accountDto?.id !== accountId)
   otherReviews.sort((a, b) => {
-    const dateA = new Date(a.reviewDate);
-    const dateB = new Date(b.reviewDate);
+    const dateA = new Date(a.reviewDate)
+    const dateB = new Date(b.reviewDate)
     if (dateA !== dateB) {
-      return dateB - dateA;
+      return dateB - dateA
     }
-    return a.id - b.id;
-  });
+    return a.id - b.id
+  })
   if (userReview && !editReviewMode.value) {
-    return [userReview, ...otherReviews];
+    return [userReview, ...otherReviews]
   } else {
-    return otherReviews;
+    return otherReviews
   }
-});
+})
 
 function imgToSrc(img) {
   return img ? `data:image/jpeg;base64,${img}` : PTH_DEFAULT_GAME_PIC
 }
-
 </script>
 
 <template>
-
   <NavigationHeader />
   <main>
     <section>
@@ -167,8 +191,12 @@ function imgToSrc(img) {
       <div class="detailContainer">
         <img id="detailImage" :src="imgToSrc(game.gameImage)" alt="Game Image" />
         <button v-if="publisher" @click="handleGameEdit" id="editGameButton">Bearbeiten</button>
-        <button v-if="!hasGame" class="addOrRemoveGameButton" @click="handleAddOrRemove">Zur Liste hinzufügen</button>
-        <button v-else class="addOrRemoveGameButton" @click="handleAddOrRemove">Von Liste entfernen</button>
+        <button v-if="!hasGame" class="addOrRemoveGameButton" @click="handleAddOrRemove">
+          Zur Liste hinzufügen
+        </button>
+        <button v-else class="addOrRemoveGameButton" @click="handleAddOrRemove">
+          Von Liste entfernen
+        </button>
         <table id="detailInfo">
           <tbody>
             <tr>
@@ -197,50 +225,94 @@ function imgToSrc(img) {
             </tr>
           </tbody>
         </table>
-        <p id="detailDescription"> {{ game.description }}
-        </p>
+        <p id="detailDescription">{{ game.description }}</p>
       </div>
     </section>
 
     <section>
       <h2 class="headline">Reviews</h2>
 
-      <form v-if="(!hasReviewed && !publisher) || editReviewMode" class="reviewForm" @submit.prevent>
-        <input type="text" class="reviewFormHeadline" name="reviewFormHeadline" placeholder="Titel" maxlength="100"
-          required v-model="review.reviewHeadline">
-        <textarea class="reviewText" name="reviewText" maxlength="2000" v-model="review.reviewText"
-          placeholder="Schreibe ein Review!" required></textarea>
+      <form
+        v-if="(!hasReviewed && !publisher) || editReviewMode"
+        class="reviewForm"
+        @submit.prevent
+      >
+        <input
+          type="text"
+          class="reviewFormHeadline"
+          name="reviewFormHeadline"
+          placeholder="Titel"
+          maxlength="100"
+          required
+          v-model="review.reviewHeadline"
+        />
+        <textarea
+          class="reviewText"
+          name="reviewText"
+          maxlength="2000"
+          v-model="review.reviewText"
+          placeholder="Schreibe ein Review!"
+          required
+        ></textarea>
         <label for="recommendation">Deine Bewertung?</label>
         <select name="recommendation" class="recommendation" v-model="review.rating" required>
-          <option v-for="n in 10" :key=n :value=n>{{ n }}</option>
+          <option v-for="n in 10" :key="n" :value="n">{{ n }}</option>
         </select>
-        <input v-if="editReviewMode" class="submit" type="submit" value="Review veröffentlichen"
-          @click="handleUpdateReview(review)">
-        <input v-else class="submit" type="submit" value="Review veröffentlichen" @click="handleCreateReview">
+        <input
+          v-if="editReviewMode"
+          class="submit"
+          type="submit"
+          value="Review veröffentlichen"
+          @click="handleUpdateReview(review)"
+        />
+        <input
+          v-else
+          class="submit"
+          type="submit"
+          value="Review veröffentlichen"
+          @click="handleCreateReview"
+        />
         <button v-if="editReviewMode" class="cancel" @click="handleCancelReview">Abbrechen</button>
       </form>
 
       <div class="reviewContainer" v-for="rev in sortedReviews" :key="rev.id">
-        <img v-if="rev.accountDto.profilePicture" class="reviewImage"
-          :src="`data:image/jpg;base64,${rev.accountDto.profilePicture}`" alt="Profilbild">
-        <img v-else class="reviewImage" src="../assets/images/profile_pic_default.svg" alt="Profilbild">
+        <img
+          v-if="rev.accountDto?.profilePicture"
+          class="reviewImage"
+          :src="`data:image/jpg;base64,${rev.accountDto.profilePicture}`"
+          alt="Profilbild"
+        />
+        <img
+          v-else
+          class="reviewImage"
+          src="../assets/images/profile_pic_default.svg"
+          alt="Profilbild"
+        />
 
-        <p class="reviewUsername">{{ rev.accountDto.username }}</p>
+        <p class="reviewUsername">{{ rev.accountDto?.username }}</p>
         <time class="reviewDate">{{ formatDate(rev.reviewDate) }}</time>
         <h3 class="reviewHeadline">{{ rev.reviewHeadline }}</h3>
         <p class="reviewRating">Bewertung: {{ rev.rating }}/10</p>
-        <p class="reviewContent"> {{ rev.reviewText }}
-        </p>
-        <button v-if="rev.accountDto.id === accountId" id="deleteReviewButton"
-          @click="handleDeleteReview(rev.id)">Löschen</button>
-        <button v-if="rev.accountDto.id === accountId" id="editReviewButton"
-          @click="handleEditReview(rev)">Bearbeiten</button>
+        <p class="reviewContent">{{ rev.reviewText }}</p>
+        <button
+          v-if="rev.accountDto?.id === accountId"
+          id="deleteReviewButton"
+          @click="handleDeleteReview(rev.id)"
+        >
+          Löschen
+        </button>
+        <button
+          v-if="rev.accountDto?.id === accountId"
+          id="editReviewButton"
+          @click="handleEditReview(rev)"
+        >
+          Bearbeiten
+        </button>
       </div>
 
       <div v-if="game.reviewsDto.length === 0" class="emptyReviewContainer">
         <p>Es sind noch keine Reviews vorhanden.</p>
       </div>
-
     </section>
   </main>
 </template>
@@ -267,9 +339,9 @@ function imgToSrc(img) {
   grid-template-columns: auto 60%;
   grid-template-rows: auto;
   grid-template-areas:
-    "editGameButton addOrRemoveGameButton"
-    "detailImage detailInfo"
-    "detailDescription detailDescription"
+    'editGameButton addOrRemoveGameButton'
+    'detailImage detailInfo'
+    'detailDescription detailDescription';
 }
 
 #editGameButton {
@@ -301,7 +373,12 @@ td {
   max-height: 300px;
   grid-area: detailImage;
   justify-self: center;
-  box-shadow: rgb(192, 192, 192) 5px 5px, rgba(192, 192, 192, 0.3) 10px 10px, rgba(192, 192, 192, 0.2) 15px 15px, rgba(192, 192, 192, 0.1) 20px 20px, rgba(192, 192, 192, 0.05) 25px 25px;
+  box-shadow:
+    rgb(192, 192, 192) 5px 5px,
+    rgba(192, 192, 192, 0.3) 10px 10px,
+    rgba(192, 192, 192, 0.2) 15px 15px,
+    rgba(192, 192, 192, 0.1) 20px 20px,
+    rgba(192, 192, 192, 0.05) 25px 25px;
 }
 
 textarea {
@@ -317,13 +394,13 @@ textarea {
   grid-template-columns: auto auto 150px;
   grid-template-rows: auto;
   grid-template-areas:
-    "reviewFormHeadline reviewFormHeadline recommendation-label"
-    "reviewText reviewText recommendation"
-    "reviewText reviewText ."
-    "cancel . submit"
+    'reviewFormHeadline reviewFormHeadline recommendation-label'
+    'reviewText reviewText recommendation'
+    'reviewText reviewText .'
+    'cancel . submit';
 }
 
-label[for="recommendation"] {
+label[for='recommendation'] {
   grid-area: recommendation-label;
   justify-self: end;
 }
@@ -374,10 +451,10 @@ label[for="recommendation"] {
   grid-template-columns: 4% auto auto;
   grid-template-rows: auto;
   grid-template-areas:
-    "reviewImage reviewUsername reviewDate"
-    "reviewHeadline reviewHeadline reviewRating"
-    "reviewContent reviewContent reviewContent"
-    "deleteReviewButton . editReviewButton"
+    'reviewImage reviewUsername reviewDate'
+    'reviewHeadline reviewHeadline reviewRating'
+    'reviewContent reviewContent reviewContent'
+    'deleteReviewButton . editReviewButton';
 }
 
 .reviewImage {
@@ -392,7 +469,7 @@ label[for="recommendation"] {
 
 .reviewUsername {
   grid-area: reviewUsername;
-  align-self:center;
+  align-self: center;
   letter-spacing: 1px;
   font-size: larger;
   color: rgba(0, 0, 0, 0.8);
