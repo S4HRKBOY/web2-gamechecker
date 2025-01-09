@@ -23,18 +23,19 @@
 <style scoped>
     .search{
         grid-area: search;
-        width: 66%;
+        width: 60%;
         display: flex;
     }
 
     .searchBox{
-        border: 3px solid #2b2929;
+        border: 2px solid #2b2929;
         border-right: none;
         padding: 5px;
         width: 100%;
         border-radius: 5px 0 0 5px;
         outline: none;
         color: #2b2929;
+        box-shadow: rgba(0, 0, 0, 0.16) 0px 3px 6px, rgba(0, 0, 0, 0.23) 0px 3px 6px;
     }
 
     .searchButton{

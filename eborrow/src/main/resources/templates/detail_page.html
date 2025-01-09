@@ -29,7 +29,7 @@
                     alt="Bild nicht verfügbar" />
 
                 <form id="editGameButton">
-                    <input th:if="${account.publisher}" type="submit" value="Bearbeiten">
+                    <input th:if="${account.publisher}" type="submit" value="Bearbeiten" disabled>
                 </form>
 
                 <form class="addOrRemoveGameButton" th:unless="${accountHasGame}"
@@ -118,7 +118,7 @@
                     <option th:value="${9}" th:text="${9}">9</option>
                     <option th:value="${10}" th:text="${10}">10</option>
                 </select>
-                <input id="submit" type="submit" value="Review veröffentlichen">
+                <input class="submit" type="submit" value="Review veröffentlichen">
             </form>
 
             <!-- wird angezeigt, wenn ein Review bearbeitet werden soll und der Account kein Redaktuer-Account ist-->
@@ -148,17 +148,20 @@
                     <option th:value="${9}" th:text="${9}">9</option>
                     <option th:value="${10}" th:text="${10}">10</option>
                 </select>
-                <input id="submit" type="submit" value="Review veröffentlichen">
+                <input class="submit" type="submit" value="Review veröffentlichen">
             </form>
 
-            <div class="reviewContainer" th:if="${!editReview}" th:each="review: ${game.reviewsDto}">
+            <article class="reviewContainer" th:if="${!editReview}" th:each="review: ${game.reviewsDto}">
                 <img th:if="${review.accountDto.profilePicture != null}" class="reviewImage"
                     th:src="'data:image/jpg;base64,' + ${review.accountDto.profilePicture}" alt="Profilbild">
                 <img th:unless="${review.accountDto.profilePicture != null}" class="reviewImage"
                     src="/images/profile_pic_default.svg" alt="Bild nicht verfügbar">
                 <p class="reviewUsername" th:text="${review.accountDto.username}">kein Username verfügbar</p>
-                <time class="reviewDate" th:text="${#temporals.format(review.reviewDate, 'dd.MM.yyyy')}">Kein Datum
-                    verfügbar</time>
+                <p class="reviewDate">
+                    <time datetime="review.reviewDate"
+                        th:text="${#temporals.format(review.reviewDate, 'dd.MM.yyyy')}">Kein Datum
+                        verfügbar</time>
+                </p>
                 <h3 class="reviewHeadline" th:text="${review.reviewHeadline}">Kein Titel verfügbar</h3>
                 <p class="reviewRating" th:text="${review.rating + '/10'}">Kein Rating verfügbar</p>
                 <p class="reviewContent" th:text="${review.reviewText}">Kein Review verfügbar</p>
@@ -178,7 +181,7 @@
                     <input type="hidden" th:field="*{id}" th:value="${review.id}" />
                     <button type="submit">Löschen</button>
                 </form>
-            </div>
+            </article>
         </section>
     </main>
 

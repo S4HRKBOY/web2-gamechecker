@@ -70,7 +70,7 @@ public class ReviewRestController {
 	}
 
 	@PutMapping(value = "/update-review/{reviewId}", consumes = { MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE }, produces = {
-			MediaType.APPLICATION_JSON_VALUE})
+			MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE})
 	public ResponseEntity<ReviewDto> updateReview(@PathVariable Long reviewId, @RequestBody ReviewDto reviewDto) {
 		if(reviewDto == null || reviewDto.getId() == null || !reviewId.equals(reviewDto.getId())){
 			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);

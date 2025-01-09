@@ -108,6 +108,7 @@ form {
     display: block;
     margin-top: 10px;
     font-size: smaller;
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;    text-align: center;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    text-align: center;
 }
 </style>
