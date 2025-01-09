@@ -63,7 +63,7 @@ function handleGameFilling(games) {
 
         const gamePlatforms = document.createElement("div");
         gamePlatforms.setAttribute("class", "game-platforms");
-        const platformsText = document.createTextNode("Platforms: ");
+        const platformsText = document.createTextNode("Plattformen: ");
         gamePlatforms.appendChild(platformsText);
         const platformsList = document.createElement("ul");
 

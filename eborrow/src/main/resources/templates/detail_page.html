@@ -29,7 +29,7 @@
                     alt="Bild nicht verfügbar" />
 
                 <form id="editGameButton">
-                    <input th:if="${account.publisher}" type="submit" value="Bearbeiten">
+                    <input th:if="${account.publisher}" type="submit" value="Bearbeiten" disabled>
                 </form>
 
                 <form class="addOrRemoveGameButton" th:unless="${accountHasGame}"

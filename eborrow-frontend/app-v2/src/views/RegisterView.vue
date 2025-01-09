@@ -107,7 +107,7 @@ async function validateUsername() {
                         <EmailInput :ref="inputComps.email" />
                         <PasswordInputs :ref="inputComps.password" />
                     </fieldset>
-                    <div class="form-button"><button type="submit">KOMM IN DIE GRUPPE!</button></div>
+                    <div class="form-button"><button type="submit">Registrieren!</button></div>
                 </form>
             </section>
             <RouterLink to="/login" class="login-link">Ich habe bereits einen Account</RouterLink>

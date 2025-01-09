@@ -29,30 +29,36 @@
             </button>
         </form>
         <form th:action="@{'/thymeleaf/game/filtered-games'}" th:object="${FilterInfo}" method="post" class="sort">
-                <div class="filter-bar">
-                    <label for="genre"> Genre</label>
-                    <select name="genre" id="genre" class="genre-filter" th:field="*{genre}">
-                        <option value="All">All</option>
-                        <option th:each="genre : ${genres}" th:value="${genre}" th:text="${genre}">Kein Genre Verfügbar</option>
-                    </select>
-                    <label for="platform"> Platform</label>
-                    <select name="platform" id="platform" class="platform-filter" th:field="*{platform}">
-                        <option value="All">All</option>
-                        <option th:each="platform : ${platforms}" th:value="${platform}" th:text="${platform}">Keine Platform Verfügbar</option>
-                    </select>
-                    <div class="dev-filter">
-                        <label for="dev">Developer: </label>
-                        <input type="text" id="dev" name="developer" th:field="*{developer}">
-                    </div>
-                    <button type="submit" class="apply-filter">
-                        <i class="fa fa-filter"></i>
-                    </button>
+            <div class="filter-bar">
+                <label for="genre"> Genre</label>
+                <select name="genre" id="genre" class="genre-filter" th:field="*{genre}">
+                    <option value="All">All</option>
+                    <option th:each="genre : ${genres}" th:value="${genre}" th:text="${genre}">Kein Genre Verfügbar
+                    </option>
+                </select>
+                <label for="platform"> Plattform</label>
+                <select name="platform" id="platform" class="platform-filter" th:field="*{platform}">
+                    <option value="All">All</option>
+                    <option th:each="platform : ${platforms}" th:value="${platform}" th:text="${platform}">Keine
+                        Plattform Verfügbar</option>
+                </select>
+                <div class="dev-filter">
+                    <label for="dev">Entwickler: </label>
+                    <input type="text" id="dev" name="developer" th:field="*{developer}">
                 </div>
+                <button type="submit" class="apply-filter">
+                    <i class="fa fa-filter"></i>
+                </button>
+            </div>
         </form>
         <div class="overview">
             <table class="overview-table-container">
                 <tr th:each="game: ${games}" class="overview-entry">
-                    <td class="overview-image"><a th:href="@{/thymeleaf/game/{id}(id=${game.id})}"><img th:src="'data:image/jpg;base64,' + ${game.gameImage}" alt="logo"></a></td>
+                    <td class="overview-image">
+                        <a th:href="@{/thymeleaf/game/{id}(id=${game.id})}">
+                            <img th:src="'data:image/jpg;base64,' + ${game.gameImage}" alt="logo">
+                        </a>
+                    </td>
                     <td class="overview-description" th:text="${game.description}"></td>
                 </tr>
             </table>
