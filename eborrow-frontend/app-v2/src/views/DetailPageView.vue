@@ -4,6 +4,7 @@ import { useRoute, useRouter } from 'vue-router'
 import NavigationHeader from '../components/NavigationHeader.vue'
 import useGameApi from '@/composables/useGameApi'
 import PTH_DEFAULT_GAME_PIC from '@/assets/images/logo.svg'
+import PTH_DEFAULT_USER_PIC from '@/assets/images/profile_pic_default.svg'
 
 const router = useRouter()
 const route = useRoute()
@@ -284,8 +285,8 @@ function imgToSrc(img) {
           class="reviewImage"
           :src="
             rev.accountDto?.profilePicture
-              ? `data:image/jpg;base64,${rev.accountDto.profilePicture}`
-              : '../assets/images/profile_pic_default.svg'
+              ? `data:image/jpg;base64,${rev.accountDto?.profilePicture}`
+              : PTH_DEFAULT_USER_PIC
           "
           alt="Profilbild"
         />
@@ -324,6 +325,7 @@ function imgToSrc(img) {
 .headline {
   padding-left: 25%;
   padding-right: 25%;
+  font-size: 2em;
 }
 
 .reviewForm,

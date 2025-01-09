@@ -26,6 +26,7 @@ onMounted(() => {
             account.email = acc.email;
             account.password = acc.password;
             account.profilePicture = acc.profilePicture;
+            account.publisher = acc.publisher;
             account.taggedGames = acc.taggedGames;
         }).catch(err => {
             console.error(err);
