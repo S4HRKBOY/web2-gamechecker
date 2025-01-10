@@ -98,7 +98,7 @@ export default function useGameApi() {
       const response = await axiosInstance.get(`/account/account-has-game/${accountId}/${gameId}`);
       hasGame.value = response.data;
     } catch (error) {
-      console.error(`Failed to create game:`, error);
+      console.error(`Failed to check if account has game:`, error);
     }
   };
 
