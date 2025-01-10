@@ -108,7 +108,7 @@ Die GraphQL-Schemata werden innerhalb der Spring Anwendung durch eine entspreche
 
 ### Einen Account zum Redakteur setzen
 
-Der Redakteur-Status eines Accounts kann über REST oder GraphQL gesetzt werden
+Der Redakteur-Status eines Accounts kann über REST oder GraphQL gesetzt werden mithilfe folgender Endpunkte:
 * **REST** ```http://localhost:8080/admin/account/set-publisher-status/1?publisher={true oder false}```
 * **GraphQL** mit entsprechender Query
     ```
