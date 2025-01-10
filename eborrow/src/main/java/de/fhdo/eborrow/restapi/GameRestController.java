@@ -103,12 +103,16 @@ public class GameRestController {
         }
     }
 
-    @PostMapping(value = "/game/filtered-games", consumes = { MediaType.APPLICATION_JSON_VALUE,  MediaType.APPLICATION_XML_VALUE }, produces = { MediaType.APPLICATION_JSON_VALUE,  MediaType.APPLICATION_XML_VALUE })
+    @PostMapping(value = "/game/filtered-games", consumes = { MediaType.APPLICATION_JSON_VALUE,
+            MediaType.APPLICATION_XML_VALUE }, produces = { MediaType.APPLICATION_JSON_VALUE,
+                    MediaType.APPLICATION_XML_VALUE })
     public List<GameDto> getFilteredGames(@RequestBody FilterInfo filterInfo) {
         return gameSearchService.getGamesByFilterInfo(filterInfo);
     }
 
-    @PostMapping(value = "/game/games-search", consumes ={ MediaType.APPLICATION_JSON_VALUE,  MediaType.APPLICATION_XML_VALUE }, produces = { MediaType.APPLICATION_JSON_VALUE,  MediaType.APPLICATION_XML_VALUE })
+    @PostMapping(value = "/game/games-search", consumes = { MediaType.APPLICATION_JSON_VALUE,
+            MediaType.APPLICATION_XML_VALUE }, produces = { MediaType.APPLICATION_JSON_VALUE,
+                    MediaType.APPLICATION_XML_VALUE })
     public List<GameDto> getGamesByQuery(@RequestBody Query query) {
         if (Objects.equals(query.getQuery(), "")) {
             return gameService.getAll();

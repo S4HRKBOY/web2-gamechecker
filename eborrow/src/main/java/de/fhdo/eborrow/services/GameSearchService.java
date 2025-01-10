@@ -3,8 +3,6 @@ package de.fhdo.eborrow.services;
 import de.fhdo.eborrow.controller.wrapper.FilterInfo;
 import de.fhdo.eborrow.dto.GameDto;
 import org.apache.commons.text.similarity.FuzzyScore;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -15,17 +13,13 @@ import java.util.Objects;
 @Service
 public class GameSearchService {
 
-	private static final Logger LOGGER = LoggerFactory.getLogger(GameSearchService.class);
-
 	private GameService gameService;
-	private ReviewService reviewService;
 
 	private final int minScoreNeeded = 10;
 
 	@Autowired
-	public GameSearchService(GameService gameService, ReviewService reviewService){
+	public GameSearchService(GameService gameService) {
 		this.gameService = gameService;
-		this.reviewService = reviewService;
 	}
 
 	public List<GameDto> gamesByGenre(List<GameDto> gameDtos, String genre){
