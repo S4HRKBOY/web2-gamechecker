@@ -2,7 +2,6 @@ package de.fhdo.eborrow.graphqlapi;
 
 import de.fhdo.eborrow.dto.AccountDto;
 import de.fhdo.eborrow.dto.ReviewDto;
-import de.fhdo.eborrow.services.GameService;
 import de.fhdo.eborrow.services.ReviewService;
 import javassist.NotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,7 +19,7 @@ public class ReviewGraphQlController {
 	private ReviewService reviewService;
 
 	@Autowired
-	public ReviewGraphQlController(GameService gameService, ReviewService reviewService){
+	public ReviewGraphQlController(ReviewService reviewService){
 		this.reviewService = reviewService;
 	}
 
