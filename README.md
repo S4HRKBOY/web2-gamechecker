@@ -74,9 +74,13 @@ npm run build
 
 Da sich das Projekt hauptsächlich um eine Test-Anwendung handelt, werden entsprechende Benutzer bei dem Starten des Backends zu Testzwecken simuliert und durch ein Bootstrap initialisiert.
 
-* Username: mamus Password: maxpassword
-* Username: jodoe Password: johnpassword 
-* Username: publisher Password: publisher (besitzt Redakteur-Status)  
+| Username | Passwort | 
+| ---- | ---- | 
+| mamus | maxpassword | 
+| jodoe | johnpassword | 
+| publisher | publisher | 
+
+Der Account publisher besitzt Redakteur-Status 
 
 ### Funktionalitäten der verschiedenen Stände
 
