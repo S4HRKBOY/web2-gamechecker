@@ -46,13 +46,13 @@ npm install
 
 ### Starten der verschiedenen Anwendungen
 
-Das Backend kann durch eine entsprechende IDE-Konfiguration gestartet werden. Alternativ kann nach dem Bauen auch die Java Anwendung gestartet werden.
+Das Backend kann durch eine IDE-Konfiguration gestartet werden. Alternativ kann nach dem Bauen auch die Java Anwendung gestartet werden.
 
 ```
 java -jar .\eborrow-0.0.1-SNAPSHOT.jar
 ```
 
-Die erste Version des Frontends kann durch einen entsprechenden Live-Server von z.B. VS-Code gestartet werden.
+Die erste Version des Frontends kann durch einen Live-Server von z.B. VS-Code gestartet werden.
 
 Die zweite Version des Frontends kann mit den entsprechenden NPM-Befehlen gebaut werden (Bauen der Entwicklungsumgebung und Bauen der Build-Artefakte):
 
@@ -80,25 +80,26 @@ Da sich das Projekt hauptsächlich um eine Test-Anwendung handelt, werden entspr
 
 ### Funktionalitäten der verschiedenen Stände
 
-* **Klick-Prototyp** besitzt grundlegende klickbare Seiten für die wichtigen Seiten der Anwendung (Detailseite eines Spiels, Startseite, Profil, Profil bearbeiten, Login + Registrierung, Formular um ein Spiel zu bearbeiten). Entsprechend existieren in dem Klickprototypen auch entsprechende CSS-Styles.
+* **Klick-Prototyp** besitzt grundlegende klickbare Seiten für die wichtigen Seiten der Anwendung (Detailseite eines Spiels, Startseite, Profil, Profil bearbeiten, Login + Registrierung, Formular um ein Spiel zu bearbeiten). Je Seite existieren auch entsprechende CSS-Styles.
 
 * Die **Thymeleaf Anwendung** implementiert 3 ausgewählte Views: http://localhost:8080/thymeleaf/home, http://localhost:8080/thymeleaf/game/{id}, http://localhost:8080/thymeleaf/account/{id} (Einmal die Startseite, die Detailseite eines Spiels und das Profil)
 
     * Innerhalb des HTML sind nicht implementierte Features disabled
-    * Innerhalb der Start und Detailseite wird ein Account für Testzwecke gemocked (ID = 1), für das Profil kann eine beliebige ID verwendet werden
+    * Innerhalb der Start und Detailseite wird ein eingeloggter Account für Testzwecke gemocked (der Account mit ID = 1), für das Profil kann eine beliebige ID verwendet werden
 
 * Das **Frontend-v1** implementiert  3 ausgewählte Views: eborrow-frontend\app-v1\html\gameForm.html, eborrow-frontend\app-v1\html\profile_edit_page.html, eborrow-frontend\app-v1\html\start_page.html
 
-    * An manchen Stellen werden die Thymeleaf Views verwendet, um entsprechende Funktionalitäten abzudecken (Profil -> Profilüberarbeiten)
-    * Auch hier wird ein entsprechender Account "gemockt" (Redakteur), um die Spielbearbeitung zu simulieren (innerhalb der gameForm)
-    * Ein anderer Account der kein Redakteur ist wird "gemockt", um das Löschen von Spielen zu simulieren
+    * Für Demonstrationszwecke linkt ein Spiel auf die Spiel barbeiten-Seite und der Profil-Button im Header auf die Profil bearbeiten-Seite
+    * Das Löschen eines Accounts velinkt auf die Startseite, das Absenden eines Accounts öffnet die Profilübersicht aus Thymeleaf
+    * Auch hier wird ein eingeloggter Redakteur-Account (ID = 3) "simuliert", um die Anwendung zu ermöglichen (innerhalb der gameForm)
+    * → Für die Profilbearbeitung wird der Account mit ID = 2 verwendet, um nach der Löschung auf die Startseite zu verlinken
 
-* Das **Frontend-v2** implementiert alle Views, welche auch innerhalb des Klickprototyp umgesetzt wurden und macht diese funktionstüchtig (mit Vue.js und entsprechender Logik für das Routing und Anbindung an entsprechende Backend-Schnittstellen)
+* Das **Frontend-v2** implementiert alle Views, welche auch innerhalb des Klickprototyp umgesetzt wurden und macht diese funktionstüchtig (mit Vue.js und implementierte Logik für das Routing und Anbindung an entsprechende Backend-Schnittstellen)
 
 ### Schnittstellen
 
-Die entsprechenden REST-Schnittstellen können im Code gefunden werden (unter dem Package ``de/fhdo/eborrow/restapi``).
-Die entsprechenden GraphQL-Schemata werden innerhalb der Spring Anwendung durch eine entsprechende Konfiguration bereitgestellt (``src/main/resources/graphql/schema.graphqls``).
+Die REST-Schnittstellen können im Code gefunden werden (unter dem Package ``de/fhdo/eborrow/restapi``).
+Die GraphQL-Schemata werden innerhalb der Spring Anwendung durch eine entsprechende Konfiguration bereitgestellt (``src/main/resources/graphql/schema.graphqls``).
 
 ### Tools
 
@@ -107,10 +108,11 @@ Die entsprechenden GraphQL-Schemata werden innerhalb der Spring Anwendung durch 
 
 ### Einen Account zum Redakteur setzen
 
-* **REST** http://localhost:8080/admin/account/set-publisher-status/1?publisher={true/false}
+Der Redakteur-Status eines Accounts kann über REST oder GraphQL gesetzt werden
+* **REST** ```http://localhost:8080/admin/account/set-publisher-status/1?publisher={true oder false}```
 * **GraphQL** mit entsprechender Query
     ```
-    setPublisherStatus(id: "1", publisher: true) {
+    setPublisherStatus(id: "1", publisher: true oder false) {
         id
     }
     ```
