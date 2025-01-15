@@ -234,7 +234,7 @@ function imgToSrc(img) {
       </div>
     </section>
 
-    <section>
+    <section id="reviewSection">
       <h2 class="headline">Reviews</h2>
 
       <form
@@ -445,6 +445,10 @@ label[for='recommendation'] {
 #detailDescription {
   grid-area: detailDescription;
   hyphens: auto;
+}
+
+#reviewSection {
+  padding-bottom: 50px;
 }
 
 .reviewContainer {

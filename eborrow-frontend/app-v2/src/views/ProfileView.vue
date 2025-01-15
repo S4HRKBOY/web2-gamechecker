@@ -99,7 +99,6 @@ h1 {
 
 .edit-profile-button>button {
     width: 60%;
-    height: 60%;
 }
 
 .profile-pic img {

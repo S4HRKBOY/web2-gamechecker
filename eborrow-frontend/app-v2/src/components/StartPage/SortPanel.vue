@@ -30,7 +30,7 @@
 <template>
     <div class="sort">
         <div class="filter-bar">
-            <label for="genres">Genres: </label>
+            <label for="genres">Genre: </label>
             <select v-model="filterInfo.genre" name="genres" id="genres" class="genre-filter">
                 <option value="All">All</option>
                 <option v-for="genre in genres" v-bind:key="genre" v-bind:value="genre">{{genre}}</option>
